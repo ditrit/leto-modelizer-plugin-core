@@ -1,0 +1,44 @@
+{
+  "name": "leto-module-client",
+  "version": "0.1.0",
+  "description": "Library that contains all models for modelling tools in Leto's projects.",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "echo \"Error: no test specified\" && exit 1",
+    "build:docs": "esdoc",
+    "lint": "eslint src/**",
+    "lint:fix": "eslint src/** --fix",
+    "lint:report": "eslint src -f json-relative > eslint.json",
+    "lint:watch": "esw --no-ignore -w src",
+    "test": "jest",
+    "test:coverage": "NODE_OPTIONS=--experimental-vm-modules jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ditrit/leto-module-client.git"
+  },
+  "author": "Vincent Moittie",
+  "license": "Mozilla Public License Version 2.0",
+  "bugs": {
+    "url": "https://github.com/ditrit/leto-module-client/issues"
+  },
+  "homepage": "https://github.com/ditrit/leto-module-client#readme",
+  "devDependencies": {
+    "@babel/core": "^7.18.6",
+    "@babel/preset-env": "^7.18.6",
+    "babel-jest": "^28.1.1",
+    "esdoc": "^1.1.0",
+    "esdoc-standard-plugin": "^1.0.0",
+    "eslint": "^8.18.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-formatter-json-relative": "^0.1.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-watch": "^8.0.0",
+    "jest": "^28.1.1",
+    "jest-environment-jsdom": "^28.1.1",
+    "jest-sonar-reporter": "^2.0.0"
+  },
+  "dependencies": {
+    "mathjs": "^10.6.4"
+  }
+}
