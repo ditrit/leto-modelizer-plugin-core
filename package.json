@@ -2,7 +2,7 @@
   "name": "leto-module-client",
   "version": "0.1.0",
   "description": "Library that contains all models for modelling tools in Leto's projects.",
-  "main": "src/index.js",
+  "private": true,
   "scripts": {
     "build": "echo \"Error: no test specified\" && exit 1",
     "build:docs": "esdoc",
@@ -36,7 +36,9 @@
     "eslint-watch": "^8.0.0",
     "jest": "^28.1.1",
     "jest-environment-jsdom": "^28.1.1",
-    "jest-sonar-reporter": "^2.0.0"
+    "jest-sonar-reporter": "^2.0.0",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0"
   },
   "dependencies": {
     "mathjs": "^10.6.4"
