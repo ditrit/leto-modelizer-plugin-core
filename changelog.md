@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Setup project (eslint, esdoc, unit test).
+- Setup project (eslint, esdoc, unit test, github's workflow).
 - Add new class LetoObjectNode.
 - Add function renderString for SVG template.
 
