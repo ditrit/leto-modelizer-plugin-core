@@ -11,7 +11,7 @@ class LetoObjectNode {
    * @param {String} name The name of the object.
    * @param {String} id The id of the object.
    */
-  constructor(logoPath, type, svg, name, id) {
+  constructor(logoPath = null, type = null, svg = null, name = null, id = null) {
     /**
      * @type {String}
      */
