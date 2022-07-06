@@ -9,8 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Setup project (eslint, esdoc, unit test, github's workflow).
-- Add new class LetoObjectNode.
-- Add function renderString for SVG template.
+- Add new class LetoTypeNode.
+- Refacto LetoObjectNode.
+- Update unit tests.
 
 [unreleased]: https://github.com/ditrit/leto-module-client/blob/main/changelog.md#unreleased
