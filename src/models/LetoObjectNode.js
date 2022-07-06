@@ -32,12 +32,12 @@ class LetoObjectNode {
      * An array of output links attributes.
      * @type {Array}
      */
-    this.attributes_output_links = [];
+    this.attributesOutputLinks = [];
     /**
      * An array of input links attributes.
      * @type {Array}
      */
-    this.attributes_input_links = [];
+    this.attributesInputLinks = [];
     /**
      * @type {String}
      */
@@ -72,21 +72,21 @@ class LetoObjectNode {
    * @param {Object} link
    */
   addOutputLink(link){
-    this.attributes_output_links.push(link);
+    this.attributesOutputLinks.push(link);
   }
   /**
    * Add a new input link in the array.
    * @param {Object} link
    */
   addInputLink(link){
-    this.attributes_input_links.push(link);
+    this.attributesInputLinks.push(link);
   }
   /**
    * Remove an output link from the array by its id.
    * @param {String} linkId
    */
   removeOutputLink(linkId){
-    let outputs = this.attributes_output_links;
+    let outputs = this.attributesOutputLinks;
     outputs.forEach(link =>{
       if(link.id == linkId){
         outputs.splice(outputs.indexOf(link));
@@ -98,7 +98,7 @@ class LetoObjectNode {
    * @param {String} linkId
    */
   removeInputLink(linkId){
-    let inputs = this.attributes_input_links;
+    let inputs = this.attributesInputLinks;
     inputs.forEach(link =>{
       if(link.id == linkId){
         inputs.splice(inputs.indexOf(link));

@@ -10,8 +10,8 @@ describe('Test class: LetoObjectNode', () => {
       expect(letoObjectNode.name).toBeNull();
       expect(letoObjectNode.rightSibling).toBeNull();
       expect(letoObjectNode.contains).toEqual([])
-      expect(letoObjectNode.attributes_output_links).toEqual([]);
-      expect(letoObjectNode.attributes_input_links).toEqual([]);
+      expect(letoObjectNode.attributesOutputLinks).toEqual([]);
+      expect(letoObjectNode.attributesInputLinks).toEqual([]);
       expect(letoObjectNode.id).toBeNull();
     });
 
@@ -22,8 +22,8 @@ describe('Test class: LetoObjectNode', () => {
       expect(letoObjectNode.name).toEqual('name');
       expect(letoObjectNode.rightSibling).toBeNull();
       expect(letoObjectNode.contains).toEqual([])
-      expect(letoObjectNode.attributes_output_links).toEqual([]);
-      expect(letoObjectNode.attributes_input_links).toEqual([]);
+      expect(letoObjectNode.attributesOutputLinks).toEqual([]);
+      expect(letoObjectNode.attributesInputLinks).toEqual([]);
       expect(letoObjectNode.id).toEqual('id');
     });
   });
@@ -60,16 +60,16 @@ describe('Test class: LetoObjectNode', () => {
         sourceId : "2",
         id : "1_to_2"
       };
-      expect(parent.attributes_output_links).toEqual([]);
+      expect(parent.attributesOutputLinks).toEqual([]);
 
       parent.addOutputLink(link);
-      expect(parent.attributes_output_links.length).toEqual(1);
-      expect(parent.attributes_output_links[0]).not.toBeNull();
-      expect(parent.attributes_output_links[0].id).toEqual("1_to_2");
+      expect(parent.attributesOutputLinks.length).toEqual(1);
+      expect(parent.attributesOutputLinks[0]).not.toBeNull();
+      expect(parent.attributesOutputLinks[0].id).toEqual("1_to_2");
 
       parent.removeOutputLink("1_to_2");
-      expect(parent.attributes_output_links.length).toEqual(0);
-      expect(parent.attributes_output_links[0]).toBeNull();
+      expect(parent.attributesOutputLinks.length).toEqual(0);
+      expect(parent.attributesOutputLinks[0]).toBeNull();
     });
     describe('Test method: addInputLink, removeInputLink', () => {
       const parent = new LetoObjectNode();
@@ -78,16 +78,16 @@ describe('Test class: LetoObjectNode', () => {
         sourceId : "2",
         id : "1_to_2"
       };
-      expect(parent.attributes_input_links).toEqual([]);
+      expect(parent.attributesInputLinks).toEqual([]);
 
       parent.addInputLink(link);
-      expect(parent.attributes_input_links.length).toEqual(1);
-      expect(parent.attributes_input_links[0]).not.toBeNull();
-      expect(parent.attributes_input_links[0].id).toEqual("1_to_2");
+      expect(parent.attributesInputLinks.length).toEqual(1);
+      expect(parent.attributesInputLinks[0]).not.toBeNull();
+      expect(parent.attributesInputLinks[0].id).toEqual("1_to_2");
 
       parent.removeInputLink("1_to_2");
-      expect(parent.attributes_input_links.length).toEqual(0);
-      expect(parent.attributes_input_links[0]).toBeNull();
+      expect(parent.attributesInputLinks.length).toEqual(0);
+      expect(parent.attributesInputLinks[0]).toBeNull();
     });
   });
 });
