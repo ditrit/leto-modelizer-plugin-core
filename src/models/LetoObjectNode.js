@@ -45,14 +45,78 @@ class LetoObjectNode {
   }
 
   /**
-   * Add a new child in the array and update the nextNode of the last object.
+   * Add a new child in the array and update the rightSibling of the last object.
    * @param {LetoObjectNode} child
    */
-  addChild(child) {
-    if (this.children.length !== 0) {
-      this.children[this.children.length - 1].nextNode = child;
+  addContent(child){
+    if (this.contains.length!=0){
+      if(this.contains[this.contains.length-1].value){
+        this.contains[this.contains.length-1].value.setRightSibling(child);
+      }
+      else{
+        this.contains[this.contains.length-1].setRightSibling(child);
+      }
     }
-    this.children.push(child);
+    if(child.value){
+      this.contains.push(child);
+    }
+    else{
+      this.contains.push({
+        name: "",
+        value : child,
+      })
+    }
+  }
+  /**
+   * Add a new output link in the array.
+   * @param {Object} link
+   */
+  addOutputLink(link){
+    this.attributes_output_links.push(link);
+  }
+  /**
+   * Add a new input link in the array.
+   * @param {Object} link
+   */
+  addInputLink(link){
+    this.attributes_input_links.push(link);
+  }
+  /**
+   * Remove an output link from the array by its id.
+   * @param {String} linkId
+   */
+  removeOutputLink(linkId){
+    let outputs = this.attributes_output_links;
+    outputs.forEach(link =>{
+      if(link.id == linkId){
+        outputs.splice(outputs.indexOf(link));
+      }
+    })
+  }
+  /**
+   * Remove an input link from the array by its id.
+   * @param {String} linkId
+   */
+  removeInputLink(linkId){
+    let inputs = this.attributes_input_links;
+    inputs.forEach(link =>{
+      if(link.id == linkId){
+        inputs.splice(inputs.indexOf(link));
+      }
+    })
+  }
+  /**
+   * Apply a function on a LetoObjectNode by traversing the tree
+   * @param {LetoObjectNode, function()} node, callback
+   */
+  static walkTree(node,callback){
+    if (node == null){
+      return;
+    }
+    node = (node.value) ? node.value : node;
+    this.walkTree(node.rightSibling,callback);
+    this.walkTree(node.contains[0],callback);
+    callback(node);
   }
 }
 
