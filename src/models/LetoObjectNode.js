@@ -5,49 +5,39 @@ class LetoObjectNode {
   /**
    * Default constructor.
    *
-   * @param {String} logoPath The path of the svg's icon.
-   * @param {String} type The type of the object.
-   * @param {String} svg The svg object.
+   * @param {LetoTypeNode} letoType The letoTypeNode used to instanciate this LetoTypeNode.
    * @param {String} name The name of the object.
    * @param {String} id The id of the object.
    */
-  constructor(logoPath = null, type = null, svg = null, name = null, id = null) {
+  constructor(letoType = null, name = null, id = null) {
     /**
-     * @type {String}
+     * @type {LetoTypeNode}
      */
-    this.svg = svg;
-    /**
-     * @type {String}
-     */
-    this.logoPath = logoPath;
-    /**
-     * @type {String}
-     */
-    this.type = type;
+    this.letoType = letoType;
     /**
      * @type {String}
      */
     this.name = name;
     /**
      * Following node in the tree.
-     * @type {Object}
+     * @type {LetoObjectNode}
      */
-    this.nextNode = null;
+    this.rightSibling = null;
     /**
-     * An array of LetoObjectNode containing all the object's children.
+     * An array of imbrication attributes containing all the object's children.
      * @type {Array}
      */
-    this.children = [];
+    this.contains = [];
     /**
-     * An array of object containing all the links of the object.
-     * @type {Object}
-     * @property {Object} outputs Outbound links
-     * @property {Object} inputs Inbound links
+     * An array of output links attributes.
+     * @type {Array}
      */
-    this.links = {
-      outputs: [],
-      inputs: [],
-    };
+    this.attributes_output_links = [];
+    /**
+     * An array of input links attributes.
+     * @type {Array}
+     */
+    this.attributes_input_links = [];
     /**
      * @type {String}
      */
