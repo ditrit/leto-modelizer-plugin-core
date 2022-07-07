@@ -1,3 +1,5 @@
+import LetoAttribute from './LetoAttribute';
+
 /**
  * A model for modelling tools in Leto's projects.
  */
@@ -5,65 +7,79 @@ class LetoObjectNode {
   /**
    * Default constructor.
    *
-   * @param {String} logoPath The path of the svg's icon.
-   * @param {String} type The type of the object.
-   * @param {String} svg The svg object.
+   * @param {LetoTypeNode} letoType The letoTypeNode used to instanciate this LetoObjectNode.
    * @param {String} name The name of the object.
    * @param {String} id The id of the object.
    */
-  constructor(logoPath = null, type = null, svg = null, name = null, id = null) {
+  constructor(letoType = null, name = null, id = null) {
     /**
-     * @type {String}
+     *
+     * @type {LetoTypeNode}
      */
-    this.svg = svg;
-    /**
-     * @type {String}
-     */
-    this.logoPath = logoPath;
-    /**
-     * @type {String}
-     */
-    this.type = type;
+    this.letoType = letoType;
     /**
      * @type {String}
      */
     this.name = name;
     /**
      * Following node in the tree.
-     * @type {Object}
+     * @type {LetoObjectNode}
      */
-    this.nextNode = null;
+    this.rightSibling = null;
     /**
-     * An array of LetoObjectNode containing all the object's children.
-     * @type {Array}
+     * An array of imbrication attributes containing all the object's children.
+     * @type {LetoAttribute[]}
      */
-    this.children = [];
+    this.contains = [];
     /**
-     * An array of object containing all the links of the object.
-     * @type {Object}
-     * @property {Object} outputs Outbound links
-     * @property {Object} inputs Inbound links
+     * An array of output links attributes.
+     * @type {LetoLink[]}
      */
-    this.links = {
-      outputs: [],
-      inputs: [],
-    };
+    this.attributesOutputLinks = [];
+    /**
+     * An array of input links attributes.
+     * @type {LetoLink[]}
+     */
+    this.attributesInputLinks = [];
     /**
      * @type {String}
      */
     this.id = id;
+    /**
+     * @type {Float}
+     */
+    this.x = 0;
+    /**
+     * @type {Float}
+     */
+    this.y = 0;
+    /**
+     * @type {Float}
+     */
+    this.width = 0;
+    /**
+     * @type {Float}
+     */
+    this.height = 0;
   }
 
   /**
-   * Add a new child in the array and update the nextNode of the last object.
+   * Add a new child in the array and update the rightSibling of the last object.
    * @param {LetoObjectNode} child
    */
-  addChild(child) {
-    if (this.children.length !== 0) {
-      this.children[this.children.length - 1].nextNode = child;
+  addContent(child) {
+    if (this.contains.length !== 0) {
+      if (this.contains[this.contains.length - 1].value) {
+        this.contains[this.contains.length - 1].value.rightSibling = child;
+      } else {
+        this.contains[this.contains.length - 1].rightSibling = child;
+      }
     }
-    this.children.push(child);
+    if (child.value) {
+      this.contains.push(child);
+    } else {
+      this.contains.push(new LetoAttribute('', child));
+    }
   }
 }
-
 export default LetoObjectNode;

@@ -1,4 +1,4 @@
-import LetoObjectNode from "src/models/LetoObjectNode";
+import LetoObjectNode from 'src/models/LetoObjectNode';
 
 describe('Test class: LetoObjectNode', () => {
 
@@ -6,32 +6,38 @@ describe('Test class: LetoObjectNode', () => {
     it('Check variable instantiation', () => {
       const letoObjectNode = new LetoObjectNode();
 
-      expect(letoObjectNode.svg).toBeNull();
-      expect(letoObjectNode.logoPath).toBeNull();
-      expect(letoObjectNode.type).toBeNull();
+      expect(letoObjectNode.letoType).toBeNull();
       expect(letoObjectNode.name).toBeNull();
-      expect(letoObjectNode.nextNode).toBeNull();
-      expect(letoObjectNode.children).toEqual([])
-      expect(letoObjectNode.links).toEqual({ inputs: [], outputs: [] });
+      expect(letoObjectNode.rightSibling).toBeNull();
+      expect(letoObjectNode.contains).toEqual([])
+      expect(letoObjectNode.attributesOutputLinks).toEqual([]);
+      expect(letoObjectNode.attributesInputLinks).toEqual([]);
       expect(letoObjectNode.id).toBeNull();
+      expect(letoObjectNode.x).toEqual(0);
+      expect(letoObjectNode.y).toEqual(0);
+      expect(letoObjectNode.width).toEqual(0);
+      expect(letoObjectNode.height).toEqual(0);
     });
 
     it('Check passing variable to constructor', () => {
-      const letoObjectNode = new LetoObjectNode('logoPath', 'type', 'svg', 'name', 'id');
+      const letoObjectNode = new LetoObjectNode('letoType', 'name', 'id');
 
-      expect(letoObjectNode.svg).toEqual('svg');
-      expect(letoObjectNode.logoPath).toEqual('logoPath');
-      expect(letoObjectNode.type).toEqual('type');
+      expect(letoObjectNode.letoType).toEqual('letoType');
       expect(letoObjectNode.name).toEqual('name');
-      expect(letoObjectNode.nextNode).toBeNull();
-      expect(letoObjectNode.children).toEqual([])
-      expect(letoObjectNode.links).toEqual({ inputs: [], outputs: [] });
+      expect(letoObjectNode.rightSibling).toBeNull();
+      expect(letoObjectNode.contains).toEqual([])
+      expect(letoObjectNode.attributesOutputLinks).toEqual([]);
+      expect(letoObjectNode.attributesInputLinks).toEqual([]);
       expect(letoObjectNode.id).toEqual('id');
+      expect(letoObjectNode.x).toEqual(0);
+      expect(letoObjectNode.y).toEqual(0);
+      expect(letoObjectNode.width).toEqual(0);
+      expect(letoObjectNode.height).toEqual(0);
     });
   });
 
   describe('Test methods', () => {
-    describe('Test method: addChild', () => {
+    describe('Test method: addContent', () => {
       const parent = new LetoObjectNode();
       parent.id = '1';
       const child1 = new LetoObjectNode();
@@ -39,21 +45,21 @@ describe('Test class: LetoObjectNode', () => {
       const child2 = new LetoObjectNode();
       child2.id = '3';
 
-      expect(parent.children).toEqual([]);
+      expect(parent.contains).toEqual([]);
 
-      parent.addChild(child1);
-      expect(parent.children.length).toEqual(1);
-      expect(parent.children[0]).not.toBeNull();
-      expect(parent.children[0].id).toEqual('2');
-      expect(parent.children[0].nextNode).toBeNull();
+      parent.addContent(child1);
+      expect(parent.contains.length).toEqual(1);
+      expect(parent.contains[0]).not.toBeNull();
+      expect(parent.contains[0].value.id).toEqual('2');
+      expect(parent.contains[0].value.rightSibling).toBeNull();
 
-      parent.addChild(child2);
-      expect(parent.children.length).toEqual(2);
-      expect(parent.children[1]).not.toBeNull();
-      expect(parent.children[1].id).toEqual('3');
-      expect(parent.children[1].nextNode).toBeNull();
-      expect(parent.children[0].nextNode).not.toBeNull();
-      expect(parent.children[0].nextNode.id).toEqual('3');
+      parent.addContent(child2);
+      expect(parent.contains.length).toEqual(2);
+      expect(parent.contains[1]).not.toBeNull();
+      expect(parent.contains[1].value.id).toEqual('3');
+      expect(parent.contains[1].value.rightSibling).toBeNull();
+      expect(parent.contains[0].value.rightSibling).not.toBeNull();
+      expect(parent.contains[0].value.rightSibling.id).toEqual('3');
     });
   });
 });
