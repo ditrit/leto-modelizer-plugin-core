@@ -1,27 +1,30 @@
+/**
+ * Miscellaneous information about the Component drawing.
+ */
 class ComponentDrawOption {
   /**
    * Default constructor
    *
-   * @param {Float} x X Position of Component.
-   * @param {Float} y Y Position of Component.
-   * @param {Integer} width Width of Component in pixel.
-   * @param {Integer} height Height of Component in pixel.
+   * @param {Number} x X Position of Component.
+   * @param {Number} y Y Position of Component.
+   * @param {Number} width Width of Component in pixel.
+   * @param {Number} height Height of Component in pixel.
    */
   constructor(x = null, y = null, width = null, height = null) {
     /**
-     * @type {Float}
+     * @type {Number}
      */
     this.x = x;
     /**
-     * @type {Float}
+     * @type {Number}
      */
     this.y = y;
     /**
-     * @type {Integer}
+     * @type {Number}
      */
     this.width = width;
     /**
-     * @type {Integer}
+     * @type {Number}
      */
     this.height = height;
   }

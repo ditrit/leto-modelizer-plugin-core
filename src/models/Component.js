@@ -1,20 +1,22 @@
 /**
- * A model for modelling tools in Leto's projects.
+ * A model for modelling tools in Leto Modelizer.
  */
 class Component {
   /**
    * Default constructor.
    *
-   * @param {String} id The id of the Component.
-   * @param {String} name The name of the Component.
-   * @param {ComponentType} type The ComponentType used to instanciate this Component.
+   * @param {String} id The id of this Component.
+   * @param {String} name The name of this Component.
+   * @param {ComponentDefinition} definition The Definition used to instanciate this Component.
    * @param {ComponentDrawOption} drawOption The options used to draw this Component.
+   * @param {ComponentAttribute[]} attributes Attributes of Component.
    */
   constructor(
     id = null,
     name = null,
-    type = null,
+    definition = null,
     drawOption = null,
+    attributes = [],
   ) {
     /**
      * @type {String}
@@ -25,9 +27,9 @@ class Component {
      */
     this.name = name;
     /**
-     * @type {ComponentType}
+     * @type {Componentdefinition}
      */
-    this.type = type;
+    this.definition = definition;
     /**
      * @type {ComponentDrawOption}
      */
@@ -35,22 +37,27 @@ class Component {
     /**
      * @type {ComponentAttribute[]}
      */
-    this.attribute = [];
+    this.attributes = attributes;
     /**
      * @type {Component[]}
      */
-    this.subContent = [];
+    this.children = [];
   }
 
-  addSubContent(component) {
-    const { containerTypes } = component.type;
-    const { isContainer } = this.type;
+  /**
+   * Method that adds Component to this.children.
+   *
+   * @param {Component} child Component we want to add.
+   */
+  addChild(child) {
+    const { parentTypes } = child.definition;
+    const { isContainer } = this.definition;
     if (
       isContainer
-      && containerTypes.include(this.type.name)
-      && !this.subContent.include(component)
+      && parentTypes.includes(this.definition.type)
+      && !this.children.includes(child)
     ) {
-      this.subContent.push(component);
+      this.children.push(child);
     }
   }
 }

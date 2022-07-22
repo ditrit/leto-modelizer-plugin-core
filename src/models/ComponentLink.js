@@ -1,16 +1,17 @@
-class Link {
+/**
+ * Class that links Components together.
+ */
+class ComponentLink {
   /**
    * Default constructor.
    *
    * @param {Object} from Where the link is created.
    * @param {String} from.id ID of the component.
-   * @param {Integer} from.anchor anchor of the component.
    * @param {Object} to Target of the link.
    * @param {String} to.id ID of the component.
-   * @param {Integer} to.anchor anchor of the component.
-   * @param {Boolean} isInversed representation of the link.
+   * @param {String} type representation of the link.
    */
-  constructor(from, to, isInversed = null) {
+  constructor(from = { id: null }, to = { id: null }, type = null) {
     /**
      * @type {Object}
      */
@@ -20,10 +21,10 @@ class Link {
      */
     this.to = to;
     /**
-     * @type {Boolean}
+     * @type {String}
      */
-    this.isInversed = isInversed;
+    this.type = type;
   }
 }
 
-export default Link;
+export default ComponentLink;

@@ -1,13 +1,17 @@
 import Component from './models/Component';
-import Link from './models/Link';
+import ComponentDefinition from './models/ComponentDefinition';
+import ComponentAttributeDefinition from './models/ComponentAttributeDefinition';
+import ComponentDrawOption from './models/ComponentDrawOption';
 import ComponentAttribute from './models/ComponentAttribute';
-import ComponentType from './models/ComponentType';
+import ComponentLink from './models/ComponentLink';
 import renderString from './renders/SVGRender';
 
 export {
   Component,
-  ComponentType,
+  ComponentDefinition,
+  ComponentAttributeDefinition,
+  ComponentDrawOption,
   ComponentAttribute,
-  Link,
+  ComponentLink,
   renderString,
 };
