@@ -1,13 +1,15 @@
-import LetoObjectNode from './models/LetoObjectNode';
-import LetoLink from './models/LetoLink';
-import LetoAttribute from './models/LetoAttribute';
-import LetoTypeNode from './models/LetoTypeNode';
-import renderString from './renders/SVGRender';
+import Component from './models/Component';
+import ComponentDefinition from './models/ComponentDefinition';
+import ComponentAttributeDefinition from './models/ComponentAttributeDefinition';
+import ComponentDrawOption from './models/ComponentDrawOption';
+import ComponentAttribute from './models/ComponentAttribute';
+import ComponentLink from './models/ComponentLink';
 
 export {
-  LetoObjectNode,
-  LetoAttribute,
-  LetoLink,
-  LetoTypeNode,
-  renderString,
+  Component,
+  ComponentDefinition,
+  ComponentAttributeDefinition,
+  ComponentDrawOption,
+  ComponentAttribute,
+  ComponentLink,
 };
