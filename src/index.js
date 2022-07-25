@@ -4,7 +4,6 @@ import ComponentAttributeDefinition from './models/ComponentAttributeDefinition'
 import ComponentDrawOption from './models/ComponentDrawOption';
 import ComponentAttribute from './models/ComponentAttribute';
 import ComponentLink from './models/ComponentLink';
-import renderString from './renders/SVGRender';
 
 export {
   Component,
@@ -13,5 +12,4 @@ export {
   ComponentDrawOption,
   ComponentAttribute,
   ComponentLink,
-  renderString,
 };

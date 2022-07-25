@@ -63,8 +63,7 @@ leto-module-client
 ├ docs                 ⇨ Contains all files generate by esdoc
 ├ reports              ⇨ Contains all the report files for sonar
 ├ src                  ⇨ Contains all files for modelling tools
-│ ├ models             ⇨ Contains all the models
-│ └ renders            ⇨ Contains all the functions for manipulate SVG
+│ └  models            ⇨ Contains all the models
 └ tests                ⇨ Contains all files related to the tests
 ```
 
