@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Improve all class models and their individual tests.
 - Remove function renderString for SVG template.
+- Create default class structure draw/metadata/parser/render and their individual tests.
 
 ## [0.1.0] - 2022-07-07
 
