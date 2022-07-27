@@ -24,6 +24,8 @@ jobs:
         run: npm run test
       - name: Run checkstyle
         run: npm run lint
+      - name: Run build
+        run: npm run build
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         env:
