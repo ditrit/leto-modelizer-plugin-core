@@ -2,7 +2,7 @@
 
 Library that contains all models for modelling tools in Leto's projects.
 
-## Get started 
+## Get started
 
 ### Install
 
@@ -75,7 +75,8 @@ Steps to release:
 - Checkout a branch `release/vX.Y.Z` from the latest `dev`.
 - Improve your version number in `package.json`, `package-lock.json` and `changelog.md`.
 - Verify the content of the `changelog.md`.
-- Commit your modification with this commit's name `Release version X.Y.Z`.
+- Build the project
+- Commit your modification (with the `dist` content) with this commit's name `Release version X.Y.Z`.
 - Create a pull request on github to this branch in `dev`.
 - After the previous PR is merged, create a pull request on github to `dev` in `main`.
 - After the previous PR is merged, tag the `main` branch with `vX.Y.Z`
