@@ -1,11 +1,11 @@
-const path = require("path");
+const path = require('path');
 
 module.exports = {
   mode: 'production',
   entry: path.resolve(__dirname, 'src/index.js'),
   output: {
-    path: path.resolve(__dirname, "./dist"),
-    filename: "leto-plugin-core.js",
+    path: path.resolve(__dirname, './dist'),
+    filename: 'leto-plugin-core.js',
     libraryTarget: 'commonjs',
   },
   resolve: {
@@ -20,9 +20,9 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
-            presets: ["@babel/preset-env"],
+            presets: ['@babel/preset-env'],
           },
         },
       },

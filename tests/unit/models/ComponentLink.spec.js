@@ -1,7 +1,6 @@
 import ComponentLink from 'src/models/ComponentLink';
 
 describe('Test class: ComponentLink', () => {
-
   describe('Test constructor', () => {
     it('Check variable instantiation', () => {
       const link = new ComponentLink();

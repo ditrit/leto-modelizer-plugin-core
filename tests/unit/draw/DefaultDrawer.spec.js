@@ -1,4 +1,4 @@
-import DefaultDrawer from "src/draw/DefaultDrawer";
+import DefaultDrawer from 'src/draw/DefaultDrawer';
 
 describe('Test Class: DefaultDrawer()', () => {
   describe('Test methods', () => {

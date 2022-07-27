@@ -27,8 +27,8 @@ describe('Test class: ComponentAttributeDefinition', () => {
           min: 1,
           max: 2,
           regex: '/regex/',
-        }
-      )
+        },
+      );
 
       expect(definedAttribute.name).toEqual('name');
       expect(definedAttribute.type).toEqual('type');

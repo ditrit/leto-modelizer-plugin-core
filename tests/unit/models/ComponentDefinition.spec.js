@@ -1,7 +1,6 @@
-import ComponentDefinition from "src/models/ComponentDefinition";
+import ComponentDefinition from 'src/models/ComponentDefinition';
 
 describe('Test class: ComponentDefinition', () => {
-
   describe('Test constructor', () => {
     it('Check variable instantiation', () => {
       const componentDefinition = new ComponentDefinition();

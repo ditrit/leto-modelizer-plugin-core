@@ -1,4 +1,4 @@
-import DefaultRender from "src/render/DefaultRender";
+import DefaultRender from 'src/render/DefaultRender';
 
 describe('Test Class: DefaultRender()', () => {
   describe('Test methods', () => {
