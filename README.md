@@ -1,4 +1,4 @@
-# leto-module-client
+# leto-modelizer-plugin-core
 
 Library that contains all models for modelling tools in Leto's projects.
 
@@ -7,13 +7,13 @@ Library that contains all models for modelling tools in Leto's projects.
 ### Install
 
 ```
-npm install --save "git://github.com/ditrit/leto-module-client.git"
+npm install --save "git://github.com/ditrit/leto-modelizer-plugin-core.git"
 ```
 
 ### Usage
 
 ```js
-import { renderString, LetoObjectNode } from "leto-module-client";
+import { renderString, LetoObjectNode } from "leto-modelizer-plugin-core";
 ```
 
 ## Default commands
@@ -59,7 +59,7 @@ Generate coverage report of the unit tests.
 This is the default directory structure we use for this project:
 
 ```
-leto-module-client
+leto-modelizer-plugin-core
 ├ docs                 ⇨ Contains all files generate by esdoc
 ├ reports              ⇨ Contains all the report files for sonar
 ├ src                  ⇨ Contains all files for modelling tools
