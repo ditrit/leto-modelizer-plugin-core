@@ -21,4 +21,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add new classes LetoObjectNode, LetoTypeNode, LetoAttribute, LetoLink.
 - Add function renderString for SVG template.
 
-[0.1.0]: https://github.com/ditrit/leto-module-client/blob/0.1.0/changelog.md
+[0.1.0]: https://github.com/ditrit/leto-modelizer-plugin-core/blob/0.1.0/changelog.md
