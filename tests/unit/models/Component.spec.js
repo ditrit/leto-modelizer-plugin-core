@@ -3,7 +3,6 @@ import ComponentDrawOption from 'src/models/ComponentDrawOption';
 import ComponentDefinition from 'src/models/ComponentDefinition';
 
 describe('Test class: Component', () => {
-
   describe('Test constructor', () => {
     it('Check variable instantiation', () => {
       const component = new Component();

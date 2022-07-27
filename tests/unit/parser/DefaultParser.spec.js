@@ -1,4 +1,4 @@
-import DefaultParser from "src/parser/DefaultParser";
+import DefaultParser from 'src/parser/DefaultParser';
 
 describe('Test Class: DefaultParser()', () => {
   describe('Test methods', () => {

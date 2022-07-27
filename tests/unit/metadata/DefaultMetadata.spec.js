@@ -1,4 +1,4 @@
-import DefaultMetadata from "src/metadata/DefaultMetadata";
+import DefaultMetadata from 'src/metadata/DefaultMetadata';
 
 describe('Test Class: DefaultMetadata()', () => {
   describe('Test methods', () => {
