@@ -1,14 +1,17 @@
 const path = require("path");
 
 module.exports = {
-  mode: "production",
-  entry: './src/index.js',
+  mode: 'production',
+  entry: path.resolve(__dirname, 'src/index.js'),
   output: {
     path: path.resolve(__dirname, "./dist"),
     filename: "leto-plugin-core.js",
     libraryTarget: 'commonjs',
   },
   resolve: {
+    alias: {
+      src: path.resolve(__dirname, 'src/'),
+    },
     extensions: ['.js'],
   },
   module: {
