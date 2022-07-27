@@ -9,8 +9,8 @@
   "scripts": {
     "build": "webpack",
     "build:docs": "esdoc",
-    "lint": "eslint src/**",
-    "lint:fix": "eslint src/** --fix",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "lint:report": "eslint src -f json-relative > eslint.json",
     "lint:watch": "esw --no-ignore -w src",
     "test": "jest",
