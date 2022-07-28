@@ -26,6 +26,7 @@ module.exports = {
 
   // add your custom rules here
   rules: {
+    'linebreak-style': ['error', 'unix'],
     'class-methods-use-this': 'off',
     'no-param-reassign': 'off',
     'no-void': 'off',
