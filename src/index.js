@@ -8,6 +8,7 @@ import DefaultDrawer from 'src/draw/DefaultDrawer';
 import DefaultMetadata from 'src/metadata/DefaultMetadata';
 import DefaultParser from 'src/parser/DefaultParser';
 import DefaultRender from 'src/render/DefaultRender';
+import ParseError from 'src/error/parseError';
 
 export {
   Component,
@@ -20,4 +21,5 @@ export {
   DefaultMetadata,
   DefaultParser,
   DefaultRender,
+  ParseError,
 };
