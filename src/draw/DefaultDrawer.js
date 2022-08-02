@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import ComponentDrawOption from 'src/models/ComponentDrawOption';
 
 /**
  * Class that draws a component in a graphical representation.
@@ -19,6 +20,11 @@ class DefaultDrawer {
      * D3 library.
      */
     this.d3 = d3;
+    /**
+     * Margin value between component default position.
+     * @type {Number}
+     */
+    this.margin = 10;
   }
 
   /**
@@ -31,11 +37,10 @@ class DefaultDrawer {
     const componentsSelection = this.d3.select(parentId)
       .selectAll('.component')
       .data(components, (data) => data.id);
-    const component = componentsSelection.enter()
-      .append('svg');
+    const svgContainer = componentsSelection.enter().append('svg');
 
-    component.attr('class', 'component');
-    component.each((_data, index, array) => {
+    svgContainer.attr('class', 'component');
+    svgContainer.each((_data, index, array) => {
       const model = this.resources.models[_data.definition.svgTemplate]
         || this.resources.models.DefaultModel;
       this.d3.select(array[index])
@@ -48,7 +53,8 @@ class DefaultDrawer {
         .node().innerHTML = icon;
     });
 
-    this.drawDefaultResource(component);
+    this.initializeComponents(components, svgContainer);
+    this.drawDefaultModel(svgContainer);
 
     componentsSelection.exit()
       .remove();
@@ -56,17 +62,88 @@ class DefaultDrawer {
   }
 
   /**
-   * Draw component with default template.
-   * @param {Object} component - HTML elements selected by D3.js
+   * Initialize all draw option of the components.
+   * @param {Component[]} components - List of Components.
+   * @param {Object} svgContainer - D3 Object contains components SVGs.
    */
-  drawDefaultResource(component) {
-    component.attr('id', (data) => data.id);
-    component.attr('x', (data) => data.drawOption.x);
-    component.attr('y', (data) => data.drawOption.y);
-    component.select('.component-name')
-      .text((data) => data.name);
-    component.select('.component-type')
-      .text((data) => data.definition.type);
+  initializeComponents(components, svgContainer) {
+    const componentsToInit = [];
+    const componentMaxSize = { width: 0, height: 0 };
+
+    svgContainer.each((_data, index, array) => {
+      const component = components[index];
+      if (!component.drawOption) {
+        component.drawOption = new ComponentDrawOption();
+        componentsToInit.push(components[index]);
+      }
+      this.storeComponentSize(array[index], component);
+      if (component.drawOption.width > componentMaxSize.width) {
+        componentMaxSize.width = component.drawOption.width;
+      }
+      if (component.drawOption.height > componentMaxSize.height) {
+        componentMaxSize.height = component.drawOption.height;
+      }
+    });
+
+    if (componentsToInit.length > 0) {
+      const viewportWidth = document.querySelector('#viewport').clientWidth;
+      componentsToInit.forEach((component, index) => this.setComponentPosition(
+        component,
+        index,
+        viewportWidth,
+        componentMaxSize,
+      ));
+    }
+  }
+
+  /**
+   * Defines the position of the components by computing
+   * a grid from the viewport's width and the largest component.
+   * @param {Component} component - Components we want to set the position.
+   * @param {Object} maxSize - Object contains the max width and height of components SVG.
+   */
+  setComponentPosition(component, index, viewportWidth, maxSize) {
+    const { width, height } = maxSize;
+    const maxColumn = parseInt(viewportWidth / (width + this.margin), 10);
+
+    const indexX = index % maxColumn;
+    const indexY = parseInt(index / maxColumn, 10);
+
+    component.drawOption.x = indexX * (width + this.margin);
+    component.drawOption.y = indexY * (height + this.margin);
+  }
+
+  /**
+   * Set size of the component from the reel size of the svg model.
+   * @param {Object} svgItem - HTML element selected contained svgContainer.
+   * @param {Component} component - Component object we want to set the size.
+   */
+  storeComponentSize(svgItem, component) {
+    const { width, height } = this.getComponentSize(svgItem);
+    component.drawOption.width = width;
+    component.drawOption.height = height;
+  }
+
+  /**
+   * Return the width and height of a component SVG.
+   * @param {Object} svgItem - HTML element contained by svgContainer.
+   * @return {Object} Return the object that contains max width and height.
+   */
+  getComponentSize(svgItem) {
+    const bBox = this.d3.select(svgItem).node().getBBox();
+    return { width: bBox.width, height: bBox.height };
+  }
+
+  /**
+   * Draw component with default template.
+   * @param {Object} svgContainer - HTML elements selected by D3.js.
+   */
+  drawDefaultModel(svgContainer) {
+    svgContainer.attr('id', (data) => data.id);
+    svgContainer.attr('x', (data) => data.drawOption.x);
+    svgContainer.attr('y', (data) => data.drawOption.y);
+    svgContainer.select('.component-name').text((data) => data.name);
+    svgContainer.select('.component-type').text((data) => data.definition.type);
   }
 }
 
