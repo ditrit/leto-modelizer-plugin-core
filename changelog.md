@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove function renderString for SVG template.
 - Create default class structure draw/metadata/parser/render and their individual tests.
 - Add default error for parser
+- Add `Draw` and `DrawDefaultContent` methods to DefaultDrawer.js
 
 ## [0.1.0] - 2022-07-07
 
