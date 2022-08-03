@@ -5,11 +5,11 @@ class Component {
   /**
    * Default constructor.
    *
-   * @param {String} id The id of this Component.
-   * @param {String} name The name of this Component.
-   * @param {ComponentDefinition} definition The Definition used to instanciate this Component.
-   * @param {ComponentDrawOption} drawOption The options used to draw this Component.
-   * @param {ComponentAttribute[]} attributes Attributes of Component.
+   * @param {String} [id] - The id of this Component.
+   * @param {String} [name] - The name of this Component.
+   * @param {ComponentDefinition} [definition] - The Definition used to instantiate this Component.
+   * @param {ComponentDrawOption} [drawOption] - The options used to draw this Component.
+   * @param {ComponentAttribute[]} [attributes=[]] - Attributes of Component.
    */
   constructor(
     id = null,
@@ -19,26 +19,32 @@ class Component {
     attributes = [],
   ) {
     /**
+     * The id of this Component.
      * @type {String}
      */
     this.id = id;
     /**
+     * The name of this Component.
      * @type {String}
      */
     this.name = name;
     /**
+     * The Definition used to instantiate this Component.
      * @type {Componentdefinition}
      */
     this.definition = definition;
     /**
+     * The options used to draw this Component.
      * @type {ComponentDrawOption}
      */
     this.drawOption = drawOption;
     /**
+     * Attributes of Component.
      * @type {ComponentAttribute[]}
      */
     this.attributes = attributes;
     /**
+     * Array that contains all sub-components.
      * @type {Component[]}
      */
     this.children = [];
@@ -47,7 +53,7 @@ class Component {
   /**
    * Method that adds Component to this.children.
    *
-   * @param {Component} child Component we want to add.
+   * @param {Component} child - Component we want to add.
    */
   addChild(child) {
     const { parentTypes } = child.definition;
@@ -61,4 +67,5 @@ class Component {
     }
   }
 }
+
 export default Component;
