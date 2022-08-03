@@ -22,6 +22,14 @@ class DefaultMetadata {
   validate() {
     return true;
   }
+
+  /**
+   * Get all component definitions from metadata.
+   * @return {ComponentDefinition[]} - Array of component definitions.
+   */
+  getComponentDefinitions() {
+    return [];
+  }
 }
 
 export default DefaultMetadata;
