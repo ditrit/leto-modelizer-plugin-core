@@ -14,6 +14,15 @@ class DefaultParser {
       links: inputs,
     };
   }
+
+  /**
+   * Indicate if this parser can parse this file.
+   * @param {String} [fileName] - Name of file.
+   * @return {Boolean} - Boolean that indicates if this file can be parsed or not.
+   */
+  isParsable(fileName) {
+    return fileName !== undefined && fileName !== null;
+  }
 }
 
 export default DefaultParser;
