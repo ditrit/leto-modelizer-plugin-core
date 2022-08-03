@@ -8,6 +8,7 @@ describe('Test Class: DefaultParser()', () => {
         expect(defaultParser.parse()).toEqual({
           components: [],
           links: [],
+          errors: [],
         });
       });
     });

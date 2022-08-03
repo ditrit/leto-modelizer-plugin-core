@@ -12,6 +12,7 @@ class DefaultParser {
     return {
       components: inputs,
       links: inputs,
+      errors: [],
     };
   }
 
