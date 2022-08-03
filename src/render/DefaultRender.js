@@ -1,12 +1,14 @@
 /**
-* Class that compile a Component to data.
-*/
+ * Class that compile a Component to data.
+ * @interface
+ */
 class DefaultRender {
   /**
-  * Return Component as a string.
-  * @param {Array} components list of components you want to convert.
-  * @param {Array} links list of links you want to convert.
-  */
+   * Transform all provided components and links in string.
+   * @param {Array} [components=[]] - List of components you want to convert.
+   * @param {Array} [links=[]] - List of links you want to convert.
+   * @return {String} - Generated string from components and links.
+   */
   render(components = [], links = []) { /* eslint no-unused-vars: 0 */ // --> OFF
     return 'string';
   }
