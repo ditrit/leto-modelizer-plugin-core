@@ -2,6 +2,8 @@
 
 Library that contains all models for modelling tools in Leto's projects.
 
+This library is used to create your own plugin for the [Leto Modelizer](https://github.com/ditrit/leto-modelizer) tool.
+
 ## Get started
 
 ### Install
@@ -12,9 +14,91 @@ npm install --save "git://github.com/ditrit/leto-modelizer-plugin-core.git"
 
 ### Usage
 
+Here is all import you can use in your plugin:
+
 ```js
-import { renderString, LetoObjectNode } from "leto-modelizer-plugin-core";
+import {
+  Component,
+  ComponentDefinition,
+  ComponentAttributeDefinition,
+  ComponentDrawOption,
+  ComponentAttribute,
+  ComponentLink,
+  DefaultDrawer,
+  DefaultMetadata,
+  DefaultParser,
+  DefaultRender,
+  ParseError
+} from "leto-modelizer-plugin-core";
 ```
+
+For more information about all imports please refer to [technical documentation](https://ditrit.io/leto-modelizer-plugin-core/v0.2.0/) and [project template](https://github.com/ditrit/leto-modelizer-plugin-template).
+
+You can use it in that way:
+
+```js
+import { DefaultParser } from 'leto-modelizer-plugin-core';
+
+class FruitParser extends DefaultParser {
+  parse(inputs) {
+    // Write your own parser here
+    return {
+      components: [/* ... */], // Generated components from parser
+      links: [/* ... */]       // Generated component links from parser
+    }
+  }
+}
+
+export default FruitParser;
+```
+
+To see a complete example, please refer to [iactor](https://github.com/ditrit/iactor).
+
+## How to create your plugin
+
+You can use [this template repository](https://github.com/ditrit/leto-modelizer-plugin-template) to create your own plugin.
+
+The project template leto-modelizer-plugin-template provides you the default structure of a plugin and all useful scripts to generate resources and other.
+
+It is strongly recommended to use it and the following documentation will make references to it.
+
+Furthermore, in this template there are code comments to explain how to override methods/classes and usages. 
+
+### Default Plugin structure
+
+For your plugin to be used by `Leto Modelizer`, it needs to have this structure:
+
+```js
+// src/index.js
+export default {
+  PluginDrawer: MyPluginDrawer,     // MyPluginDrawer has to extend DefaultDrawer
+  PluginMetadata: MyPluginMetadata, // MyPluginMetadata has to extend DefaultMetadata
+  PluginParser: MyPluginParser,     // MyPluginParser has to extend DefaultParser
+  PluginRenderer: MyPluginRenderer, // MyPluginRenderer has to extend DefaultRender
+  resources,
+};
+```
+
+`resources` represents an object that contains all your assets for the plugin.
+By default, the project template provide a `DefaultModel.svg` and a `DefaultIcon.svg`.
+
+The object `resources` is managed by a [script](https://github.com/ditrit/leto-modelizer-plugin-template/blob/main/scripts/generateResources.js) in the project template for its generation.
+
+### How it works
+
+| Plugin lifecycle |
+| :--: |
+| <img height="400" src="/documentations/lifecycle.svg"/> |
+
+This is the default lifecycle of plugin usage in Leto Modelizer.
+
+### Plugin creation
+
+Create you plugin project from [leto-modelizer-plugin-template](https://github.com/ditrit/leto-modelizer-plugin-template) and follow the readme section of the template project.
+
+### Technical documentation
+
+Technical documentation can be found [here](https://ditrit.io/leto-modelizer-plugin-core/).
 
 ## Default commands
 
