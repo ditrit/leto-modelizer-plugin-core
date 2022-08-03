@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+###Added
+
+- Workflow to deploy documentation on Github pages
+
 ### Changed
 
 - Improve all class models and their individual tests.
