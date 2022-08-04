@@ -25,6 +25,6 @@ module.exports = {
   testResultsProcessor: 'jest-sonar-reporter',
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.js'],
-  coverageReporters: ['lcov', 'cobertura', 'text-summary'],
+  coverageReporters: ['lcov', 'cobertura', 'text-summary', 'text'],
   coverageDirectory: './reports',
 };
