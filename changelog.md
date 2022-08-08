@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add default error for parser.
 - Add `draw` and `drawDefaultModel` methods to DefaultDrawer.js.
 - Add functions to set default component position.
+- Add `moveComponent` method to move svg components in modelizer.
 
 ## [0.1.0] - 2022-07-07
 
