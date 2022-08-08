@@ -112,5 +112,21 @@ describe('Test class: Component', () => {
         expect(parent.children.length).toEqual(1);
       });
     });
+
+    describe('Test method: iterator', () => {
+      it('Should collect all the tree into an array', () => {
+        const root = new Component('root', 'root');
+        const a = new Component('a', 'a');
+        const b = new Component('b', 'b');
+        const c = new Component('c', 'c');
+        const d = new Component('d', 'd');
+        root.children.push(a);
+        root.children.push(b);
+        a.children.push(c);
+        c.children.push(d);
+        const allComponents = Array.from(root);
+        expect(allComponents).toStrictEqual([root, a, b, c, d]);
+      });
+    });
   });
 });

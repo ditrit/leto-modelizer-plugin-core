@@ -66,6 +66,16 @@ class Component {
       this.children.push(child);
     }
   }
+
+  * [Symbol.iterator]() {
+    const allDescendants = this.children.slice();
+    yield this;
+    while (allDescendants.length !== 0) {
+      const child = allDescendants.shift();
+      yield child;
+      allDescendants.push(...child.children);
+    }
+  }
 }
 
 export default Component;
