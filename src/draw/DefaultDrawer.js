@@ -36,7 +36,7 @@ class DefaultDrawer {
   draw(parentId = '#root', components = []) {
     const componentsSelection = this.d3.select(parentId)
       .selectAll('.component')
-      .data(components, (data) => data.id);
+      .data(components, (data) => data);
     const svgContainer = componentsSelection.enter().append('svg');
 
     svgContainer.attr('class', 'component');
@@ -54,6 +54,7 @@ class DefaultDrawer {
     });
 
     this.initializeComponents(components, svgContainer);
+    this.moveComponent(svgContainer);
     this.drawDefaultModel(svgContainer);
 
     componentsSelection.exit()
@@ -142,8 +143,42 @@ class DefaultDrawer {
     svgContainer.attr('id', (data) => data.id);
     svgContainer.attr('x', (data) => data.drawOption.x);
     svgContainer.attr('y', (data) => data.drawOption.y);
+    svgContainer.attr('cursor', 'grab');
     svgContainer.select('.component-name').text((data) => data.name);
     svgContainer.select('.component-type').text((data) => data.definition.type);
+  }
+
+  /**
+   * Method to move component in the modelizer with mouse.
+   * @param {Object} svgContainer - HTML elements selected by D3.js.
+   */
+  moveComponent(svgContainer) {
+    let deltaX = 0;
+    let deltaY = 0;
+    let currentComponent = null;
+    svgContainer.each((_data, index, array) => {
+      this.d3.select(array[index]).call(
+        this.d3.drag()
+          .on('start', (event) => {
+            currentComponent = this.d3.select(`#${event.subject.id}`);
+            this.d3.select('use')
+              .attr('xlink:href', `#${event.subject.id}`);
+            deltaX = event.x - currentComponent.attr('x');
+            deltaY = event.y - currentComponent.attr('y');
+            currentComponent.attr('cursor', 'grabbing');
+          })
+          .on('drag', (event) => {
+            currentComponent
+              .attr('x', event.x - deltaX)
+              .attr('y', event.y - deltaY);
+          })
+          .on('end', (event) => {
+            currentComponent.attr('cursor', 'grab');
+            event.subject.drawOption.x = currentComponent.attr('x');
+            event.subject.drawOption.y = currentComponent.attr('y');
+          }),
+      );
+    });
   }
 }
 

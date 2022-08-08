@@ -182,14 +182,63 @@ describe('Test Class: DefaultDrawer()', () => {
     it('drawDefaultModel should setup default svgContainer', () => {
       drawer.drawDefaultModel(svgContainer);
 
-      expect(svgContainer.attr).toBeCalledTimes(3);
+      expect(svgContainer.attr).toBeCalledTimes(4);
       expect(svgContainer.attr.mock.calls[0][0]).toBe('id');
       expect(svgContainer.attr.mock.calls[1][0]).toBe('x');
       expect(svgContainer.attr.mock.calls[2][0]).toBe('y');
+      expect(svgContainer.attr.mock.calls[3][0]).toBe('cursor');
 
       expect(svgContainer.select).toBeCalledTimes(2);
       expect(svgContainer.text).toBeCalledTimes(2);
       expect(svgContainer.select.mock.calls).toEqual([['.component-name'], ['.component-type']]);
+    });
+  });
+
+  describe('Test method: moveComponent()', () => {
+    let drawer;
+    let svgContainer;
+
+    beforeEach(() => {
+      drawer = new DefaultDrawer();
+      svgContainer = {
+        each: jest.fn(() => svgContainer)
+          .mockImplementation((arg) => arg(null, 0, [])),
+      };
+      drawer.d3 = {
+        attr: jest.fn(() => drawer.d3),
+        select: jest.fn(() => drawer.d3),
+        call: jest.fn(() => drawer.d3),
+        drag: jest.fn(() => drawer.d3),
+        on: jest.fn((name, callback) => {
+          callback({ x: 0, y: 0, subject: { id: 1, drawOption: { x: 0, y: 0 } } });
+          return drawer.d3;
+        }),
+      };
+    });
+
+    it('Should call every d3 methods', () => {
+      drawer.moveComponent(svgContainer);
+
+      expect(drawer.d3.drag).toBeCalled();
+      expect(svgContainer.each).toBeCalledTimes(1);
+      expect(drawer.d3.select).toBeCalledTimes(3);
+      expect(drawer.d3.call).toBeCalled();
+
+      expect(drawer.d3.on).toBeCalledTimes(3);
+      expect(drawer.d3.on.mock.calls[0][0]).toBe('start');
+      expect(drawer.d3.on.mock.calls[1][0]).toBe('drag');
+      expect(drawer.d3.on.mock.calls[2][0]).toBe('end');
+
+      expect(drawer.d3.attr).toBeCalledTimes(9);
+      expect(drawer.d3.attr.mock.calls[0][0]).toBe('xlink:href');
+      expect(drawer.d3.attr.mock.calls[1][0]).toBe('x');
+      expect(drawer.d3.attr.mock.calls[2][0]).toBe('y');
+      expect(drawer.d3.attr.mock.calls[3][0]).toBe('cursor');
+      expect(drawer.d3.attr.mock.calls[4][0]).toBe('x');
+      expect(drawer.d3.attr.mock.calls[5][0]).toBe('y');
+      expect(drawer.d3.attr.mock.calls[6][0]).toBe('cursor');
+      expect(drawer.d3.attr.mock.calls[7][0]).toBe('x');
+      expect(drawer.d3.attr.mock.calls[8][0]).toBe('y');
     });
   });
 });
