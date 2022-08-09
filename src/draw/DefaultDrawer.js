@@ -25,6 +25,22 @@ class DefaultDrawer {
      * @type {Number}
      */
     this.margin = 10;
+    /**
+     * Store for actions, used to set specific actions values when making actions.
+     * @type {Object}
+     */
+    this.actions = {
+      selection: {
+        current: null,
+        style: '2px solid hsl(205, 100%, 50%)',
+        offset: '3px',
+      },
+      drag: {
+        state: false,
+        deltaX: 0,
+        deltay: 0,
+      },
+    };
   }
 
   /**
@@ -36,7 +52,7 @@ class DefaultDrawer {
   draw(parentId = '#root', components = []) {
     const componentsSelection = this.d3.select(parentId)
       .selectAll('.component')
-      .data(components, (data) => data);
+      .data(components, (data) => data.id);
     const svgContainer = componentsSelection.enter().append('svg');
 
     svgContainer.each((_data, index, array) => {
@@ -67,11 +83,135 @@ class DefaultDrawer {
         }
       });
 
-    this.moveComponent(svgContainer);
+    this.setViewPortAction(this.d3.select('#viewport'));
+
+    components.forEach((component) => {
+      this.setComponentAction(component);
+    });
 
     componentsSelection.exit()
       .remove();
     return true;
+  }
+
+  /**
+   * Set actions on viewport.
+   * @param {Object} d3Element - D3 selected element.
+   */
+  setViewPortAction(d3Element) {
+    d3Element.on('mousedown', () => {
+      this.__unselectComponent();
+    });
+  }
+
+  /**
+   * Set actions on component.
+   * @param {Component} component - Component to set actions.
+   */
+  setComponentAction(component) {
+    const element = this.d3.select(`#${component.id}`);
+    element.call(
+      this.d3.drag()
+        .on('start', (event) => {
+          this.__dragStart(event, component, element);
+        })
+        .on('drag', (event) => {
+          this.__selectComponent(component.id);
+          this.__dragPending(event, component, element);
+        })
+        .on('end', (event) => {
+          if (!this.actions.drag.state) {
+            this.__toggleComponentSelection(event.subject.id);
+          }
+          this.__dragEnd(element);
+        }),
+    );
+  }
+
+  /**
+   * Action to make on drag start event.
+   * @param {Object} event - Drag event.
+   * @param {Component} component - Component related to the action.
+   * @param {Object} d3Element - D3 element related to the action.
+   * @private
+   */
+  __dragStart(event, component, d3Element) {
+    this.actions.drag.state = false;
+    this.d3.select('use')
+      .attr('xlink:href', `#${component.id}`);
+    this.actions.drag.deltaX = event.x - d3Element.attr('x');
+    this.actions.drag.deltaY = event.y - d3Element.attr('y');
+    d3Element.attr('cursor', 'grabbing');
+  }
+
+  /**
+   * Action to make on drag pending event.
+   * @param {Object} event - Drag event.
+   * @param {Component} component - Component related to the action.
+   * @param {Object} d3Element - D3 element related to the action.
+   * @private
+   */
+  __dragPending(event, component, element) {
+    this.actions.drag.state = true;
+    const x = event.x - this.actions.drag.deltaX;
+    const y = event.y - this.actions.drag.deltaY;
+
+    element.attr('x', x).attr('y', y);
+    component.drawOption.x = x;
+    component.drawOption.y = y;
+  }
+
+  /**
+   * Action to make on drag end event.
+   * @param {Object} event - Drag event.
+   * @param {Component} component - Component related to the action.
+   * @param {Object} d3Element - D3 element related to the action.
+   * @private
+   */
+  __dragEnd(element) {
+    element.attr('cursor', 'grab');
+    this.actions.drag.state = false;
+    this.actions.drag.deltaX = 0;
+    this.actions.drag.deltaY = 0;
+  }
+
+  /**
+   * Action to unselect current element, if no element is selected, it's doing nothing.
+   * @private
+   */
+  __unselectComponent() {
+    if (this.actions.selection.current) {
+      this.d3.select(`#${this.actions.selection.current}`)
+        .style('outline', '');
+      this.actions.selection.current = null;
+    }
+  }
+
+  /**
+   * Unselect current selected element and select element by its id.
+   * @param {String} id - Id of component to select.
+   * @private
+   */
+  __selectComponent(id) {
+    this.__unselectComponent();
+
+    this.d3.select(`#${id}`)
+      .style('outline', this.actions.selection.style)
+      .style('outline-offset', this.actions.selection.offset);
+    this.actions.selection.current = id;
+  }
+
+  /**
+   * Toggle element selection by id.
+   * @param {String} id - Id of component to select.
+   * @private
+   */
+  __toggleComponentSelection(id) {
+    if (this.actions.selection.current === id) {
+      this.__unselectComponent();
+    } else {
+      this.__selectComponent(id);
+    }
   }
 
   /**
@@ -158,39 +298,6 @@ class DefaultDrawer {
     svgContainer.attr('cursor', 'grab');
     svgContainer.select('.component-name').text((data) => data.name);
     svgContainer.select('.component-type').text((data) => data.definition.type);
-  }
-
-  /**
-   * Method to move component in the modelizer with mouse.
-   * @param {Object} svgContainer - HTML elements selected by D3.js.
-   */
-  moveComponent(svgContainer) {
-    let deltaX = 0;
-    let deltaY = 0;
-    let currentComponent = null;
-    svgContainer.each((_data, index, array) => {
-      this.d3.select(array[index]).call(
-        this.d3.drag()
-          .on('start', (event) => {
-            currentComponent = this.d3.select(`#${event.subject.id}`);
-            this.d3.select('use')
-              .attr('xlink:href', `#${event.subject.id}`);
-            deltaX = event.x - currentComponent.attr('x');
-            deltaY = event.y - currentComponent.attr('y');
-            currentComponent.attr('cursor', 'grabbing');
-          })
-          .on('drag', (event) => {
-            currentComponent
-              .attr('x', event.x - deltaX)
-              .attr('y', event.y - deltaY);
-          })
-          .on('end', (event) => {
-            currentComponent.attr('cursor', 'grab');
-            event.subject.drawOption.x = currentComponent.attr('x');
-            event.subject.drawOption.y = currentComponent.attr('y');
-          }),
-      );
-    });
   }
 }
 
