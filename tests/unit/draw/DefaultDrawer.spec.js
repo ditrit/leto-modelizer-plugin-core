@@ -37,10 +37,20 @@ describe('Test Class: DefaultDrawer()', () => {
     });
 
     it('Draw should call the internal methods', () => {
-      drawer.draw([]);
+      drawer.drawCustomModel = jest.fn();
+      drawer.draw('', [{
+        definition: { svgTemplate: 'DefaultModel' },
+      }, {
+        definition: { svgTemplate: null },
+      }, {
+        definition: { svgTemplate: 'CustomModel' },
+      }, {
+        definition: { svgTemplate: 'bad' },
+      }]);
 
       expect(drawer.initializeComponents).toBeCalled();
-      expect(drawer.drawDefaultModel).toBeCalled();
+      expect(drawer.drawDefaultModel).toBeCalledTimes(3);
+      expect(drawer.drawCustomModel).toBeCalled();
     });
   });
 

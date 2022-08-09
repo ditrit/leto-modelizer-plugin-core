@@ -39,8 +39,8 @@ class DefaultDrawer {
       .data(components, (data) => data);
     const svgContainer = componentsSelection.enter().append('svg');
 
-    svgContainer.attr('class', 'component');
     svgContainer.each((_data, index, array) => {
+      this.d3.select(array[index]).attr('class', `component component-${_data.definition.svgTemplate}`);
       const model = this.resources.models[_data.definition.svgTemplate]
         || this.resources.models.DefaultModel;
       this.d3.select(array[index])
@@ -54,8 +54,20 @@ class DefaultDrawer {
     });
 
     this.initializeComponents(components, svgContainer);
+
+    [...new Set(components.map((component) => component.definition.svgTemplate))]
+      .forEach((template) => {
+        const svg = this.d3.select(parentId)
+          .selectAll(`.component-${template}`);
+
+        if (this[`draw${template}`]) {
+          this[`draw${template}`](svg);
+        } else {
+          this.drawDefaultModel(svg);
+        }
+      });
+
     this.moveComponent(svgContainer);
-    this.drawDefaultModel(svgContainer);
 
     componentsSelection.exit()
       .remove();
