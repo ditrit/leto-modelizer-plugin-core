@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add functions to set default component position.
 - Add `moveComponent` method to move svg components in modelizer.
 - Have specific draw method for template
+- Add outline display on select graphical component
 
 ## [0.1.0] - 2022-07-07
 
