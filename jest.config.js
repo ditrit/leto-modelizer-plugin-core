@@ -17,6 +17,7 @@ module.exports = {
   moduleFileExtensions: ['js'],
   moduleNameMapper: {
     '^src/(.*)$': '<rootDir>/src/$1',
+    '^tests/(.*)$': '<rootDir>/tests/$1',
   },
   // transform: {
   //   ".*\\.js$": "babel-jest",

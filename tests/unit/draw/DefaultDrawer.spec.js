@@ -1,5 +1,6 @@
 import DefaultDrawer from 'src/draw/DefaultDrawer';
 import ComponentDrawOption from 'src/models/ComponentDrawOption';
+import mockD3 from 'tests/mock/D3Mock';
 
 describe('Test Class: DefaultDrawer()', () => {
   describe('Test instanciate', () => {
@@ -21,17 +22,7 @@ describe('Test Class: DefaultDrawer()', () => {
 
     beforeEach(() => {
       drawer = new DefaultDrawer();
-      drawer.d3 = {
-        select: jest.fn(() => drawer.d3),
-        selectAll: jest.fn(() => drawer.d3),
-        data: jest.fn(() => drawer.d3),
-        enter: jest.fn(() => drawer.d3),
-        append: jest.fn(() => drawer.d3),
-        attr: jest.fn(() => drawer.d3),
-        each: jest.fn(() => drawer.d3),
-        exit: jest.fn(() => drawer.d3),
-        remove: jest.fn(() => drawer.d3),
-      };
+      drawer.d3 = mockD3(jest);
       drawer.initializeComponents = jest.fn();
       drawer.drawDefaultModel = jest.fn();
     });
@@ -159,11 +150,8 @@ describe('Test Class: DefaultDrawer()', () => {
 
     beforeEach(() => {
       drawer = new DefaultDrawer();
-      drawer.d3 = {
-        select: jest.fn(() => drawer.d3),
-        node: jest.fn(() => drawer.d3),
-        getBBox: jest.fn().mockReturnValue({ width: 1, height: 2 }),
-      };
+      drawer.d3 = mockD3(jest);
+      drawer.d3.getBBox = jest.fn().mockReturnValue({ width: 1, height: 2 });
     });
 
     it('Should return object contains not null width and height', () => {
@@ -182,11 +170,7 @@ describe('Test Class: DefaultDrawer()', () => {
 
     beforeEach(() => {
       drawer = new DefaultDrawer();
-      svgContainer = {
-        attr: jest.fn(() => svgContainer),
-        select: jest.fn(() => svgContainer),
-        text: jest.fn(() => svgContainer),
-      };
+      svgContainer = mockD3(jest);
     });
 
     it('drawDefaultModel should setup default svgContainer', () => {
@@ -204,51 +188,222 @@ describe('Test Class: DefaultDrawer()', () => {
     });
   });
 
-  describe('Test method: moveComponent()', () => {
+  describe('Test method: setViewPortAction', () => {
     let drawer;
-    let svgContainer;
+    let actionCallBack;
+
+    beforeEach(() => {
+      actionCallBack = {};
+      drawer = new DefaultDrawer();
+      drawer.__unselectComponent = jest.fn();
+      drawer.d3 = mockD3(jest);
+      drawer.d3.on = jest.fn((name, callback) => {
+        actionCallBack[name] = callback;
+        return drawer.d3;
+      });
+    });
+
+    it('Viewport click should call unselect component action', () => {
+      drawer.setViewPortAction(drawer.d3);
+      expect(Object.keys(actionCallBack).length).toEqual(1);
+      expect(actionCallBack.mousedown).not.toBeNull();
+
+      actionCallBack.mousedown();
+      expect(drawer.__unselectComponent).toBeCalled();
+    });
+  });
+
+  describe('Test method: setComponentAction', () => {
+    let drawer;
+    let actionCallBack;
+
+    beforeEach(() => {
+      actionCallBack = {};
+      drawer = new DefaultDrawer();
+      drawer.__dragStart = jest.fn();
+      drawer.__dragPending = jest.fn();
+      drawer.__dragEnd = jest.fn();
+      drawer.__selectComponent = jest.fn();
+      drawer.__toggleComponentSelection = jest.fn();
+      drawer.d3 = mockD3(jest);
+      drawer.d3.on = jest.fn((name, callback) => {
+        actionCallBack[name] = callback;
+        return drawer.d3;
+      });
+    });
+
+    it('Should setup 3 events', () => {
+      drawer.setComponentAction({});
+
+      expect(drawer.d3.select).toBeCalled();
+      expect(drawer.d3.call).toBeCalled();
+      expect(drawer.d3.on).toBeCalledTimes(3);
+      expect(Object.keys(actionCallBack).length).toEqual(3);
+    });
+
+    it('Event drag start should call dragStart method', () => {
+      drawer.setComponentAction({});
+      actionCallBack.start();
+      expect(drawer.__dragStart).toBeCalled();
+      expect(drawer.__dragPending).not.toBeCalled();
+      expect(drawer.__dragEnd).not.toBeCalled();
+      expect(drawer.__selectComponent).not.toBeCalled();
+      expect(drawer.__toggleComponentSelection).not.toBeCalled();
+    });
+
+    it('Event drag pending should call dragPending and selectComponent methods', () => {
+      drawer.setComponentAction({});
+      actionCallBack.drag();
+      expect(drawer.__dragPending).toBeCalled();
+      expect(drawer.__selectComponent).toBeCalled();
+      expect(drawer.__dragStart).not.toBeCalled();
+      expect(drawer.__dragEnd).not.toBeCalled();
+      expect(drawer.__toggleComponentSelection).not.toBeCalled();
+    });
+
+    it('Event drag end with drag action should call dragEnd method', () => {
+      drawer.actions.drag.state = true;
+      drawer.setComponentAction({});
+      actionCallBack.end({ subject: { id: 1 } });
+      expect(drawer.__dragEnd).toBeCalled();
+      expect(drawer.__dragStart).not.toBeCalled();
+      expect(drawer.__dragPending).not.toBeCalled();
+      expect(drawer.__selectComponent).not.toBeCalled();
+      expect(drawer.__toggleComponentSelection).not.toBeCalled();
+    });
+
+    it('Event drag end without drag action should call dragEnd and toggleComponentSelection method', () => {
+      drawer.actions.drag.state = false;
+      drawer.setComponentAction({});
+      actionCallBack.end({ subject: { id: 1 } });
+      expect(drawer.__dragEnd).toBeCalled();
+      expect(drawer.__toggleComponentSelection).toBeCalled();
+      expect(drawer.__dragStart).not.toBeCalled();
+      expect(drawer.__dragPending).not.toBeCalled();
+      expect(drawer.__selectComponent).not.toBeCalled();
+    });
+  });
+
+  describe('Test actions', () => {
+    let drawer;
+    let component;
 
     beforeEach(() => {
       drawer = new DefaultDrawer();
-      svgContainer = {
-        each: jest.fn(() => svgContainer)
-          .mockImplementation((arg) => arg(null, 0, [])),
-      };
-      drawer.d3 = {
-        attr: jest.fn(() => drawer.d3),
-        select: jest.fn(() => drawer.d3),
-        call: jest.fn(() => drawer.d3),
-        drag: jest.fn(() => drawer.d3),
-        on: jest.fn((name, callback) => {
-          callback({ x: 0, y: 0, subject: { id: 1, drawOption: { x: 0, y: 0 } } });
-          return drawer.d3;
-        }),
+      drawer.d3 = mockD3(jest);
+      component = {
+        id: 1,
+        drawOption: {
+          x: null,
+          y: null,
+        },
       };
     });
 
-    it('Should call every d3 methods', () => {
-      drawer.moveComponent(svgContainer);
+    it('Test action: __dragStart', () => {
+      drawer.actions.drag.state = null;
+      drawer.actions.drag.deltaX = null;
+      drawer.actions.drag.deltaY = null;
+      drawer.__dragStart(
+        { x: 2, y: 3 },
+        component,
+        {
+          attr() {
+            return 1;
+          },
+        },
+      );
+      expect(drawer.actions.drag.state).toBeFalsy();
+      expect(drawer.actions.drag.deltaX).toEqual(1);
+      expect(drawer.actions.drag.deltaY).toEqual(2);
+      expect(drawer.d3.select).toBeCalled();
+      expect(drawer.d3.attr).toBeCalled();
+    });
 
-      expect(drawer.d3.drag).toBeCalled();
-      expect(svgContainer.each).toBeCalledTimes(1);
-      expect(drawer.d3.select).toBeCalledTimes(3);
-      expect(drawer.d3.call).toBeCalled();
+    it('Test action: __dragPending', () => {
+      drawer.actions.drag.state = null;
+      drawer.actions.drag.deltaX = 1;
+      drawer.actions.drag.deltaY = 2;
+      const element = mockD3(jest);
+      drawer.__dragPending(
+        { x: 5, y: 4 },
+        component,
+        element,
+      );
+      expect(drawer.actions.drag.state).toBeTruthy();
+      expect(component.drawOption.x).toEqual(4);
+      expect(component.drawOption.y).toEqual(2);
+      expect(element.attr).toBeCalledTimes(2);
+    });
 
-      expect(drawer.d3.on).toBeCalledTimes(3);
-      expect(drawer.d3.on.mock.calls[0][0]).toBe('start');
-      expect(drawer.d3.on.mock.calls[1][0]).toBe('drag');
-      expect(drawer.d3.on.mock.calls[2][0]).toBe('end');
+    it('Test action: __dragEnd', () => {
+      drawer.actions.drag.state = null;
+      drawer.actions.drag.deltaX = null;
+      drawer.actions.drag.deltaY = null;
+      const element = mockD3(jest);
+      drawer.__dragEnd(
+        element,
+      );
+      expect(drawer.actions.drag.state).toBeFalsy();
+      expect(drawer.actions.drag.deltaX).toEqual(0);
+      expect(drawer.actions.drag.deltaY).toEqual(0);
+      expect(element.attr).toBeCalled();
+    });
 
-      expect(drawer.d3.attr).toBeCalledTimes(9);
-      expect(drawer.d3.attr.mock.calls[0][0]).toBe('xlink:href');
-      expect(drawer.d3.attr.mock.calls[1][0]).toBe('x');
-      expect(drawer.d3.attr.mock.calls[2][0]).toBe('y');
-      expect(drawer.d3.attr.mock.calls[3][0]).toBe('cursor');
-      expect(drawer.d3.attr.mock.calls[4][0]).toBe('x');
-      expect(drawer.d3.attr.mock.calls[5][0]).toBe('y');
-      expect(drawer.d3.attr.mock.calls[6][0]).toBe('cursor');
-      expect(drawer.d3.attr.mock.calls[7][0]).toBe('x');
-      expect(drawer.d3.attr.mock.calls[8][0]).toBe('y');
+    describe('Test action: __unselectComponent', () => {
+      it('On no selected component should do nothing', () => {
+        drawer.actions.selection.current = null;
+        drawer.__unselectComponent();
+
+        expect(drawer.actions.selection.current).toBeNull();
+        expect(drawer.d3.select).not.toBeCalled();
+        expect(drawer.d3.style).not.toBeCalled();
+      });
+
+      it('On selected component should unselect it', () => {
+        drawer.actions.selection.current = 'id1';
+        drawer.__unselectComponent();
+
+        expect(drawer.actions.selection.current).toBeNull();
+        expect(drawer.d3.select).toBeCalled();
+        expect(drawer.d3.style).toBeCalled();
+      });
+    });
+
+    it('Test action: __selectComponent', () => {
+      drawer.actions.selection.current = null;
+      drawer.__unselectComponent = jest.fn();
+
+      drawer.__selectComponent('id1');
+
+      expect(drawer.actions.selection.current).toEqual('id1');
+      expect(drawer.__unselectComponent).toBeCalled();
+      expect(drawer.d3.select).toBeCalled();
+      expect(drawer.d3.style).toBeCalledTimes(2);
+    });
+
+    describe('Test action: __toggleComponentSelection', () => {
+      it('Toggle selection should unselect the same id', () => {
+        drawer.actions.selection.current = 'id1';
+        drawer.__selectComponent = jest.fn();
+        drawer.__unselectComponent = jest.fn();
+
+        drawer.__toggleComponentSelection('id1');
+
+        expect(drawer.__selectComponent).not.toBeCalled();
+        expect(drawer.__unselectComponent).toBeCalled();
+      });
+
+      it('Toggle selection should select another id', () => {
+        drawer.actions.selection.current = 'id1';
+        drawer.__selectComponent = jest.fn();
+        drawer.__unselectComponent = jest.fn();
+
+        drawer.__toggleComponentSelection('id2');
+
+        expect(drawer.__selectComponent).toBeCalled();
+        expect(drawer.__unselectComponent).not.toBeCalled();
+      });
     });
   });
 });

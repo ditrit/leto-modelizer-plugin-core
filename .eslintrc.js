@@ -29,6 +29,7 @@ module.exports = {
     'linebreak-style': ['error', 'unix'],
     'class-methods-use-this': 'off',
     'no-param-reassign': 'off',
+    'no-underscore-dangle': 'off',
     'no-void': 'off',
     'no-nested-ternary': 'off',
     'max-classes-per-file': 'off',
