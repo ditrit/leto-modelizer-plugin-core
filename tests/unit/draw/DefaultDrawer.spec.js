@@ -1,5 +1,6 @@
 import DefaultDrawer from 'src/draw/DefaultDrawer';
 import ComponentDrawOption from 'src/models/ComponentDrawOption';
+import mockD3 from 'tests/mock/D3Mock';
 
 describe('Test Class: DefaultDrawer()', () => {
   describe('Test instanciate', () => {
@@ -21,17 +22,7 @@ describe('Test Class: DefaultDrawer()', () => {
 
     beforeEach(() => {
       drawer = new DefaultDrawer();
-      drawer.d3 = {
-        select: jest.fn(() => drawer.d3),
-        selectAll: jest.fn(() => drawer.d3),
-        data: jest.fn(() => drawer.d3),
-        enter: jest.fn(() => drawer.d3),
-        append: jest.fn(() => drawer.d3),
-        attr: jest.fn(() => drawer.d3),
-        each: jest.fn(() => drawer.d3),
-        exit: jest.fn(() => drawer.d3),
-        remove: jest.fn(() => drawer.d3),
-      };
+      drawer.d3 = mockD3(jest);
       drawer.initializeComponents = jest.fn();
       drawer.drawDefaultModel = jest.fn();
     });
@@ -159,11 +150,8 @@ describe('Test Class: DefaultDrawer()', () => {
 
     beforeEach(() => {
       drawer = new DefaultDrawer();
-      drawer.d3 = {
-        select: jest.fn(() => drawer.d3),
-        node: jest.fn(() => drawer.d3),
-        getBBox: jest.fn().mockReturnValue({ width: 1, height: 2 }),
-      };
+      drawer.d3 = mockD3(jest);
+      drawer.d3.getBBox = jest.fn().mockReturnValue({ width: 1, height: 2 });
     });
 
     it('Should return object contains not null width and height', () => {
@@ -182,11 +170,7 @@ describe('Test Class: DefaultDrawer()', () => {
 
     beforeEach(() => {
       drawer = new DefaultDrawer();
-      svgContainer = {
-        attr: jest.fn(() => svgContainer),
-        select: jest.fn(() => svgContainer),
-        text: jest.fn(() => svgContainer),
-      };
+      svgContainer = mockD3(jest);
     });
 
     it('drawDefaultModel should setup default svgContainer', () => {
@@ -210,21 +194,15 @@ describe('Test Class: DefaultDrawer()', () => {
 
     beforeEach(() => {
       drawer = new DefaultDrawer();
+      drawer.d3 = mockD3(jest);
+      drawer.d3.on = jest.fn((name, callback) => {
+        callback({ x: 0, y: 0, subject: { id: 1, drawOption: { x: 0, y: 0 } } });
+        return drawer.d3;
+      });
       svgContainer = {
         each: jest.fn(() => svgContainer)
           .mockImplementation((arg) => arg(null, 0, [])),
       };
-      drawer.d3 = {
-        attr: jest.fn(() => drawer.d3),
-        select: jest.fn(() => drawer.d3),
-        call: jest.fn(() => drawer.d3),
-        drag: jest.fn(() => drawer.d3),
-        on: jest.fn((name, callback) => {
-          callback({ x: 0, y: 0, subject: { id: 1, drawOption: { x: 0, y: 0 } } });
-          return drawer.d3;
-        }),
-      };
-    });
 
     it('Should call every d3 methods', () => {
       drawer.moveComponent(svgContainer);
