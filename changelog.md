@@ -10,18 +10,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Workflow to deploy documentation on Github pages
-
-### Changed
-
-- Improve all class models and their individual tests.
-- Remove function renderString for SVG template.
 - Create default class structure draw/metadata/parser/render and their individual tests.
-- Add default error for parser.
-- Add `draw` and `drawDefaultModel` methods to DefaultDrawer.js.
+- Add default error for parser
+- Add `Draw` and `drawDefaultModel` methods to DefaultDrawer.js
+- Add functions to set default component position.
 - Add functions to set default component position.
 - Add `moveComponent` method to move svg components in modelizer.
 - Have specific draw method for template
 - Add outline display on select graphical component
+
+### Changed
+
+- Improve all class models and their individual tests.
+
+### Removed
+
+- Remove function renderString for SVG template.
 
 ## [0.1.0] - 2022-07-07
 
