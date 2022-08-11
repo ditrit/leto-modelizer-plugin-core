@@ -8,9 +8,15 @@ import ComponentDrawOption from 'src/models/ComponentDrawOption';
 class DefaultDrawer {
   /**
    * Default constructor
-   * @param {Object} resources - Object that contains resources.
+   * @param {String} [parentId="#root"] - Id of HTML element where we want to draw.
+   * @param {Object} [resources=null] - Object that contains resources.
    */
-  constructor(resources = null) {
+  constructor(parentId = '#root', resources = null) {
+    /**
+     * Id of HTML element where we want to draw.
+     * @type {String}
+     */
+    this.parentId = parentId;
     /**
      * Object that contains resources.
      * @type {Object}
@@ -49,48 +55,18 @@ class DefaultDrawer {
    * @param {Component[]} [components=[]] - List of components we want to draw.
    * @return {Boolean} Return true if normally execute.
    */
-  draw(parentId = '#root', components = []) {
-    const componentsSelection = this.d3.select(parentId)
+  draw(components = []) {
+    const d3Element = this.d3.select(this.parentId)
       .selectAll('.component')
       .data(components, (data) => data.id);
-    const svgContainer = componentsSelection.enter().append('svg');
 
-    svgContainer.each((_data, index, array) => {
-      this.d3.select(array[index]).attr('class', `component component-${_data.definition.svgTemplate}`);
-      const model = this.resources.models[_data.definition.svgTemplate]
-        || this.resources.models.DefaultModel;
-      this.d3.select(array[index])
-        .node().innerHTML = model;
-
-      const icon = this.resources.icons[_data.definition.icon]
-        || this.resources.icons.DefaultIcon;
-      this.d3.select(array[index])
-        .select('.component-icon')
-        .node().innerHTML = icon;
-    });
-
-    this.initializeComponents(components, svgContainer);
-
-    [...new Set(components.map((component) => component.definition.svgTemplate))]
-      .forEach((template) => {
-        const svg = this.d3.select(parentId)
-          .selectAll(`.component-${template}`);
-
-        if (this[`draw${template}`]) {
-          this[`draw${template}`](svg);
-        } else {
-          this.drawDefaultModel(svg);
-        }
-      });
-
+    this.initializeComponents(components, d3Element);
     this.setViewPortAction(this.d3.select('#viewport'));
 
     components.forEach((component) => {
       this.setComponentAction(component);
     });
 
-    componentsSelection.exit()
-      .remove();
     return true;
   }
 
@@ -217,18 +193,32 @@ class DefaultDrawer {
   /**
    * Initialize all draw option of the components.
    * @param {Component[]} components - List of Components.
-   * @param {Object} svgContainer - D3 Object contains components SVGs.
+   * @param {Object} d3Element - D3 selected element.
    */
-  initializeComponents(components, svgContainer) {
-    const componentsToInit = [];
-    const componentMaxSize = { width: 0, height: 0 };
-
-    svgContainer.each((_data, index, array) => {
-      const component = components[index];
+  initializeComponents(components, d3Element) {
+    const componentsToInit = components.filter((component) => {
       if (!component.drawOption) {
         component.drawOption = new ComponentDrawOption();
-        componentsToInit.push(components[index]);
+        return true;
       }
+      return false;
+    });
+    const componentMaxSize = { width: 0, height: 0 };
+    const templates = [
+      ...new Set(components.map((component) => component.definition.svgTemplate)),
+    ];
+    const d3Elements = d3Element
+      .enter().append('svg');
+
+    d3Element.exit().remove();
+
+    d3Elements
+      .attr('id', (data) => data.id)
+      .attr('class', (data) => `component component-${data.definition.svgTemplate}`)
+      .html((data) => this.resources.models[data.definition.svgTemplate]);
+
+    d3Elements.each((_data, index, array) => {
+      const component = components[index];
       this.storeComponentSize(array[index], component);
       if (component.drawOption.width > componentMaxSize.width) {
         componentMaxSize.width = component.drawOption.width;
@@ -247,6 +237,14 @@ class DefaultDrawer {
         componentMaxSize,
       ));
     }
+    templates.forEach((template) => {
+      const elements = this.d3.selectAll(`${this.parentId} .component-${template}`);
+      if (this[`draw${template}`]) {
+        this[`draw${template}`](elements);
+      } else {
+        this.drawDefaultModel(elements);
+      }
+    });
   }
 
   /**
@@ -268,37 +266,39 @@ class DefaultDrawer {
 
   /**
    * Set size of the component from the reel size of the svg model.
-   * @param {Object} svgItem - HTML element selected contained svgContainer.
+   * @param {Object} d3Element - HTML element selected contained d3Element.
    * @param {Component} component - Component object we want to set the size.
    */
-  storeComponentSize(svgItem, component) {
-    const { width, height } = this.getComponentSize(svgItem);
+  storeComponentSize(d3Element, component) {
+    const { width, height } = this.getComponentSize(d3Element);
     component.drawOption.width = width;
     component.drawOption.height = height;
   }
 
   /**
    * Return the width and height of a component SVG.
-   * @param {Object} svgItem - HTML element contained by svgContainer.
+   * @param {Object} d3Element - HTML element contained by d3Element.
    * @return {Object} Return the object that contains max width and height.
    */
-  getComponentSize(svgItem) {
-    const bBox = this.d3.select(svgItem).node().getBBox();
+  getComponentSize(d3Element) {
+    const bBox = this.d3.select(d3Element).node().getBBox();
     return { width: bBox.width, height: bBox.height };
   }
 
   /**
    * Draw component with default template.
-   * @param {Object} svgContainer - HTML elements selected by D3.js.
+   * @param {Object} d3Element - D3 selected element.
    */
-  drawDefaultModel(svgContainer) {
-    svgContainer.attr('id', (data) => data.id);
-    svgContainer.attr('x', (data) => data.drawOption.x);
-    svgContainer.attr('y', (data) => data.drawOption.y);
-    svgContainer.attr('cursor', 'grab');
-    svgContainer.select('.component-name').text((data) => data.name);
-    svgContainer.select('.component-type').text((data) => data.definition.type);
+  drawDefaultModel(d3Element) {
+    d3Element
+      .attr('x', (data) => data.drawOption.x)
+      .attr('y', (data) => data.drawOption.y)
+      .attr('cursor', 'grab');
+
+    d3Element.select('.component-name').text((data) => data.name);
+    d3Element.select('.component-type').text((data) => data.definition.type);
+    d3Element.select('.component-icon')
+      .html((data) => this.resources.icons[data.definition.icon]);
   }
 }
-
 export default DefaultDrawer;

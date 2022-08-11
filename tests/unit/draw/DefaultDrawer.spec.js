@@ -11,25 +11,48 @@ describe('Test Class: DefaultDrawer()', () => {
     });
 
     it('Test passing value in constructor', () => {
-      const drawer = new DefaultDrawer('test');
-      expect(drawer.resources).toEqual('test');
+      const drawer = new DefaultDrawer('parentId', 'resources');
+      expect(drawer.parentId).toEqual('parentId');
+      expect(drawer.resources).toEqual('resources');
       expect(drawer.d3).not.toBeNull();
+      expect(drawer.margin).toEqual(10);
+      expect(drawer.actions).not.toBeNull();
     });
   });
 
   describe('Test method: draw', () => {
     let drawer;
+    let actionCallBack;
 
     beforeEach(() => {
+      actionCallBack = { data: {} };
       drawer = new DefaultDrawer();
       drawer.d3 = mockD3(jest);
       drawer.initializeComponents = jest.fn();
-      drawer.drawDefaultModel = jest.fn();
+      drawer.setViewPortAction = jest.fn();
+      drawer.setComponentAction = jest.fn();
+      drawer.d3.data = jest.fn((components, data) => {
+        actionCallBack.data = data;
+        return drawer.d3;
+      });
+    });
+
+    it('Call draw method without components', () => {
+      drawer.draw();
+
+      expect(drawer.d3.select).toBeCalledTimes(2);
+      expect(drawer.d3.selectAll).toBeCalledTimes(1);
+      expect(drawer.d3.data).toBeCalledTimes(1);
+      expect(actionCallBack.data({ id: 'id' })).toEqual('id');
+      expect(drawer.initializeComponents).toBeCalledTimes(1);
+      expect(drawer.setViewPortAction).toBeCalledTimes(1);
+      expect(drawer.setComponentAction).not.toBeCalled();
     });
 
     it('Draw should call the internal methods', () => {
       drawer.drawCustomModel = jest.fn();
-      drawer.draw('', [{
+      drawer.draw([{
+        id: 'id',
         definition: { svgTemplate: 'DefaultModel' },
       }, {
         definition: { svgTemplate: null },
@@ -39,40 +62,79 @@ describe('Test Class: DefaultDrawer()', () => {
         definition: { svgTemplate: 'bad' },
       }]);
 
-      expect(drawer.initializeComponents).toBeCalled();
-      expect(drawer.drawDefaultModel).toBeCalledTimes(3);
-      expect(drawer.drawCustomModel).toBeCalled();
+      expect(drawer.d3.select).toBeCalledTimes(2);
+      expect(drawer.d3.selectAll).toBeCalledTimes(1);
+      expect(drawer.d3.data).toBeCalledTimes(1);
+      expect(actionCallBack.data({ id: 'id' })).toEqual('id');
+      expect(drawer.initializeComponents).toBeCalledTimes(1);
+      expect(drawer.setViewPortAction).toBeCalledTimes(1);
+      expect(drawer.setComponentAction).toBeCalledTimes(4);
     });
   });
 
   describe('Test method: initializeComponents', () => {
     let drawer;
+    let component00;
     let component01;
     let component02;
-    let svgContainer;
+    let d3Element;
+    let actionCallBack;
 
     beforeEach(() => {
+      actionCallBack = { attr: {}, html: {} };
       document.body.innerHTML = '<svg id="viewport"></svg>';
-      drawer = new DefaultDrawer();
+      drawer = new DefaultDrawer('#root', { models: { DefaultModel: 'test' } });
       drawer.storeComponentSize = jest.fn();
       drawer.setComponentPosition = jest.fn();
-      component01 = { drawOption: null };
-      component02 = { drawOption: new ComponentDrawOption() };
-      svgContainer = {
-        each: jest.fn(() => svgContainer)
-          .mockImplementation((arg) => arg(null, 0, [])),
-      };
+      component00 = { drawOption: { width: 10, height: 10 }, definition: { svgTemplate: 'DefaultModel' } };
+      component01 = { drawOption: null, definition: { svgTemplate: 'template' } };
+      component02 = { drawOption: new ComponentDrawOption(), definition: { svgTemplate: 'template' } };
+      d3Element = mockD3(jest);
+      drawer.d3 = mockD3(jest);
+      d3Element.each = jest.fn((callback) => {
+        actionCallBack.each = callback;
+        return d3Element;
+      });
+      d3Element.attr = jest.fn((name, callback) => {
+        actionCallBack.attr[name] = callback;
+        return d3Element;
+      });
+      d3Element.html = jest.fn((callback) => {
+        actionCallBack.html = callback;
+        return d3Element;
+      });
     });
 
     it('Should call every internal methods and set a drawOption if null', () => {
       drawer.storeComponentSize.mockImplementation((list, component) => {
-        component.drawOption.width = 0;
-        component.drawOption.height = 0;
+        component.drawOption.width = 10;
+        component.drawOption.height = 10;
       });
-      drawer.initializeComponents([component01], svgContainer);
+      drawer.initializeComponents([component00, component01], d3Element);
+      actionCallBack.each(null, 0, [0]);
+      actionCallBack.each(null, 1, [0]);
+
+      expect(d3Element.enter).toBeCalledTimes(1);
+      expect(d3Element.append).toBeCalledTimes(1);
+      expect(d3Element.append.mock.calls[0][0]).toBe('svg');
+      expect(d3Element.exit).toBeCalledTimes(1);
+      expect(d3Element.remove).toBeCalledTimes(1);
+
+      expect(actionCallBack.attr.id({ id: 'id' })).toEqual('id');
+      expect(actionCallBack.attr.class({ definition: { svgTemplate: 'DefaultModel' } }))
+        .toEqual('component component-DefaultModel');
+      expect(actionCallBack.html({ definition: { svgTemplate: 'DefaultModel' } }))
+        .toEqual('test');
+
+      expect(d3Element.each).toBeCalledTimes(1);
+
       expect(component01.drawOption).not.toEqual(null);
-      expect(drawer.storeComponentSize).toBeCalledTimes(1);
-      expect(drawer.setComponentPosition).toBeCalledTimes(1);
+
+      expect(d3Element.attr).toBeCalled();
+      expect(d3Element.html).toBeCalled();
+
+      expect(drawer.storeComponentSize).toBeCalled();
+      expect(drawer.setComponentPosition).toBeCalled();
     });
 
     it('Should not call setComponentPosition method', () => {
@@ -80,7 +142,7 @@ describe('Test Class: DefaultDrawer()', () => {
         component.drawOption.width = 1;
         component.drawOption.height = 1;
       });
-      drawer.initializeComponents([component02], svgContainer);
+      drawer.initializeComponents([component02], d3Element);
       expect(drawer.setComponentPosition).not.toBeCalled();
     });
   });
@@ -166,25 +228,48 @@ describe('Test Class: DefaultDrawer()', () => {
 
   describe('Test method: drawDefaultModel', () => {
     let drawer;
-    let svgContainer;
+    let d3Element;
+    let actionCallBack;
 
     beforeEach(() => {
-      drawer = new DefaultDrawer();
-      svgContainer = mockD3(jest);
+      actionCallBack = { attr: {}, html: {}, text: [] };
+      drawer = new DefaultDrawer('#root', { icons: { DefaultIcon: 'test' } });
+      d3Element = mockD3(jest);
+      d3Element.attr = jest.fn((name, callback) => {
+        actionCallBack.attr[name] = callback;
+        return d3Element;
+      });
+      d3Element.text = jest.fn((callback) => {
+        actionCallBack.text.push(callback);
+        return d3Element;
+      });
+      d3Element.html = jest.fn((callback) => {
+        actionCallBack.html = callback;
+        return d3Element;
+      });
     });
 
-    it('drawDefaultModel should setup default svgContainer', () => {
-      drawer.drawDefaultModel(svgContainer);
+    it('drawDefaultModel should setup default d3Element', () => {
+      drawer.drawDefaultModel(d3Element);
 
-      expect(svgContainer.attr).toBeCalledTimes(4);
-      expect(svgContainer.attr.mock.calls[0][0]).toBe('id');
-      expect(svgContainer.attr.mock.calls[1][0]).toBe('x');
-      expect(svgContainer.attr.mock.calls[2][0]).toBe('y');
-      expect(svgContainer.attr.mock.calls[3][0]).toBe('cursor');
+      expect(d3Element.attr).toBeCalledTimes(3);
+      expect(d3Element.attr.mock.calls[0][0]).toBe('x');
+      expect(d3Element.attr.mock.calls[1][0]).toBe('y');
+      expect(d3Element.attr.mock.calls[2][0]).toBe('cursor');
 
-      expect(svgContainer.select).toBeCalledTimes(2);
-      expect(svgContainer.text).toBeCalledTimes(2);
-      expect(svgContainer.select.mock.calls).toEqual([['.component-name'], ['.component-type']]);
+      expect(d3Element.select).toBeCalledTimes(3);
+      expect(d3Element.select.mock.calls[0][0]).toBe('.component-name');
+      expect(d3Element.select.mock.calls[1][0]).toBe('.component-type');
+      expect(d3Element.select.mock.calls[2][0]).toBe('.component-icon');
+
+      expect(d3Element.html).toBeCalledTimes(1);
+      expect(d3Element.text).toBeCalledTimes(2);
+      expect(actionCallBack.text[0]({ name: 'test-name' })).toEqual('test-name');
+      expect(actionCallBack.text[1]({ definition: { type: 'test-type' } })).toEqual('test-type');
+
+      expect(actionCallBack.attr.x({ drawOption: { x: 1 } })).toEqual(1);
+      expect(actionCallBack.attr.y({ drawOption: { y: 1 } })).toEqual(1);
+      expect(actionCallBack.html({ definition: { icon: 'DefaultIcon' } })).toEqual('test');
     });
   });
 
