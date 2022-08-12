@@ -4,7 +4,7 @@ export default function mockD3(jest) {
     'append', 'attr', 'call', 'data', 'drag',
     'each', 'enter', 'exit', 'getBBox', 'on',
     'remove', 'select', 'selectAll', 'style', 'select',
-    'text', 'node',
+    'text', 'node', 'html',
   ].forEach((method) => {
     d3[method] = jest.fn(() => d3);
   });
