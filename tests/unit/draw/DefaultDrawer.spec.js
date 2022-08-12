@@ -52,14 +52,13 @@ describe('Test Class: DefaultDrawer()', () => {
     it('Draw should call the internal methods', () => {
       drawer.drawCustomModel = jest.fn();
       drawer.draw([{
-        id: 'id',
-        definition: { svgTemplate: 'DefaultModel' },
+        definition: { model: 'DefaultModel' },
       }, {
-        definition: { svgTemplate: null },
+        definition: { model: null },
       }, {
-        definition: { svgTemplate: 'CustomModel' },
+        definition: { model: 'CustomModel' },
       }, {
-        definition: { svgTemplate: 'bad' },
+        definition: { model: 'bad' },
       }]);
 
       expect(drawer.d3.select).toBeCalledTimes(2);
@@ -86,9 +85,9 @@ describe('Test Class: DefaultDrawer()', () => {
       drawer = new DefaultDrawer('#root', { models: { DefaultModel: 'test' } });
       drawer.storeComponentSize = jest.fn();
       drawer.setComponentPosition = jest.fn();
-      component00 = { drawOption: { width: 10, height: 10 }, definition: { svgTemplate: 'DefaultModel' } };
-      component01 = { drawOption: null, definition: { svgTemplate: 'template' } };
-      component02 = { drawOption: new ComponentDrawOption(), definition: { svgTemplate: 'template' } };
+      component00 = { drawOption: { width: 10, height: 10 }, definition: { model: 'DefaultModel' } };
+      component01 = { drawOption: null, definition: { model: 'template' } };
+      component02 = { drawOption: new ComponentDrawOption(), definition: { model: 'template' } };
       d3Element = mockD3(jest);
       drawer.d3 = mockD3(jest);
       d3Element.each = jest.fn((callback) => {
@@ -121,9 +120,9 @@ describe('Test Class: DefaultDrawer()', () => {
       expect(d3Element.remove).toBeCalledTimes(1);
 
       expect(actionCallBack.attr.id({ id: 'id' })).toEqual('id');
-      expect(actionCallBack.attr.class({ definition: { svgTemplate: 'DefaultModel' } }))
+      expect(actionCallBack.attr.class({ definition: { model: 'DefaultModel' } }))
         .toEqual('component component-DefaultModel');
-      expect(actionCallBack.html({ definition: { svgTemplate: 'DefaultModel' } }))
+      expect(actionCallBack.html({ definition: { model: 'DefaultModel' } }))
         .toEqual('test');
 
       expect(d3Element.each).toBeCalledTimes(1);

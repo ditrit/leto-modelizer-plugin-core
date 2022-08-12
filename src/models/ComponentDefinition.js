@@ -7,7 +7,7 @@ class ComponentDefinition {
    *
    * @param {String} [props.type] - The type of the associated component.
    * @param {String} [props.icon] - The icon's name of this type of component.
-   * @param {String} [props.svgTemplate] - Name of SVG template to render this type of component.
+   * @param {String} [props.model] - Name of SVG template to render this type of component.
    * @param {String[]} [props.parentTypes=[]] - The list of types that can be the parent.
    * @param {ComponentAttributeDefinition[]} [props.definedAttributes=[]] - Defined attributes for
    * this type.
@@ -19,7 +19,7 @@ class ComponentDefinition {
   constructor(props = {
     type: null,
     icon: null,
-    svgTemplate: null,
+    model: null,
     parentTypes: [],
     definedAttributes: [],
     isContainer: false,
@@ -29,7 +29,7 @@ class ComponentDefinition {
     const {
       type,
       icon,
-      svgTemplate,
+      model,
       parentTypes,
       definedAttributes,
       isContainer,
@@ -47,15 +47,15 @@ class ComponentDefinition {
      */
     this.icon = icon || null;
     /**
-     * Name of SVG template to render this type of component.
+     * Name of SVG model to render this type of component.
+     * @type {String}
+     */
+    this.model = model || null;
+    /**
+     * The list of types that can be the parent.
      * @type {String[]}
      */
     this.parentTypes = parentTypes || [];
-    /**
-     * The list of types that can be the parent.
-     * @type {String}
-     */
-    this.svgTemplate = svgTemplate || null;
     /**
      * Defined attributes for this type.
      * @type {ComponentAttributeDefinition[]}

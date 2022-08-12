@@ -205,7 +205,7 @@ class DefaultDrawer {
     });
     const componentMaxSize = { width: 0, height: 0 };
     const templates = [
-      ...new Set(components.map((component) => component.definition.svgTemplate)),
+      ...new Set(components.map((component) => component.definition.model)),
     ];
     const d3Elements = d3Element
       .enter().append('svg');
@@ -214,8 +214,8 @@ class DefaultDrawer {
 
     d3Elements
       .attr('id', (data) => data.id)
-      .attr('class', (data) => `component component-${data.definition.svgTemplate}`)
-      .html((data) => this.resources.models[data.definition.svgTemplate]);
+      .attr('class', (data) => `component component-${data.definition.model}`)
+      .html((data) => this.resources.models[data.definition.model]);
 
     d3Elements.each((_data, index, array) => {
       const component = components[index];

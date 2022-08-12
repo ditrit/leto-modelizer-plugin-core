@@ -7,7 +7,7 @@ describe('Test class: ComponentDefinition', () => {
 
       expect(componentDefinition.type).toBeNull();
       expect(componentDefinition.icon).toBeNull();
-      expect(componentDefinition.svgTemplate).toBeNull();
+      expect(componentDefinition.model).toBeNull();
       expect(componentDefinition.parentTypes).toEqual([]);
       expect(componentDefinition.definedAttributes).toEqual([]);
       expect(componentDefinition.isContainer).toBeFalsy();
@@ -20,7 +20,7 @@ describe('Test class: ComponentDefinition', () => {
 
       expect(componentDefinition.type).toBeNull();
       expect(componentDefinition.icon).toBeNull();
-      expect(componentDefinition.svgTemplate).toBeNull();
+      expect(componentDefinition.model).toBeNull();
       expect(componentDefinition.parentTypes).toEqual([]);
       expect(componentDefinition.definedAttributes).toEqual([]);
       expect(componentDefinition.isContainer).toBeFalsy();
@@ -32,7 +32,7 @@ describe('Test class: ComponentDefinition', () => {
       const componentDefinition = new ComponentDefinition({
         type: 'type',
         icon: 'icon',
-        svgTemplate: 'svgTemplate',
+        model: 'model ',
         parentTypes: ['type'],
         definedAttributes: ['attribute'],
         isContainer: true,
@@ -42,7 +42,7 @@ describe('Test class: ComponentDefinition', () => {
 
       expect(componentDefinition.type).toEqual('type');
       expect(componentDefinition.icon).toEqual('icon');
-      expect(componentDefinition.svgTemplate).toEqual('svgTemplate');
+      expect(componentDefinition.model).toEqual('model ');
       expect(componentDefinition.parentTypes.length).toEqual(1);
       expect(componentDefinition.parentTypes[0]).toEqual('type');
       expect(componentDefinition.definedAttributes.length).toEqual(1);
