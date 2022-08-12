@@ -1,7 +1,10 @@
+import FileInformation from 'src/models/FileInformation';
+
 /**
  * A model for modelling tools in Leto Modelizer.
+ * @extends {FileInformation}
  */
-class Component {
+class Component extends FileInformation {
   /**
    * Default constructor.
    *
@@ -18,6 +21,7 @@ class Component {
     drawOption = null,
     attributes = [],
   ) {
+    super();
     /**
      * The id of this Component.
      * @type {String}

@@ -1,7 +1,10 @@
+import FileInformation from 'src/models/FileInformation';
+
 /**
  * Class that links Components together.
+ * @extends {FileInformation}
  */
-class ComponentLink {
+class ComponentLink extends FileInformation {
   /**
    * Default constructor.
    *
@@ -12,6 +15,7 @@ class ComponentLink {
    * @param {String} [type] - Representation of the link.
    */
   constructor(from = { id: null }, to = { id: null }, type = null) {
+    super();
     /**
      * Where the link is created.
      * @type {Object}
