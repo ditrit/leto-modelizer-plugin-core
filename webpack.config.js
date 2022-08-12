@@ -5,7 +5,7 @@ module.exports = {
   entry: path.resolve(__dirname, 'src/index.js'),
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'leto-plugin-core.js',
+    filename: 'leto-modelizer-plugin-core.js',
     libraryTarget: 'commonjs',
   },
   resolve: {
