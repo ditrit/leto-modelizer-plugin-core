@@ -10,22 +10,35 @@ describe('Test class: ComponentDefinition', () => {
       expect(componentDefinition.svgTemplate).toBeNull();
       expect(componentDefinition.parentTypes).toEqual([]);
       expect(componentDefinition.definedAttributes).toEqual([]);
-      expect(componentDefinition.isContainer).toBeTruthy();
+      expect(componentDefinition.isContainer).toBeFalsy();
+      expect(componentDefinition.displayable).toBeTruthy();
+      expect(componentDefinition.required).toBeFalsy();
+    });
+
+    it('Check passing undefined variables to constructor', () => {
+      const componentDefinition = new ComponentDefinition({});
+
+      expect(componentDefinition.type).toBeNull();
+      expect(componentDefinition.icon).toBeNull();
+      expect(componentDefinition.svgTemplate).toBeNull();
+      expect(componentDefinition.parentTypes).toEqual([]);
+      expect(componentDefinition.definedAttributes).toEqual([]);
+      expect(componentDefinition.isContainer).toBeFalsy();
       expect(componentDefinition.displayable).toBeTruthy();
       expect(componentDefinition.required).toBeFalsy();
     });
 
     it('Check passing variable to constructor', () => {
-      const componentDefinition = new ComponentDefinition(
-        'type',
-        'icon',
-        'svgTemplate',
-        ['type'],
-        ['attribute'],
-        false,
-        false,
-        true,
-      );
+      const componentDefinition = new ComponentDefinition({
+        type: 'type',
+        icon: 'icon',
+        svgTemplate: 'svgTemplate',
+        parentTypes: ['type'],
+        definedAttributes: ['attribute'],
+        isContainer: true,
+        displayable: false,
+        required: true,
+      });
 
       expect(componentDefinition.type).toEqual('type');
       expect(componentDefinition.icon).toEqual('icon');
@@ -34,7 +47,7 @@ describe('Test class: ComponentDefinition', () => {
       expect(componentDefinition.parentTypes[0]).toEqual('type');
       expect(componentDefinition.definedAttributes.length).toEqual(1);
       expect(componentDefinition.definedAttributes[0]).toEqual('attribute');
-      expect(componentDefinition.isContainer).toBeFalsy();
+      expect(componentDefinition.isContainer).toBeTruthy();
       expect(componentDefinition.displayable).toBeFalsy();
       expect(componentDefinition.required).toBeTruthy();
     });

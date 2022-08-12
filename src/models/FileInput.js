@@ -7,17 +7,20 @@ import FileInformation from 'src/models/FileInformation';
 class FileInput extends FileInformation {
   /**
    * Default constructor.
-   * @param {String} [path=null] - File path.
-   * @param {String} [name=null] - File name.
-   * @param {String} [content=null] - File content.
+   * @param {String} [props.path=null] - File path.
+   * @param {String} [props.name=null] - File name.
+   * @param {String} [props.content=null] - File content.
    */
-  constructor(path = null, name = null, content = null) {
-    super(path, name);
+  constructor(props = { path: null, name: null, content: null }) {
+    super(props);
+    const {
+      content,
+    } = props;
     /**
      * Content of the file.
      * @type {String}
      */
-    this.content = content;
+    this.content = content || null;
   }
 }
 

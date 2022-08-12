@@ -10,9 +10,22 @@ describe('Test class: ComponentDrawOption', () => {
       expect(componentDrawOption.width).toBeNull();
       expect(componentDrawOption.height).toBeNull();
     });
+    it('Check passing undefined variables to constructor', () => {
+      const componentDrawOption = new ComponentDrawOption({});
+
+      expect(componentDrawOption.x).toBeNull();
+      expect(componentDrawOption.y).toBeNull();
+      expect(componentDrawOption.width).toBeNull();
+      expect(componentDrawOption.height).toBeNull();
+    });
 
     it('Check passing variable to constructor', () => {
-      const componentDrawOption = new ComponentDrawOption(1, 2, 3, 4);
+      const componentDrawOption = new ComponentDrawOption({
+        x: 1,
+        y: 2,
+        width: 3,
+        height: 4,
+      });
 
       expect(componentDrawOption.x).toEqual(1);
       expect(componentDrawOption.y).toEqual(2);

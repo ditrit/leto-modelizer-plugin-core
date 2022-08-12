@@ -1,5 +1,4 @@
 import Component from 'src/models/Component';
-import ComponentDrawOption from 'src/models/ComponentDrawOption';
 import ComponentDefinition from 'src/models/ComponentDefinition';
 
 describe('Test class: Component', () => {
@@ -15,92 +14,71 @@ describe('Test class: Component', () => {
       expect(component.children).toEqual([]);
     });
 
-    it('Check passing variable to constructor', () => {
-      const drawOption = new ComponentDrawOption(1.0, 1.0, 1, 1);
-      const component = new Component('id', 'name', 'type', drawOption);
+    it('Check passing undefined variables to constructor', () => {
+      const component = new Component({});
+
+      expect(component.id).toBeNull();
+      expect(component.name).toBeNull();
+      expect(component.definition).toBeNull();
+      expect(component.drawOption).toBeNull();
+      expect(component.attributes).toEqual([]);
+      expect(component.children).toEqual([]);
+    });
+
+    it('Check passing all variables to constructor', () => {
+      const component = new Component({
+        id: 'id',
+        name: 'name',
+        definition: 'definition',
+        drawOption: 'drawOption',
+        attributes: 'attributes',
+        children: 'children',
+      });
 
       expect(component.id).toEqual('id');
       expect(component.name).toEqual('name');
-      expect(component.definition).toEqual('type');
-      expect(component.drawOption).toEqual(drawOption);
+      expect(component.definition).toEqual('definition');
+      expect(component.drawOption).toEqual('drawOption');
+      expect(component.attributes).toEqual('attributes');
+      expect(component.children).toEqual('children');
     });
   });
 
   describe('Test methods', () => {
     describe('Test method: addChild', () => {
       it('Check passing child in children', () => {
-        const componentDefinition = new ComponentDefinition(
-          'type',
-          'icon',
-          'svg',
-          ['type'],
-          'attribute',
-          true,
-        );
-        const child1 = new Component('2', 'child1', componentDefinition, 'drawOption');
-        const child2 = new Component('3', 'child2', componentDefinition, 'drawOption');
-        const component = new Component('id', 'name', componentDefinition, 'drawOption');
-        component.addChild(child1);
-        expect(component.children.length).toEqual(1);
-        expect(component.children[0]).not.toBeNull();
-        expect(component.children[0].id).toEqual('2');
-        expect(component.children[0].name).toEqual('child1');
+        const componentDefinition = new ComponentDefinition({ isContainer: true, type: 'parent1' });
+        const parent = new Component({ id: '1', definition: componentDefinition });
+        const child1 = new Component({ id: '2', definition: { parentTypes: ['parent1'] } });
+        const child2 = new Component({ id: '3', definition: { parentTypes: ['parent1'] } });
+        parent.addChild(child1);
+        expect(parent.children.length).toEqual(1);
+        expect(parent.children[0]).not.toBeNull();
+        expect(parent.children[0].id).toEqual('2');
 
-        component.addChild(child2);
-        expect(component.children.length).toEqual(2);
-        expect(component.children[1]).not.toBeNull();
-        expect(component.children[1].id).toEqual('3');
-        expect(component.children[1].name).toEqual('child2');
+        parent.addChild(child2);
+        expect(parent.children.length).toEqual(2);
+        expect(parent.children[1]).not.toBeNull();
+        expect(parent.children[1].id).toEqual('3');
       });
       it('Check not passing child if isContainer is false', () => {
-        const componentDefinition = new ComponentDefinition(
-          'type',
-          'icon',
-          'svg',
-          ['type'],
-          'attribute',
-          false,
-        );
-        const parent = new Component('id', 'name', componentDefinition, 'drawOption');
-        const child = new Component('2', 'child', componentDefinition, 'drawOption');
+        const componentDefinition = new ComponentDefinition({ isContainer: false, type: 'parent1' });
+        const parent = new Component({ id: '1', definition: componentDefinition });
+        const child = new Component({ id: '2', definition: { parentTypes: ['parent1'] } });
         parent.addChild(child);
         expect(parent.children.length).toEqual(0);
       });
       it('Check not passing child if parentType and type not equal', () => {
-        const definitionParent = new ComponentDefinition(
-          'type1',
-          'icon',
-          'svg',
-          ['type2'],
-          'attribute',
-          true,
-        );
-        const definitionChild = new ComponentDefinition(
-          'type2',
-          'icon',
-          'svg',
-          ['type'],
-          'attribute',
-          true,
-        );
-        const parent = new Component('id', 'name', definitionParent, 'drawOption');
-        const child = new Component('2', 'child', definitionChild, 'drawOption');
+        const componentDefinition = new ComponentDefinition({ isContainer: true, type: 'parent1' });
+        const parent = new Component({ id: '1', definition: componentDefinition });
+        const child = new Component({ id: '2', definition: { parentTypes: ['parent2'] } });
         parent.addChild(child);
-        child.addChild(parent);
         expect(parent.children.length).toEqual(0);
-        expect(child.children.length).toEqual(1);
       });
       it('Check not passing child if it already exists in children', () => {
-        const definition = new ComponentDefinition(
-          'type',
-          'icon',
-          'svg',
-          ['type'],
-          'attribute',
-          true,
-        );
-        const parent = new Component('id', 'name', definition, 'drawOption');
-        const child = new Component('2', 'child', definition, 'drawOption');
+        const componentDefinition = new ComponentDefinition({ isContainer: true, type: 'parent1' });
+        const parent = new Component({ id: '1', definition: componentDefinition });
+        const child = new Component({ id: '2', definition: { parentTypes: ['parent1'] } });
         parent.addChild(child);
         expect(parent.children.length).toEqual(1);
         parent.addChild(child);

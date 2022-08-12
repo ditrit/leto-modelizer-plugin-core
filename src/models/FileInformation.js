@@ -4,20 +4,24 @@
 class FileInformation {
   /**
    * Default constructor.
-   * @param {String} [path=null] - File path.
-   * @param {String} [name=null] - File name.
+   * @param {String} [props.path=null] - File path.
+   * @param {String} [props.name=null] - File name.
    */
-  constructor(path = null, name = null) {
+  constructor(props = { path: null, name: null }) {
+    const {
+      path,
+      name,
+    } = props;
     /**
      * Path of the file.
      * @type {String}
      */
-    this.path = path;
+    this.path = path || null;
     /**
      * File name.
      * @type {String}
      */
-    this.name = name;
+    this.name = name || null;
   }
 }
 
