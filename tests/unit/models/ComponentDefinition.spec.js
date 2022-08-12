@@ -10,7 +10,9 @@ describe('Test class: ComponentDefinition', () => {
       expect(componentDefinition.svgTemplate).toBeNull();
       expect(componentDefinition.parentTypes).toEqual([]);
       expect(componentDefinition.definedAttributes).toEqual([]);
-      expect(componentDefinition.isContainer).toEqual(true);
+      expect(componentDefinition.isContainer).toBeTruthy();
+      expect(componentDefinition.displayable).toBeTruthy();
+      expect(componentDefinition.required).toBeFalsy();
     });
 
     it('Check passing variable to constructor', () => {
@@ -21,6 +23,8 @@ describe('Test class: ComponentDefinition', () => {
         ['type'],
         ['attribute'],
         false,
+        false,
+        true,
       );
 
       expect(componentDefinition.type).toEqual('type');
@@ -30,7 +34,9 @@ describe('Test class: ComponentDefinition', () => {
       expect(componentDefinition.parentTypes[0]).toEqual('type');
       expect(componentDefinition.definedAttributes.length).toEqual(1);
       expect(componentDefinition.definedAttributes[0]).toEqual('attribute');
-      expect(componentDefinition.isContainer).toEqual(false);
+      expect(componentDefinition.isContainer).toBeFalsy();
+      expect(componentDefinition.displayable).toBeFalsy();
+      expect(componentDefinition.required).toBeTruthy();
     });
   });
 });
