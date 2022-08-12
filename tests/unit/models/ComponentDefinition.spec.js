@@ -16,7 +16,6 @@ describe('Test class: ComponentDefinition', () => {
     it('Check passing variable to constructor', () => {
       const componentDefinition = new ComponentDefinition(
         'type',
-        'resourceType',
         'icon',
         'svgTemplate',
         ['type'],
@@ -25,7 +24,6 @@ describe('Test class: ComponentDefinition', () => {
       );
 
       expect(componentDefinition.type).toEqual('type');
-      expect(componentDefinition.resourceType).toEqual('resourceType');
       expect(componentDefinition.icon).toEqual('icon');
       expect(componentDefinition.svgTemplate).toEqual('svgTemplate');
       expect(componentDefinition.parentTypes.length).toEqual(1);

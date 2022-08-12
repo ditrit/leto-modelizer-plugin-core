@@ -6,7 +6,6 @@ class ComponentDefinition {
    * Default constructor.
    *
    * @param {String} [type] - The type of the associated component.
-   * @param {String} [resourceType] - The type of resource.
    * @param {String} [icon] - The icon's name of this type of component.
    * @param {String} [svgTemplate] - Name of SVG template to render this type of component.
    * @param {String[]} [parentTypes=[]] - The list of types that can be the parent.
@@ -16,7 +15,6 @@ class ComponentDefinition {
    */
   constructor(
     type = null,
-    resourceType = null,
     icon = null,
     svgTemplate = null,
     parentTypes = [],
@@ -28,11 +26,6 @@ class ComponentDefinition {
      * @type {String}
      */
     this.type = type;
-    /**
-     * The type of resource.
-     * @type {String}
-     */
-    this.resourceType = resourceType;
     /**
      * The icon's name of this type of component.
      * @type {String}

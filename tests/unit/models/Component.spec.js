@@ -31,7 +31,6 @@ describe('Test class: Component', () => {
       it('Check passing child in children', () => {
         const componentDefinition = new ComponentDefinition(
           'type',
-          'resourceType',
           'icon',
           'svg',
           ['type'],
@@ -56,7 +55,6 @@ describe('Test class: Component', () => {
       it('Check not passing child if isContainer is false', () => {
         const componentDefinition = new ComponentDefinition(
           'type',
-          'resourceType',
           'icon',
           'svg',
           ['type'],
@@ -71,7 +69,6 @@ describe('Test class: Component', () => {
       it('Check not passing child if parentType and type not equal', () => {
         const definitionParent = new ComponentDefinition(
           'type1',
-          'resourceType',
           'icon',
           'svg',
           ['type2'],
@@ -80,7 +77,6 @@ describe('Test class: Component', () => {
         );
         const definitionChild = new ComponentDefinition(
           'type2',
-          'resourceType',
           'icon',
           'svg',
           ['type'],
@@ -97,7 +93,6 @@ describe('Test class: Component', () => {
       it('Check not passing child if it already exists in children', () => {
         const definition = new ComponentDefinition(
           'type',
-          'resourceType',
           'icon',
           'svg',
           ['type'],
