@@ -34,7 +34,7 @@ class Component extends FileInformation {
     this.name = name;
     /**
      * The Definition used to instantiate this Component.
-     * @type {Componentdefinition}
+     * @type {ComponentDefinition}
      */
     this.definition = definition;
     /**
