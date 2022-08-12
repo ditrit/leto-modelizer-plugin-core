@@ -7,13 +7,15 @@ describe('Test class: ComponentAttribute', () => {
 
       expect(componentAttribute.name).toBeNull();
       expect(componentAttribute.value).toBeNull();
+      expect(componentAttribute.type).toBeNull();
     });
 
     it('Check passing variable to constructor', () => {
-      const componentAttribute = new ComponentAttribute('name', 'value');
+      const componentAttribute = new ComponentAttribute('name', 'value', 'type');
 
       expect(componentAttribute.name).toEqual('name');
       expect(componentAttribute.value).toEqual('value');
+      expect(componentAttribute.type).toEqual('type');
     });
   });
 });
