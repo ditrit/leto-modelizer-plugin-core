@@ -1,53 +1,68 @@
+import FileInformation from 'src/models/FileInformation';
+
 /**
  * A model for modelling tools in Leto Modelizer.
+ * @extends {FileInformation}
  */
-class Component {
+class Component extends FileInformation {
   /**
    * Default constructor.
    *
-   * @param {String} [id] - The id of this Component.
-   * @param {String} [name] - The name of this Component.
-   * @param {ComponentDefinition} [definition] - The Definition used to instantiate this Component.
-   * @param {ComponentDrawOption} [drawOption] - The options used to draw this Component.
-   * @param {ComponentAttribute[]} [attributes=[]] - Attributes of Component.
+   * @param {String} [props.id] - The id of this Component.
+   * @param {String} [props.name] - The name of this Component.
+   * @param {ComponentDefinition} [props.definition] - The Definition used to instantiate this
+   * Component.
+   * @param {ComponentDrawOption} [props.drawOption] - The options used to draw this Component.
+   * @param {ComponentAttribute[]} [props.attributes=[]] - Attributes of Component.
+   * @param {ComponentAttribute[]} [props.children=[]] - Children of Component.
    */
-  constructor(
-    id = null,
-    name = null,
-    definition = null,
-    drawOption = null,
-    attributes = [],
-  ) {
+  constructor(props = {
+    id: null,
+    name: null,
+    definition: null,
+    drawOption: null,
+    attributes: [],
+    children: [],
+  }) {
+    super();
+    const {
+      id,
+      name,
+      definition,
+      drawOption,
+      attributes,
+      children,
+    } = props;
     /**
      * The id of this Component.
      * @type {String}
      */
-    this.id = id;
+    this.id = id || null;
     /**
      * The name of this Component.
      * @type {String}
      */
-    this.name = name;
+    this.name = name || null;
     /**
      * The Definition used to instantiate this Component.
-     * @type {Componentdefinition}
+     * @type {ComponentDefinition}
      */
-    this.definition = definition;
+    this.definition = definition || null;
     /**
      * The options used to draw this Component.
      * @type {ComponentDrawOption}
      */
-    this.drawOption = drawOption;
+    this.drawOption = drawOption || null;
     /**
      * Attributes of Component.
      * @type {ComponentAttribute[]}
      */
-    this.attributes = attributes;
+    this.attributes = attributes || [];
     /**
-     * Array that contains all sub-components.
+     * Array that contains all subcomponents.
      * @type {Component[]}
      */
-    this.children = [];
+    this.children = children || [];
   }
 
   /**

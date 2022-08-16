@@ -1,6 +1,20 @@
 import DefaultParser from 'src/parser/DefaultParser';
+import ComponentDefinition from 'src/models/ComponentDefinition';
 
 describe('Test Class: DefaultParser()', () => {
+  describe('Test constructor', () => {
+    it('Check variable instantiation', () => {
+      const parser = new DefaultParser();
+
+      expect(parser.definitions).toEqual([]);
+    });
+
+    it('Check passing variable to constructor', () => {
+      const parser = new DefaultParser([new ComponentDefinition()]);
+
+      expect(parser.definitions).toEqual([new ComponentDefinition()]);
+    });
+  });
   describe('Test methods', () => {
     describe('Test method: parse', () => {
       it('should return default object with initialized properties', () => {
@@ -8,6 +22,7 @@ describe('Test Class: DefaultParser()', () => {
         expect(defaultParser.parse()).toEqual({
           components: [],
           links: [],
+          errors: [],
         });
       });
     });

@@ -4,14 +4,28 @@
  */
 class DefaultParser {
   /**
+   * Default constructor.
+   * @param {ComponentDefinition[]} [definitions=[]] - All component definitions that can be managed
+   * by the parser.
+   */
+  constructor(definitions = []) {
+    /**
+     * All component definitions that can be managed by the parser.
+     * @type {ComponentDefinition[]}
+     */
+    this.definitions = definitions;
+  }
+
+  /**
    * Convert the content of files into Components.
    * @param {String[]} [inputs=[]] - Data you want to parse.
-   * @return {Object} - Object that contains all components and links.
+   * @return {Object} - Object that contains all components, links and errors.
    */
   parse(inputs = []) {
     return {
       components: inputs,
       links: inputs,
+      errors: [],
     };
   }
 
