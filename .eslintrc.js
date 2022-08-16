@@ -24,6 +24,7 @@ module.exports = {
     chrome: 'readonly',
   },
 
+  ignorePatterns: ['dist/*'],
   // add your custom rules here
   rules: {
     'linebreak-style': ['error', 'unix'],
