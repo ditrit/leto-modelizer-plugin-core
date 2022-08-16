@@ -32,7 +32,7 @@ import {
 } from "leto-modelizer-plugin-core";
 ```
 
-For more information about all imports please refer to [technical documentation](https://ditrit.io/leto-modelizer-plugin-core/v0.2.0/) and [project template](https://github.com/ditrit/leto-modelizer-plugin-template).
+For more information about all imports please refer to [technical documentation](https://ditrit.io/leto-modelizer-plugin-core/) and [project template](https://github.com/ditrit/leto-modelizer-plugin-template).
 
 You can use it in that way:
 
