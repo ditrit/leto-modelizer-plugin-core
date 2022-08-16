@@ -51,7 +51,6 @@ class DefaultDrawer {
 
   /**
    * Draw all Components and ComponentLinks in the parentId Element.
-   * @param {String} [parentId="#root"] - Id of HTML element where we want to draw.
    * @param {Component[]} [components=[]] - List of components we want to draw.
    * @return {Boolean} Return true if normally execute.
    */
