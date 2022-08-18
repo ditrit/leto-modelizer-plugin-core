@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import pack from 'bin-pack';
 import ComponentDrawOption from 'src/models/ComponentDrawOption';
 
 /**
@@ -26,6 +27,10 @@ class DefaultDrawer {
      * D3 library.
      */
     this.d3 = d3;
+    /**
+     * bin-pack library
+     */
+    this.pack = pack;
     /**
      * Margin value between component default position.
      * @type {Number}
@@ -60,7 +65,7 @@ class DefaultDrawer {
       .data(components, (data) => data.id);
 
     this.initializeComponents(components, d3Element);
-    this.setViewPortAction(this.d3.select('#viewport'));
+    this.setViewPortAction(this.d3.select('#root'));
 
     components.forEach((component) => {
       this.setComponentAction(component);
@@ -195,7 +200,7 @@ class DefaultDrawer {
    * @param {Object} d3Element - D3 selected element.
    */
   initializeComponents(components, d3Element) {
-    const componentsToInit = components.filter((component) => {
+    let componentsToInit = components.filter((component) => {
       if (!component.drawOption) {
         component.drawOption = new ComponentDrawOption();
         return true;
@@ -227,15 +232,14 @@ class DefaultDrawer {
       }
     });
 
-    if (componentsToInit.length > 0) {
-      const viewportWidth = document.querySelector('#viewport').clientWidth;
-      componentsToInit.forEach((component, index) => this.setComponentPosition(
-        component,
-        index,
-        viewportWidth,
-        componentMaxSize,
-      ));
-    }
+    componentsToInit = componentsToInit.sort((el1, el2) => {
+      const area1 = el1.drawOption.width * el1.drawOption.height;
+      const area2 = el2.drawOption.width * el2.drawOption.height;
+      return area2 - area1;
+    });
+
+    this.setComponentPosition(componentsToInit);
+
     templates.forEach((template) => {
       const elements = this.d3.selectAll(`${this.parentId} .component-${template}`);
       if (this[`draw${template}`]) {
@@ -247,20 +251,23 @@ class DefaultDrawer {
   }
 
   /**
-   * Defines the position of the components by computing
-   * a grid from the viewport's width and the largest component.
-   * @param {Component} component - Components we want to set the position.
-   * @param {Object} maxSize - Object contains the max width and height of components SVG.
+   * Defines the position of the components by using bin-pack library
+   * @param {Component} components - Components we want to set the position.
    */
-  setComponentPosition(component, index, viewportWidth, maxSize) {
-    const { width, height } = maxSize;
-    const maxColumn = parseInt(viewportWidth / (width + this.margin), 10);
+  setComponentPosition(components) {
+    let sizes = components.map((component) => ({
+      width: component.drawOption.width + this.margin,
+      height: component.drawOption.height + this.margin,
+      id: component.id,
+    }));
 
-    const indexX = index % maxColumn;
-    const indexY = parseInt(index / maxColumn, 10);
+    sizes = this.pack(sizes);
 
-    component.drawOption.x = indexX * (width + this.margin);
-    component.drawOption.y = indexY * (height + this.margin);
+    components.forEach((component) => {
+      const size = sizes.items.find((element) => element.item.id === component.id);
+      component.drawOption.x = size.x + this.margin;
+      component.drawOption.y = size.y + this.margin;
+    });
   }
 
   /**

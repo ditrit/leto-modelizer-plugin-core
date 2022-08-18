@@ -133,7 +133,7 @@ describe('Test Class: DefaultDrawer()', () => {
       expect(d3Element.html).toBeCalled();
 
       expect(drawer.storeComponentSize).toBeCalled();
-      expect(drawer.setComponentPosition).toBeCalled();
+      expect(drawer.setComponentPosition).toBeCalledTimes(1);
     });
 
     it('Should not call setComponentPosition method', () => {
@@ -142,7 +142,7 @@ describe('Test Class: DefaultDrawer()', () => {
         component.drawOption.height = 1;
       });
       drawer.initializeComponents([component02], d3Element);
-      expect(drawer.setComponentPosition).not.toBeCalled();
+      expect(drawer.setComponentPosition).toBeCalledTimes(1);
     });
   });
 
@@ -151,35 +151,58 @@ describe('Test Class: DefaultDrawer()', () => {
     let component01;
     let component02;
     let component03;
-    let canvasWidth;
+    let components;
 
     beforeEach(() => {
       drawer = new DefaultDrawer();
-      component01 = { drawOption: new ComponentDrawOption(1, 1, 1, 1) };
-      component02 = { drawOption: new ComponentDrawOption(1, 1, 1, 1) };
-      component03 = { drawOption: new ComponentDrawOption(1, 1, 1, 1) };
-      canvasWidth = 33;
+      component01 = {
+        id: 'id01',
+        drawOption: new ComponentDrawOption({
+          x: 1,
+          y: 1,
+          width: 1,
+          height: 1,
+        }),
+      };
+      component02 = {
+        id: 'id02',
+        drawOption: new ComponentDrawOption({
+          x: 1,
+          y: 1,
+          width: 1,
+          height: 1,
+        }),
+      };
+      component03 = {
+        id: 'id03',
+        drawOption: new ComponentDrawOption({
+          x: 1,
+          y: 1,
+          width: 1,
+          height: 1,
+        }),
+      };
+      components = [component01, component02, component03];
+      drawer.pack = jest.fn().mockReturnValue({
+        items: [
+          { x: 1 + drawer.margin, y: 100 + drawer.margin, item: { id: 'id01' } },
+          { x: 1 + drawer.margin * 2, y: 100 + drawer.margin * 2, item: { id: 'id02' } },
+          { x: 1 + drawer.margin * 3, y: 100 + drawer.margin * 3, item: { id: 'id03' } },
+        ],
+      });
     });
 
     it('Should set the good positions to components.drawOption', () => {
-      /*
-      [0][_][2]
-      [_][4][_]
-      [_][_][_] *0, 2 and 4 are index of setup components.
+      drawer.setComponentPosition(components);
 
-      Expected grid from => canvasWidth / (componentWidth + margin).
-      componentWidth = 1, margin = 10, canvasSize = 33.
-      So cells width is equal to 11 and maxColumn is equal to 3.
-       */
-      drawer.setComponentPosition(component01, 0, canvasWidth, { width: 1, height: 1 });
-      expect(component01.drawOption.x).toEqual(0);
-      expect(component01.drawOption.y).toEqual(0);
-      drawer.setComponentPosition(component02, 2, canvasWidth, { width: 1, height: 1 });
-      expect(component02.drawOption.x).toEqual(22);
-      expect(component02.drawOption.y).toEqual(0);
-      drawer.setComponentPosition(component03, 4, canvasWidth, { width: 1, height: 1 });
-      expect(component03.drawOption.x).toEqual(11);
-      expect(component03.drawOption.y).toEqual(11);
+      expect(drawer.pack).toBeCalledTimes(1);
+
+      expect(components[0].drawOption.x).toEqual(21);
+      expect(components[0].drawOption.y).toEqual(120);
+      expect(components[1].drawOption.x).toEqual(31);
+      expect(components[1].drawOption.y).toEqual(130);
+      expect(components[2].drawOption.x).toEqual(41);
+      expect(components[2].drawOption.y).toEqual(140);
     });
   });
 
