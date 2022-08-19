@@ -7,9 +7,13 @@ class ComponentAttributeDefinition {
    *
    * @param {String} [props.name] - Attribute name.
    * @param {String} [props.type] - Attribute type,
-   * valid types are String/Boolean/Number/Array/Object/Link.
-   * @param {String[]} [props.linkTypes=[]] - Define list of Component that can be linked with this.
+   * valid types are String/Boolean/Number/Array/Object/Link/Reference.
+   * @param {String} [props.linkType] - Type of link, valid types are Default/Reverse.
+   * @param {String[]} [props.linkRef=[]] - Reference of accepted component for link.
+   * @param {String[]} [props.containerRef=[]] - Reference of accepted component for container.
    * @param {Boolean} [props.required=false] - Attribute is required.
+   * @param {ComponentAttributeDefinition[]} [props.definedAttributes=[]] - Defined attributes for
+   * this type.
    * @param {Object} [props.rules={}] - Rules of this type of Attribute.
    * @param {Array} [props.rules.values] - Default values of attribute.
    * @param {Number} [props.rules.min] - Minimum value of Attribute.
@@ -19,8 +23,11 @@ class ComponentAttributeDefinition {
   constructor(props = {
     name: null,
     type: null,
-    linkTypes: [],
+    linkType: null,
+    linkRef: [],
+    containerRef: [],
     required: false,
+    definedAttributes: [],
     rules: {
       values: null,
       min: null,
@@ -31,7 +38,10 @@ class ComponentAttributeDefinition {
     const {
       name,
       type,
-      linkTypes,
+      linkType,
+      linkRef,
+      containerRef,
+      definedAttributes,
       required,
       rules,
     } = props;
@@ -41,15 +51,30 @@ class ComponentAttributeDefinition {
      */
     this.name = name || null;
     /**
-     * Attribute type, valid types are String/Boolean/Number/Array/Object/Link.
+     * Attribute type, valid types are String/Boolean/Number/Array/Object/Link/Reference.
      * @type {String}
      */
     this.type = type || null;
     /**
+     * Type of link, valid types are Default/Reverse.
+     * @type {String}
+     */
+    this.linkType = linkType || null;
+    /**
      * Define list of Component that can be linked with this.
      * @type {String[]}
      */
-    this.linkTypes = linkTypes || [];
+    this.linkRef = linkRef || [];
+    /**
+     * Define list of Component that can be the container of this component.
+     * @type {String[]}
+     */
+    this.containerRef = containerRef || [];
+    /**
+     * Defined attributes for this type.
+     * @type {ComponentAttributeDefinition[]}
+     */
+    this.definedAttributes = definedAttributes || [];
     /**
      * Attribute is required.
      * @type {Boolean}
