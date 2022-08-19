@@ -45,6 +45,7 @@
     "webpack-cli": "^4.9.2"
   },
   "dependencies": {
+    "bin-pack": "^1.0.2",
     "d3": "^7.6.1"
   }
 }

@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Install `bin-pack` library.
+
+### Changed
+
+- Improve `setComponentPosition` method with `bin-pack` library.
+
 ### Fixed
 
 - Fix link of technical documentation in readme
