@@ -5,14 +5,14 @@
 class DefaultMetadata {
   /**
    * Default constructor.
-   * @param {Object} metadata - Metadata provide by leto-modelizer.
+   * @param {Array} resources - Resources object that contains all Metadata object.
    */
-  constructor(metadata) {
+  constructor(resources) {
     /**
-     * Metadata object.
-     * @type {Object}
+     * Resources object that contains all Metadata object.
+     * @type {Array}
      */
-    this.metadata = metadata;
+    this.resources = resources;
   }
 
   /**
@@ -24,11 +24,14 @@ class DefaultMetadata {
   }
 
   /**
-   * Get all component definitions from metadata.
-   * @return {ComponentDefinition[]} - Array of component definitions.
+   * Get all component/link definitions from metadata.
+   * @return {Object} - Object that contains component/link definitions.
    */
-  getComponentDefinitions() {
-    return [];
+  getDefinitions() {
+    return {
+      components: [],
+      links: [],
+    };
   }
 }
 

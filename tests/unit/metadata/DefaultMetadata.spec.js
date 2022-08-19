@@ -9,10 +9,13 @@ describe('Test Class: DefaultMetadata()', () => {
       });
     });
 
-    describe('Test method: getComponentDefinitions', () => {
-      it('Should return empty array', () => {
+    describe('Test method: getDefinitions', () => {
+      it('Should return object with component and link definitions', () => {
         const defaultMetadata = new DefaultMetadata();
-        expect(defaultMetadata.getComponentDefinitions()).toEqual([]);
+        expect(defaultMetadata.getDefinitions()).toEqual({
+          components: [],
+          links: [],
+        });
       });
     });
   });
