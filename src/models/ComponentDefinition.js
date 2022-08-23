@@ -12,8 +12,6 @@ class ComponentDefinition {
    * @param {ComponentAttributeDefinition[]} [props.definedAttributes=[]] - Defined attributes for
    * this type.
    * @param {Boolean} [props.isContainer=false] - Boolean means if this type can be a parent.
-   * @param {Boolean} [props.displayable=true] - Boolean means if this type can be drawn.
-   * @param {Boolean} [props.required=false] - Boolean means if this need to exist in all
    * instantiated components.
    */
   constructor(props = {
@@ -23,8 +21,6 @@ class ComponentDefinition {
     parentTypes: [],
     definedAttributes: [],
     isContainer: false,
-    displayable: true,
-    required: false,
   }) {
     const {
       type,
@@ -33,8 +29,6 @@ class ComponentDefinition {
       parentTypes,
       definedAttributes,
       isContainer,
-      displayable,
-      required,
     } = props;
     /**
      * The type of the associated component.
@@ -66,16 +60,6 @@ class ComponentDefinition {
      * @type {Boolean}
      */
     this.isContainer = isContainer === undefined ? false : isContainer;
-    /**
-     * Boolean means if this type can be a draw.
-     * @type {Boolean}
-     */
-    this.displayable = displayable === undefined ? true : displayable;
-    /**
-     * Boolean means if this need to exist in all instantiated components.
-     * @type {Boolean}
-     */
-    this.required = required === undefined ? false : required;
   }
 }
 

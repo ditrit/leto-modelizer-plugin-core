@@ -10,10 +10,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Install `bin-pack` library.
+- Add definition model for ComponentLink
+- Add properties in ComponentAttributeDefiniton:
+  - `linkType` used for specify the type of link (`Default` or `Reverse`)
+  - `ContainerRef` used for specify the reference of valid container type
+  - `definedAttributes` used to specify definition of subattribute in case of `Object` type
 
 ### Changed
 
 - Improve `setComponentPosition` method with `bin-pack` library.
+- Rename `linkTypes` to `linkRef` in ComponentAttributeDefinition
+- Rename method `getComponentDefinitions` to `getDefinitions` in DefaultMetadata.
+- Method `getDefinition` will return an object with component and link definitions.
+
+### Removed
+
+- Remove attributes `required` and `displayable` in ComponentDefinition
 
 ### Fixed
 
