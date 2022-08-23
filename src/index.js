@@ -1,17 +1,17 @@
-import Component from 'src/models/Component';
-import ComponentDefinition from 'src/models/ComponentDefinition';
-import ComponentAttributeDefinition from 'src/models/ComponentAttributeDefinition';
-import ComponentDrawOption from 'src/models/ComponentDrawOption';
-import ComponentAttribute from 'src/models/ComponentAttribute';
-import ComponentLink from 'src/models/ComponentLink';
-import ComponentLinkDefinition from 'src/models/ComponentLinkDefinition';
-import FileInformation from 'src/models/FileInformation';
-import FileInput from 'src/models/FileInput';
-import DefaultDrawer from 'src/draw/DefaultDrawer';
-import DefaultMetadata from 'src/metadata/DefaultMetadata';
-import DefaultParser from 'src/parser/DefaultParser';
-import DefaultRender from 'src/render/DefaultRender';
-import ParseError from 'src/error/parseError';
+import Component from './models/Component';
+import ComponentDefinition from './models/ComponentDefinition';
+import ComponentAttributeDefinition from './models/ComponentAttributeDefinition';
+import ComponentDrawOption from './models/ComponentDrawOption';
+import ComponentAttribute from './models/ComponentAttribute';
+import ComponentLink from './models/ComponentLink';
+import ComponentLinkDefinition from './models/ComponentLinkDefinition';
+import FileInformation from './models/FileInformation';
+import FileInput from './models/FileInput';
+import DefaultDrawer from './draw/DefaultDrawer';
+import DefaultMetadata from './metadata/DefaultMetadata';
+import DefaultParser from './parser/DefaultParser';
+import DefaultRender from './render/DefaultRender';
+import ParseError from './error/parseError';
 
 export {
   Component,

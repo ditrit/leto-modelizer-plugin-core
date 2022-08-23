@@ -1,4 +1,4 @@
-import FileInformation from 'src/models/FileInformation';
+import FileInformation from './FileInformation';
 
 /**
  * Object to store the file content.

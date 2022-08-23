@@ -4,7 +4,10 @@
   "description": "Library that contains all models for modelling tools in Leto's projects.",
   "main": "dist/leto-modelizer-plugin-core.js",
   "exports": {
-    ".": "./dist/leto-modelizer-plugin-core.js"
+    ".": {
+      "development":"./src",
+      "default": "./dist/leto-modelizer-plugin-core.js"
+    }
   },
   "scripts": {
     "build": "webpack",
