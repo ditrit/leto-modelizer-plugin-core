@@ -14,6 +14,7 @@ class ComponentDefinition {
    * @param {Boolean} [props.isContainer=false] - Boolean means if this type can be a parent.
    * @param {Boolean} [props.displayable=true] - Boolean means if this type can be drawn.
    * @param {Boolean} [props.required=false] - Boolean means if this need to exist in all
+   * @param {String} [props.category] - Category name of the component.
    * instantiated components.
    */
   constructor(props = {
@@ -25,6 +26,7 @@ class ComponentDefinition {
     isContainer: false,
     displayable: true,
     required: false,
+    category: null,
   }) {
     const {
       type,
@@ -35,6 +37,7 @@ class ComponentDefinition {
       isContainer,
       displayable,
       required,
+      category,
     } = props;
     /**
      * The type of the associated component.
@@ -76,6 +79,12 @@ class ComponentDefinition {
      * @type {Boolean}
      */
     this.required = required === undefined ? false : required;
+    /**
+     * Name of the category, use for components definition panel to separate the component
+     * definitions in categories.
+     * @type {String}
+     */
+    this.category = category || null;
   }
 }
 
