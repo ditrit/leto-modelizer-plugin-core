@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-## [Unreleased]
+## [0.3.0] - 2022-08-23
 
 ### Added
 
@@ -35,7 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Workflow to deploy documentation on Github pages
+- Workflow to deploy documentation on GitHub pages
 - Create default class structure draw/metadata/parser/render and their individual tests.
 - Add default error for parser
 - Add `Draw` and `drawDefaultModel` methods to DefaultDrawer.js
@@ -61,5 +61,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add new classes LetoObjectNode, LetoTypeNode, LetoAttribute, LetoLink.
 - Add function renderString for SVG template.
 
+[0.3.0]: https://github.com/ditrit/leto-modelizer-plugin-core/blob/0.3.0/changelog.md
 [0.2.0]: https://github.com/ditrit/leto-modelizer-plugin-core/blob/0.2.0/changelog.md
 [0.1.0]: https://github.com/ditrit/leto-modelizer-plugin-core/blob/0.1.0/changelog.md
