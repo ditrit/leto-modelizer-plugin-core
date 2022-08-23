@@ -4,6 +4,7 @@ import ComponentAttributeDefinition from 'src/models/ComponentAttributeDefinitio
 import ComponentDrawOption from 'src/models/ComponentDrawOption';
 import ComponentAttribute from 'src/models/ComponentAttribute';
 import ComponentLink from 'src/models/ComponentLink';
+import ComponentLinkDefinition from 'src/models/ComponentLinkDefinition';
 import FileInformation from 'src/models/FileInformation';
 import FileInput from 'src/models/FileInput';
 import DefaultDrawer from 'src/draw/DefaultDrawer';
@@ -19,6 +20,7 @@ export {
   ComponentDrawOption,
   ComponentAttribute,
   ComponentLink,
+  ComponentLinkDefinition,
   DefaultDrawer,
   DefaultMetadata,
   DefaultParser,
