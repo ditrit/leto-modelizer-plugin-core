@@ -128,7 +128,7 @@ class DefaultDrawer {
    * Action to make on drag pending event.
    * @param {Object} event - Drag event.
    * @param {Component} component - Component related to the action.
-   * @param {Object} d3Element - D3 element related to the action.
+   * @param {Object} element - D3 element related to the action.
    * @private
    */
   __dragPending(event, component, element) {
@@ -143,9 +143,7 @@ class DefaultDrawer {
 
   /**
    * Action to make on drag end event.
-   * @param {Object} event - Drag event.
-   * @param {Component} component - Component related to the action.
-   * @param {Object} d3Element - D3 element related to the action.
+   * @param {Object} element - D3 element related to the action.
    * @private
    */
   __dragEnd(element) {
