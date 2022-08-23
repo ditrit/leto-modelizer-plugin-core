@@ -1,16 +1,16 @@
-import Component from 'src/models/Component';
-import ComponentDefinition from 'src/models/ComponentDefinition';
-import ComponentAttributeDefinition from 'src/models/ComponentAttributeDefinition';
-import ComponentDrawOption from 'src/models/ComponentDrawOption';
-import ComponentAttribute from 'src/models/ComponentAttribute';
-import ComponentLink from 'src/models/ComponentLink';
-import FileInformation from 'src/models/FileInformation';
-import FileInput from 'src/models/FileInput';
-import DefaultDrawer from 'src/draw/DefaultDrawer';
-import DefaultMetadata from 'src/metadata/DefaultMetadata';
-import DefaultParser from 'src/parser/DefaultParser';
-import DefaultRender from 'src/render/DefaultRender';
-import ParseError from 'src/error/parseError';
+import Component from 'leto-modelizer-plugin-core/models/Component';
+import ComponentDefinition from 'leto-modelizer-plugin-core/models/ComponentDefinition';
+import ComponentAttributeDefinition from 'leto-modelizer-plugin-core/models/ComponentAttributeDefinition';
+import ComponentDrawOption from 'leto-modelizer-plugin-core/models/ComponentDrawOption';
+import ComponentAttribute from 'leto-modelizer-plugin-core/models/ComponentAttribute';
+import ComponentLink from 'leto-modelizer-plugin-core/models/ComponentLink';
+import FileInformation from 'leto-modelizer-plugin-core/models/FileInformation';
+import FileInput from 'leto-modelizer-plugin-core/models/FileInput';
+import DefaultDrawer from 'leto-modelizer-plugin-core/draw/DefaultDrawer';
+import DefaultMetadata from 'leto-modelizer-plugin-core/metadata/DefaultMetadata';
+import DefaultParser from 'leto-modelizer-plugin-core/parser/DefaultParser';
+import DefaultRender from 'leto-modelizer-plugin-core/render/DefaultRender';
+import ParseError from 'leto-modelizer-plugin-core/error/parseError';
 
 export {
   Component,
