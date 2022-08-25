@@ -8,14 +8,21 @@ class ComponentAttribute {
    * @param {String} [props.name=null] - The name of the attribute.
    * @param {(String|Boolean|Number|Array|ComponentAttribute[])} [props.value=null] - The value of
    * the attribute.
-   * @param {String} [props.type=null] - The type of the attribute.
+   * @param {String} [props.type=null] - The reel type of the attribute.
+   * @param {ComponentAttributeDefinition} [props.definition=null] - The definition of the
+   * attribute.
    */
   constructor(props = {
     name: null,
     value: null,
-    type: null,
+    definition: null,
   }) {
-    const { name, value, type } = props;
+    const {
+      name,
+      value,
+      type,
+      definition,
+    } = props;
     /**
      * The name of the attribute.
      * @type {String}
@@ -32,6 +39,11 @@ class ComponentAttribute {
      * @type {String}
      */
     this.type = type || null;
+    /**
+     * The definition of the attribute.
+     * @type {ComponentAttributeDefinition}
+     */
+    this.definition = definition || null;
   }
 }
 

@@ -8,6 +8,7 @@ describe('Test class: ComponentAttribute', () => {
       expect(componentAttribute.name).toBeNull();
       expect(componentAttribute.value).toBeNull();
       expect(componentAttribute.type).toBeNull();
+      expect(componentAttribute.definition).toBeNull();
     });
 
     it('Check passing undefined variables to constructor', () => {
@@ -16,6 +17,7 @@ describe('Test class: ComponentAttribute', () => {
       expect(componentAttribute.name).toBeNull();
       expect(componentAttribute.value).toBeNull();
       expect(componentAttribute.type).toBeNull();
+      expect(componentAttribute.definition).toBeNull();
     });
 
     it('Check passing variable to constructor', () => {
@@ -23,11 +25,13 @@ describe('Test class: ComponentAttribute', () => {
         name: 'name',
         value: 'value',
         type: 'type',
+        definition: {},
       });
 
       expect(componentAttribute.name).toEqual('name');
       expect(componentAttribute.value).toEqual('value');
       expect(componentAttribute.type).toEqual('type');
+      expect(componentAttribute.definition).not.toBeNull();
     });
   });
 });
