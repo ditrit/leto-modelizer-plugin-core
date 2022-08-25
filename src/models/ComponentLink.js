@@ -8,38 +8,36 @@ class ComponentLink extends FileInformation {
   /**
    * Default constructor.
    *
-   * @param {Object} [props.from={}] - Where the link is created.
-   * @param {String} [props.from.id] - ID of the component.
-   * @param {Object} [props.to={}] - Target of the link.
-   * @param {String} [props.to.id] - ID of the component.
-   * @param {String} [props.type] - Representation of the link.
+   * @param {String} [props.source] - Id of component can be the source in a link.
+   * @param {String} [props.target] - Id of component can be the target of the link.
+   * @param {ComponentLinkDefinition} [props.definition] - The definition of the link.
    */
   constructor(props = {
-    from: { id: null },
-    to: { id: null },
-    type: null,
+    source: null,
+    target: null,
+    definition: null,
   }) {
     super();
     const {
-      from,
-      to,
-      type,
+      source,
+      target,
+      definition,
     } = props;
     /**
      * Where the link is created.
      * @type {Object}
      */
-    this.from = { id: null, ...from };
+    this.source = source || null;
     /**
      * Target of the link.
      * @type
      */
-    this.to = { id: null, ...to };
+    this.target = target || null;
     /**
-     * Representation of the link.
-     * @type {String}
+     * The definition of the link.
+     * @type {ComponentLinkDefinition}
      */
-    this.type = type || null;
+    this.definition = definition || null;
   }
 }
 
