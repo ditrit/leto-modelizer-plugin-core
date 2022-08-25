@@ -1,0 +1,145 @@
+Feature: Test links between components
+
+    Scenario: Link two components should save their link information
+        Given I clear localstorage
+        And I visit the "/"
+        And I create component "ComponentOne" at position "0,0" link-groups "toto"
+        And I create component "ComponentTwo" at position "200,200" link-groups "toto"
+
+        When I link "[data-cy=\"component-one\"]" and "[data-cy=\"component-two\"]"
+
+        Then I expect "[data-cy=\"component-one\"]" "[data-cy=\"links\"]" contains "ComponentTwo"
+        And I expect "[data-cy=\"component-two\"]" "[data-cy=\"links\"]" contains "ComponentOne"
+
+
+    Scenario: Link two incompatible components should not be possible
+        Given I clear localstorage
+        And I visit the "/"
+        And I create component "ComponentOne" at position "0,0" link-groups "toto"
+        And I create component "ComponentTwo" at position "200,200" link-groups "tata"
+
+        When I link "[data-cy=\"component-one\"]" and "[data-cy=\"component-two\"]"
+
+        Then I expect "[data-cy=\"component-one\"]" "[data-cy=\"links\"]" contains "EMPTY"
+        And I expect "[data-cy=\"component-two\"]" "[data-cy=\"links\"]" contains "EMPTY"
+
+
+    Scenario: Multiple links between components should be possible
+        Given I clear localstorage
+        And I visit the "/"
+        And I create component "ComponentOne" at position "0,0" link-groups "toto"
+        And I create component "ComponentTwo" at position "200,200" link-groups "toto"
+        And I create component "ComponentThree" at position "400,400" link-groups "toto"
+
+        When I link "[data-cy=\"component-one\"]" and "[data-cy=\"component-two\"]"
+        And I link "[data-cy=\"component-two\"]" and "[data-cy=\"component-three\"]"
+        And I link "[data-cy=\"component-three\"]" and "[data-cy=\"component-one\"]"
+
+        Then I expect "[data-cy=\"component-one\"]" "[data-cy=\"links\"]" contains "ComponentTwo,ComponentThree"
+        And I expect "[data-cy=\"component-two\"]" "[data-cy=\"links\"]" contains "ComponentOne,ComponentThree"
+        And I expect "[data-cy=\"component-three\"]" "[data-cy=\"links\"]" contains "ComponentOne,ComponentTwo"
+
+
+    Scenario: Multiple links between components having multiple link types should be possible
+        Given I clear localstorage
+        And I visit the "/"
+        And I create component "ComponentOne" at position "0,0" link-groups "toto,titi"
+        And I create component "ComponentTwo" at position "200,200" link-groups "toto,tata"
+        And I create component "ComponentThree" at position "400,400" link-groups "tata"
+        And I create component "ComponentFour" at position "400,400" link-groups "titi,tata"
+
+        When I link "[data-cy=\"component-one\"]" and "[data-cy=\"component-two\"]"
+        And I link "[data-cy=\"component-two\"]" and "[data-cy=\"component-three\"]"
+        And I link "[data-cy=\"component-three\"]" and "[data-cy=\"component-four\"]"
+        And I link "[data-cy=\"component-one\"]" and "[data-cy=\"component-four\"]"
+        And I link "[data-cy=\"component-two\"]" and "[data-cy=\"component-four\"]"
+
+        Then I expect "[data-cy=\"component-one\"]" "[data-cy=\"links\"]" contains "ComponentTwo,ComponentFour"
+        And I expect "[data-cy=\"component-two\"]" "[data-cy=\"links\"]" contains "ComponentOne,ComponentThree,ComponentFour"
+        And I expect "[data-cy=\"component-three\"]" "[data-cy=\"links\"]" contains "ComponentTwo,ComponentFour"
+        And I expect "[data-cy=\"component-four\"]" "[data-cy=\"links\"]" contains "ComponentOne,ComponentTwo,ComponentThree"
+
+    Scenario: Unlink two components should update their link information
+        Given I clear localstorage
+        And I visit the "/"
+        And I create component "ComponentOne" at position "0,0" link-groups "toto"
+        And I create component "ComponentTwo" at position "200,200" link-groups "toto"
+        And I link "[data-cy=\"component-one\"]" and "[data-cy=\"component-two\"]"
+
+        When I unlink "[data-cy=\"component-one\"]" and "[data-cy=\"component-two\"]"
+
+        Then I expect "[data-cy=\"component-one\"]" "[data-cy=\"links\"]" contains "EMPTY"
+        And I expect "[data-cy=\"component-two\"]" "[data-cy=\"links\"]" contains "EMPTY"
+
+
+    Scenario: Unlink two components should not delete other existing links
+        Given I clear localstorage
+        And I visit the "/"
+        And I create component "ComponentOne" at position "0,0" link-groups "toto"
+        And I create component "ComponentTwo" at position "200,200" link-groups "toto"
+        And I create component "ComponentThree" at position "200,200" link-groups "toto"
+        And I link "[data-cy=\"component-one\"]" and "[data-cy=\"component-two\"]"
+        And I link "[data-cy=\"component-one\"]" and "[data-cy=\"component-three\"]"
+
+        When I unlink "[data-cy=\"component-one\"]" and "[data-cy=\"component-two\"]"
+
+        Then I expect "[data-cy=\"component-one\"]" "[data-cy=\"links\"]" contains "ComponentThree"
+        And I expect "[data-cy=\"component-three\"]" "[data-cy=\"links\"]" contains "ComponentOne"
+
+
+    Scenario: Link between two components should be saved on component move
+        Given I clear localstorage
+        And I visit the "/"
+        And I create component "ComponentOne" at position "0,0" link-groups "toto"
+        And I create component "ComponentTwo" at position "200,200" link-groups "toto"
+        And I link "[data-cy=\"component-one\"]" and "[data-cy=\"component-two\"]"
+
+        When I move "[data-cy=\"component-one\"]" to "400,400"
+
+        Then I expect "[data-cy=\"component-one\"]" "[data-cy=\"links\"]" contains "ComponentTwo"
+        And I expect "[data-cy=\"component-two\"]" "[data-cy=\"links\"]" contains "ComponentOne"
+
+
+    Scenario: Link from a contained component to an external component should be possible
+        Given I clear localstorage
+        And I visit the "/"
+        And I create component "ComponentOne" at position "0,0" link-groups "toto"
+        And I create component "ComponentContainer" at position "0,0" type "container" accepts "container-child"
+        And I create component "ComponentThatCanBeContained" at position "200,200" type "container-child" link-groups "toto"
+        And I move "[data-cy=\"component-that-can-be-contained\"]" to "20,20"
+
+        When I link "[data-cy=\"component-one\"]" and "[data-cy=\"component-that-can-be-contained\"]"
+
+        Then I expect "[data-cy=\"component-one\"]" "[data-cy=\"links\"]" contains "ComponentThatCanBeContained"
+        And I expect "[data-cy=\"component-that-can-be-contained\"]" "[data-cy=\"links\"]" contains "ComponentOne"
+
+
+    Scenario: Link between two contained components of the same container should be possible
+        Given I clear localstorage
+        And I visit the "/"
+        And I create component "ComponentContainer" at position "0,0" type "container" accepts "container-child"
+        And I create component "ComponentThatCanBeContainedOne" at position "200,200" type "container-child" link-groups "toto"
+        And I create component "ComponentThatCanBeContainedTwo" at position "400,400" type "container-child" link-groups "toto"
+        And I move "[data-cy=\"component-that-can-be-contained-one\"]" to "20,20"
+        And I move "[data-cy=\"component-that-can-be-contained-two\"]" to "20,20"
+
+        When I link "[data-cy=\"component-that-can-be-contained-one\"]" and "[data-cy=\"component-that-can-be-contained-two\"]"
+
+        Then I expect "[data-cy=\"component-that-can-be-contained-one\"]" "[data-cy=\"links\"]" contains "ComponentThatCanBeContainedOne"
+        And I expect "[data-cy=\"component-that-can-be-contained-two\"]" "[data-cy=\"links\"]" contains "ComponentThatCanBeContainedTwo"
+
+
+    Scenario: Link between two contained components of different containers should be possible
+        Given I clear localstorage
+        And I visit the "/"
+        And I create component "ComponentContainerOne" at position "0,0" type "container" accepts "container-one-child"
+        And I create component "ComponentContainerTwo" at position "0,300" type "container" accepts "container-two-child"
+        And I create component "ComponentThatCanBeContainedOne" at position "300,300" type "container-one-child" link-groups "toto"
+        And I create component "ComponentThatCanBeContainedTwo" at position "300,600" type "container-two-child" link-groups "toto"
+        And I move "[data-cy=\"component-that-can-be-contained-one\"]" to "20,20"
+        And I move "[data-cy=\"component-that-can-be-contained-two\"]" to "20,320"
+
+        When I link "[data-cy=\"component-that-can-be-contained-one\"]" and "[data-cy=\"component-that-can-be-contained-two\"]"
+
+        Then I expect "[data-cy=\"component-that-can-be-contained-one\"]" "[data-cy=\"links\"]" contains "ComponentThatCanBeContainedOne"
+        And I expect "[data-cy=\"component-that-can-be-contained-two\"]" "[data-cy=\"links\"]" contains "ComponentThatCanBeContainedTwo"
