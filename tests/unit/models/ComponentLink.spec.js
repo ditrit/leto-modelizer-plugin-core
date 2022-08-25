@@ -5,37 +5,29 @@ describe('Test class: ComponentLink', () => {
     it('Check variable instantiation', () => {
       const link = new ComponentLink();
 
-      expect(link.from.id).toBeNull();
-      expect(link.to.id).toBeNull();
-      expect(link.type).toBeNull();
+      expect(link.source).toBeNull();
+      expect(link.target).toBeNull();
+      expect(link.definition).toBeNull();
     });
 
     it('Check passing undefined variables to constructor', () => {
       const link = new ComponentLink({});
 
-      expect(link.from.id).toBeNull();
-      expect(link.to.id).toBeNull();
-      expect(link.type).toBeNull();
-    });
-
-    it('Check passing empty from/to to constructor', () => {
-      const link = new ComponentLink({ from: {}, to: {} });
-
-      expect(link.from.id).toBeNull();
-      expect(link.to.id).toBeNull();
-      expect(link.type).toBeNull();
+      expect(link.source).toBeNull();
+      expect(link.target).toBeNull();
+      expect(link.definition).toBeNull();
     });
 
     it('Check passing variable to constructor', () => {
       const link = new ComponentLink({
-        from: { id: 'id1' },
-        to: { id: 'id2' },
-        type: 'type',
+        source: 'source',
+        target: 'target',
+        definition: {},
       });
 
-      expect(link.from.id).toEqual('id1');
-      expect(link.to.id).toEqual('id2');
-      expect(link.type).toEqual('type');
+      expect(link.source).toEqual('source');
+      expect(link.target).toEqual('target');
+      expect(link.definition).toBeDefined();
     });
   });
 });
