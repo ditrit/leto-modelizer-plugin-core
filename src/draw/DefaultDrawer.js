@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 import pack from 'bin-pack';
-import ComponentDrawOption from 'src/models/ComponentDrawOption';
+import ComponentDrawOption from '../models/ComponentDrawOption';
 
 /**
  * Class that draws a component in a graphical representation.

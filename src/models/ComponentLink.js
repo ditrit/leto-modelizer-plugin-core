@@ -1,4 +1,4 @@
-import FileInformation from 'src/models/FileInformation';
+import FileInformation from './FileInformation';
 
 /**
  * Class that links Components together.

@@ -1,4 +1,4 @@
-import FileInformation from 'src/models/FileInformation';
+import FileInformation from './FileInformation';
 
 /**
  * A model for modelling tools in Leto Modelizer.
