@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add property `definition` in `ComponentAttribute`
 - Add property `definition` in `ComponentLink`
 - Add property `attributeRef` in `ComponentLinkDefinition`
+- Add method `setContainerSize` using `bin-pack` library in `DefaultDrawer`.
+- Add feature that drawing components in their container and resize it, in  `DefaultDrawer`.
 
 ### Changed
 
