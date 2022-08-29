@@ -1,5 +1,6 @@
 import * as d3 from 'd3';
 import pack from 'bin-pack';
+import interact from 'interactjs';
 import ComponentDrawOption from '../models/ComponentDrawOption';
 
 /**
@@ -14,6 +15,18 @@ class DefaultDrawer {
    */
   constructor(resources = null, rootId = 'root') {
     /**
+     * D3 library.
+     */
+    this.d3 = d3;
+    /**
+     * bin-pack library
+     */
+    this.pack = pack;
+    /**
+     * interactjs library
+     */
+    this.interact = interact;
+    /**
      * Id of HTML element where we want to draw.
      * @type {String}
      */
@@ -23,14 +36,6 @@ class DefaultDrawer {
      * @type {Object}
      */
     this.resources = resources;
-    /**
-     * D3 library.
-     */
-    this.d3 = d3;
-    /**
-     * bin-pack library
-     */
-    this.pack = pack;
     /**
      * Margin value between component default position.
      * @type {Number}
