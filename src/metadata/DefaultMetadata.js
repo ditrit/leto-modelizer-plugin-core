@@ -4,18 +4,6 @@
  */
 class DefaultMetadata {
   /**
-   * Default constructor.
-   * @param {Array} resources - Resources object that contains all Metadata object.
-   */
-  constructor(resources) {
-    /**
-     * Resources object that contains all Metadata object.
-     * @type {Array}
-     */
-    this.resources = resources;
-  }
-
-  /**
    * Validate the provided metadata with a schemas.
    * @return {Boolean} - True if metadata is valid.
    */
