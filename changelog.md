@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## [Unreleased]
+
+### Added
+
+- Add property `defaultFileName` in method `render` of `DefaultRender` to indicate the default file name of new component.
+
+### Changed
+
+- Method `render` in `DefaultRender` have to return an array of `FileInput`
+- Method `parse` in `DefaultParser` have to use an array of `FileInput` as `inputs`
+- Method `isParsable` in `DefaultParser` have to use `FileInformation` instead of `fileName`
+- Replace `name` by `fileName` getter in `FileInformation`
+
+### Removed
+
+- Remove constructor from `DefaultMetadata`
+- Remove expected `resources` from plugin index
+
 ## [0.4.0] - 2022-08-26
 
 ### Added
