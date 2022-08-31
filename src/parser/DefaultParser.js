@@ -18,24 +18,24 @@ class DefaultParser {
 
   /**
    * Convert the content of files into Components.
-   * @param {String[]} [inputs=[]] - Data you want to parse.
+   * @param {FileInput[]} [inputs=[]] - Data you want to parse.
    * @return {Object} - Object that contains all components, links and errors.
    */
-  parse(inputs = []) {
+  parse(inputs = []) { /* eslint no-unused-vars: 0 */ // --> OFF
     return {
-      components: inputs,
-      links: inputs,
+      components: [],
+      links: [],
       errors: [],
     };
   }
 
   /**
    * Indicate if this parser can parse this file.
-   * @param {String} [fileName] - Name of file.
+   * @param {FileInformation} fileInformation - File information.
    * @return {Boolean} - Boolean that indicates if this file can be parsed or not.
    */
-  isParsable(fileName) {
-    return fileName !== undefined && fileName !== null;
+  isParsable(fileInformation) {
+    return fileInformation !== undefined && fileInformation !== null;
   }
 }
 
