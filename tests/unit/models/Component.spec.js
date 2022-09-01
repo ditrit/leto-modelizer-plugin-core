@@ -12,6 +12,7 @@ describe('Test class: Component', () => {
       expect(component.drawOption).toBeNull();
       expect(component.attributes).toEqual([]);
       expect(component.children).toEqual([]);
+      expect(component.path).toBeNull();
     });
 
     it('Check passing undefined variables to constructor', () => {
@@ -23,6 +24,7 @@ describe('Test class: Component', () => {
       expect(component.drawOption).toBeNull();
       expect(component.attributes).toEqual([]);
       expect(component.children).toEqual([]);
+      expect(component.path).toBeNull();
     });
 
     it('Check passing all variables to constructor', () => {
@@ -33,6 +35,7 @@ describe('Test class: Component', () => {
         drawOption: 'drawOption',
         attributes: 'attributes',
         children: 'children',
+        path: 'path',
       });
 
       expect(component.id).toEqual('id');
@@ -41,6 +44,7 @@ describe('Test class: Component', () => {
       expect(component.drawOption).toEqual('drawOption');
       expect(component.attributes).toEqual('attributes');
       expect(component.children).toEqual('children');
+      expect(component.path).toEqual('path');
     });
   });
 
