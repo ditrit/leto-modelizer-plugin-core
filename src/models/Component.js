@@ -24,7 +24,7 @@ class Component extends FileInformation {
     attributes: [],
     children: [],
   }) {
-    super();
+    super(props);
     const {
       id,
       name,

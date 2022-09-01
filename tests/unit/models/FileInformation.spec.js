@@ -6,24 +6,24 @@ describe('Test class: FileInformation', () => {
       const fileInformation = new FileInformation();
 
       expect(fileInformation.path).toBeNull();
-      expect(fileInformation.name).toBeNull();
+      expect(fileInformation.fileName).toBeNull();
     });
 
     it('Check passing undefined variables to constructor', () => {
       const fileInformation = new FileInformation({});
 
       expect(fileInformation.path).toBeNull();
-      expect(fileInformation.name).toBeNull();
+      expect(fileInformation.fileName).toBeNull();
     });
 
     it('Check passing variable to constructor', () => {
       const fileInformation = new FileInformation({
-        path: 'path',
+        path: '/src/test/file.txt',
         name: 'name',
       });
 
-      expect(fileInformation.path).toEqual('path');
-      expect(fileInformation.name).toEqual('name');
+      expect(fileInformation.path).toEqual('/src/test/file.txt');
+      expect(fileInformation.fileName).toEqual('file.txt');
     });
   });
 });

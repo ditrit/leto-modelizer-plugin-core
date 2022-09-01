@@ -7,10 +7,12 @@ class DefaultRender {
    * Transform all provided components and links in string.
    * @param {Array} [components=[]] - List of components you want to convert.
    * @param {Array} [links=[]] - List of links you want to convert.
-   * @return {String} - Generated string from components and links.
+   * @param {String} [defaultFileName] - Default file name for new component.
+   * @return {FileInput[]} - Generated files from components and links.
    */
-  render(components = [], links = []) { /* eslint no-unused-vars: 0 */ // --> OFF
-    return 'string';
+  /* eslint no-unused-vars: 0 */ // --> OFF
+  render(components = [], links = [], defaultFileName = null) {
+    return [];
   }
 }
 

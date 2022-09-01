@@ -24,11 +24,14 @@ import {
   ComponentDrawOption,
   ComponentAttribute,
   ComponentLink,
+  ComponentLinkDefinition,
   DefaultDrawer,
   DefaultMetadata,
   DefaultParser,
   DefaultRender,
-  ParseError
+  ParseError,
+  FileInformation,
+  FileInput,
 } from "leto-modelizer-plugin-core";
 ```
 
@@ -75,14 +78,8 @@ export default {
   PluginMetadata: MyPluginMetadata, // MyPluginMetadata has to extend DefaultMetadata
   PluginParser: MyPluginParser,     // MyPluginParser has to extend DefaultParser
   PluginRenderer: MyPluginRenderer, // MyPluginRenderer has to extend DefaultRender
-  resources,
 };
 ```
-
-`resources` represents an object that contains all your assets for the plugin.
-By default, the project template provide a `DefaultModel.svg` and a `DefaultIcon.svg`.
-
-The object `resources` is managed by a [script](https://github.com/ditrit/leto-modelizer-plugin-template/blob/main/scripts/generateResources.js) in the project template for its generation.
 
 ### How it works
 
