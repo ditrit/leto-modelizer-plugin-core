@@ -253,19 +253,21 @@ class DefaultDrawer {
 
     sizes = this.pack(sizes);
 
-    const containerY = parseInt(
-      this.d3
-        .select(`#${parentId} .component-container`)
-        .attr('y'),
-      10,
-    );
+    if (parentId !== this.rootId) {
+      const containerY = parseInt(
+        this.d3
+          .select(`#${parentId} .component-container`)
+          .attr('y'),
+        10,
+      );
 
-    this.d3.select(`#${parentId} > .template`)
-      .attr('width', sizes.width + this.margin * 3)
-      .attr('height', sizes.height + containerY + this.margin * 2)
-      .select('.component-container')
-      .attr('width', sizes.width + this.margin)
-      .attr('height', sizes.height + this.margin);
+      this.d3.select(`#${parentId} > .template`)
+        .attr('width', sizes.width + this.margin * 3)
+        .attr('height', sizes.height + containerY + this.margin * 2)
+        .select('.component-container')
+        .attr('width', sizes.width + this.margin)
+        .attr('height', sizes.height + this.margin);
+    }
 
     return sizes;
   }

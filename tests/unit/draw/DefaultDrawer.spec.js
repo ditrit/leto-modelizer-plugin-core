@@ -217,6 +217,17 @@ describe('Test Class: DefaultDrawer()', () => {
     });
 
     it('Should call d3 methods to setup containers sizes', () => {
+      drawer.setContainerSize(components);
+
+      expect(drawer.d3.attr).toBeCalledTimes(5);
+      expect(drawer.d3.attr.mock.calls[0][0]).toBe('y');
+      expect(drawer.d3.attr.mock.calls[1][0]).toBe('width');
+      expect(drawer.d3.attr.mock.calls[2][0]).toBe('height');
+      expect(drawer.d3.attr.mock.calls[3][0]).toBe('width');
+      expect(drawer.d3.attr.mock.calls[4][0]).toBe('height');
+    });
+
+    it('Should call d3 methods to setup containers sizes', () => {
       drawer.setContainerSize(components, 'parentId');
 
       expect(drawer.d3.attr).toBeCalledTimes(5);
