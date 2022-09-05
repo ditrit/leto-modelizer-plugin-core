@@ -109,6 +109,10 @@ Build this project in `dist` folder.
 
 Generate documentation with esdoc.
 
+### demo
+
+Start a sample integration vue dev server.
+
 ### lint
 
 Run eslint check on the project.
