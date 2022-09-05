@@ -216,6 +216,11 @@ describe('Test Class: DefaultDrawer()', () => {
       components = [component00, component01, component02];
     });
 
+    it('Should call d3 methods to setup containers, parentId equal rootId ', () => {
+      drawer.setContainerSize(components, 'root');
+      expect(drawer.d3.attr).not.toBeCalled();
+    });
+
     it('Should call d3 methods to setup containers sizes', () => {
       drawer.setContainerSize(components, 'parentId');
 
