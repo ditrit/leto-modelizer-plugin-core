@@ -16,6 +16,7 @@ module.exports = {
   // Rules order is important, please avoid shuffling them
   extends: [
     'airbnb-base',
+    "plugin:cypress/recommended"
   ],
 
   globals: {
