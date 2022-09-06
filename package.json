@@ -12,6 +12,7 @@
   "scripts": {
     "build": "webpack",
     "build:docs": "esdoc",
+    "demo": "npm --prefix ./demo install && npm --prefix ./demo run demo",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint:report": "eslint src -f json-relative > eslint.json",

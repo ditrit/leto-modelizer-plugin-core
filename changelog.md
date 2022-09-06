@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Added
+
+- Demo of `DefaultDrawer`
+
 ## Fixed
 
 - Fix the bug that does not define the position of components if no 'container' component exists
