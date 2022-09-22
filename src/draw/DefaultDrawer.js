@@ -53,8 +53,6 @@ class DefaultDrawer {
       },
       drag: {
         state: false,
-        deltaX: 0,
-        deltaY: 0,
       },
     };
   }
@@ -66,7 +64,7 @@ class DefaultDrawer {
    * @return {Boolean} Returns true if normally execute.
    */
   draw(components = [], parentId = this.rootId) {
-    const d3Container = this.d3.select(parentId === this.rootId ? `#${parentId}` : `#${parentId} .container`)
+    const d3Container = this.d3.select(parentId === this.rootId ? `#${parentId}` : `#${parentId} .component-container`)
       .selectAll(`.${parentId}.component`)
       .data(components, (data) => data.id);
 
@@ -75,23 +73,32 @@ class DefaultDrawer {
 
     d3Elements
       .attr('id', (data) => data.id)
-      .attr('class', (data) => `${parentId} component component-${data.definition.model}`)
+      .attr('class', (data) => `${parentId} ${data.definition.type} component component-${data.definition.model} ${data.definition.isContainer ? 'isContainer' : ''}`)
       .html((data) => this.resources.models[data.definition.model]);
 
-    this.__drawModels(components);
+    this.__drawModels(components, parentId);
 
     components.forEach((component) => {
-      this.setComponentAction(component);
+      this.setSelectionAction(component);
       if (component.children.length > 0) {
         this.draw(component.children, component.id);
       }
     });
 
     this.initializeComponents(d3Elements, components, parentId);
+    if (parentId === this.rootId) {
+      this.setComponentAction(components);
+      this.setViewPortAction(this.d3.select(`#${this.rootId}`));
+    }
+
+    this.d3.select(parentId === this.rootId ? `#${parentId}` : `#${parentId} .component-container`)
+      .selectAll(`.${parentId}.component`)
+      .transition()
+      .duration(500)
+      .attr('x', (data) => data.drawOption.x)
+      .attr('y', (data) => data.drawOption.y);
 
     d3Container.exit().remove();
-
-    this.setViewPortAction(this.d3.select(`#${parentId}`));
 
     return true;
   }
@@ -107,72 +114,139 @@ class DefaultDrawer {
   }
 
   /**
-   * Set actions on component.
-   * @param {Component} component - Component to set actions.
+   * Set selection actions on components
+   * @param {Component} component - Component to set selection actions.
    */
-  setComponentAction(component) {
+  setSelectionAction(component) {
     const element = this.d3.select(`#${component.id}`);
     element.call(
       this.d3.drag()
-        .on('start', (event) => {
-          this.__dragStart(event, component, element);
+        .on('start', () => {
+          this.actions.drag.state = false;
         })
-        .on('drag', (event) => {
-          this.__selectComponent(component.id);
-          this.__dragPending(event, component, element);
+        .on('drag', (_event, data) => {
+          this.__selectComponent(data.id);
+          this.actions.drag.state = true;
         })
-        .on('end', (event) => {
+        .on('end', (_event, data) => {
           if (!this.actions.drag.state) {
-            this.__toggleComponentSelection(event.subject.id);
+            this.__toggleComponentSelection(data.id);
           }
-          this.__dragEnd(element);
+          this.actions.drag.state = false;
         }),
     );
   }
 
   /**
-   * Action to make on drag start event.
-   * @param {Object} event - Drag event.
-   * @param {Component} component - Component related to the action.
-   * @param {Object} element - D3 element related to the action.
-   * @private
+   * Set actions on component.
+   * @param {Component[]} components - Array containing components.
    */
-  __dragStart(event, component, element) {
-    this.actions.drag.state = false;
-    this.d3.select('use')
-      .attr('xlink:href', `#${component.id}`);
-    this.actions.drag.deltaX = event.x - element.attr('x');
-    this.actions.drag.deltaY = event.y - element.attr('y');
-    element.attr('cursor', 'grabbing');
+  setComponentAction(components) {
+    this.__drag();
+    this.__dropToRoot(components);
+    this.__dropToContainer(components);
   }
 
   /**
-   * Action to make on drag pending event.
-   * @param {Object} event - Drag event.
-   * @param {Component} component - Component related to the action.
-   * @param {Object} element - D3 element related to the action.
+   * Set drag action.
    * @private
    */
-  __dragPending(event, component, element) {
-    this.actions.drag.state = true;
-    const x = event.x - this.actions.drag.deltaX;
-    const y = event.y - this.actions.drag.deltaY;
+  __drag() {
+    this.interact('.component').unset();
+    this.interact('.component').draggable({
+      onmove: (event) => {
+        this.actions.drag.state = true;
+        const component = this.d3.select(`#${event.target.id}`);
 
-    element.attr('x', x).attr('y', y);
-    component.drawOption.x = x;
-    component.drawOption.y = y;
+        component.datum().drawOption.x += event.dx;
+        component.datum().drawOption.y += event.dy;
+
+        component
+          .attr('x', (data) => data.drawOption.x)
+          .attr('y', (data) => data.drawOption.y);
+      },
+    });
   }
 
   /**
-   * Action to make on drag end event.
-   * @param {Object} element - D3 element related to the action.
+   * Set action to drop component from a container component to the root element.
+   * @param {Component[]} components - Array containing components.
    * @private
    */
-  __dragEnd(element) {
-    element.attr('cursor', 'grab');
-    this.actions.drag.state = false;
-    this.actions.drag.deltaX = 0;
-    this.actions.drag.deltaY = 0;
+  __dropToRoot(components) {
+    this.interact(`#${this.rootId}`).unset();
+    this.interact(`#${this.rootId}`).dropzone({
+      accept: '.component',
+      overlap: 'pointer',
+      ondrop: (event) => {
+        const currentComponent = this.d3.select(`#${event.relatedTarget.id}`);
+
+        if (![...currentComponent.node().classList].includes(this.rootId)) {
+          const container = this.d3.select(`#${currentComponent.node().classList[0]}`).datum();
+
+          components.push(currentComponent.datum());
+          container.children = container.children
+            .filter((child) => child.id !== event.relatedTarget.id);
+
+          container.children.forEach((child) => { child.drawOption = null; });
+          this.draw(container.children, container.id);
+
+          this.__resetDrawOption(components, currentComponent);
+        }
+      },
+    });
+  }
+
+  /**
+   * Set action to drop component in a container component.
+   * @param {Component[]} components - Array containing components.
+   * @private
+   */
+  __dropToContainer(components) {
+    let invalidDropzones;
+    let currentComponent;
+    this.interact('.isContainer').unset();
+    this.interact('.isContainer').dropzone({
+      accept: '.component',
+      overlap: 'pointer',
+      ondropactivate: (event) => {
+        currentComponent = this.d3.select(`#${event.relatedTarget.id}`);
+        invalidDropzones = [];
+        if (currentComponent.datum().definition.isContainer) {
+          this.__getChildrenContainer(currentComponent.datum().children, invalidDropzones);
+        }
+      },
+      ondrop: (event) => {
+        if (!invalidDropzones.includes(event.target.id)) {
+          const dropzone = this.d3.select(`#${event.target.id}`).datum();
+
+          if ([...currentComponent.node().classList].includes(this.rootId)) {
+            dropzone.children.push(currentComponent.datum());
+
+            for (let i = 0; i < components.length; i += 1) {
+              if (components[i].id === currentComponent.datum().id) {
+                components.splice(i, 1);
+                break;
+              }
+            }
+
+            this.__resetDrawOption(components, currentComponent);
+          } else if (currentComponent.node().classList[0] !== event.target.id) {
+            const container = this.d3.select(`#${currentComponent.node().classList[0]}`).datum();
+
+            dropzone.children.push(currentComponent.datum());
+
+            container.children = container.children
+              .filter((child) => child.id !== event.relatedTarget.id);
+
+            container.children.forEach((child) => { child.drawOption = null; });
+            this.draw(container.children, container.id);
+
+            this.__resetDrawOption(components, currentComponent);
+          }
+        }
+      },
+    });
   }
 
   /**
@@ -194,7 +268,6 @@ class DefaultDrawer {
    */
   __selectComponent(id) {
     this.__unselectComponent();
-
     this.d3.select(`#${id}`)
       .style('outline', this.actions.selection.style)
       .style('outline-offset', this.actions.selection.offset);
@@ -215,6 +288,33 @@ class DefaultDrawer {
   }
 
   /**
+   * Get all container id from a container component
+   * @param {Component[]} children - Array containing components.
+   * @param {Array} array - Array that get all container id.
+   * @private
+   */
+  __getChildrenContainer(children, array) {
+    children.forEach((child) => {
+      if (child.definition.isContainer) {
+        array.push(child.id);
+        this.__getChildrenContainer(child.children, array);
+      }
+    });
+  }
+
+  /**
+   * Reset all components drawOption.
+   * @param {Component[]} components - Array containing components.
+   * @param {Component} currentComponent - Component that was droped.
+   * @private
+   */
+  __resetDrawOption(components, currentComponent) {
+    this.d3.selectAll('.component').each((data) => { data.drawOption = null; });
+    currentComponent.datum().drawOption = null;
+    this.draw(components);
+  }
+
+  /**
    * Initialize all draw options of the components.
    * @param {Object} d3Elements - D3 selected elements.
    * @param {Component[]} components - List of Components.
@@ -222,7 +322,7 @@ class DefaultDrawer {
    */
   initializeComponents(d3Elements, components, parentId) {
     const componentsToInit = components.filter((component) => {
-      if (!component.drawOption) {
+      if (component.drawOption === null) {
         component.drawOption = new ComponentDrawOption();
         return true;
       }
@@ -259,19 +359,45 @@ class DefaultDrawer {
     sizes = this.pack(sizes);
 
     if (parentId !== this.rootId) {
-      const containerY = parseInt(
-        this.d3
-          .select(`#${parentId} .component-container`)
-          .attr('y'),
-        10,
-      );
+      if (this.d3.select(`#${parentId}`).datum().children.length > 0) {
+        const containerY = parseInt(
+          this.d3
+            .select(`#${parentId} .component-container`)
+            .attr('y'),
+          10,
+        );
 
-      this.d3.select(`#${parentId} > .template`)
-        .attr('width', sizes.width + this.margin * 3)
-        .attr('height', sizes.height + containerY + this.margin * 2)
-        .select('.component-container')
-        .attr('width', sizes.width + this.margin)
-        .attr('height', sizes.height + this.margin);
+        this.d3.select(`#${parentId}`)
+          .attr('width', sizes.width + this.margin * 4)
+          .attr('height', sizes.height + containerY + this.margin * 3)
+
+          .select('.template')
+          .attr('width', sizes.width + this.margin * 3)
+          .attr('height', sizes.height + containerY + this.margin * 2)
+
+          .select('.component-container')
+          .attr('width', sizes.width + this.margin)
+          .attr('height', sizes.height + this.margin);
+      } else {
+        const containerY = parseInt(
+          this.d3
+            .select(`#${parentId} .component-container`)
+            .attr('y'),
+          10,
+        );
+
+        this.d3.select(`#${parentId}`)
+          .attr('width', 230)
+          .attr('height', sizes.height + containerY + this.margin * 3)
+
+          .select('.template')
+          .attr('width', 230)
+          .attr('height', sizes.height + containerY + this.margin * 3)
+
+          .select('.component-container')
+          .attr('width', 230 - this.margin * 2)
+          .attr('height', sizes.height + this.margin * 2);
+      }
     }
 
     return sizes;
@@ -317,15 +443,15 @@ class DefaultDrawer {
    * @param {Components[]} components - List of components for which we want to keep the model name.
    * @private
    */
-  __drawModels(components) {
+  __drawModels(components, parentId) {
     const templates = [
       ...new Set(components.map((component) => component.definition.model)),
     ];
 
     templates.forEach((template) => {
-      const elements = this.d3.selectAll(`.component-${template}`);
+      const elements = this.d3.selectAll(`.${parentId}.component-${template}`);
       if (this[`draw${template}`]) {
-        this[`draw${template}`](elements, 'init');
+        this[`draw${template}`](elements);
       }
     });
   }
