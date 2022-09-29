@@ -183,7 +183,7 @@ const dmz1 = new Component({
       definition: nameAttributeDefinition,
     }),
   ],
-  children: [mailServer, httpServer, dma],
+  children: [mailServer, httpServer],
 });
 
 const dmz2 = new Component({
