@@ -9,7 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Added
 
-- Demo of `DefaultDrawer`
+- Demo of `DefaultDrawer`.
+- Add feature to drag and drop component into container components in `DefaultDrawer`.
+- Install `interactjs` library.
+
+## Changed
+
+- Updated the demo for more relevance
 
 ## Fixed
 
