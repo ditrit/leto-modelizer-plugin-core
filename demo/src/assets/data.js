@@ -171,9 +171,9 @@ const httpServer = new Component({
   children: [],
 });
 
-const dmz = new Component({
+const dmz1 = new Component({
   id: 'network1',
-  name: 'DMZ',
+  name: 'DMZ_1',
   definition: networkDefinition,
   attributes: [
     new ComponentAttribute({
@@ -186,10 +186,25 @@ const dmz = new Component({
   children: [mailServer, httpServer],
 });
 
+const dmz2 = new Component({
+  id: 'network2',
+  name: 'DMZ_2',
+  definition: networkDefinition,
+  attributes: [
+    new ComponentAttribute({
+      name: 'name',
+      value: 'DMZ',
+      type: 'String',
+      definition: nameAttributeDefinition,
+    }),
+  ],
+  children: [],
+});
+
 export default {
   definitions: {
     components: [networkDefinition, serverDefinition, laptopDefinition],
     links: [],
   },
-  components: [internalLaptop, dmz, externalLaptop],
+  components: [internalLaptop, dmz1, dmz2, externalLaptop],
 };

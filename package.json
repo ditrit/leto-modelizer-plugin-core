@@ -5,7 +5,7 @@
   "main": "dist/leto-modelizer-plugin-core.js",
   "exports": {
     ".": {
-      "development":"./src",
+      "development": "./src",
       "default": "./dist/leto-modelizer-plugin-core.js"
     }
   },
@@ -45,8 +45,8 @@
     "eslint": "^8.18.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-formatter-json-relative": "^0.1.0",
-    "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-cypress": "^2.12.1",
+    "eslint-plugin-import": "^2.26.0",
     "eslint-watch": "^8.0.0",
     "jest": "^28.1.1",
     "jest-environment-jsdom": "^28.1.1",
@@ -57,6 +57,7 @@
   },
   "dependencies": {
     "bin-pack": "^1.0.2",
-    "d3": "^7.6.1"
+    "d3": "^7.6.1",
+    "interactjs": "^1.10.17"
   }
 }

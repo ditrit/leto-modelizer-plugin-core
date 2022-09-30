@@ -1,4 +1,5 @@
 Feature: Test component selection
+
   Background:
     Given I clear localstorage
     And I visit the "/"
