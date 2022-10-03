@@ -9,6 +9,7 @@ class ComponentDefinition {
    * @param {String} [props.icon] - The icon's name of this type of component.
    * @param {String} [props.model] - Name of SVG template to render this type of component.
    * @param {String[]} [props.parentTypes=[]] - The list of types that can be the parent.
+   * @param {String[]} [props.childrenTypes=[]] - The list of types that can be children.
    * @param {ComponentAttributeDefinition[]} [props.definedAttributes=[]] - Defined attributes for
    * this type.
    * @param {Boolean} [props.isContainer=false] - Boolean means if this type can be a parent.
@@ -27,6 +28,7 @@ class ComponentDefinition {
       icon,
       model,
       parentTypes,
+      childrenTypes,
       definedAttributes,
       isContainer,
     } = props;
@@ -50,6 +52,11 @@ class ComponentDefinition {
      * @type {String[]}
      */
     this.parentTypes = parentTypes || [];
+    /**
+     * The list of types that can be a child.
+     * @type {String[]}
+     */
+    this.childrenTypes = childrenTypes || [];
     /**
      * Defined attributes for this type.
      * @type {ComponentAttributeDefinition[]}

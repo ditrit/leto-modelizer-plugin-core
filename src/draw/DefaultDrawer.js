@@ -144,7 +144,11 @@ class DefaultDrawer {
   setComponentAction(components) {
     this.__drag();
     this.__dropToRoot(components);
-    this.__dropToContainer(components);
+    components.forEach((component) => {
+      if (component.definition.isContainer) {
+        this.__dropToContainer(components, component);
+      }
+    });
   }
 
   /**
@@ -200,14 +204,18 @@ class DefaultDrawer {
   /**
    * Set action to drop component in a container component.
    * @param {Component[]} components - Array containing components.
+   * @param {Component} component - Component to set drop action.
    * @private
    */
-  __dropToContainer(components) {
+  __dropToContainer(components, component) {
     let invalidDropzones;
     let currentComponent;
-    this.interact('.isContainer').unset();
-    this.interact('.isContainer').dropzone({
-      accept: '.component',
+    const validChildren = component.definition.childrenTypes.length === 0
+      ? '.component'
+      : component.definition.childrenTypes.map((el) => `.${el}`).join(', ');
+    this.interact(`#${component.id}`).unset();
+    this.interact(`#${component.id}`).dropzone({
+      accept: validChildren,
       overlap: 'pointer',
       ondropactivate: (event) => {
         currentComponent = this.d3.select(`#${event.relatedTarget.id}`);
@@ -217,33 +225,32 @@ class DefaultDrawer {
         }
       },
       ondrop: (event) => {
-        if (!invalidDropzones.includes(event.target.id)) {
-          const dropzone = this.d3.select(`#${event.target.id}`).datum();
+        if (invalidDropzones.includes(event.target.id)) { return; }
+        const dropzone = this.d3.select(`#${event.target.id}`).datum();
 
-          if ([...currentComponent.node().classList].includes(this.rootId)) {
-            dropzone.children.push(currentComponent.datum());
+        if ([...currentComponent.node().classList].includes(this.rootId)) {
+          dropzone.children.push(currentComponent.datum());
 
-            for (let i = 0; i < components.length; i += 1) {
-              if (components[i].id === currentComponent.datum().id) {
-                components.splice(i, 1);
-                break;
-              }
+          for (let i = 0; i < components.length; i += 1) {
+            if (components[i].id === currentComponent.datum().id) {
+              components.splice(i, 1);
+              break;
             }
-
-            this.__resetDrawOption(components, currentComponent);
-          } else if (currentComponent.node().classList[0] !== event.target.id) {
-            const container = this.d3.select(`#${currentComponent.node().classList[0]}`).datum();
-
-            dropzone.children.push(currentComponent.datum());
-
-            container.children = container.children
-              .filter((child) => child.id !== event.relatedTarget.id);
-
-            container.children.forEach((child) => { child.drawOption = null; });
-            this.draw(container.children, container.id);
-
-            this.__resetDrawOption(components, currentComponent);
           }
+
+          this.__resetDrawOption(components, currentComponent);
+        } else if (currentComponent.node().classList[0] !== event.target.id) {
+          const container = this.d3.select(`#${currentComponent.node().classList[0]}`).datum();
+
+          dropzone.children.push(currentComponent.datum());
+
+          container.children = container.children
+            .filter((child) => child.id !== event.relatedTarget.id);
+
+          container.children.forEach((child) => { child.drawOption = null; });
+          this.draw(container.children, container.id);
+
+          this.__resetDrawOption(components, currentComponent);
         }
       },
     });

@@ -204,9 +204,23 @@ describe('Test Class: DefaultDrawer()', () => {
     drawer.__drag = jest.fn();
     drawer.__dropToRoot = jest.fn();
     drawer.__dropToContainer = jest.fn();
+    const components = [
+      {
+        definition: {
+          childrenTypes: [],
+          isContainer: false,
+        },
+      },
+      {
+        definition: {
+          childrenTypes: ['type0', 'type1'],
+          isContainer: true,
+        },
+      },
+    ];
 
     it('Should call inner function', () => {
-      drawer.setComponentAction({});
+      drawer.setComponentAction(components);
       expect(drawer.__drag).toBeCalled();
       expect(drawer.__dropToRoot).toBeCalled();
       expect(drawer.__dropToContainer).toBeCalled();
@@ -248,9 +262,26 @@ describe('Test Class: DefaultDrawer()', () => {
       unset: jest.fn(),
       dropzone: jest.fn(),
     });
-    it('Should call all interact methods', () => {
-      drawer.__dropToContainer();
+    const component0 = {
+      definition: {
+        childrenTypes: [],
+        isContainer: false,
+      },
+    };
+    const component1 = {
+      definition: {
+        childrenTypes: ['type0', 'type1'],
+        isContainer: true,
+      },
+    };
+    it('Should not call interact methods', () => {
+      drawer.__dropToContainer([], component0);
       expect(drawer.interact).toBeCalledTimes(2);
+    });
+
+    it('Should call all interact methods', () => {
+      drawer.__dropToContainer([], component1);
+      expect(drawer.interact).toBeCalledTimes(4);
       expect(drawer.interact().unset).toBeCalled();
       expect(drawer.interact().dropzone).toBeCalled();
     });
