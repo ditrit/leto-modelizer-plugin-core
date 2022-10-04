@@ -1,6 +1,6 @@
 {
   "name": "leto-modelizer-plugin-core",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Library that contains all models for modelling tools in Leto's projects.",
   "main": "dist/leto-modelizer-plugin-core.js",
   "exports": {
