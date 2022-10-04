@@ -53,6 +53,8 @@ class DefaultDrawer {
       },
       drag: {
         state: false,
+        startX: 0,
+        startY: 0,
       },
     };
   }
@@ -94,7 +96,7 @@ class DefaultDrawer {
     this.d3.select(parentId === this.rootId ? `#${parentId}` : `#${parentId} .component-container`)
       .selectAll(`.${parentId}.component`)
       .transition()
-      .duration(500)
+      .duration(250)
       .attr('x', (data) => data.drawOption.x)
       .attr('y', (data) => data.drawOption.y);
 
@@ -158,6 +160,10 @@ class DefaultDrawer {
   __drag() {
     this.interact('.component').unset();
     this.interact('.component').draggable({
+      onstart: (event) => {
+        this.actions.drag.startX = this.d3.select(`#${event.target.id}`).datum().drawOption.x;
+        this.actions.drag.startY = this.d3.select(`#${event.target.id}`).datum().drawOption.y;
+      },
       onmove: (event) => {
         this.actions.drag.state = true;
         const component = this.d3.select(`#${event.target.id}`);
@@ -210,12 +216,9 @@ class DefaultDrawer {
   __dropToContainer(components, component) {
     let invalidDropzones;
     let currentComponent;
-    const validChildren = component.definition.childrenTypes.length === 0
-      ? '.component'
-      : component.definition.childrenTypes.map((el) => `.${el}`).join(', ');
     this.interact(`#${component.id}`).unset();
     this.interact(`#${component.id}`).dropzone({
-      accept: validChildren,
+      accept: '.component',
       overlap: 'pointer',
       ondropactivate: (event) => {
         currentComponent = this.d3.select(`#${event.relatedTarget.id}`);
@@ -226,6 +229,14 @@ class DefaultDrawer {
       },
       ondrop: (event) => {
         if (invalidDropzones.includes(event.target.id)) { return; }
+        if (!component.definition.childrenTypes
+          .includes(currentComponent.datum().definition.type)) {
+          const { startX, startY } = this.actions.drag;
+          currentComponent.datum().drawOption.x = startX;
+          currentComponent.datum().drawOption.y = startY;
+          this.draw(components);
+          return;
+        }
         const dropzone = this.d3.select(`#${event.target.id}`).datum();
 
         if ([...currentComponent.node().classList].includes(this.rootId)) {
