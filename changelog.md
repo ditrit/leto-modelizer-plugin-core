@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Demo of `DefaultDrawer`.
 - Add feature to drag and drop component into container components in `DefaultDrawer`.
 - Install `interactjs` library.
+- Added a feature to filter the components that can enter a container.
+- Add new attribute `childrenTypes` in the `ComponentDefinition` class.
 
 ## Changed
 

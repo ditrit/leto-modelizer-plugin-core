@@ -39,7 +39,8 @@ const networkDefinition = new ComponentDefinition({
   type: 'network',
   icon: 'network',
   model: 'DefaultContainer',
-  parentTypes: [],
+  parentTypes: ['network'],
+  childrenTypes: ['server', 'network'],
   definedAttributes: [nameAttributeDefinition],
   isContainer: true,
 });
