@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added a feature that resets the component to its previous position when it is dropped in a wrong container.
+
 ### Fixed
 
 - Add `childrenTypes` in `ComponentDefinition`'s props.
