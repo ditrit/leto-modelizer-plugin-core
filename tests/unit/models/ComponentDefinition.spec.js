@@ -9,6 +9,7 @@ describe('Test class: ComponentDefinition', () => {
       expect(componentDefinition.icon).toBeNull();
       expect(componentDefinition.model).toBeNull();
       expect(componentDefinition.parentTypes).toEqual([]);
+      expect(componentDefinition.childrenTypes).toEqual([]);
       expect(componentDefinition.definedAttributes).toEqual([]);
       expect(componentDefinition.isContainer).toBeFalsy();
     });
@@ -20,6 +21,7 @@ describe('Test class: ComponentDefinition', () => {
       expect(componentDefinition.icon).toBeNull();
       expect(componentDefinition.model).toBeNull();
       expect(componentDefinition.parentTypes).toEqual([]);
+      expect(componentDefinition.childrenTypes).toEqual([]);
       expect(componentDefinition.definedAttributes).toEqual([]);
       expect(componentDefinition.isContainer).toBeFalsy();
     });
@@ -30,6 +32,7 @@ describe('Test class: ComponentDefinition', () => {
         icon: 'icon',
         model: 'model ',
         parentTypes: ['type'],
+        childrenTypes: ['childrenType'],
         definedAttributes: ['attribute'],
         isContainer: true,
       });
@@ -39,6 +42,8 @@ describe('Test class: ComponentDefinition', () => {
       expect(componentDefinition.model).toEqual('model ');
       expect(componentDefinition.parentTypes.length).toEqual(1);
       expect(componentDefinition.parentTypes[0]).toEqual('type');
+      expect(componentDefinition.childrenTypes.length).toEqual(1);
+      expect(componentDefinition.childrenTypes[0]).toEqual('childrenType');
       expect(componentDefinition.definedAttributes.length).toEqual(1);
       expect(componentDefinition.definedAttributes[0]).toEqual('attribute');
       expect(componentDefinition.isContainer).toBeTruthy();
