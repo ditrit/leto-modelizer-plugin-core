@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add `childrenTypes` in `ComponentDefinition`'s props.
 - Update `ComponentDefinition`'s tests.
+- Fixed resizing of icons when they are larger or smaller than expected.
 
 ## [0.6.0] - 2022-10-04
 
