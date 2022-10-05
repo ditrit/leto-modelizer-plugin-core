@@ -90,26 +90,27 @@ describe('Test Class: DefaultDrawer()', () => {
       expect(drawer.setComponentAction).toBeCalledTimes(1);
       expect(drawer.setSelectionAction).toBeCalledTimes(5);
 
-      expect(drawer.d3.attr).toBeCalledTimes(8);
-      expect(actionCallBack.attr[0].name)
-        .toEqual('id');
+      expect(drawer.d3.attr).toBeCalledTimes(10);
+      expect(actionCallBack.attr[0].name).toEqual('id');
       expect(actionCallBack.attr[0].callback({ id: 'idTest0' })).toEqual('idTest0');
       expect(actionCallBack.attr[1].name).toEqual('class');
       expect(actionCallBack.attr[1].callback({ definition: { model: 'test0', type: 'type0' } }))
         .toEqual('parent type0 component component-test0 ');
-      expect(actionCallBack.attr[2].name).toEqual('id');
-      expect(actionCallBack.attr[2].callback({ id: 'idTest1' })).toEqual('idTest1');
-      expect(actionCallBack.attr[3].name).toEqual('class');
-      expect(actionCallBack.attr[3].callback({ definition: { model: 'test1', type: 'type1' } }))
+      expect(actionCallBack.attr[2].name).toEqual('width');
+      expect(actionCallBack.attr[3].name).toEqual('height');
+      expect(actionCallBack.attr[4].name).toEqual('id');
+      expect(actionCallBack.attr[4].callback({ id: 'idTest1' })).toEqual('idTest1');
+      expect(actionCallBack.attr[5].name).toEqual('class');
+      expect(actionCallBack.attr[5].callback({ definition: { model: 'test1', type: 'type1' } }))
         .toEqual('root type1 component component-test1 ');
-      expect(actionCallBack.attr[4].name).toEqual('x');
-      expect(actionCallBack.attr[4].callback({ drawOption: { x: 1 } })).toEqual(1);
-      expect(actionCallBack.attr[5].name).toEqual('y');
-      expect(actionCallBack.attr[5].callback({ drawOption: { y: 2 } })).toEqual(2);
       expect(actionCallBack.attr[6].name).toEqual('x');
-      expect(actionCallBack.attr[6].callback({ drawOption: { x: 3 } })).toEqual(3);
+      expect(actionCallBack.attr[6].callback({ drawOption: { x: 1 } })).toEqual(1);
       expect(actionCallBack.attr[7].name).toEqual('y');
-      expect(actionCallBack.attr[7].callback({ drawOption: { y: 4 } })).toEqual(4);
+      expect(actionCallBack.attr[7].callback({ drawOption: { y: 2 } })).toEqual(2);
+      expect(actionCallBack.attr[8].name).toEqual('x');
+      expect(actionCallBack.attr[8].callback({ drawOption: { x: 3 } })).toEqual(3);
+      expect(actionCallBack.attr[9].name).toEqual('y');
+      expect(actionCallBack.attr[9].callback({ drawOption: { y: 4 } })).toEqual(4);
 
       expect(drawer.d3.html).toBeCalledTimes(3);
       expect(actionCallBack.html[0].callback({ definition: { model: 'test0' } })).toEqual('testModel0');

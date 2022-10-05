@@ -482,6 +482,8 @@ class DefaultDrawer {
     d3Element.select('.component-name').text((data) => data.name);
     d3Element.select('.component-type').text((data) => data.definition.type);
     d3Element.select('.component-icon')
+      .attr('width', 32)
+      .attr('height', 32)
       .html((data) => this.resources.icons[data.definition.icon]);
   }
 
