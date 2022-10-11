@@ -34,6 +34,8 @@ describe('Test Class: DefaultDrawer()', () => {
       drawer.setViewPortAction = jest.fn();
       drawer.setComponentAction = jest.fn();
       drawer.setSelectionAction = jest.fn();
+      drawer.initializeActionMenu = jest.fn();
+      drawer.__drawModels = jest.fn();
       drawer.d3.data = jest.fn((components, data) => {
         actionCallBack.data.push({ data });
         return drawer.d3;
@@ -80,8 +82,8 @@ describe('Test Class: DefaultDrawer()', () => {
         definition: { model: 'bad' },
       }], 'parent');
 
-      expect(drawer.d3.select).toBeCalledTimes(8);
-      expect(drawer.d3.selectAll).toBeCalledTimes(9);
+      expect(drawer.d3.select).toBeCalledTimes(5);
+      expect(drawer.d3.selectAll).toBeCalledTimes(4);
       expect(drawer.d3.data).toBeCalledTimes(2);
       expect(actionCallBack.data[0].data({ id: 'id0' })).toEqual('id0');
       expect(actionCallBack.data[1].data({ id: 'id1' })).toEqual('id1');
@@ -89,6 +91,8 @@ describe('Test Class: DefaultDrawer()', () => {
       expect(drawer.setViewPortAction).toBeCalledTimes(1);
       expect(drawer.setComponentAction).toBeCalledTimes(1);
       expect(drawer.setSelectionAction).toBeCalledTimes(5);
+      expect(drawer.initializeActionMenu).toBeCalledTimes(2);
+      expect(drawer.__drawModels).toBeCalledTimes(2);
 
       expect(drawer.d3.attr).toBeCalledTimes(8);
       expect(actionCallBack.attr[0].name)
@@ -111,10 +115,9 @@ describe('Test Class: DefaultDrawer()', () => {
       expect(actionCallBack.attr[7].name).toEqual('y');
       expect(actionCallBack.attr[7].callback({ drawOption: { y: 4 } })).toEqual(4);
 
-      expect(drawer.d3.html).toBeCalledTimes(3);
+      expect(drawer.d3.html).toBeCalledTimes(2);
       expect(actionCallBack.html[0].callback({ definition: { model: 'test0' } })).toEqual('testModel0');
-      expect(actionCallBack.html[1].callback({ definition: { icon: 'test' } })).toEqual('testIcon');
-      expect(actionCallBack.html[2].callback({ definition: { model: 'test1' } })).toEqual('testModel1');
+      expect(actionCallBack.html[1].callback({ definition: { model: 'test1' } })).toEqual('testModel1');
     });
   });
 
@@ -642,6 +645,20 @@ describe('Test Class: DefaultDrawer()', () => {
     });
   });
 
+  describe('Test method: initializeActionMenu', () => {
+    const drawer = new DefaultDrawer();
+    drawer.d3 = mockD3(jest);
+
+    it('Should call D3 methods', () => {
+      drawer.initializeActionMenu();
+      expect(drawer.d3.select).toBeCalledTimes(1);
+      expect(drawer.d3.append).toBeCalledTimes(4);
+      expect(drawer.d3.attr).toBeCalledTimes(4);
+      expect(drawer.d3.html).toBeCalledTimes(3);
+      expect(drawer.d3.style).toBeCalledTimes(12);
+    });
+  });
+
   describe('Test actions', () => {
     let drawer;
 
@@ -673,7 +690,10 @@ describe('Test Class: DefaultDrawer()', () => {
     it('Test action: __selectComponent', () => {
       drawer.actions.selection.current = null;
       drawer.__unselectComponent = jest.fn();
-
+      drawer.displayActionMenu = jest.fn();
+      drawer.d3.node.mockReturnValue({
+        getBoundingClientRect: jest.fn(),
+      });
       drawer.__selectComponent('id1');
 
       expect(drawer.actions.selection.current).toEqual('id1');
