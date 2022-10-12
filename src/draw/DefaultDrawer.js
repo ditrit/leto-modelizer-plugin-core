@@ -2,6 +2,7 @@ import * as d3 from 'd3';
 import pack from 'bin-pack';
 import interact from 'interactjs';
 import ComponentDrawOption from '../models/ComponentDrawOption';
+import actionIcons from '../assets/actions/actionsIcons';
 
 /**
  * Class that draws a component in a graphical representation.
@@ -102,6 +103,7 @@ class DefaultDrawer {
 
     d3Container.exit().remove();
 
+    this.initializeActionMenu();
     return true;
   }
 
@@ -151,6 +153,28 @@ class DefaultDrawer {
         this.__dropToContainer(components, component);
       }
     });
+
+    const actionMenu = this.d3.select('#action-menu');
+    actionMenu.select('.trash')
+      .on('click', () => { this.__deleteComponent(this.actions.selection.current); });
+    actionMenu.select('.edit')
+      .on('click', () => { this.__editComponent(this.actions.selection.current); });
+  }
+
+  /**
+   * Delete component
+   * @private
+   */
+  __deleteComponent(componentId) {
+    return componentId;
+  }
+
+  /**
+   * Edit component
+   * @private
+   */
+  __editComponent(componentId) {
+    return componentId;
   }
 
   /**
@@ -192,6 +216,8 @@ class DefaultDrawer {
         const currentComponent = this.d3.select(`#${event.relatedTarget.id}`);
 
         if (![...currentComponent.node().classList].includes(this.rootId)) {
+          this.hideActionMenu();
+
           const container = this.d3.select(`#${currentComponent.node().classList[0]}`).datum();
 
           components.push(currentComponent.datum());
@@ -216,6 +242,7 @@ class DefaultDrawer {
   __dropToContainer(components, component) {
     let invalidDropzones;
     let currentComponent;
+    let initialPosition;
     this.interact(`#${component.id}`).unset();
     this.interact(`#${component.id}`).dropzone({
       accept: '.component',
@@ -226,6 +253,7 @@ class DefaultDrawer {
         if (currentComponent.datum().definition.isContainer) {
           this.__getChildrenContainer(currentComponent.datum().children, invalidDropzones);
         }
+        initialPosition = currentComponent.node().getBoundingClientRect();
       },
       ondrop: (event) => {
         if (invalidDropzones.includes(event.target.id)) { return; }
@@ -234,9 +262,13 @@ class DefaultDrawer {
           const { startX, startY } = this.actions.drag;
           currentComponent.datum().drawOption.x = startX;
           currentComponent.datum().drawOption.y = startY;
+          this.displayActionMenu(initialPosition);
           this.draw(components);
           return;
         }
+
+        this.hideActionMenu();
+
         const dropzone = this.d3.select(`#${event.target.id}`).datum();
 
         if ([...currentComponent.node().classList].includes(this.rootId)) {
@@ -276,6 +308,7 @@ class DefaultDrawer {
       this.d3.select(`#${this.actions.selection.current}`)
         .style('outline', '');
       this.actions.selection.current = null;
+      this.hideActionMenu();
     }
   }
 
@@ -286,7 +319,12 @@ class DefaultDrawer {
    */
   __selectComponent(id) {
     this.__unselectComponent();
-    this.d3.select(`#${id}`)
+
+    const currentComponent = this.d3.select(`#${id}`);
+
+    this.displayActionMenu(currentComponent.node().getBoundingClientRect());
+
+    currentComponent
       .style('outline', this.actions.selection.style)
       .style('outline-offset', this.actions.selection.offset);
     this.actions.selection.current = id;
@@ -303,6 +341,78 @@ class DefaultDrawer {
     } else {
       this.__selectComponent(id);
     }
+  }
+
+  /**
+   * Initialize the action menu.
+   */
+  initializeActionMenu() {
+    if (document.querySelector('#action-menu') === null) {
+      const viewport = this.d3.select('#viewport');
+      const actionMenu = viewport.append('div')
+        .attr('id', 'action-menu');
+
+      actionMenu
+        .append('button')
+        .attr('class', 'edit')
+        .html(actionIcons.edit);
+
+      actionMenu
+        .append('button')
+        .attr('class', 'link')
+        .html(actionIcons.link);
+
+      actionMenu
+        .append('button')
+        .attr('class', 'trash')
+        .html(actionIcons.trash);
+
+      actionMenu
+        .style('position', 'absolute')
+        .style('top', 0)
+        .style('left', 0)
+        .style('overflow', 'hidden')
+        .style('border-radius', '5px')
+        .style('visibility', 'hidden')
+        .style('transform', 'translateX(-50%)');
+
+      actionMenu.selectAll('button')
+        .style('width', '30px')
+        .style('height', '30px')
+        .style('border', 'none');
+
+      actionMenu.selectAll('svg')
+        .style('width', '20px')
+        .style('height', '20px');
+    }
+  }
+
+  /**
+   * Display and positioning of the action menu.
+   * @param {Object} position - Data of the component's position that the target of action menu.
+   * @param {position.top} position.top - Viewport top position of the component.
+   * @param {position.left} position.left - Viewport left position of the component.
+   * @param {position.width} position.width - Width of the component.
+   * @param {position.height} position.height - Height of the component.
+   */
+  displayActionMenu(position) {
+    const {
+      top, left,
+      width, height,
+    } = position;
+
+    this.d3.select('#action-menu')
+      .style('visibility', 'visible')
+      .style('top', `${top + height + 10}px `)
+      .style('left', `${left + width / 2}px`);
+  }
+
+  /**
+   * Hide the action menu
+   */
+  hideActionMenu() {
+    this.d3.select('#action-menu')
+      .style('visibility', 'hidden');
   }
 
   /**

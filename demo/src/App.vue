@@ -3,7 +3,7 @@
     <div>
       <h1>Demo of default drawing in leto-modelizer</h1>
     </div>
-    <div>
+    <div id='viewport'>
       <svg id='root' width='80vw' height='80vh' style='border: 1px solid black'></svg>
     </div>
   </div>

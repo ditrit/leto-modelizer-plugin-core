@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added a feature that resets the component to its previous position when it is dropped in a wrong container.
+- Add a feature that displays an action menu when a component is selected.
 
 ### Fixed
 

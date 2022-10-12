@@ -1,7 +1,7 @@
 import { Given, Then } from '@badeball/cypress-cucumber-preprocessor';
 import nunjucks from 'nunjucks';
 
-Then('I expect {string} exists', (templateSelector) => {
+Then(/^I expect ["'](.*)["'] (?:is|to be) visible$/, (templateSelector) => {
   const selector = nunjucks.renderString(templateSelector, cy.context);
   cy.get(selector).should('be.visible');
 });
@@ -67,10 +67,10 @@ Given('I set on {string} text/number {string}', (templateSelector, templateValue
 });
 
 // check if element is in the DOM and is interactable
-Then(/^I expect ["'](.*)["'] (?:is|to be) visible$/, (templateSelector) => {
+Then(/^I expect ["'](.*)["'] (?:is|to be) interactable$/, (templateSelector) => {
   const selector = nunjucks.renderString(templateSelector, cy.context);
 
-  cy.get(selector).should('be.visible').click().should('be.ok');
+  cy.get(selector).click().should('be.ok');
 });
 
 Then('I expect {string} to have {string} as parent', (templateSelector, templateParentSelector) => {
