@@ -5,12 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## [Unreleased]
+
+### Added
+
+- Add a feature that displays an action menu when a component is selected.
+- Update constructor of Drawer to receive an events object.
+- Emit an event on edit, selection and delete components.
+
 ## [0.7.0] - 2022-10-05
 
 ### Added
 
 - Added a feature that resets the component to its previous position when it is dropped in a wrong container.
-- Add a feature that displays an action menu when a component is selected.
 
 ### Fixed
 
