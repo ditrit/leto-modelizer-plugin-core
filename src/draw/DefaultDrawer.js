@@ -171,11 +171,15 @@ class DefaultDrawer {
       }
     });
 
-    const actionMenu = this.d3.select('#action-menu');
-    actionMenu.select('.trash')
-      .on('click', () => { this.__deleteComponent(this.actions.selection.current); });
-    actionMenu.select('.edit')
-      .on('click', () => { this.__editComponent(this.actions.selection.current); });
+    this.interact('#action-menu .trash').unset();
+    this.interact('#action-menu .trash').on('click', () => {
+      this.__deleteComponent(this.actions.selection.current);
+    });
+
+    this.interact('#action-menu .edit').unset();
+    this.interact('#action-menu .edit').on('click', () => {
+      this.__editComponent(this.actions.selection.current);
+    });
   }
 
   /**
