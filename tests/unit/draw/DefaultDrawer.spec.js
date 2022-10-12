@@ -9,15 +9,36 @@ describe('Test Class: DefaultDrawer()', () => {
       expect(drawer.resources).toBeNull();
       expect(drawer.rootId).toEqual('root');
       expect(drawer.d3).not.toBeNull();
+      expect(drawer.events).toEqual({
+        SelectEvent: null,
+        EditEvent: null,
+        DeleteEvent: null,
+      });
     });
 
     it('Test passing value in constructor', () => {
-      const drawer = new DefaultDrawer('resources', 'rootId');
+      let drawer = new DefaultDrawer('resources', 'rootId', {});
       expect(drawer.resources).toEqual('resources');
       expect(drawer.rootId).toEqual('rootId');
       expect(drawer.d3).not.toBeNull();
       expect(drawer.margin).toEqual(6);
       expect(drawer.actions).not.toBeNull();
+      expect(drawer.events).toEqual({
+        SelectEvent: null,
+        EditEvent: null,
+        DeleteEvent: null,
+      });
+
+      drawer = new DefaultDrawer('resources', 'rootId', {
+        SelectEvent: 1,
+        EditEvent: 2,
+        DeleteEvent: 3,
+      });
+      expect(drawer.events).toEqual({
+        SelectEvent: 1,
+        EditEvent: 2,
+        DeleteEvent: 3,
+      });
     });
   });
 
