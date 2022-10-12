@@ -13,8 +13,16 @@ class DefaultDrawer {
    * Default constructor
    * @param {Object} [resources=null] - Object that contains resources.
    * @param {String} [rootId="root"] - Id of HTML element where we want to draw.
+   * @param {Object} [events] - Events list.
+   * @param {Function} [events.SelectEvent.next] - Function to emit selection event.
+   * @param {Function} [events.EditEvent.next] - Function to emit edit event.
+   * @param {Function} [events.DeleteEvent.next] - Function to emit delete event.
    */
-  constructor(resources = null, rootId = 'root') {
+  constructor(resources = null, rootId = 'root', events = {
+    SelectEvent: null,
+    EditEvent: null,
+    DeleteEvent: null,
+  }) {
     /**
      * D3 library.
      */
@@ -57,6 +65,15 @@ class DefaultDrawer {
         startX: 0,
         startY: 0,
       },
+    };
+    /**
+     * Object to store all events.
+     * @type {{DeleteEvent: null, EditEvent: null, SelectEvent: null}}
+     */
+    this.events = {
+      SelectEvent: events.SelectEvent || null,
+      EditEvent: events.EditEvent || null,
+      DeleteEvent: events.DeleteEvent || null,
     };
   }
 
@@ -166,7 +183,11 @@ class DefaultDrawer {
    * @private
    */
   __deleteComponent(componentId) {
-    return componentId;
+    if (this.events.DeleteEvent) {
+      this.events.DeleteEvent.next({
+        id: componentId,
+      });
+    }
   }
 
   /**
@@ -174,7 +195,11 @@ class DefaultDrawer {
    * @private
    */
   __editComponent(componentId) {
-    return componentId;
+    if (this.events.EditEvent) {
+      this.events.EditEvent.next({
+        id: componentId,
+      });
+    }
   }
 
   /**
@@ -307,6 +332,12 @@ class DefaultDrawer {
     if (this.actions.selection.current) {
       this.d3.select(`#${this.actions.selection.current}`)
         .style('outline', '');
+      if (this.events.SelectEvent) {
+        this.events.SelectEvent.next({
+          isSelected: false,
+          id: this.actions.selection.current,
+        });
+      }
       this.actions.selection.current = null;
       this.hideActionMenu();
     }
@@ -328,6 +359,12 @@ class DefaultDrawer {
       .style('outline', this.actions.selection.style)
       .style('outline-offset', this.actions.selection.offset);
     this.actions.selection.current = id;
+    if (this.events.SelectEvent) {
+      this.events.SelectEvent.next({
+        isSelected: true,
+        id,
+      });
+    }
   }
 
   /**

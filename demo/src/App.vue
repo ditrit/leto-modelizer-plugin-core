@@ -15,7 +15,20 @@ import { DefaultDrawer } from 'leto-modelizer-plugin-core';
 import resources from './assets/resources';
 import plugin from './assets/data';
 
-const drawer = new DefaultDrawer(resources, 'root');
+function onSelect({ isSelected, id }) {
+  console.log('Select event', id, isSelected);
+}
+function onEdit({ id }) {
+  console.log('Edit event', id);
+}
+function onDelete({ id }) {
+  console.log('Delete event', id);
+}
+const drawer = new DefaultDrawer(resources, 'root', {
+  SelectEvent: { next: onSelect },
+  EditEvent: { next: onEdit },
+  DeleteEvent: { next: onDelete },
+});
 
 onMounted(() => {
   drawer.draw(plugin.components);
