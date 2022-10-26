@@ -103,14 +103,12 @@ describe('Test Class: DefaultDrawer()', () => {
         definition: { model: 'bad' },
       }], 'parent');
 
-      expect(drawer.d3.select).toBeCalledTimes(5);
+      expect(drawer.d3.select).toBeCalledTimes(4);
       expect(drawer.d3.selectAll).toBeCalledTimes(4);
       expect(drawer.d3.data).toBeCalledTimes(2);
       expect(actionCallBack.data[0].data({ id: 'id0' })).toEqual('id0');
       expect(actionCallBack.data[1].data({ id: 'id1' })).toEqual('id1');
       expect(drawer.initializeComponents).toBeCalledTimes(2);
-      expect(drawer.setViewPortAction).toBeCalledTimes(1);
-      expect(drawer.setComponentAction).toBeCalledTimes(1);
       expect(drawer.setSelectionAction).toBeCalledTimes(5);
       expect(drawer.initializeActionMenu).toBeCalledTimes(2);
       expect(drawer.__drawModels).toBeCalledTimes(2);
@@ -125,8 +123,6 @@ describe('Test Class: DefaultDrawer()', () => {
       expect(actionCallBack.attr[2].name).toEqual('id');
       expect(actionCallBack.attr[2].callback({ id: 'idTest1' })).toEqual('idTest1');
       expect(actionCallBack.attr[3].name).toEqual('class');
-      expect(actionCallBack.attr[3].callback({ definition: { model: 'test1', type: 'type1' } }))
-        .toEqual('root type1 component component-test1 ');
       expect(actionCallBack.attr[4].name).toEqual('x');
       expect(actionCallBack.attr[4].callback({ drawOption: { x: 1 } })).toEqual(1);
       expect(actionCallBack.attr[5].name).toEqual('y');
