@@ -81,9 +81,51 @@ class DefaultDrawer {
    * Draws all Components and ComponentLinks in the parentId Element.
    * @param {Component[]} [components=[]] - List of components you want to draw.
    * @param {String} [parentId=this.rootId] - Id of the container where you want to draw.
+   * @param {ComponentLink[]} [links=[]] - List of links you want to draw.
    * @return {Boolean} Returns true if normally execute.
    */
-  draw(components = [], parentId = this.rootId) {
+  draw(components = [], parentId = this.rootId, links = null) {
+    this.drawComponents(components, parentId, links);
+    this.drawLinks(links);
+  }
+
+  /**
+   * Draws all Links.
+   * @param {ComponentLink[]} links - List of links you want to draw.
+   * @return {Boolean} Returns true if normally execute.
+   */
+  drawLinks(links) {
+    if (!links) return;
+
+    if (document.querySelector('.test') === null) {
+      this.d3.select(`#${this.rootId}`)
+        .append('g')
+        .classed('test', true);
+    }
+
+    const linkGen = this.d3.linkHorizontal()
+      .source((data) => this.getAnchorPosition(data).source)
+      .target((data) => this.getAnchorPosition(data).target);
+
+    this.d3.select('.test')
+      .selectAll('.link')
+      .data(links)
+      .join('path')
+      .classed('link', true)
+      .attr('d', linkGen)
+      .attr('fill', 'none')
+      .attr('stroke', 'black')
+      .attr('stroke-width', 2);
+  }
+
+  /**
+   * Draws all Components in the parentId Element.
+   * @param {Component[]} components - List of components you want to draw.
+   * @param {String} parentId - Id of the container where you want to draw.
+   * @param {ComponentLink[]} links - List of links you want to draw.
+   * @return {Boolean} Returns true if normally execute.
+   */
+  drawComponents(components, parentId, links) {
     const d3Container = this.d3.select(parentId === this.rootId ? `#${parentId}` : `#${parentId} .component-container`)
       .selectAll(`.${parentId}.component`)
       .data(components, (data) => data.id);
@@ -99,22 +141,20 @@ class DefaultDrawer {
     this.__drawModels(components, parentId);
 
     components.forEach((component) => {
-      this.setSelectionAction(component);
+      this.setSelectionAction(component, components, links);
       if (component.children.length > 0) {
-        this.draw(component.children, component.id);
+        this.drawComponents(component.children, component.id, links);
       }
     });
 
     this.initializeComponents(d3Elements, components, parentId);
     if (parentId === this.rootId) {
-      this.setComponentAction(components);
+      this.setComponentAction(components, links);
       this.setViewPortAction(this.d3.select(`#${this.rootId}`));
     }
 
     this.d3.select(parentId === this.rootId ? `#${parentId}` : `#${parentId} .component-container`)
       .selectAll(`.${parentId}.component`)
-      .transition()
-      .duration(250)
       .attr('x', (data) => data.drawOption.x)
       .attr('y', (data) => data.drawOption.y);
 
@@ -122,6 +162,68 @@ class DefaultDrawer {
 
     this.initializeActionMenu();
     return true;
+  }
+
+  /**
+   * Get the position of the anchors attached to the link.
+   * @param link - the link we want to set the source and target anchors positions.
+   * @returns {{source: number[], target: number[]}}
+   */
+  getAnchorPosition(link) {
+    const { sourceAnchor, targetAnchor } = this.getDefaultAnchor(link);
+
+    const root = document.querySelector(`#${this.rootId}`)
+      .getBoundingClientRect();
+    const { x: sourceX, y: sourceY } = document.querySelector(`#${link.source} > .template > [anchor=${sourceAnchor}]`)
+      .getBoundingClientRect();
+    const { x: targetX, y: targetY } = document.querySelector(`#${link.target} > .template > [anchor=${targetAnchor}]`)
+      .getBoundingClientRect();
+
+    return {
+      source: [sourceX - root.left, sourceY - root.top],
+      target: [targetX - root.left, targetY - root.top],
+    };
+  }
+
+  /**
+   * Get the anchors we want to attach to the link.
+   * @param {ComponentLink} link - the link we want to set the source and target anchors.
+   * @returns {{sourceAnchor: string, targetAnchor: string, type: string}
+   *          |{sourceAnchor: null, targetAnchor: null, type: null}}
+   */
+  getDefaultAnchor(link) {
+    const source = document.querySelector(`#${link.source}`)
+      .getBoundingClientRect();
+    const target = document.querySelector(`#${link.target}`)
+      .getBoundingClientRect();
+
+    if (target.x > (source.x + source.width)) {
+      return {
+        sourceAnchor: 'right',
+        targetAnchor: 'left',
+      };
+    } if ((target.x + target.width) < source.x) {
+      return {
+        sourceAnchor: 'left',
+        targetAnchor: 'right',
+      };
+    } if ((target.x + target.width) > source.x && target.x < (source.x + source.width)) {
+      if (target.y > (source.y + source.height)) {
+        return {
+          sourceAnchor: 'bottom',
+          targetAnchor: 'top',
+        };
+      } if ((target.y + target.height) < source.y) {
+        return {
+          sourceAnchor: 'top',
+          targetAnchor: 'bottom',
+        };
+      }
+    }
+    return {
+      sourceAnchor: 'top',
+      targetAnchor: 'top',
+    };
   }
 
   /**
@@ -135,10 +237,12 @@ class DefaultDrawer {
   }
 
   /**
-   * Set selection actions on components
+   * Set selection actions on component.
    * @param {Component} component - Component to set selection actions.
+   * @param {Component[]} components - Components needed to set links anchors.
+   * @param {ComponentLink[]} links - links to update on drag.
    */
-  setSelectionAction(component) {
+  setSelectionAction(component, components, links) {
     const element = this.d3.select(`#${component.id}`);
     element.call(
       this.d3.drag()
@@ -148,6 +252,7 @@ class DefaultDrawer {
         .on('drag', (_event, data) => {
           this.__selectComponent(data.id);
           this.actions.drag.state = true;
+          this.drawLinks(links);
         })
         .on('end', (_event, data) => {
           if (!this.actions.drag.state) {
@@ -161,13 +266,14 @@ class DefaultDrawer {
   /**
    * Set actions on component.
    * @param {Component[]} components - Array containing components.
+   * @param {ComponentLink[]} links - List of links you want to draw.
    */
-  setComponentAction(components) {
-    this.__drag();
-    this.__dropToRoot(components);
+  setComponentAction(components, links) {
+    this.__drag(components, links);
+    this.__dropToRoot(components, links);
     components.forEach((component) => {
       if (component.definition.isContainer) {
-        this.__dropToContainer(components, component);
+        this.__dropToContainer(components, component, links);
       }
     });
 
@@ -234,9 +340,10 @@ class DefaultDrawer {
   /**
    * Set action to drop component from a container component to the root element.
    * @param {Component[]} components - Array containing components.
+   * @param {ComponentLink[]} links - List of links you want to draw.
    * @private
    */
-  __dropToRoot(components) {
+  __dropToRoot(components, links) {
     this.interact(`#${this.rootId}`).unset();
     this.interact(`#${this.rootId}`).dropzone({
       accept: '.component',
@@ -254,10 +361,11 @@ class DefaultDrawer {
             .filter((child) => child.id !== event.relatedTarget.id);
 
           container.children.forEach((child) => { child.drawOption = null; });
-          this.draw(container.children, container.id);
+          this.drawComponents(container.children, container.id, links);
 
-          this.__resetDrawOption(components, currentComponent);
+          this.__resetDrawOption(components, currentComponent, links);
         }
+        this.drawLinks(links);
       },
     });
   }
@@ -266,9 +374,10 @@ class DefaultDrawer {
    * Set action to drop component in a container component.
    * @param {Component[]} components - Array containing components.
    * @param {Component} component - Component to set drop action.
+   * @param {ComponentLink[]} links - List of links you want to draw.
    * @private
    */
-  __dropToContainer(components, component) {
+  __dropToContainer(components, component, links) {
     let invalidDropzones;
     let currentComponent;
     let initialPosition;
@@ -285,14 +394,17 @@ class DefaultDrawer {
         initialPosition = currentComponent.node().getBoundingClientRect();
       },
       ondrop: (event) => {
-        if (invalidDropzones.includes(event.target.id)) { return; }
+        if (invalidDropzones.includes(event.target.id)) {
+          this.drawLinks(links);
+          return;
+        }
         if (!component.definition.childrenTypes
           .includes(currentComponent.datum().definition.type)) {
           const { startX, startY } = this.actions.drag;
           currentComponent.datum().drawOption.x = startX;
           currentComponent.datum().drawOption.y = startY;
           this.displayActionMenu(initialPosition);
-          this.draw(components);
+          this.draw(components, this.rootId, links);
           return;
         }
 
@@ -310,7 +422,7 @@ class DefaultDrawer {
             }
           }
 
-          this.__resetDrawOption(components, currentComponent);
+          this.__resetDrawOption(components, currentComponent, links);
         } else if (currentComponent.node().classList[0] !== event.target.id) {
           const container = this.d3.select(`#${currentComponent.node().classList[0]}`).datum();
 
@@ -320,10 +432,11 @@ class DefaultDrawer {
             .filter((child) => child.id !== event.relatedTarget.id);
 
           container.children.forEach((child) => { child.drawOption = null; });
-          this.draw(container.children, container.id);
+          this.drawComponents(container.children, container.id, links);
 
-          this.__resetDrawOption(components, currentComponent);
+          this.__resetDrawOption(components, currentComponent, links);
         }
+        this.drawLinks(links);
       },
     });
   }
@@ -475,12 +588,13 @@ class DefaultDrawer {
    * Reset all components drawOption.
    * @param {Component[]} components - Array containing components.
    * @param {Component} currentComponent - Component that was droped.
+   * @param {ComponentLink[]} links - List of links you want to draw.
    * @private
    */
-  __resetDrawOption(components, currentComponent) {
+  __resetDrawOption(components, currentComponent, links) {
     this.d3.selectAll('.component').each((data) => { data.drawOption = null; });
     currentComponent.datum().drawOption = null;
-    this.draw(components);
+    this.draw(components, this.rootId, links);
   }
 
   /**

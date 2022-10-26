@@ -5,24 +5,31 @@ export default {
     laptop: '<svg width="32px" height="32px" viewBox="0 0 24 24"><path d="M20 4C21.1 4 22 4.89 22 6V16C22 17.11 21.11 18 20 18H24V20H0V18H4C2.9 18 2 17.11 2 16V6C2 4.89 2.89 4 4 4H20M20 6H4V16H20V6M12 12C14.21 12 16 12.9 16 14V15H8V14C8 12.9 9.79 12 12 12M12 7C13.11 7 14 7.9 14 9S13.11 11 12 11 10 10.11 10 9 10.9 7 12 7Z" /></svg>',
   },
   models: {
-    DefaultModel: `<svg version="1.1" xmlns="http://www.w3.org/2000/svg"
-       class="template"
-       width="230" height="50"
-       fill="#474262">
-    <rect width="100%" height="100%" rx="5" ry="5"></rect>
-    <g fill="white" style="font-family: Calibri, Arial">
-      <rect width="38" height="38"
+    DefaultModel: `
+      <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+        class="template"
+        width="230" height="50"
+        fill="#474262">
+        <rect width="100%" height="100%" rx="5" ry="5"></rect>
+        
+        <g fill="white" style="font-family: Calibri, Arial">
+          <rect width="38" height="38"
             x="6" y="6"
             rx="4" ry="4"></rect>
-      <text class="component-name"
+          <text class="component-name"
             x="50" y="1.5em"
             style="font-size: 14px; font-weight: 600">Component Name</text>
-      <text class="component-type"
+          <text class="component-type"
             x="50" y="3em"
             style="font-size: 12px; font-style: italic">component_type</text>
-    </g>
-    <svg class="component-icon" x="9" y="9"></svg>
-</svg>`,
+        </g>
+        <circle class="anchor" r="0" cx="50%" cy="0%" anchor="top"></circle>
+        <circle class="anchor" r="0" cx="50%" cy="100%" anchor="bottom"></circle>
+        <circle class="anchor" r="0" cx="100%" cy="50%" anchor="right"></circle>
+        <circle class="anchor" r="0" cx="0%" cy="50%" anchor="left"></circle>
+        <svg class="component-icon" x="9" y="9"></svg>
+      </svg>
+    `,
     DefaultContainer: `<svg version="1.1" xmlns="http://www.w3.org/2000/svg"
      class="template"
      width="230" height="68"
@@ -47,6 +54,12 @@ export default {
           x="50" y="3em"
           style="font-size: 12px; font-style: italic">component_type</text>
   </g>
+
+  <circle class="anchor" cx="50%" cy="0%" anchor="top" r="0"></circle>
+  <circle class="anchor" cx="50%" cy="100%" anchor="bottom" r="0"></circle>
+  <circle class="anchor" cx="100%" cy="50%" anchor="right" r="0"></circle>
+  <circle class="anchor" cx="0%" cy="50%" anchor="left" r="0"></circle>
+
   <svg class="component-icon" x="9" y="9"></svg>
 </svg>`,
   },

@@ -3,6 +3,7 @@ import {
   ComponentAttribute,
   ComponentAttributeDefinition,
   ComponentDefinition,
+  ComponentLink,
 } from 'leto-modelizer-plugin-core';
 
 // Component attribute Definitions
@@ -202,10 +203,21 @@ const dmz2 = new Component({
   children: [],
 });
 
+const link1 = new ComponentLink({
+  source: 'network1',
+  target: 'internal1',
+});
+
+const link2 = new ComponentLink({
+  source: 'server1',
+  target: 'external1',
+});
+
 export default {
   definitions: {
     components: [networkDefinition, serverDefinition, laptopDefinition],
     links: [],
   },
   components: [internalLaptop, dmz1, dmz2, externalLaptop],
+  links: [link1, link2]
 };
