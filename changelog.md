@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add `drawLinks`, `getAnchorsPosition` and `getDefaultAnchor` methods in `DefaultDrawer.js`.
 - Create a new `draw` method that executes the `drawLinks` and `drawComponents` methods.
+- Add the method `addLink` in `DefaultDrawer.js` that add new link between two components.
 
 ### Changed
 

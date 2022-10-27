@@ -224,6 +224,8 @@ describe('Test Class: DefaultDrawer()', () => {
     drawer.__drag = jest.fn();
     drawer.__dropToRoot = jest.fn();
     drawer.__dropToContainer = jest.fn();
+    drawer.__addLink = jest.fn();
+    document.body.innerHTML = '<div id="action-menu"><div class="link"></div></div>';
     const components = [
       {
         definition: {
@@ -667,6 +669,7 @@ describe('Test Class: DefaultDrawer()', () => {
     drawer.d3 = mockD3(jest);
 
     it('Should call D3 methods', () => {
+      document.querySelector('#action-menu').outerHTML = null;
       drawer.initializeActionMenu();
       expect(drawer.d3.select).toBeCalledTimes(1);
       expect(drawer.d3.append).toBeCalledTimes(4);

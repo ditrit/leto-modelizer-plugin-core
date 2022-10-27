@@ -2,6 +2,7 @@ import * as d3 from 'd3';
 import pack from 'bin-pack';
 import interact from 'interactjs';
 import ComponentDrawOption from '../models/ComponentDrawOption';
+import ComponentLink from '../models/ComponentLink';
 import actionIcons from '../assets/actions/actionsIcons';
 
 /**
@@ -286,6 +287,9 @@ class DefaultDrawer {
     this.interact('#action-menu .edit').on('click', () => {
       this.__editComponent(this.actions.selection.current);
     });
+
+    document.querySelector('#action-menu .link')
+      .addEventListener('click', () => { this.__addLink(links); });
   }
 
   /**
@@ -298,6 +302,26 @@ class DefaultDrawer {
         id: componentId,
       });
     }
+  }
+
+  /**
+   * Add a link between two components
+   * @param {ComponentLink[]} links - Array that contains all links.
+   * @private
+   */
+  __addLink(links) {
+    const source = this.actions.selection.current;
+
+    this.d3.selectAll('.component')
+      .on('click', (event) => {
+        if (source !== event.currentTarget.id) {
+          links.push(new ComponentLink({ source, target: event.currentTarget.id }));
+          this.drawLinks(links);
+        }
+
+        this.d3.selectAll('.component')
+          .on('click', null);
+      });
   }
 
   /**
