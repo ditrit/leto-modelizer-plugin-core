@@ -47,47 +47,4 @@ describe('Test class: Component', () => {
       expect(component.path).toEqual('path');
     });
   });
-
-  describe('Test methods', () => {
-    describe('Test method: addChild', () => {
-      it('Check passing child in children', () => {
-        const componentDefinition = new ComponentDefinition({ isContainer: true, type: 'parent1' });
-        const parent = new Component({ id: '1', definition: componentDefinition });
-        const child1 = new Component({ id: '2', definition: { parentTypes: ['parent1'] } });
-        const child2 = new Component({ id: '3', definition: { parentTypes: ['parent1'] } });
-        parent.addChild(child1);
-        expect(parent.children.length).toEqual(1);
-        expect(parent.children[0]).not.toBeNull();
-        expect(parent.children[0].id).toEqual('2');
-
-        parent.addChild(child2);
-        expect(parent.children.length).toEqual(2);
-        expect(parent.children[1]).not.toBeNull();
-        expect(parent.children[1].id).toEqual('3');
-      });
-      it('Check not passing child if isContainer is false', () => {
-        const componentDefinition = new ComponentDefinition({ isContainer: false, type: 'parent1' });
-        const parent = new Component({ id: '1', definition: componentDefinition });
-        const child = new Component({ id: '2', definition: { parentTypes: ['parent1'] } });
-        parent.addChild(child);
-        expect(parent.children.length).toEqual(0);
-      });
-      it('Check not passing child if parentType and type not equal', () => {
-        const componentDefinition = new ComponentDefinition({ isContainer: true, type: 'parent1' });
-        const parent = new Component({ id: '1', definition: componentDefinition });
-        const child = new Component({ id: '2', definition: { parentTypes: ['parent2'] } });
-        parent.addChild(child);
-        expect(parent.children.length).toEqual(0);
-      });
-      it('Check not passing child if it already exists in children', () => {
-        const componentDefinition = new ComponentDefinition({ isContainer: true, type: 'parent1' });
-        const parent = new Component({ id: '1', definition: componentDefinition });
-        const child = new Component({ id: '2', definition: { parentTypes: ['parent1'] } });
-        parent.addChild(child);
-        expect(parent.children.length).toEqual(1);
-        parent.addChild(child);
-        expect(parent.children.length).toEqual(1);
-      });
-    });
-  });
 });

@@ -64,23 +64,6 @@ class Component extends FileInformation {
      */
     this.children = children || [];
   }
-
-  /**
-   * Method that adds Component to this.children.
-   *
-   * @param {Component} child - Component we want to add.
-   */
-  addChild(child) {
-    const { parentTypes } = child.definition;
-    const { isContainer } = this.definition;
-    if (
-      isContainer
-      && parentTypes.includes(this.definition.type)
-      && !this.children.includes(child)
-    ) {
-      this.children.push(child);
-    }
-  }
 }
 
 export default Component;
