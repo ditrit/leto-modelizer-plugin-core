@@ -315,7 +315,9 @@ class DefaultDrawer {
     this.d3.selectAll('.component')
       .on('click', (event) => {
         if (source !== event.currentTarget.id) {
-          links.push(new ComponentLink({ source, target: event.currentTarget.id }));
+          const link = new ComponentLink({ source, target: event.currentTarget.id });
+          this.d3.select(`#${source}`).datum().setLinkAttribute(link);
+          links.push(link);
           this.drawLinks(links);
         }
 

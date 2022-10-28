@@ -113,6 +113,31 @@ class Component extends FileInformation {
       && definition.containerRef === container.definition.type
       && value === container.id));
   }
+
+  setLinkAttribute(link) {
+    console.log('Set', this.id, link.target);
+    const attributes = this.attributes.filter(({ definition }) => definition.type === 'Link'
+      && definition.linkRef.includes(link.definition.targetRef));
+    if (attributes.length > 0) {
+      attributes
+        .filter(({ value }) => !value.includes(link.target))
+        .forEach((attribute) => {
+          attribute.value.push(link.target);
+        });
+    } else {
+      console.log(link, this.definition);
+      this.attribute.push(new ComponentAttribute({
+        name: link.definition.attributeRef,
+        value: [link.target],
+        type: 'String',
+        definition: this.definition.definedAttributes.find(({ type, name }) => type === 'Link'
+          && name === link.definition.attributeRef),
+      }));
+    }
+    console.log(this.attributes);
+  }
+
+  unsetLinkAttribute() {}
 }
 
 export default Component;
