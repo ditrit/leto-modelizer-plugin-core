@@ -1,3 +1,4 @@
+import ComponentAttribute from './ComponentAttribute';
 import FileInformation from './FileInformation';
 
 /**
@@ -63,6 +64,54 @@ class Component extends FileInformation {
      * @type {Component[]}
      */
     this.children = children || [];
+  }
+
+  /**
+   * Set container value in attributes.
+   * @param {Component} container - Container.
+   */
+  setContainerAttribute(container) {
+    const attributeDefinition = this.definition.definedAttributes
+      .find((definition) => definition.containerRef.includes(
+        container.definition.type,
+      ));
+
+    if (!attributeDefinition) {
+      return;
+    }
+
+    const attributes = this.attributes
+      .filter(({ definition }) => definition.name === attributeDefinition.name);
+
+    if (attributes.length > 0) {
+      attributes.forEach((attribute) => {
+        attribute.value = container.id;
+      });
+    } else {
+      this.attributes.push(new ComponentAttribute({
+        name: attributeDefinition.name,
+        value: container.id,
+        type: 'String',
+        definition: attributeDefinition,
+      }));
+    }
+  }
+
+  /**
+   * Remove all attributes referring to the container.
+   */
+  unsetAllContainerAttribute() {
+    this.attributes = this.attributes.filter(({ definition }) => definition.type !== 'Reference');
+  }
+
+  /**
+   * Remove attribute referring to the container.
+   * @param {Component} container - Container.
+   */
+  unsetContainerAttribute(container) {
+    this.attributes = this.attributes.filter(({ definition, value }) => !(definition.type === 'Reference'
+      && definition.containerRef === container.definition.type
+      && value === container.id));
   }
 }
 
