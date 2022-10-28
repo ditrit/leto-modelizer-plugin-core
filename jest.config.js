@@ -18,6 +18,7 @@ module.exports = {
   moduleNameMapper: {
     '^src/(.*)$': '<rootDir>/src/$1',
     '^tests/(.*)$': '<rootDir>/tests/$1',
+    '^package\\.json$': '<rootDir>/package.json',
   },
   // transform: {
   //   ".*\\.js$": "babel-jest",
