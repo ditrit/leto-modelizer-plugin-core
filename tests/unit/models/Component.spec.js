@@ -1,5 +1,7 @@
 import Component from 'src/models/Component';
+import ComponentAttribute from 'src/models/ComponentAttribute';
 import ComponentDefinition from 'src/models/ComponentDefinition';
+import ComponentAttributeDefinition from 'src/models/ComponentAttributeDefinition';
 
 describe('Test class: Component', () => {
   describe('Test constructor', () => {
@@ -49,44 +51,213 @@ describe('Test class: Component', () => {
   });
 
   describe('Test methods', () => {
-    describe('Test method: addChild', () => {
-      it('Check passing child in children', () => {
-        const componentDefinition = new ComponentDefinition({ isContainer: true, type: 'parent1' });
-        const parent = new Component({ id: '1', definition: componentDefinition });
-        const child1 = new Component({ id: '2', definition: { parentTypes: ['parent1'] } });
-        const child2 = new Component({ id: '3', definition: { parentTypes: ['parent1'] } });
-        parent.addChild(child1);
-        expect(parent.children.length).toEqual(1);
-        expect(parent.children[0]).not.toBeNull();
-        expect(parent.children[0].id).toEqual('2');
+    describe('Test method: setReferenceAttribute', () => {
+      it('should not set attribute if there is no container attribute definition', () => {
+        const component = new Component({
+          definition: new ComponentDefinition({}),
+        });
+        component.setReferenceAttribute(new Component({
+          definition: new ComponentDefinition({
+            type: 'container',
+          }),
+        }));
+        expect(component.attributes).toEqual([]);
+      });
 
-        parent.addChild(child2);
-        expect(parent.children.length).toEqual(2);
-        expect(parent.children[1]).not.toBeNull();
-        expect(parent.children[1].id).toEqual('3');
+      it('should create attribute if container attribute does not exist', () => {
+        const component = new Component({
+          attributes: [],
+          definition: new ComponentDefinition({
+            definedAttributes: [
+              new ComponentAttributeDefinition({
+                name: 'container',
+                type: 'Reference',
+                containerRef: 'container',
+              }),
+            ],
+          }),
+        });
+        component.setReferenceAttribute(new Component({
+          id: 'containerId',
+          definition: new ComponentDefinition({
+            type: 'container',
+          }),
+        }));
+
+        expect(component.attributes.length).toEqual(1);
+        expect(component.attributes[0]).toMatchObject({ name: 'container', value: 'containerId' });
+        expect(component.attributes[0].definition).not.toBeNull();
       });
-      it('Check not passing child if isContainer is false', () => {
-        const componentDefinition = new ComponentDefinition({ isContainer: false, type: 'parent1' });
-        const parent = new Component({ id: '1', definition: componentDefinition });
-        const child = new Component({ id: '2', definition: { parentTypes: ['parent1'] } });
-        parent.addChild(child);
-        expect(parent.children.length).toEqual(0);
+
+      it('should update attribute if container attribute already exits', () => {
+        const component = new Component({
+          attributes: [
+            new ComponentAttribute({
+              name: 'container',
+              definition: new ComponentAttributeDefinition({
+                name: 'container',
+                type: 'Reference',
+                containerRef: 'container',
+              }),
+              value: 'test',
+            }),
+          ],
+          definition: new ComponentDefinition({
+            definedAttributes: [
+              new ComponentAttributeDefinition({
+                name: 'container',
+                type: 'Reference',
+                containerRef: 'container',
+              }),
+            ],
+          }),
+        });
+        component.setReferenceAttribute(new Component({
+          id: 'containerId',
+          definition: new ComponentDefinition({
+            type: 'container',
+          }),
+        }));
+
+        expect(component.attributes.length).toEqual(1);
+        expect(component.attributes[0]).toMatchObject({ name: 'container', value: 'containerId' });
+        expect(component.attributes[0].definition).not.toBeNull();
       });
-      it('Check not passing child if parentType and type not equal', () => {
-        const componentDefinition = new ComponentDefinition({ isContainer: true, type: 'parent1' });
-        const parent = new Component({ id: '1', definition: componentDefinition });
-        const child = new Component({ id: '2', definition: { parentTypes: ['parent2'] } });
-        parent.addChild(child);
-        expect(parent.children.length).toEqual(0);
+    });
+
+    describe('Test method: removeAllReferenceAttributes', () => {
+      it('Should remove existing attribute', () => {
+        const component = new Component({
+          attributes: [
+            new ComponentAttribute({
+              name: 'container',
+              definition: new ComponentAttributeDefinition({
+                name: 'container',
+                type: 'Reference',
+                containerRef: 'container',
+              }),
+              value: 'containerId',
+            }),
+          ],
+          definition: new ComponentDefinition({
+            definedAttributes: [
+              new ComponentAttributeDefinition({
+                name: 'container',
+                type: 'Reference',
+                containerRef: 'container',
+              }),
+            ],
+          }),
+        });
+        component.removeAllReferenceAttributes(new Component({
+          id: 'containerId',
+          definition: new ComponentDefinition({
+            type: 'container',
+          }),
+        }));
+
+        expect(component.attributes.length)
+          .toEqual(0);
       });
-      it('Check not passing child if it already exists in children', () => {
-        const componentDefinition = new ComponentDefinition({ isContainer: true, type: 'parent1' });
-        const parent = new Component({ id: '1', definition: componentDefinition });
-        const child = new Component({ id: '2', definition: { parentTypes: ['parent1'] } });
-        parent.addChild(child);
-        expect(parent.children.length).toEqual(1);
-        parent.addChild(child);
-        expect(parent.children.length).toEqual(1);
+
+      it('Should do nothing if attribute does not exist', () => {
+        const component = new Component({
+          attributes: [
+            new ComponentAttribute({
+              name: 'test',
+              definition: new ComponentAttributeDefinition({
+                name: 'container',
+                type: 'test',
+                containerRef: 'container',
+              }),
+              value: 'containerId',
+            }),
+            new ComponentAttribute({
+              name: 'container2',
+              definition: new ComponentAttributeDefinition({
+                name: 'container2',
+                type: 'Reference',
+                containerRef: 'container2',
+              }),
+              value: 'containerId',
+            }),
+          ],
+        });
+        component.removeAllReferenceAttributes(new Component({
+          id: 'containerId',
+          definition: new ComponentDefinition({
+            type: 'container',
+          }),
+        }));
+
+        expect(component.attributes.length).toEqual(2);
+        expect(component.attributes[0]).toMatchObject({ name: 'test', value: 'containerId' });
+        expect(component.attributes[1]).toMatchObject({ name: 'container2', value: 'containerId' });
+      });
+
+      it('Should do nothing if attribute does not exist', () => {
+        const component = new Component({
+          attributes: [
+            new ComponentAttribute({
+              name: 'test',
+              definition: new ComponentAttributeDefinition({
+                name: 'container',
+                type: 'test',
+                containerRef: 'container',
+              }),
+              value: 'containerId',
+            }),
+            new ComponentAttribute({
+              name: 'container2',
+              definition: new ComponentAttributeDefinition({
+                name: 'container2',
+                type: 'Reference',
+                containerRef: 'container2',
+              }),
+              value: 'containerId',
+            }),
+          ],
+        });
+        component.removeAllReferenceAttributes(new Component({
+          id: 'containerId',
+          definition: new ComponentDefinition({
+            type: 'container',
+          }),
+        }));
+
+        expect(component.attributes.length)
+          .toEqual(2);
+        expect(component.attributes[0]).toMatchObject({ name: 'test', value: 'containerId' });
+        expect(component.attributes[1]).toMatchObject({ name: 'container2', value: 'containerId' });
+      });
+
+      it('Should remove all container attributes', () => {
+        const component = new Component({
+          attributes: [
+            new ComponentAttribute({
+              name: 'container',
+              definition: new ComponentAttributeDefinition({
+                name: 'container',
+                type: 'Reference',
+                containerRef: 'container',
+              }),
+              value: 'containerId',
+            }),
+            new ComponentAttribute({
+              name: 'name',
+              definition: new ComponentAttributeDefinition({
+                name: 'container',
+                type: 'String',
+              }),
+              value: 'test',
+            }),
+          ],
+        });
+        component.removeAllReferenceAttributes();
+
+        expect(component.attributes.length)
+          .toEqual(1);
+        expect(component.attributes[0]).toMatchObject({ name: 'name', value: 'test' });
       });
     });
   });

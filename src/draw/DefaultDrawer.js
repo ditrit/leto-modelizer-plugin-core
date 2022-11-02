@@ -381,6 +381,7 @@ class DefaultDrawer {
           const container = this.d3.select(`#${currentComponent.node().classList[0]}`).datum();
 
           components.push(currentComponent.datum());
+          currentComponent.datum().removeAllReferenceAttributes((container));
           container.children = container.children
             .filter((child) => child.id !== event.relatedTarget.id);
 
@@ -435,6 +436,8 @@ class DefaultDrawer {
         this.hideActionMenu();
 
         const dropzone = this.d3.select(`#${event.target.id}`).datum();
+        currentComponent.datum().removeAllReferenceAttributes();
+        currentComponent.datum().setReferenceAttribute(dropzone);
 
         if ([...currentComponent.node().classList].includes(this.rootId)) {
           dropzone.children.push(currentComponent.datum());
@@ -449,7 +452,6 @@ class DefaultDrawer {
           this.__resetDrawOption(components, currentComponent, links);
         } else if (currentComponent.node().classList[0] !== event.target.id) {
           const container = this.d3.select(`#${currentComponent.node().classList[0]}`).datum();
-
           dropzone.children.push(currentComponent.datum());
 
           container.children = container.children
