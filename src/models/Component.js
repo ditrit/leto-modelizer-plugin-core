@@ -110,6 +110,28 @@ class Component extends FileInformation {
       this.attributes = this.attributes.filter(({ definition }) => definition.type !== 'Reference');
     }
   }
+
+  /**
+   * Set the attribute of a given link
+   * @param {ComponentLink} link - The link we want to set the attribute.
+   */
+  setLinkAttribute(link) {
+    const attributeDefinition = this.definition.definedAttributes
+      .find(({ name }) => name === link.definition.attributeRef);
+    const attribute = this.attributes.find(({ definition }) => definition.type === 'Link'
+      && attributeDefinition.name === definition.name);
+
+    if (attribute && !attribute.value.includes(link.target)) {
+      attribute.value.push(link.target);
+    } else if (!attribute) {
+      this.attributes.push(new ComponentAttribute({
+        name: attributeDefinition.name,
+        definition: attributeDefinition,
+        type: 'Array',
+        value: [link.target],
+      }));
+    }
+  }
 }
 
 export default Component;
