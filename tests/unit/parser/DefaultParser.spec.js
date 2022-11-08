@@ -1,29 +1,34 @@
 import DefaultParser from 'src/parser/DefaultParser';
-import ComponentDefinition from 'src/models/ComponentDefinition';
+import DefaultData from 'src/models/DefaultData';
 
 describe('Test Class: DefaultParser()', () => {
   describe('Test constructor', () => {
     it('Check variable instantiation', () => {
       const parser = new DefaultParser();
 
-      expect(parser.definitions).toEqual([]);
+      expect(parser.pluginData).toBeNull();
     });
 
     it('Check passing variable to constructor', () => {
-      const parser = new DefaultParser([new ComponentDefinition()]);
+      const parser = new DefaultParser(new DefaultData());
 
-      expect(parser.definitions).toEqual([new ComponentDefinition()]);
+      expect(parser.pluginData).toEqual(new DefaultData());
     });
   });
+
   describe('Test methods', () => {
     describe('Test method: parse', () => {
       it('should return default object with initialized properties', () => {
-        const defaultParser = new DefaultParser();
-        expect(defaultParser.parse()).toEqual({
-          components: [],
-          links: [],
-          errors: [],
-        });
+        const defaultParser = new DefaultParser(new DefaultData());
+        defaultParser.pluginData.components = [0];
+        defaultParser.pluginData.links = [1];
+        defaultParser.pluginData.parseErrors = [2];
+
+        defaultParser.parse();
+
+        expect(defaultParser.pluginData.components).toEqual([]);
+        expect(defaultParser.pluginData.links).toEqual([]);
+        expect(defaultParser.pluginData.parseErrors).toEqual([]);
       });
     });
 

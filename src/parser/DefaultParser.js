@@ -5,28 +5,24 @@
 class DefaultParser {
   /**
    * Default constructor.
-   * @param {ComponentDefinition[]} [definitions=[]] - All component definitions that can be managed
-   * by the parser.
+   * @param {DefaultData} pluginData - Plugin data storage.
    */
-  constructor(definitions = []) {
+  constructor(pluginData) {
     /**
-     * All component definitions that can be managed by the parser.
-     * @type {ComponentDefinition[]}
+     * Plugin data storage.
+     * @type {DefaultData}
      */
-    this.definitions = definitions;
+    this.pluginData = pluginData || null;
   }
 
   /**
    * Convert the content of files into Components.
    * @param {FileInput[]} [inputs=[]] - Data you want to parse.
-   * @return {Object} - Object that contains all components, links and errors.
    */
   parse(inputs = []) { /* eslint no-unused-vars: 0 */ // --> OFF
-    return {
-      components: [],
-      links: [],
-      errors: [],
-    };
+    this.pluginData.components = [];
+    this.pluginData.links = [];
+    this.pluginData.parseErrors = [];
   }
 
   /**
