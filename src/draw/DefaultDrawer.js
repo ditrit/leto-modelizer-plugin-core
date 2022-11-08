@@ -617,7 +617,7 @@ class DefaultDrawer {
         .html(actionIcons.trash);
 
       actionMenu
-        .style('position', 'absolute')
+        .style('position', 'fixed')
         .style('top', 0)
         .style('left', 0)
         .style('overflow', 'hidden')
