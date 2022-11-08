@@ -13,11 +13,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Create a new `draw` method that executes the `drawLinks` and `drawComponents` methods.
 - Add the method `addLink` in `DefaultDrawer.js` that add new link between two components.
 - Add method `setReferenceAttribute` and `removeAllReferenceAttributes` in Component to update container attribute.
+- Add the methods `__addLink` and `__unsetAddLink` in `DefaultDrawer`.
 
 ### Changed
 
 - Rename the `draw` method to `drawComponents`.
 - Remove method `addChild` from Component.
+- Switch action menu position parameter from `absolute` to `fixed`. 
 
 ## [0.8.1] - 2022-10-12
 
