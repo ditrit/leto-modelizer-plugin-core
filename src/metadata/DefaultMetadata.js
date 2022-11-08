@@ -4,6 +4,18 @@
  */
 class DefaultMetadata {
   /**
+   * Default constructor.
+   * @param {DefaultData} pluginData - Plugin data storage.
+   */
+  constructor(pluginData) {
+    /**
+     * Plugin data storage.
+     * @type {DefaultData}
+     */
+    this.pluginData = pluginData || null;
+  }
+
+  /**
    * Validate the provided metadata with a schemas.
    * @return {Boolean} - True if metadata is valid.
    */
@@ -12,11 +24,10 @@ class DefaultMetadata {
   }
 
   /**
-   * Get all component/link definitions from metadata.
-   * @return {Object} - Object that contains component/link definitions.
+   * Parse all component/link definitions from metadata.
    */
-  getDefinitions() {
-    return {
+  parse() {
+    this.pluginData.definitions = {
       components: [],
       links: [],
     };
