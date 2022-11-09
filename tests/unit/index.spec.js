@@ -2,7 +2,7 @@ import * as Plugin from 'src/index';
 
 describe('Test library index', () => {
   it('Check export', () => {
-    expect(Object.keys(Plugin).length).toEqual(14);
+    expect(Object.keys(Plugin).length).toEqual(16);
     expect(Plugin.Component).not.toBeNull();
     expect(Plugin.ComponentAttribute).not.toBeNull();
     expect(Plugin.ComponentAttributeDefinition).not.toBeNull();
@@ -17,5 +17,7 @@ describe('Test library index', () => {
     expect(Plugin.FileInformation).not.toBeNull();
     expect(Plugin.FileInput).not.toBeNull();
     expect(Plugin.ParseError).not.toBeNull();
+    expect(Plugin.DefaultPlugin).not.toBeNull();
+    expect(Plugin.DefaultData).not.toBeNull();
   });
 });
