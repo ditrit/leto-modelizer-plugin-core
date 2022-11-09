@@ -32,6 +32,8 @@ import {
   ParseError,
   FileInformation,
   FileInput,
+  DefaultData,
+  DefaultPlugin,
 } from "leto-modelizer-plugin-core";
 ```
 
@@ -73,12 +75,13 @@ For your plugin to be used by `Leto Modelizer`, it needs to have this structure:
 
 ```js
 // src/index.js
-export default {
-  PluginDrawer: MyPluginDrawer,     // MyPluginDrawer has to extend DefaultDrawer
-  PluginMetadata: MyPluginMetadata, // MyPluginMetadata has to extend DefaultMetadata
-  PluginParser: MyPluginParser,     // MyPluginParser has to extend DefaultParser
-  PluginRenderer: MyPluginRenderer, // MyPluginRenderer has to extend DefaultRender
-};
+export default new DefaultPlugin({
+  pluginData: MyPluginData,         // MyPluginData has to extend DefaultData
+  pluginDrawer: MyPluginDrawer,     // MyPluginDrawer has to extend DefaultDrawer
+  pluginMetadata: MyPluginMetadata, // MyPluginMetadata has to extend DefaultMetadata
+  pluginParser: MyPluginParser,     // MyPluginParser has to extend DefaultParser
+  pluginRenderer: MyPluginRenderer, // MyPluginRenderer has to extend DefaultRender
+});
 ```
 
 ### How it works
