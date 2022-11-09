@@ -3,8 +3,7 @@
     <div>
       <h1>Demo of default drawing in leto-modelizer</h1>
     </div>
-    <div id='viewport'>
-      <svg id='root' width='80vw' height='80vh' style='border: 1px solid black'></svg>
+    <div id='root' style="border: 1px solid black;">
     </div>
   </div>
 </template>
@@ -25,11 +24,13 @@ function onDelete({ id }) {
 }
 
 const plugin = new DemoPlugin();
+
 plugin.init({
   SelectEvent: { next: onSelect },
   EditEvent: { next: onEdit },
   DeleteEvent: { next: onDelete },
 });
+
 plugin.initResources(resources);
 
 onMounted(() => {
@@ -53,5 +54,9 @@ onMounted(() => {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+.disabled{
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 </style>
