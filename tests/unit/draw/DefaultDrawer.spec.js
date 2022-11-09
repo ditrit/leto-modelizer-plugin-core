@@ -1,11 +1,12 @@
 import DefaultDrawer from 'src/draw/DefaultDrawer';
 import ComponentDrawOption from 'src/models/ComponentDrawOption';
 import mockD3 from 'tests/mock/D3Mock';
+import DefaultData from 'src/models/DefaultData';
 
 describe('Test Class: DefaultDrawer()', () => {
   describe('Test instanciate', () => {
     it('Test default constructor', () => {
-      const drawer = new DefaultDrawer();
+      const drawer = new DefaultDrawer(new DefaultData());
       expect(drawer.resources).toBeNull();
       expect(drawer.rootId).toEqual('root');
       expect(drawer.d3).not.toBeNull();
@@ -17,7 +18,8 @@ describe('Test Class: DefaultDrawer()', () => {
     });
 
     it('Test passing value in constructor', () => {
-      let drawer = new DefaultDrawer('resources', 'rootId', {});
+      let drawer = new DefaultDrawer(new DefaultData(), 'resources', 'rootId', {});
+      expect(drawer.pluginData).toEqual(new DefaultData());
       expect(drawer.resources).toEqual('resources');
       expect(drawer.rootId).toEqual('rootId');
       expect(drawer.d3).not.toBeNull();
@@ -29,7 +31,7 @@ describe('Test Class: DefaultDrawer()', () => {
         DeleteEvent: null,
       });
 
-      drawer = new DefaultDrawer('resources', 'rootId', {
+      drawer = new DefaultDrawer(new DefaultData(), 'resources', 'rootId', {
         SelectEvent: 1,
         EditEvent: 2,
         DeleteEvent: 3,
@@ -48,7 +50,7 @@ describe('Test Class: DefaultDrawer()', () => {
 
     beforeEach(() => {
       actionCallBack = { data: [], attr: [], html: [] };
-      drawer = new DefaultDrawer();
+      drawer = new DefaultDrawer(new DefaultData());
       drawer.d3 = mockD3(jest);
       drawer.resources = { models: { test0: 'testModel0', test1: 'testModel1' }, icons: { test: 'testIcon' } };
       drawer.initializeComponents = jest.fn();
@@ -89,7 +91,7 @@ describe('Test Class: DefaultDrawer()', () => {
 
     it('Draw should call the internal methods', () => {
       drawer.drawCustomModel = jest.fn();
-      drawer.draw([{
+      drawer.pluginData.components = [{
         children: [],
         definition: { model: 'DefaultModel' },
       }, {
@@ -104,7 +106,8 @@ describe('Test Class: DefaultDrawer()', () => {
           definition: { model: 'CustomModel' },
         }],
         definition: { model: 'bad' },
-      }], 'parent');
+      }];
+      drawer.draw('parent');
 
       expect(drawer.d3.select).toBeCalledTimes(4);
       expect(drawer.d3.selectAll).toBeCalledTimes(4);
@@ -151,7 +154,7 @@ describe('Test Class: DefaultDrawer()', () => {
     let actionCallBack;
     beforeEach(() => {
       actionCallBack = { attr: [], html: {} };
-      drawer = new DefaultDrawer();
+      drawer = new DefaultDrawer(new DefaultData());
       drawer.d3 = mockD3(jest);
       d3Element = mockD3(jest);
       drawer.pack = jest.fn().mockReturnValue({
@@ -223,7 +226,7 @@ describe('Test Class: DefaultDrawer()', () => {
   });
 
   describe('Test method: setComponentAction', () => {
-    const drawer = new DefaultDrawer();
+    const drawer = new DefaultDrawer(new DefaultData());
     drawer.__drag = jest.fn();
     drawer.__dropToRoot = jest.fn();
     drawer.__dropToContainer = jest.fn();
@@ -253,7 +256,7 @@ describe('Test Class: DefaultDrawer()', () => {
   });
 
   describe('Test method: __drag', () => {
-    const drawer = new DefaultDrawer();
+    const drawer = new DefaultDrawer(new DefaultData());
     drawer.interact = jest.fn().mockReturnValue({
       unset: jest.fn(),
       draggable: jest.fn(),
@@ -268,7 +271,7 @@ describe('Test Class: DefaultDrawer()', () => {
   });
 
   describe('Test method: __dropToRoot', () => {
-    const drawer = new DefaultDrawer();
+    const drawer = new DefaultDrawer(new DefaultData());
     drawer.interact = jest.fn().mockReturnValue({
       unset: jest.fn(),
       dropzone: jest.fn(),
@@ -282,7 +285,7 @@ describe('Test Class: DefaultDrawer()', () => {
   });
 
   describe('Test method: __dropToContainer', () => {
-    const drawer = new DefaultDrawer();
+    const drawer = new DefaultDrawer(new DefaultData());
     drawer.interact = jest.fn().mockReturnValue({
       unset: jest.fn(),
       dropzone: jest.fn(),
@@ -313,7 +316,7 @@ describe('Test Class: DefaultDrawer()', () => {
   });
 
   describe('Test method: __getChildrenContainer', () => {
-    const drawer = new DefaultDrawer();
+    const drawer = new DefaultDrawer(new DefaultData());
     const children = [
       {
         id: 'test0',
@@ -339,7 +342,7 @@ describe('Test Class: DefaultDrawer()', () => {
   });
 
   describe('Test method: __resetDrawOption', () => {
-    const drawer = new DefaultDrawer();
+    const drawer = new DefaultDrawer(new DefaultData());
     drawer.d3 = mockD3(jest);
     const currentComponent = {
       datum: jest.fn().mockReturnValue({ drawOption: 'not null' }),
@@ -347,7 +350,7 @@ describe('Test Class: DefaultDrawer()', () => {
     drawer.draw = jest.fn();
 
     it('Should reset drawOption', () => {
-      drawer.__resetDrawOption([], currentComponent);
+      drawer.__resetDrawOption(currentComponent);
       expect(drawer.d3.each).toBeCalledTimes(1);
       expect(currentComponent.datum).toBeCalledTimes(1);
       expect(currentComponent.datum().drawOption).toBeNull();
@@ -363,7 +366,7 @@ describe('Test Class: DefaultDrawer()', () => {
     let component01;
     let component02;
     beforeEach(() => {
-      drawer = new DefaultDrawer();
+      drawer = new DefaultDrawer(new DefaultData());
       drawer.d3 = mockD3(jest);
       d3Element = mockD3(jest);
       drawer.pack = jest.fn().mockReturnValue({
@@ -416,7 +419,7 @@ describe('Test Class: DefaultDrawer()', () => {
     let components;
 
     beforeEach(() => {
-      drawer = new DefaultDrawer();
+      drawer = new DefaultDrawer(new DefaultData());
       positions = [
         { item: { id: 'a' }, x: 1, y: 2 },
         { item: { id: 'b' }, x: 3, y: 4 },
@@ -469,7 +472,7 @@ describe('Test Class: DefaultDrawer()', () => {
     let components;
 
     beforeEach(() => {
-      drawer = new DefaultDrawer();
+      drawer = new DefaultDrawer(new DefaultData());
       drawer.getComponentSize = jest.fn().mockReturnValue({ width: 1, height: 2 });
       components = [{
         drawOption: {
@@ -491,7 +494,7 @@ describe('Test Class: DefaultDrawer()', () => {
     let drawer;
 
     beforeEach(() => {
-      drawer = new DefaultDrawer();
+      drawer = new DefaultDrawer(new DefaultData());
       drawer.d3 = mockD3(jest);
       drawer.d3.getBBox = jest.fn().mockReturnValue({ width: 1, height: 2 });
     });
@@ -513,7 +516,7 @@ describe('Test Class: DefaultDrawer()', () => {
 
     beforeEach(() => {
       actionCallBack = { attr: {}, html: {}, text: [] };
-      drawer = new DefaultDrawer({ icons: { DefaultIcon: 'test' } }, 'root');
+      drawer = new DefaultDrawer(new DefaultData(), { icons: { DefaultIcon: 'test' } }, 'root');
       d3Element = mockD3(jest);
       d3Element.attr = jest.fn((name, callback) => {
         actionCallBack.attr[name] = callback;
@@ -553,7 +556,11 @@ describe('Test Class: DefaultDrawer()', () => {
 
     beforeEach(() => {
       actionCallBack = { attr: {}, html: {}, text: [] };
-      drawer = new DefaultDrawer({ icons: { DefaultIcon: 'test' } }, 'root');
+      drawer = new DefaultDrawer(
+        new DefaultData(),
+        { icons: { DefaultIcon: 'test' } },
+        'root',
+      );
       d3Element = mockD3(jest);
       d3Element.attr = jest.fn((name, callback) => {
         actionCallBack.attr[name] = callback;
@@ -592,7 +599,7 @@ describe('Test Class: DefaultDrawer()', () => {
 
     beforeEach(() => {
       actionCallBack = {};
-      drawer = new DefaultDrawer();
+      drawer = new DefaultDrawer(new DefaultData());
       drawer.__unselectComponent = jest.fn();
       drawer.d3 = mockD3(jest);
       drawer.d3.on = jest.fn((name, callback) => {
@@ -617,7 +624,7 @@ describe('Test Class: DefaultDrawer()', () => {
 
     beforeEach(() => {
       actionCallBack = {};
-      drawer = new DefaultDrawer();
+      drawer = new DefaultDrawer(new DefaultData());
       drawer.__selectComponent = jest.fn();
       drawer.__toggleComponentSelection = jest.fn();
       drawer.d3 = mockD3(jest);
@@ -668,7 +675,7 @@ describe('Test Class: DefaultDrawer()', () => {
   });
 
   describe('Test method: initializeActionMenu', () => {
-    const drawer = new DefaultDrawer();
+    const drawer = new DefaultDrawer(new DefaultData());
     drawer.d3 = mockD3(jest);
 
     it('Should call D3 methods', () => {
@@ -686,7 +693,7 @@ describe('Test Class: DefaultDrawer()', () => {
     let drawer;
 
     beforeEach(() => {
-      drawer = new DefaultDrawer();
+      drawer = new DefaultDrawer(new DefaultData());
       drawer.d3 = mockD3(jest);
     });
 
