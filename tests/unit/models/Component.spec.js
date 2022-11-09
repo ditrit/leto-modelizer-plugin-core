@@ -2,6 +2,7 @@ import Component from 'src/models/Component';
 import ComponentAttribute from 'src/models/ComponentAttribute';
 import ComponentDefinition from 'src/models/ComponentDefinition';
 import ComponentAttributeDefinition from 'src/models/ComponentAttributeDefinition';
+import ComponentLink from 'src/models/ComponentLink';
 
 describe('Test class: Component', () => {
   describe('Test constructor', () => {
@@ -258,6 +259,85 @@ describe('Test class: Component', () => {
         expect(component.attributes.length)
           .toEqual(1);
         expect(component.attributes[0]).toMatchObject({ name: 'name', value: 'test' });
+      });
+    });
+
+    describe('Test method: setLinkAttribute', () => {
+      it('Should update existing link attribute with new value', () => {
+        const link = new ComponentLink({
+          source: 'source01',
+          target: 'target01',
+          definition: { attributeRef: 'name01' },
+        });
+        const component = new Component({
+          attributes: [
+            new ComponentAttribute({
+              definition: new ComponentAttributeDefinition({
+                type: 'Link',
+                name: 'name01',
+              }),
+              value: [],
+            }),
+          ],
+          definition: new ComponentDefinition({
+            definedAttributes: [
+              new ComponentAttributeDefinition({ name: 'name01' }),
+            ],
+          }),
+        });
+
+        component.setLinkAttribute(link);
+        expect(component.attributes[0].value).toEqual(['target01']);
+      });
+
+      it('Should add new attribute with new link', () => {
+        const link = new ComponentLink({
+          source: 'source02',
+          target: 'target02',
+          definition: { attributeRef: 'name01' },
+        });
+        const component = new Component({
+          attributes: [],
+          definition: new ComponentDefinition({
+            definedAttributes: [
+              new ComponentAttributeDefinition({ name: 'name01' }),
+            ],
+          }),
+        });
+
+        component.setLinkAttribute(link);
+        expect(component.attributes.length).toEqual(1);
+        expect(component.attributes[0].definition.name).toEqual('name01');
+        expect(component.attributes[0].value).toEqual(['target02']);
+      });
+
+      it('Should do nothing when attribute already exists', () => {
+        const link = new ComponentLink({
+          source: 'source03',
+          target: 'target03',
+          definition: { attributeRef: 'name03' },
+        });
+        const component = new Component({
+          attributes: [
+            new ComponentAttribute({
+              definition: new ComponentAttributeDefinition({
+                type: 'Link',
+                name: 'name03',
+              }),
+              value: ['target03'],
+            }),
+          ],
+          definition: new ComponentDefinition({
+            definedAttributes: [
+              new ComponentAttributeDefinition({ name: 'name03' }),
+            ],
+          }),
+        });
+
+        component.setLinkAttribute(link);
+        expect(component.attributes.length).toEqual(1);
+        expect(component.attributes[0].definition.name).toEqual('name03');
+        expect(component.attributes[0].value).toEqual(['target03']);
       });
     });
   });

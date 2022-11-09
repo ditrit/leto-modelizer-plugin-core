@@ -56,6 +56,9 @@ describe('Test Class: DefaultDrawer()', () => {
       drawer.setComponentAction = jest.fn();
       drawer.setSelectionAction = jest.fn();
       drawer.initializeActionMenu = jest.fn();
+      drawer.drawLinks = jest.fn();
+      drawer.__addLink = jest.fn();
+      drawer.__unsetAddLink = jest.fn();
       drawer.__drawModels = jest.fn();
       drawer.d3.data = jest.fn((components, data) => {
         actionCallBack.data.push({ data });

@@ -31,7 +31,7 @@ const drawer = new DefaultDrawer(resources, 'root', {
 });
 
 onMounted(() => {
-  drawer.draw(plugin.components, 'root', plugin.links);
+  drawer.draw(plugin.components, 'root', plugin.links, plugin.linksDefinition);
 });
 </script>
 

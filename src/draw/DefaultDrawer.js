@@ -66,6 +66,9 @@ class DefaultDrawer {
         startX: 0,
         startY: 0,
       },
+      link: {
+        targetList: [],
+      },
     };
     /**
      * Object to store all events.
@@ -85,8 +88,8 @@ class DefaultDrawer {
    * @param {ComponentLink[]} [links=[]] - List of links you want to draw.
    * @return {Boolean} Returns true if normally execute.
    */
-  draw(components = [], parentId = this.rootId, links = null) {
-    this.drawComponents(components, parentId, links);
+  draw(components = [], parentId = this.rootId, links = [], linksDefinition = []) {
+    this.drawComponents(components, parentId, links, linksDefinition);
     this.drawLinks(links);
   }
 
@@ -98,17 +101,17 @@ class DefaultDrawer {
   drawLinks(links) {
     if (!links) return;
 
-    if (document.querySelector('.test') === null) {
+    if (document.querySelector('.links') === null) {
       this.d3.select(`#${this.rootId}`)
         .append('g')
-        .classed('test', true);
+        .classed('links', true);
     }
 
     const linkGen = this.d3.linkHorizontal()
       .source((data) => this.getAnchorPosition(data).source)
       .target((data) => this.getAnchorPosition(data).target);
 
-    this.d3.select('.test')
+    this.d3.select('.links')
       .selectAll('.link')
       .data(links)
       .join('path')
@@ -126,7 +129,7 @@ class DefaultDrawer {
    * @param {ComponentLink[]} links - List of links you want to draw.
    * @return {Boolean} Returns true if normally execute.
    */
-  drawComponents(components, parentId, links) {
+  drawComponents(components, parentId, links, linksDefinition) {
     const d3Container = this.d3.select(parentId === this.rootId ? `#${parentId}` : `#${parentId} .component-container`)
       .selectAll(`.${parentId}.component`)
       .data(components, (data) => data.id);
@@ -144,13 +147,13 @@ class DefaultDrawer {
     components.forEach((component) => {
       this.setSelectionAction(component, components, links);
       if (component.children.length > 0) {
-        this.drawComponents(component.children, component.id, links);
+        this.drawComponents(component.children, component.id, links, linksDefinition);
       }
     });
 
     this.initializeComponents(d3Elements, components, parentId);
     if (parentId === this.rootId) {
-      this.setComponentAction(components, links);
+      this.setComponentAction(components, links, linksDefinition);
       this.setViewPortAction(this.d3.select(`#${this.rootId}`));
     }
 
@@ -203,18 +206,21 @@ class DefaultDrawer {
         sourceAnchor: 'right',
         targetAnchor: 'left',
       };
-    } if ((target.x + target.width) < source.x) {
+    }
+    if ((target.x + target.width) < source.x) {
       return {
         sourceAnchor: 'left',
         targetAnchor: 'right',
       };
-    } if ((target.x + target.width) > source.x && target.x < (source.x + source.width)) {
+    }
+    if ((target.x + target.width) > source.x && target.x < (source.x + source.width)) {
       if (target.y > (source.y + source.height)) {
         return {
           sourceAnchor: 'bottom',
           targetAnchor: 'top',
         };
-      } if ((target.y + target.height) < source.y) {
+      }
+      if ((target.y + target.height) < source.y) {
         return {
           sourceAnchor: 'top',
           targetAnchor: 'bottom',
@@ -234,6 +240,9 @@ class DefaultDrawer {
   setViewPortAction(element) {
     element.on('mousedown', () => {
       this.__unselectComponent();
+      if (this.actions.link.targetSelector !== '') {
+        this.__unsetAddLink();
+      }
     });
   }
 
@@ -269,9 +278,9 @@ class DefaultDrawer {
    * @param {Component[]} components - Array containing components.
    * @param {ComponentLink[]} links - List of links you want to draw.
    */
-  setComponentAction(components, links) {
+  setComponentAction(components, links, linksDefinition) {
     this.__drag(components, links);
-    this.__dropToRoot(components, links);
+    this.__dropToRoot(components, links, linksDefinition);
     components.forEach((component) => {
       if (component.definition.isContainer) {
         this.__dropToContainer(components, component, links);
@@ -288,8 +297,36 @@ class DefaultDrawer {
       this.__editComponent(this.actions.selection.current);
     });
 
-    document.querySelector('#action-menu .link')
-      .addEventListener('click', () => { this.__addLink(links); });
+    this.interact('#action-menu .link').unset();
+    this.interact('#action-menu .link').on('click', () => {
+      const allowedTarget = linksDefinition.filter((def) => def.sourceRef
+          === this.d3.select(`#${this.actions.selection.current}`).datum().definition.type);
+
+      this.actions.link.targetList = allowedTarget.map((def) => def.targetRef);
+
+      this.d3.selectAll('.component')
+        .style('opacity', (data) => {
+          if (this.actions.link.targetList.length > 0) {
+            return this.actions.link.targetList.includes(data.definition.type) ? 1 : 0.5;
+          }
+          return 1;
+        });
+      this.interact('.component').on(
+        'click',
+        (event) => {
+          const targetType = this.d3.select(`#${event.currentTarget.id}`)
+            .datum()
+            .definition
+            .type;
+
+          if (!this.actions.link.targetList.includes(targetType)) {
+            this.__unsetAddLink();
+          }
+        },
+        { once: true },
+      );
+      this.__addLink(links, allowedTarget);
+    });
   }
 
   /**
@@ -309,19 +346,51 @@ class DefaultDrawer {
    * @param {ComponentLink[]} links - Array that contains all links.
    * @private
    */
-  __addLink(links) {
+  __addLink(links, linkDefinitions) {
     const source = this.actions.selection.current;
+    const targetSelector = this.actions.link.targetList.map((type) => `.${type}`).join(', ');
+    if (targetSelector === '') {
+      return;
+    }
 
-    this.d3.selectAll('.component')
-      .on('click', (event) => {
+    this.interact(targetSelector).on(
+      'click',
+      (event) => {
         if (source !== event.currentTarget.id) {
-          links.push(new ComponentLink({ source, target: event.currentTarget.id }));
-          this.drawLinks(links);
-        }
+          const target = this.d3.select(`#${event.currentTarget.id}`).datum();
+          const link = new ComponentLink({
+            source,
+            target: event.currentTarget.id,
+            definition: linkDefinitions
+              .find((def) => def.targetRef === target.definition.type),
+          });
+          const existingLink = links
+            .filter((item) => item.source === link.source && item.target === link.target);
 
-        this.d3.selectAll('.component')
-          .on('click', null);
-      });
+          if (!existingLink.length) {
+            links.push(link);
+            this.d3.select(`#${source}`).datum().setLinkAttribute(link);
+            this.drawLinks(links);
+          }
+        }
+        this.interact(targetSelector).unset();
+        this.d3.selectAll('.component').style('opacity', 1);
+        this.actions.link.targetList = [];
+      },
+    );
+  }
+
+  /**
+   * Remove EventListener that add link.
+   * @private
+   */
+  __unsetAddLink() {
+    const targetSelector = this.actions.link.targetList.map((type) => `.${type}`).join(', ');
+    if (targetSelector !== '') {
+      this.interact(targetSelector).unset();
+      this.d3.selectAll('.component').style('opacity', 1);
+      this.actions.link.targetList = [];
+    }
   }
 
   /**
@@ -367,7 +436,7 @@ class DefaultDrawer {
    * @param {ComponentLink[]} links - List of links you want to draw.
    * @private
    */
-  __dropToRoot(components, links) {
+  __dropToRoot(components, links, linksDefinition) {
     this.interact(`#${this.rootId}`).unset();
     this.interact(`#${this.rootId}`).dropzone({
       accept: '.component',
@@ -386,9 +455,9 @@ class DefaultDrawer {
             .filter((child) => child.id !== event.relatedTarget.id);
 
           container.children.forEach((child) => { child.drawOption = null; });
-          this.drawComponents(container.children, container.id, links);
+          this.drawComponents(container.children, container.id, links, linksDefinition);
 
-          this.__resetDrawOption(components, currentComponent, links);
+          this.__resetDrawOption(components, currentComponent, links, linksDefinition);
         }
         this.drawLinks(links);
       },
@@ -402,7 +471,7 @@ class DefaultDrawer {
    * @param {ComponentLink[]} links - List of links you want to draw.
    * @private
    */
-  __dropToContainer(components, component, links) {
+  __dropToContainer(components, component, links, linksDefinition) {
     let invalidDropzones;
     let currentComponent;
     let initialPosition;
@@ -429,7 +498,7 @@ class DefaultDrawer {
           currentComponent.datum().drawOption.x = startX;
           currentComponent.datum().drawOption.y = startY;
           this.displayActionMenu(initialPosition);
-          this.draw(components, this.rootId, links);
+          this.draw(components, this.rootId, links, linksDefinition);
           return;
         }
 
@@ -449,7 +518,7 @@ class DefaultDrawer {
             }
           }
 
-          this.__resetDrawOption(components, currentComponent, links);
+          this.__resetDrawOption(components, currentComponent, links, linksDefinition);
         } else if (currentComponent.node().classList[0] !== event.target.id) {
           const container = this.d3.select(`#${currentComponent.node().classList[0]}`).datum();
           dropzone.children.push(currentComponent.datum());
@@ -458,9 +527,9 @@ class DefaultDrawer {
             .filter((child) => child.id !== event.relatedTarget.id);
 
           container.children.forEach((child) => { child.drawOption = null; });
-          this.drawComponents(container.children, container.id, links);
+          this.drawComponents(container.children, container.id, links, linksDefinition);
 
-          this.__resetDrawOption(components, currentComponent, links);
+          this.__resetDrawOption(components, currentComponent, links, linksDefinition);
         }
         this.drawLinks(links);
       },
@@ -548,7 +617,7 @@ class DefaultDrawer {
         .html(actionIcons.trash);
 
       actionMenu
-        .style('position', 'absolute')
+        .style('position', 'fixed')
         .style('top', 0)
         .style('left', 0)
         .style('overflow', 'hidden')
@@ -617,10 +686,10 @@ class DefaultDrawer {
    * @param {ComponentLink[]} links - List of links you want to draw.
    * @private
    */
-  __resetDrawOption(components, currentComponent, links) {
+  __resetDrawOption(components, currentComponent, links, linksDefinition) {
     this.d3.selectAll('.component').each((data) => { data.drawOption = null; });
     currentComponent.datum().drawOption = null;
-    this.draw(components, this.rootId, links);
+    this.draw(components, this.rootId, links, linksDefinition);
   }
 
   /**
