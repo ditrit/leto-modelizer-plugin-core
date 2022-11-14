@@ -3,7 +3,7 @@
  */
 class ComponentAttributeDefinition {
   /**
-   * Default contructor
+   * Default constructor
    *
    * @param {String} [props.name] - Attribute name.
    * @param {String} [props.type] - Attribute type,
