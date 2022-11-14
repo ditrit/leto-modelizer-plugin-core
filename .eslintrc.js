@@ -3,7 +3,7 @@ module.exports = {
 
   parserOptions: {
     parser: '@babel/eslint-parser',
-    ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
+    ecmaVersion: 2022, // Allows for the parsing of modern ECMAScript features
     sourceType: 'module', // Allows for the use of imports
   },
 
@@ -25,7 +25,12 @@ module.exports = {
     chrome: 'readonly',
   },
 
-  ignorePatterns: ['dist/*'],
+  ignorePatterns: [
+    'dist/*',
+    'cypress/*',
+    '*/assets/*',
+    'jest.config.js'
+  ],
   // add your custom rules here
   rules: {
     'linebreak-style': ['error', 'unix'],
@@ -47,6 +52,15 @@ module.exports = {
     'import/prefer-default-export': 'off',
 
     'prefer-promise-reject-errors': 'off',
+    'padding-line-between-statements': [
+      'error',
+      { blankLine: 'always', prev: '*', next: 'return' },
+      { blankLine: 'always', prev: ['const','let'], next: '*' },
+      { blankLine: 'any', prev: ['const', 'let'], next: ['const', 'let'] },
+    ],
+    'max-len': ["error", { "code": 100 }],
+    curly: ["error", 'all'],
+    'nonblock-statement-body-position': ['error', 'below'],
 
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
