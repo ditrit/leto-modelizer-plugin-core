@@ -5,7 +5,7 @@ Feature: Test plugin renderer
     And I visit the "/"
 
   Scenario: The renderer should be present
-    Then I expect "svg#root" is visible
+    Then I expect "#root>svg" is visible
 
   Scenario: Components should be loaded in the renderer
     Then I expect "#internal1" is visible
