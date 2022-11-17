@@ -415,5 +415,32 @@ describe('Test class: Component', () => {
         },
       );
     });
+
+    describe('Test method: getAttributeByName', () => {
+      const component = new Component();
+      const subAttribute = new ComponentAttribute({
+        name: 'sub',
+        value: 'test',
+      });
+      const rootAttribute = new ComponentAttribute({
+        name: 'root',
+        type: 'Object',
+        value: [subAttribute],
+      });
+
+      component.attributes.push(rootAttribute);
+
+      it('Should return null on unknown attribute', () => {
+        expect(component.getAttributeByName('unknown')).toBeNull();
+      });
+
+      it('Should return root attribute on asking root attribute', () => {
+        expect(component.getAttributeByName('root')).toEqual(rootAttribute);
+      });
+
+      it('Should return sub attribute on asking sub attribute', () => {
+        expect(component.getAttributeByName('sub')).toEqual(subAttribute);
+      });
+    });
   });
 });
