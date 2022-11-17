@@ -1,5 +1,7 @@
 import packageInfo from '../../package.json';
 import Component from './Component';
+import ComponentLink from './ComponentLink';
+import ComponentLinkDefinition from './ComponentLinkDefinition';
 
 const CORE_VERSION = packageInfo.version;
 
@@ -12,7 +14,6 @@ class DefaultData {
    * @param {String} props.name - Name of plugin.
    * @param {String} props.version - Version of plugin.
    * @param {Component[]} [props.components=[]] - Components array.
-   * @param {ComponentLink[]} [props.links=[]] - Links array.
    * @param {Object} [props.definitions={}] - All definitions.
    * @param {ComponentDefinition[]} [props.definitions.components=[]] - All component definitions.
    * @param {ComponentLinkDefinition[]} [props.definitions.link=[]] - All component link
@@ -23,7 +24,6 @@ class DefaultData {
     name: null,
     version: null,
     components: [],
-    links: [],
     definitions: {
       components: [],
       links: [],
@@ -45,11 +45,6 @@ class DefaultData {
      * @type {Component[]}
      */
     this.components = props.components || [];
-    /**
-     * All plugin links.
-     * @type {ComponentLink[]}
-     */
-    this.links = props.links || [];
     /**
      * All plugin definitions.
      * @type {{components: ComponentDefinition[], links: ComponentLinkDefinition[]}}
@@ -111,6 +106,35 @@ class DefaultData {
   }
 
   /**
+   * Get all components corresponding to the given type.
+   * @param {String} type - Type of component to find.
+   * @returns {Component[]} Component list.
+   */
+  getComponentsByType(type) {
+    return this.__getComponentsByType([], this.components, type);
+  }
+
+  /**
+   * Get all components corresponding to the given type.
+   * @param {Component[]} result - Component array to set and retrieve.
+   * @param {Component[]} components - Array to find components.
+   * @param {String} type - Component type to search.
+   * @returns {Component[]} Component list.
+   * @private
+   */
+  __getComponentsByType(result, components, type) {
+    // Remove sonar code smell, because its more optimized with a for loop.
+    for (let index = 0; index < components.length; index += 1) { // NOSONAR
+      if (components[index].definition.type === type) {
+        result.push(components[index]);
+      }
+      this.__getComponentsByType(result, components[index].children, type);
+    }
+
+    return result;
+  }
+
+  /**
    * Create new component.
    * @param {String} id - Component id.
    * @param {ComponentDefinition} definition - Component definition.
@@ -124,8 +148,7 @@ class DefaultData {
   }
 
   /**
-   * Remove component by id, all attributes that used this component id
-   * and the links that refer to this component.
+   * Remove component by id and all attributes that used this component id.
    * @param {String} id - Component id.
    * @return {Boolean} Indicate if component is removed or not.
    */
@@ -133,7 +156,6 @@ class DefaultData {
     const isRemoved = this.__removeComponentById(this.components, id);
 
     this.__removeRefAttributeById(this.components, id);
-    this.links = this.links.filter(({ source, target }) => source !== id && target !== id);
 
     return isRemoved;
   }
@@ -175,6 +197,73 @@ class DefaultData {
       }
 
       component.removeLinkAttributeById(id);
+    });
+  }
+
+  /**
+   * Get all links from all component attributes.
+   * @returns {ComponentLink[]}
+   */
+  getLinks() {
+    const links = [];
+
+    this.definitions.links.forEach((definition) => {
+      const components = this.getComponentsByType(definition.sourceRef);
+
+      components.forEach((component) => {
+        const attribute = component.getAttributeByName(definition.attributeRef);
+
+        if (!attribute) {
+          return;
+        }
+
+        attribute.value.forEach((value) => links.push(new ComponentLink({
+          definition,
+          source: component.id,
+          target: value,
+        })));
+      });
+    });
+
+    return links;
+  }
+
+  /**
+   * Initialize all link definitions from all component attribute definitions.
+   */
+  initLinkDefinitions() {
+    this.definitions.links = [];
+    this.definitions.components.forEach(({ type, definedAttributes }) => {
+      this.__setLinkDefinitions(type, definedAttributes);
+    });
+  }
+
+  /**
+   * Set link definition in link definitions
+   * @param {String} type - Component type to link.
+   * @param {ComponentAttributeDefinition[]} definedAttributes - Component attribute definitions.
+   * @private
+   */
+  __setLinkDefinitions(type, definedAttributes) {
+    definedAttributes.forEach((attributeDefinition) => {
+      if (attributeDefinition.type === 'Link') {
+        const linkDefinition = new ComponentLinkDefinition({
+          type: attributeDefinition.linkType,
+          attributeRef: attributeDefinition.name,
+        });
+
+        if (attributeDefinition.linkType === 'Reverse') {
+          linkDefinition.sourceRef = attributeDefinition.linkRef;
+          linkDefinition.targetRef = type;
+        } else {
+          linkDefinition.sourceRef = type;
+          linkDefinition.targetRef = attributeDefinition.linkRef;
+        }
+
+        this.definitions.links.push(linkDefinition);
+      } else if (attributeDefinition.type === 'Object') {
+        this.__setLinkDefinitions(type, attributeDefinition.definedAttributes);
+      }
     });
   }
 }
