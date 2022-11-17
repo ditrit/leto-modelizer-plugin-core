@@ -47,9 +47,13 @@ describe('Test class: DefaultPlugin', () => {
   describe('Test methods', () => {
     describe('Test method: init', () => {
       it('Should set events and call validate and parse of metadata', () => {
+        const mockInitLinkDefinitions = jest.fn();
         const mockSetEvents = jest.fn();
         const mockParse = jest.fn();
         const plugin = new DefaultPlugin({
+          pluginData: {
+            initLinkDefinitions: mockInitLinkDefinitions,
+          },
           pluginDrawer: {
             setEvents: mockSetEvents,
           },
@@ -61,6 +65,7 @@ describe('Test class: DefaultPlugin', () => {
         plugin.init();
         expect(mockSetEvents).toBeCalled();
         expect(mockParse).toBeCalled();
+        expect(mockInitLinkDefinitions).toBeCalled();
       });
     });
 
