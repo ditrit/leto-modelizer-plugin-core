@@ -65,6 +65,7 @@ class DefaultPlugin {
   init(events) {
     this.__drawer.setEvents(events);
     this.__metadata.parse();
+    this.data.initLinkDefinitions();
   }
 
   /**
