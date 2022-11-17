@@ -340,5 +340,66 @@ describe('Test class: Component', () => {
         expect(component.attributes[0].value).toEqual(['target03']);
       });
     });
+
+    describe('Test method: removeLinkAttributeById', () => {
+      it('Should do nothing without link in attributes', () => {
+        const component = new Component();
+        component.removeLinkAttributeById('test');
+        expect(component.attributes).toEqual([]);
+
+        const attribute = new ComponentAttribute({
+          name: 'other',
+          value: 'test',
+          type: 'String',
+          definition: new ComponentAttributeDefinition({
+            name: 'other',
+            type: 'String',
+          }),
+        });
+        component.attributes.push(attribute);
+        component.removeLinkAttributeById('test');
+        expect(component.attributes).toEqual([attribute]);
+      });
+
+      it('Should remove value corresponding to the given id in links array', () => {
+        const component = new Component();
+        component.attributes.push(new ComponentAttribute({
+          name: 'link',
+          value: ['test', 'other'],
+          type: 'String',
+          definition: new ComponentAttributeDefinition({
+            name: 'other',
+            type: 'Link',
+          }),
+        }));
+
+        component.removeLinkAttributeById('test');
+        expect(component.attributes).toEqual([new ComponentAttribute({
+          name: 'link',
+          value: ['other'],
+          type: 'String',
+          definition: new ComponentAttributeDefinition({
+            name: 'other',
+            type: 'Link',
+          }),
+        })]);
+      });
+
+      it('Should remove value corresponding to the given id then the attribute if array is empty', () => {
+        const component = new Component();
+        component.attributes.push(new ComponentAttribute({
+          name: 'link',
+          value: ['test'],
+          type: 'String',
+          definition: new ComponentAttributeDefinition({
+            name: 'other',
+            type: 'Link',
+          }),
+        }));
+
+        component.removeLinkAttributeById('test');
+        expect(component.attributes).toEqual([]);
+      });
+    });
   });
 });

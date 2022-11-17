@@ -1,4 +1,4 @@
-import ParseError from 'src/error/parseError';
+import ParseError from 'src/error/ParseError';
 
 describe('Test class: ParseError', () => {
   describe('Test constructor', () => {

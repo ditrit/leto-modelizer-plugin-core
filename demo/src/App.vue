@@ -11,9 +11,8 @@
 
 <script setup>
 import { onMounted } from 'vue';
-import { DefaultDrawer } from 'leto-modelizer-plugin-core';
 import resources from './assets/resources';
-import plugin from './assets/data';
+import DemoPlugin from '@/DemoPlugin';
 
 function onSelect({ isSelected, id }) {
   console.log('Select event', id, isSelected);
@@ -24,14 +23,18 @@ function onEdit({ id }) {
 function onDelete({ id }) {
   console.log('Delete event', id);
 }
-const drawer = new DefaultDrawer(resources, 'root', {
+
+const plugin = new DemoPlugin();
+plugin.init({
   SelectEvent: { next: onSelect },
   EditEvent: { next: onEdit },
   DeleteEvent: { next: onDelete },
 });
+plugin.initResources(resources);
 
 onMounted(() => {
-  drawer.draw(plugin.components, 'root', plugin.links, plugin.linksDefinition);
+  plugin.parse();
+  plugin.draw('root');
 });
 </script>
 

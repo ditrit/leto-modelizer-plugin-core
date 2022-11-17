@@ -11,7 +11,9 @@ import DefaultDrawer from './draw/DefaultDrawer';
 import DefaultMetadata from './metadata/DefaultMetadata';
 import DefaultParser from './parser/DefaultParser';
 import DefaultRender from './render/DefaultRender';
-import ParseError from './error/parseError';
+import ParseError from './error/ParseError';
+import DefaultData from './models/DefaultData';
+import DefaultPlugin from './models/DefaultPlugin';
 
 export {
   Component,
@@ -28,4 +30,6 @@ export {
   ParseError,
   FileInformation,
   FileInput,
+  DefaultData,
+  DefaultPlugin,
 };

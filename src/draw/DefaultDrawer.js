@@ -12,6 +12,7 @@ import actionIcons from '../assets/actions/actionsIcons';
 class DefaultDrawer {
   /**
    * Default constructor
+   * @param {DefaultData} pluginData - Plugin data storage.
    * @param {Object} [resources=null] - Object that contains resources.
    * @param {String} [rootId="root"] - Id of HTML element where we want to draw.
    * @param {Object} [events] - Events list.
@@ -19,11 +20,16 @@ class DefaultDrawer {
    * @param {Function} [events.EditEvent.next] - Function to emit edit event.
    * @param {Function} [events.DeleteEvent.next] - Function to emit delete event.
    */
-  constructor(resources = null, rootId = 'root', events = {
+  constructor(pluginData, resources = null, rootId = 'root', events = {
     SelectEvent: null,
     EditEvent: null,
     DeleteEvent: null,
   }) {
+    /**
+     * Plugin data storage.
+     * @type {DefaultData}
+     */
+    this.pluginData = pluginData;
     /**
      * D3 library.
      */
@@ -82,24 +88,39 @@ class DefaultDrawer {
   }
 
   /**
+   * Set events.
+   * @param {Function} [events.SelectEvent.next] - Function to emit selection event.
+   * @param {Function} [events.EditEvent.next] - Function to emit edit event.
+   * @param {Function} [events.DeleteEvent.next] - Function to emit delete event.
+   */
+  setEvents(events = {
+    SelectEvent: null,
+    EditEvent: null,
+    DeleteEvent: null,
+  }) {
+    this.events = {
+      SelectEvent: events.SelectEvent || null,
+      EditEvent: events.EditEvent || null,
+      DeleteEvent: events.DeleteEvent || null,
+    };
+  }
+
+  /**
    * Draws all Components and ComponentLinks in the parentId Element.
-   * @param {Component[]} [components=[]] - List of components you want to draw.
    * @param {String} [parentId=this.rootId] - Id of the container where you want to draw.
-   * @param {ComponentLink[]} [links=[]] - List of links you want to draw.
    * @return {Boolean} Returns true if normally execute.
    */
-  draw(components = [], parentId = this.rootId, links = [], linksDefinition = []) {
-    this.drawComponents(components, parentId, links, linksDefinition);
-    this.drawLinks(links);
+  draw(parentId = this.rootId) {
+    this.drawComponents(this.pluginData.components, parentId);
+    this.drawLinks();
   }
 
   /**
    * Draws all Links.
-   * @param {ComponentLink[]} links - List of links you want to draw.
    * @return {Boolean} Returns true if normally execute.
    */
-  drawLinks(links) {
-    if (!links) return;
+  drawLinks() {
+    if (!this.pluginData.links) return;
 
     if (document.querySelector('.links') === null) {
       this.d3.select(`#${this.rootId}`)
@@ -113,7 +134,7 @@ class DefaultDrawer {
 
     this.d3.select('.links')
       .selectAll('.link')
-      .data(links)
+      .data(this.pluginData.links)
       .join('path')
       .classed('link', true)
       .attr('d', linkGen)
@@ -126,10 +147,9 @@ class DefaultDrawer {
    * Draws all Components in the parentId Element.
    * @param {Component[]} components - List of components you want to draw.
    * @param {String} parentId - Id of the container where you want to draw.
-   * @param {ComponentLink[]} links - List of links you want to draw.
    * @return {Boolean} Returns true if normally execute.
    */
-  drawComponents(components, parentId, links, linksDefinition) {
+  drawComponents(components, parentId) {
     const d3Container = this.d3.select(parentId === this.rootId ? `#${parentId}` : `#${parentId} .component-container`)
       .selectAll(`.${parentId}.component`)
       .data(components, (data) => data.id);
@@ -145,15 +165,15 @@ class DefaultDrawer {
     this.__drawModels(components, parentId);
 
     components.forEach((component) => {
-      this.setSelectionAction(component, components, links);
+      this.setSelectionAction(component);
       if (component.children.length > 0) {
-        this.drawComponents(component.children, component.id, links, linksDefinition);
+        this.drawComponents(component.children, component.id);
       }
     });
 
     this.initializeComponents(d3Elements, components, parentId);
     if (parentId === this.rootId) {
-      this.setComponentAction(components, links, linksDefinition);
+      this.setComponentAction(components);
       this.setViewPortAction(this.d3.select(`#${this.rootId}`));
     }
 
@@ -249,10 +269,8 @@ class DefaultDrawer {
   /**
    * Set selection actions on component.
    * @param {Component} component - Component to set selection actions.
-   * @param {Component[]} components - Components needed to set links anchors.
-   * @param {ComponentLink[]} links - links to update on drag.
    */
-  setSelectionAction(component, components, links) {
+  setSelectionAction(component) {
     const element = this.d3.select(`#${component.id}`);
     element.call(
       this.d3.drag()
@@ -262,7 +280,7 @@ class DefaultDrawer {
         .on('drag', (_event, data) => {
           this.__selectComponent(data.id);
           this.actions.drag.state = true;
-          this.drawLinks(links);
+          this.drawLinks();
         })
         .on('end', (_event, data) => {
           if (!this.actions.drag.state) {
@@ -276,14 +294,13 @@ class DefaultDrawer {
   /**
    * Set actions on component.
    * @param {Component[]} components - Array containing components.
-   * @param {ComponentLink[]} links - List of links you want to draw.
    */
-  setComponentAction(components, links, linksDefinition) {
-    this.__drag(components, links);
-    this.__dropToRoot(components, links, linksDefinition);
+  setComponentAction(components) {
+    this.__drag(components);
+    this.__dropToRoot(components);
     components.forEach((component) => {
       if (component.definition.isContainer) {
-        this.__dropToContainer(components, component, links);
+        this.__dropToContainer(components, component);
       }
     });
 
@@ -299,7 +316,7 @@ class DefaultDrawer {
 
     this.interact('#action-menu .link').unset();
     this.interact('#action-menu .link').on('click', () => {
-      const allowedTarget = linksDefinition.filter((def) => def.sourceRef
+      const allowedTarget = this.pluginData.definitions.links.filter((def) => def.sourceRef
           === this.d3.select(`#${this.actions.selection.current}`).datum().definition.type);
 
       this.actions.link.targetList = allowedTarget.map((def) => def.targetRef);
@@ -325,7 +342,7 @@ class DefaultDrawer {
         },
         { once: true },
       );
-      this.__addLink(links, allowedTarget);
+      this.__addLink(allowedTarget);
     });
   }
 
@@ -343,10 +360,11 @@ class DefaultDrawer {
 
   /**
    * Add a link between two components
-   * @param {ComponentLink[]} links - Array that contains all links.
+   * @param {ComponentLinkDefinition[]} linkDefinitions - Array that contains all link definitions
+   * allowed.
    * @private
    */
-  __addLink(links, linkDefinitions) {
+  __addLink(linkDefinitions) {
     const source = this.actions.selection.current;
     const targetSelector = this.actions.link.targetList.map((type) => `.${type}`).join(', ');
     if (targetSelector === '') {
@@ -364,13 +382,13 @@ class DefaultDrawer {
             definition: linkDefinitions
               .find((def) => def.targetRef === target.definition.type),
           });
-          const existingLink = links
+          const existingLink = this.pluginData.links
             .filter((item) => item.source === link.source && item.target === link.target);
 
           if (!existingLink.length) {
-            links.push(link);
+            this.pluginData.links.push(link);
             this.d3.select(`#${source}`).datum().setLinkAttribute(link);
-            this.drawLinks(links);
+            this.drawLinks();
           }
         }
         this.interact(targetSelector).unset();
@@ -433,10 +451,9 @@ class DefaultDrawer {
   /**
    * Set action to drop component from a container component to the root element.
    * @param {Component[]} components - Array containing components.
-   * @param {ComponentLink[]} links - List of links you want to draw.
    * @private
    */
-  __dropToRoot(components, links, linksDefinition) {
+  __dropToRoot(components) {
     this.interact(`#${this.rootId}`).unset();
     this.interact(`#${this.rootId}`).dropzone({
       accept: '.component',
@@ -455,11 +472,11 @@ class DefaultDrawer {
             .filter((child) => child.id !== event.relatedTarget.id);
 
           container.children.forEach((child) => { child.drawOption = null; });
-          this.drawComponents(container.children, container.id, links, linksDefinition);
+          this.drawComponents(container.children, container.id);
 
-          this.__resetDrawOption(components, currentComponent, links, linksDefinition);
+          this.__resetDrawOption(currentComponent);
         }
-        this.drawLinks(links);
+        this.drawLinks();
       },
     });
   }
@@ -468,10 +485,9 @@ class DefaultDrawer {
    * Set action to drop component in a container component.
    * @param {Component[]} components - Array containing components.
    * @param {Component} component - Component to set drop action.
-   * @param {ComponentLink[]} links - List of links you want to draw.
    * @private
    */
-  __dropToContainer(components, component, links, linksDefinition) {
+  __dropToContainer(components, component) {
     let invalidDropzones;
     let currentComponent;
     let initialPosition;
@@ -489,7 +505,7 @@ class DefaultDrawer {
       },
       ondrop: (event) => {
         if (invalidDropzones.includes(event.target.id)) {
-          this.drawLinks(links);
+          this.drawLinks();
           return;
         }
         if (!component.definition.childrenTypes
@@ -498,7 +514,7 @@ class DefaultDrawer {
           currentComponent.datum().drawOption.x = startX;
           currentComponent.datum().drawOption.y = startY;
           this.displayActionMenu(initialPosition);
-          this.draw(components, this.rootId, links, linksDefinition);
+          this.draw(this.rootId);
           return;
         }
 
@@ -518,7 +534,7 @@ class DefaultDrawer {
             }
           }
 
-          this.__resetDrawOption(components, currentComponent, links, linksDefinition);
+          this.__resetDrawOption(currentComponent);
         } else if (currentComponent.node().classList[0] !== event.target.id) {
           const container = this.d3.select(`#${currentComponent.node().classList[0]}`).datum();
           dropzone.children.push(currentComponent.datum());
@@ -527,11 +543,11 @@ class DefaultDrawer {
             .filter((child) => child.id !== event.relatedTarget.id);
 
           container.children.forEach((child) => { child.drawOption = null; });
-          this.drawComponents(container.children, container.id, links, linksDefinition);
+          this.drawComponents(container.children, container.id);
 
-          this.__resetDrawOption(components, currentComponent, links, linksDefinition);
+          this.__resetDrawOption(currentComponent);
         }
-        this.drawLinks(links);
+        this.drawLinks();
       },
     });
   }
@@ -681,15 +697,13 @@ class DefaultDrawer {
 
   /**
    * Reset all components drawOption.
-   * @param {Component[]} components - Array containing components.
    * @param {Component} currentComponent - Component that was droped.
-   * @param {ComponentLink[]} links - List of links you want to draw.
    * @private
    */
-  __resetDrawOption(components, currentComponent, links, linksDefinition) {
+  __resetDrawOption(currentComponent) {
     this.d3.selectAll('.component').each((data) => { data.drawOption = null; });
     currentComponent.datum().drawOption = null;
-    this.draw(components, this.rootId, links, linksDefinition);
+    this.draw(this.rootId);
   }
 
   /**
@@ -808,7 +822,7 @@ class DefaultDrawer {
 
   /**
    * Returns the width and height of a component SVG.
-   * @param {Component[]} componentId - ID of the component we want getting size.
+   * @param {String} componentId - ID of the component we want getting size.
    * @return {Object} Return the object that contains max width and height.
    */
   getComponentSize(componentId) {
@@ -818,7 +832,8 @@ class DefaultDrawer {
 
   /**
    * Calls all methods dedicated to each model.
-   * @param {Components[]} components - List of components for which we want to keep the model name.
+   * @param {Component[]} components - List of components for which we want to keep the model name.
+   * @param {String} parentId - Id of the container.
    * @private
    */
   __drawModels(components, parentId) {

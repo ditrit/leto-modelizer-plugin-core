@@ -4,14 +4,22 @@
  */
 class DefaultRender {
   /**
-   * Transform all provided components and links in string.
-   * @param {Array} [components=[]] - List of components you want to convert.
-   * @param {Array} [links=[]] - List of links you want to convert.
-   * @param {String} [defaultFileName] - Default file name for new component.
+   * Default constructor.
+   * @param {DefaultData} pluginData - Plugin data storage.
+   */
+  constructor(pluginData) {
+    /**
+     * Plugin data storage.
+     * @type {DefaultData}
+     */
+    this.pluginData = pluginData || null;
+  }
+
+  /**
+   * Transform all provided components and links in file inputs.
    * @return {FileInput[]} - Generated files from components and links.
    */
-  /* eslint no-unused-vars: 0 */ // --> OFF
-  render(components = [], links = [], defaultFileName = null) {
+  render() {
     return [];
   }
 }

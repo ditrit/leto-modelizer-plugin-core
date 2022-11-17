@@ -132,6 +132,27 @@ class Component extends FileInformation {
       }));
     }
   }
+
+  /**
+   * Remove id in all link attributes' value then if value is empty remove attribute.
+   * @param {String} id - Id to remove.
+   */
+  removeLinkAttributeById(id) {
+    this.attributes = this.attributes
+      .filter((attribute) => {
+        if (attribute.definition && attribute.definition.type === 'Link') {
+          const index = attribute.value.findIndex((value) => value === id);
+
+          if (index >= 0) {
+            attribute.value.splice(index, 1);
+          }
+
+          return attribute.value.length !== 0;
+        }
+
+        return true;
+      });
+  }
 }
 
 export default Component;

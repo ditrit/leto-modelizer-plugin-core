@@ -14,12 +14,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add the method `addLink` in `DefaultDrawer.js` that add new link between two components.
 - Add method `setReferenceAttribute` and `removeAllReferenceAttributes` in Component to update container attribute.
 - Add the methods `__addLink` and `__unsetAddLink` in `DefaultDrawer`.
+- Add default model `DefaultData` to manage all data of the plugin.
+- Add default model `DefaultPlugin` to simplify the plugin usage.
+- Add method `setEvents` in `DefaultDrawer`.
 
 ### Changed
 
 - Rename the `draw` method to `drawComponents`.
 - Remove method `addChild` from Component.
 - Switch action menu position parameter from `absolute` to `fixed`. 
+- Update constructor of `DefaultDrawer`, `DefaultRenderer`, `DefaultParser` and `DefaultMetadata` to use `DefaultData`.
+- Update `draw` method of `DefaultDrawer` to only use the container id.
+- Rename method `getDefinitions` of `DefaultMetadata` to `parse` and make it update directly the plugin data.
+- Make the method `parse` of `DefaultParser` update directly the plugin data instead of return components, links and errors.
+- Remove arguments of method `render` of `DefaultRender` to directly use the plugin data.
 
 ## [0.8.1] - 2022-10-12
 
