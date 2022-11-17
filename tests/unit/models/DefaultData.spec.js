@@ -5,6 +5,7 @@ import Component from 'src/models/Component';
 import ComponentAttribute from 'src/models/ComponentAttribute';
 import ComponentAttributeDefinition from 'src/models/ComponentAttributeDefinition';
 import ComponentLink from 'src/models/ComponentLink';
+import ComponentLinkDefinition from 'src/models/ComponentLinkDefinition';
 
 describe('Test class: DefaultData', () => {
   describe('Test constructor', () => {
@@ -14,7 +15,6 @@ describe('Test class: DefaultData', () => {
       expect(pluginData.name).toBeNull();
       expect(pluginData.version).toBeNull();
       expect(pluginData.components).toEqual([]);
-      expect(pluginData.links).toEqual([]);
       expect(pluginData.parseErrors).toEqual([]);
       expect(pluginData.definitions).toEqual({ components: [], links: [] });
     });
@@ -25,7 +25,6 @@ describe('Test class: DefaultData', () => {
       expect(pluginData.name).toBeNull();
       expect(pluginData.version).toBeNull();
       expect(pluginData.components).toEqual([]);
-      expect(pluginData.links).toEqual([]);
       expect(pluginData.parseErrors).toEqual([]);
       expect(pluginData.definitions).toEqual({ components: [], links: [] });
 
@@ -38,7 +37,6 @@ describe('Test class: DefaultData', () => {
         name: 'name',
         version: 'version',
         components: [0],
-        links: [1],
         parseErrors: [2],
         definitions: {
           components: [3],
@@ -49,7 +47,6 @@ describe('Test class: DefaultData', () => {
       expect(pluginData.name).toEqual('name');
       expect(pluginData.version).toEqual('version');
       expect(pluginData.components).toEqual([0]);
-      expect(pluginData.links).toEqual([1]);
       expect(pluginData.parseErrors).toEqual([2]);
       expect(pluginData.definitions).toEqual({ components: [3], links: [4] });
     });
@@ -81,6 +78,204 @@ describe('Test class: DefaultData', () => {
             definition,
           }),
         ]);
+      });
+    });
+
+    describe('Test method: initLinkDefinitions', () => {
+      it('Should init link definitions', () => {
+        const pluginData = new DefaultData();
+
+        pluginData.definitions.components = [
+          new ComponentDefinition({
+            type: 'server',
+            definedAttributes: [
+              new ComponentAttributeDefinition({
+                name: 'link1',
+                type: 'Link',
+                linkRef: 'laptop1',
+                linkType: 'Default',
+              }),
+              new ComponentAttributeDefinition({
+                name: 'link2',
+                type: 'Link',
+                linkRef: 'laptop2',
+                linkType: 'Reverse',
+              }),
+              new ComponentAttributeDefinition({
+                name: 'notALink',
+                type: 'String',
+              }),
+              new ComponentAttributeDefinition({
+                name: 'object',
+                type: 'Object',
+                definedAttributes: [
+                  new ComponentAttributeDefinition({
+                    name: 'link3',
+                    type: 'Link',
+                    linkRef: 'laptop3',
+                    linkType: 'Default',
+                  }),
+                ],
+              }),
+            ],
+          }),
+        ];
+
+        pluginData.initLinkDefinitions();
+
+        expect(pluginData.definitions.links).toEqual([
+          new ComponentLinkDefinition({
+            attributeRef: 'link1',
+            sourceRef: 'server',
+            targetRef: 'laptop1',
+            type: 'Default',
+          }),
+          new ComponentLinkDefinition({
+            attributeRef: 'link2',
+            sourceRef: 'laptop2',
+            targetRef: 'server',
+            type: 'Reverse',
+          }),
+          new ComponentLinkDefinition({
+            attributeRef: 'link3',
+            sourceRef: 'server',
+            targetRef: 'laptop3',
+            type: 'Default',
+          }),
+        ]);
+      });
+    });
+
+    describe('Test method: getLinks', () => {
+      it('Should return all links', () => {
+        const pluginData = new DefaultData();
+        const linkDefinition1 = new ComponentAttributeDefinition({
+          name: 'link1',
+          type: 'Link',
+          linkRef: 'server',
+          linkType: 'Default',
+        });
+        const linkDefinition2 = new ComponentAttributeDefinition({
+          name: 'link2',
+          type: 'Link',
+          linkRef: 'server',
+          linkType: 'Reverse',
+        });
+        const linkDefinition3 = new ComponentAttributeDefinition({
+          name: 'link3',
+          type: 'Link',
+          linkRef: 'server',
+          linkType: 'Default',
+        });
+        const notALinkDefinition = new ComponentAttributeDefinition({
+          name: 'notALink',
+          type: 'String',
+        });
+        const objectDefinition = new ComponentAttributeDefinition({
+          name: 'object',
+          type: 'Object',
+          definedAttributes: [linkDefinition3],
+        });
+        const serverDefinition = new ComponentDefinition({
+          type: 'server',
+          definedAttributes: [
+            linkDefinition1,
+            linkDefinition2,
+            notALinkDefinition,
+            objectDefinition,
+          ],
+        });
+
+        pluginData.definitions.components = [serverDefinition];
+
+        pluginData.initLinkDefinitions();
+
+        pluginData.components = [
+          new Component({
+            definition: serverDefinition,
+            id: 'server1',
+            attributes: [new ComponentAttribute({
+              definition: linkDefinition1,
+              name: 'link1',
+              value: ['server2'],
+              type: 'Array',
+            })],
+          }),
+          new Component({
+            definition: serverDefinition,
+            id: 'server2',
+            attributes: [new ComponentAttribute({
+              definition: linkDefinition2,
+              name: 'link2',
+              value: ['server1'],
+              type: 'Array',
+            })],
+          }),
+          new Component({
+            definition: serverDefinition,
+            id: 'server3',
+            attributes: [new ComponentAttribute({
+              definition: objectDefinition,
+              name: 'object',
+              type: 'Object',
+              value: [new ComponentAttribute({
+                definition: linkDefinition3,
+                name: 'link3',
+                value: ['server2'],
+                type: 'Array',
+              })],
+            })],
+          }),
+        ];
+
+        expect(pluginData.getLinks()).toEqual([
+          new ComponentLink({
+            definition: pluginData.definitions.links[0],
+            source: 'server1',
+            target: 'server2',
+          }),
+          new ComponentLink({
+            definition: pluginData.definitions.links[1],
+            source: 'server2',
+            target: 'server1',
+          }),
+          new ComponentLink({
+            definition: pluginData.definitions.links[2],
+            source: 'server3',
+            target: 'server2',
+          }),
+        ]);
+      });
+    });
+
+    describe('Test method: getComponentsByType', () => {
+      it('Should return empty array on unknown type', () => {
+        const pluginData = new DefaultData();
+
+        pluginData.components = [new Component({
+          definition: new ComponentDefinition({ type: 'test' }),
+        })];
+        expect(pluginData.getComponentsByType('unknown')).toEqual([]);
+      });
+
+      it('Should return wanted components', () => {
+        const pluginData = new DefaultData();
+        const notTest = new Component({
+          definition: new ComponentDefinition({ type: 'notTest' }),
+          id: 'notTest',
+        });
+        const test2 = new Component({
+          definition: new ComponentDefinition({ type: 'test' }),
+          id: 'test2',
+        });
+        const test1 = new Component({
+          definition: new ComponentDefinition({ type: 'test' }),
+          id: 'test1',
+          children: [test2, notTest],
+        });
+
+        pluginData.components = [test1, notTest];
+        expect(pluginData.getComponentsByType('test')).toEqual([test1, test2]);
       });
     });
 
@@ -163,26 +358,6 @@ describe('Test class: DefaultData', () => {
             definition,
           }),
         ]);
-      });
-
-      it('Should remove existing source link', () => {
-        const pluginData = new DefaultData();
-
-        pluginData.links.push(new ComponentLink({ source: 'root' }));
-        pluginData.links.push(new ComponentLink({ source: 'test' }));
-
-        pluginData.removeComponentById('root');
-        expect(pluginData.links).toEqual([new ComponentLink({ source: 'test' })]);
-      });
-
-      it('Should remove existing target link', () => {
-        const pluginData = new DefaultData();
-
-        pluginData.links.push(new ComponentLink({ target: 'root' }));
-        pluginData.links.push(new ComponentLink({ target: 'test' }));
-
-        pluginData.removeComponentById('root');
-        expect(pluginData.links).toEqual([new ComponentLink({ target: 'test' })]);
       });
 
       it('Should remove the sub-component corresponding to the given id', () => {
