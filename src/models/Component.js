@@ -155,6 +155,39 @@ class Component extends FileInformation {
         return true;
       });
   }
+
+  /**
+   * Get attribute by name.
+   * @param {String} name - Name of attribute to find.
+   * @returns {ComponentAttribute|null} Component attribute or null.
+   */
+  getAttributeByName(name) {
+    return this.__getAttributeByName(this.attributes, name);
+  }
+
+  /**
+   * Get attribute from attributes list by name.
+   * @param {ComponentAttribute[]} attributes - Attributes list.
+   * @param {String} name - Name of attribute to find.
+   * @returns {ComponentAttribute|null} Component attribute or null.
+   * @private
+   */
+  __getAttributeByName(attributes, name) {
+    for (let index = 0; index < attributes.length; index += 1) { // NOSONAR
+      if (attributes[index].name === name) {
+        return attributes[index];
+      }
+      if (attributes[index].type === 'Object') {
+        const attribute = this.__getAttributeByName(attributes[index].value, name);
+
+        if (attribute) {
+          return attribute;
+        }
+      }
+    }
+
+    return null;
+  }
 }
 
 export default Component;
