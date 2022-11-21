@@ -22,13 +22,11 @@ describe('Test Class: DefaultParser()', () => {
         const defaultParser = new DefaultParser(new DefaultData());
 
         defaultParser.pluginData.components = [0];
-        defaultParser.pluginData.links = [1];
-        defaultParser.pluginData.parseErrors = [2];
+        defaultParser.pluginData.parseErrors = [1];
 
         defaultParser.parse();
 
         expect(defaultParser.pluginData.components).toEqual([]);
-        expect(defaultParser.pluginData.links).toEqual([]);
         expect(defaultParser.pluginData.parseErrors).toEqual([]);
       });
     });

@@ -21,7 +21,6 @@ class DefaultParser {
    */
   parse(inputs = []) { /* eslint no-unused-vars: 0 */ // --> OFF
     this.pluginData.components = [];
-    this.pluginData.links = [];
     this.pluginData.parseErrors = [];
   }
 
