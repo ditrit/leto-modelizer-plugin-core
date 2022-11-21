@@ -9,14 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add `drawLinks`, `getAnchorsPosition` and `getDefaultAnchor` methods in `DefaultDrawer.js`.
+- Add `drawLinks`, `getAnchorPoint` methods in `DefaultDrawer.js`.
 - Create a new `draw` method that executes the `drawLinks` and `drawComponents` methods.
-- Add the method `addLink` in `DefaultDrawer.js` that add new link between two components.
 - Add method `setReferenceAttribute` and `removeAllReferenceAttributes` in Component to update container attribute.
-- Add the methods `__addLink` and `__unsetAddLink` in `DefaultDrawer`.
 - Add default model `DefaultData` to manage all data of the plugin.
 - Add default model `DefaultPlugin` to simplify the plugin usage.
 - Add method `setEvents` in `DefaultDrawer`.
+- Add zoom and pan support.
+- Add the method `addLink` in `DefaultDrawer.js` that adds a new link between two components.
+- Add `options` prop to `DefaultDrawer` constructor to control rendering behavior.
+- Add `createRenderingContext` method to `DefaultDrawer`.
+- Add `SVGToScreen` and `screenToSVG` methods to `DefaultDrawer`.
+- Add `setDisabledStyle` and `unsetAllDisabledStyles` methods to `DefaultDrawer`.
+- Add `dragHandler`, `setupDragBehavior` and  `handleDropEvent` methods to `DefaultDrawer` to control drag and drop interaction.
+- Add `startLinkCreationInteraction` and `cancelLinkCreationInteraction` methods to `DefaultDrawer`.
+- Add `buildTree`, `setupTiles` and  `__buildLines` methods to `DefaultDrawer` to control the component layout.
 
 ### Changed
 
@@ -28,6 +35,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Rename method `getDefinitions` of `DefaultMetadata` to `parse` and make it update directly the plugin data.
 - Make the method `parse` of `DefaultParser` update directly the plugin data instead of return components, links and errors.
 - Remove arguments of method `render` of `DefaultRender` to directly use the plugin data.
+- `DefaultDrawer` constructor props re-ordered to `(pluginData, resources, events, rootId, options)` based on the likelihood of each prop being changed by the user.
+- Remove `interactjs` and `bin-pack` dependencies.
+- Update `drawComponents` to make full use of d3's api.
 
 ## [0.8.1] - 2022-10-12
 
