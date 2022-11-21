@@ -352,7 +352,6 @@ describe('Test Class: DefaultDrawer()', () => {
 
     beforeEach(() => {
       data = new DefaultData();
-      data.links = [];
       data.components = [
         new Component({
           id: 'cmp1',
@@ -408,15 +407,19 @@ describe('Test Class: DefaultDrawer()', () => {
 
     it('Should create a link with the proper definition', () => {
       drawer.createLink();
-      expect(data.links.length).toBe(1);
-      expect(data.links[0])
+      const links = data.getLinks();
+
+      expect(links.length).toBe(1);
+      expect(links[0])
         .toEqual(expect.objectContaining({ definition: data.definitions.links[0] }));
     });
 
     it('Should create a link between the correct components', () => {
       drawer.createLink();
-      expect(data.links.length).toBe(1);
-      expect(data.links[0]).toEqual(
+      const links = data.getLinks();
+
+      expect(links.length).toBe(1);
+      expect(links[0]).toEqual(
         expect.objectContaining({
           source: data.components[0].id,
           target: data.components[1].id,

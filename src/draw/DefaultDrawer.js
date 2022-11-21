@@ -515,7 +515,9 @@ class DefaultDrawer {
    * Render links in model view.
    */
   drawLinks() {
-    if (!this.pluginData.links) {
+    const pluginLinks = this.pluginData.getLinks();
+
+    if (!pluginLinks) {
       return;
     }
 
@@ -534,7 +536,7 @@ class DefaultDrawer {
 
     links.raise();
 
-    links.data(this.pluginData.links, (data) => data)
+    links.data(pluginLinks, (data) => data)
       .join('path')
       .filter(({ source, target }) => !d3.select(`#${source}`).empty()
             && !d3.select(`#${target}`).empty())
@@ -701,7 +703,6 @@ class DefaultDrawer {
       definition: activeLinkType,
     });
 
-    this.pluginData.links.push(newLink);
     this.actions.linkCreation.source.setLinkAttribute(newLink);
 
     this.cancelLinkCreationInteraction();
