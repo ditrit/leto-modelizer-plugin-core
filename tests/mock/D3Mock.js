@@ -1,5 +1,6 @@
 export default function mockD3(jest) {
   const d3 = {};
+
   [
     'append', 'attr', 'call', 'data', 'drag', 'classed',
     'each', 'enter', 'exit', 'getBBox', 'on', 'linkHorizontal',

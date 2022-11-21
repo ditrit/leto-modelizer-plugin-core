@@ -10,6 +10,7 @@ class FileInformation {
     const {
       path,
     } = props;
+
     /**
      * Path of the file.
      * @type {String}

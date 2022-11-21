@@ -68,9 +68,11 @@ describe('Test class: DefaultData', () => {
     describe('Test method: addComponent', () => {
       it('Should create new component and add it to the components list', () => {
         const pluginData = new DefaultData();
+
         expect(pluginData.components).toEqual([]);
 
         const definition = new ComponentDefinition();
+
         pluginData.addComponent('test', definition);
         expect(pluginData.components).toEqual([
           new Component({
@@ -85,6 +87,7 @@ describe('Test class: DefaultData', () => {
     describe('Test method: getComponentById', () => {
       it('Should return null on unknown id', () => {
         const pluginData = new DefaultData();
+
         expect(pluginData.getComponentById('bad')).toBeNull();
       });
 
@@ -164,6 +167,7 @@ describe('Test class: DefaultData', () => {
 
       it('Should remove existing source link', () => {
         const pluginData = new DefaultData();
+
         pluginData.links.push(new ComponentLink({ source: 'root' }));
         pluginData.links.push(new ComponentLink({ source: 'test' }));
 
@@ -173,6 +177,7 @@ describe('Test class: DefaultData', () => {
 
       it('Should remove existing target link', () => {
         const pluginData = new DefaultData();
+
         pluginData.links.push(new ComponentLink({ target: 'root' }));
         pluginData.links.push(new ComponentLink({ target: 'test' }));
 

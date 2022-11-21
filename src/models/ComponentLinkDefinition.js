@@ -22,6 +22,7 @@ class ComponentLinkDefinition {
       targetRef,
       type,
     } = props;
+
     /**
      * Reference of attribute can be the link.
      * @type {String}

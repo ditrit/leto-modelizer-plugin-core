@@ -34,6 +34,7 @@ class Component extends FileInformation {
       attributes,
       children,
     } = props;
+
     /**
      * The id of this Component.
      * @type {String}
@@ -103,7 +104,8 @@ class Component extends FileInformation {
    */
   removeAllReferenceAttributes(container) {
     if (container) {
-      this.attributes = this.attributes.filter(({ definition, value }) => !(definition.type === 'Reference'
+      this.attributes = this.attributes
+        .filter(({ definition, value }) => !(definition.type === 'Reference'
         && definition.containerRef === container.definition.type
         && value === container.id));
     } else {

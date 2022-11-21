@@ -129,6 +129,7 @@ describe('Test class: DefaultPlugin', () => {
         });
 
         const result = plugin.render();
+
         expect(result).toEqual('test');
         expect(mockRender).toBeCalled();
       });

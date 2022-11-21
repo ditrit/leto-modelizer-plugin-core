@@ -1,5 +1,7 @@
-import { version as CORE_VERSION } from '../../package.json';
+import packageInfo from '../../package.json';
 import Component from './Component';
+
+const CORE_VERSION = packageInfo.version;
 
 /**
  * Class that represents all data of a Plugin.
@@ -99,10 +101,12 @@ class DefaultData {
         return components[index];
       }
       const component = this.__getComponentById(components[index].children, id);
+
       if (component) {
         return component;
       }
     }
+
     return null;
   }
 
@@ -127,8 +131,10 @@ class DefaultData {
    */
   removeComponentById(id) {
     const isRemoved = this.__removeComponentById(this.components, id);
+
     this.__removeRefAttributeById(this.components, id);
     this.links = this.links.filter(({ source, target }) => source !== id && target !== id);
+
     return isRemoved;
   }
 
@@ -145,6 +151,7 @@ class DefaultData {
     for (let index = 0; index < components.length; index += 1) { // NOSONAR
       if (components[index].id === id) {
         components.splice(index, 1);
+
         return true;
       }
       if (this.__removeComponentById(components[index].children, id)) {

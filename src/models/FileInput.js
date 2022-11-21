@@ -16,6 +16,7 @@ class FileInput extends FileInformation {
     const {
       content,
     } = props;
+
     /**
      * Content of the file.
      * @type {String}

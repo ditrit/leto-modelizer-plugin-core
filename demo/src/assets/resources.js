@@ -31,13 +31,14 @@ export default {
       </svg>
     `,
     DefaultContainer: `<svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+     overflow="visible"
      class="template"
      width="230" height="68"
      fill="#474262">
   <rect width="100%" height="100%" rx="5" ry="5"></rect>
-  <svg class="component-container"
-      width="218" height="12"
-      x="6" y="50"
+  <svg class="component-container" x="1"
+      overflow="visible"
+      y="50"
       fill="#9691B1">
     <rect class="container-background"
           width="100%" height="100%"
