@@ -30,6 +30,12 @@ class DemoParser extends DefaultParser {
           type: 'String',
           definition: this.pluginData.__userAttributeDefinition,
         }),
+        new ComponentAttribute({
+          name: 'network_link',
+          value: ['network1'],
+          type: 'Array',
+          definition: this.pluginData.__networkLinkAttributeDefinition,
+        }),
       ],
       children: [],
     });
@@ -83,6 +89,12 @@ class DemoParser extends DefaultParser {
           value: 'network1',
           type: 'String',
           definition: this.pluginData.__networkAttributeDefinition,
+        }),
+        new ComponentAttribute({
+          name: 'laptop_link',
+          value: ['external1'],
+          type: 'Array',
+          definition: this.pluginData.__laptopLinkAttributeDefinition,
         }),
       ],
       children: [],
@@ -145,20 +157,7 @@ class DemoParser extends DefaultParser {
       children: [],
     });
 
-    const link1 = new ComponentLink({
-      source: 'internal1',
-      target: 'network1',
-      definition: this.pluginData.__networkLinkDefinition,
-    });
-
-    const link2 = new ComponentLink({
-      source: 'server1',
-      target: 'external1',
-      definition: this.pluginData.__laptopLinkDefinition,
-    });
-
     this.pluginData.components = [internalLaptop, dmz1, dmz2, externalLaptop];
-    this.pluginData.links = [link1, link2];
     this.pluginData.parseErrors = [];
   }
 }
