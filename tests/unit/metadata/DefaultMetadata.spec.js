@@ -20,6 +20,7 @@ describe('Test Class: DefaultMetadata()', () => {
     describe('Test method: validate', () => {
       it('Should return true', () => {
         const defaultMetadata = new DefaultMetadata();
+
         expect(defaultMetadata.validate()).toEqual(true);
       });
     });
@@ -27,6 +28,7 @@ describe('Test Class: DefaultMetadata()', () => {
     describe('Test method: parse', () => {
       it('Should update pluginData definitions', () => {
         const defaultMetadata = new DefaultMetadata(new DefaultData());
+
         defaultMetadata.pluginData.definitions.components = [0];
         defaultMetadata.pluginData.definitions.links = [1];
 

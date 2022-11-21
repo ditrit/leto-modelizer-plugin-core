@@ -33,6 +33,7 @@ class ComponentDefinition {
       definedAttributes,
       isContainer,
     } = props;
+
     /**
      * The type of the associated component.
      * @type {String}

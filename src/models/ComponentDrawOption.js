@@ -22,6 +22,7 @@ class ComponentDrawOption {
       width,
       height,
     } = props;
+
     /**
      * X Position of Component.
      * @type {Number}

@@ -24,6 +24,7 @@ class ComponentAttribute {
       type,
       definition,
     } = props;
+
     /**
      * The name of the attribute.
      * @type {String}

@@ -4,6 +4,7 @@ describe('Test class: ParseError', () => {
   describe('Test constructor', () => {
     it('Check variable instantiation', () => {
       const parseError = new ParseError();
+
       expect(parseError.message).toEqual(
         'Error happened when trying to parse.',
       );

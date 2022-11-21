@@ -20,6 +20,7 @@ describe('Test Class: DefaultParser()', () => {
     describe('Test method: parse', () => {
       it('should return default object with initialized properties', () => {
         const defaultParser = new DefaultParser(new DefaultData());
+
         defaultParser.pluginData.components = [0];
         defaultParser.pluginData.links = [1];
         defaultParser.pluginData.parseErrors = [2];
@@ -35,11 +36,13 @@ describe('Test Class: DefaultParser()', () => {
     describe('Test method: isParsable', () => {
       it('on any not null file name should return true', () => {
         const defaultParser = new DefaultParser();
+
         expect(defaultParser.isParsable('')).toBeTruthy();
       });
 
       it('on null/undefined file name should return false', () => {
         const defaultParser = new DefaultParser();
+
         expect(defaultParser.isParsable()).toBeFalsy();
         expect(defaultParser.isParsable(null)).toBeFalsy();
       });

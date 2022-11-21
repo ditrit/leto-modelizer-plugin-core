@@ -45,6 +45,7 @@ class ComponentAttributeDefinition {
       required,
       rules,
     } = props;
+
     /**
      * Attribute name.
      * @type {String}
