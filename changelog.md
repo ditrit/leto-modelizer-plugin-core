@@ -24,20 +24,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `dragHandler`, `setupDragBehavior` and  `handleDropEvent` methods to `DefaultDrawer` to control drag and drop interaction.
 - Add `startLinkCreationInteraction` and `cancelLinkCreationInteraction` methods to `DefaultDrawer`.
 - Add `buildTree`, `setupTiles` and  `__buildLines` methods to `DefaultDrawer` to control the component layout.
+- Add method `getLinks` in `DefaultData` to generate all links from all components attributes.
+- Add method `getComponentsByType` in `DefaultData`.
+- Add method `getAttributeByName` in `Component`.
+- Add method `initLinkDefinitions` in `DefaultData` and call it in `init` in `DefaultPlugin`.
 
 ### Changed
 
 - Rename the `draw` method to `drawComponents`.
-- Remove method `addChild` from Component.
 - Switch action menu position parameter from `absolute` to `fixed`. 
 - Update constructor of `DefaultDrawer`, `DefaultRenderer`, `DefaultParser` and `DefaultMetadata` to use `DefaultData`.
 - Update `draw` method of `DefaultDrawer` to only use the container id.
 - Rename method `getDefinitions` of `DefaultMetadata` to `parse` and make it update directly the plugin data.
 - Make the method `parse` of `DefaultParser` update directly the plugin data instead of return components, links and errors.
-- Remove arguments of method `render` of `DefaultRender` to directly use the plugin data.
 - `DefaultDrawer` constructor props re-ordered to `(pluginData, resources, events, rootId, options)` based on the likelihood of each prop being changed by the user.
-- Remove `interactjs` and `bin-pack` dependencies.
 - Update `drawComponents` to make full use of d3's api.
+
+### Removed
+
+- Remove method `addChild` from Component.
+- Remove `interactjs` and `bin-pack` dependencies.
+- Remove arguments of method `render` of `DefaultRender` to directly use the plugin data.
+- Remove `links` from `DefaultData`.
 
 ## [0.8.1] - 2022-10-12
 
