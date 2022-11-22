@@ -1,10 +1,26 @@
 import DefaultDrawer from 'src/draw/DefaultDrawer';
-import mockD3 from 'tests/mock/D3Mock';
+import * as d3 from 'd3';
 import DefaultData from 'src/models/DefaultData';
 import ComponentLinkDefinition from 'src/models/ComponentLinkDefinition';
 import Component from 'src/models/Component';
 import ComponentDefinition from 'src/models/ComponentDefinition';
 import ComponentAttributeDefinition from 'src/models/ComponentAttributeDefinition';
+
+jest.mock('d3', () => {
+  const mockD3 = {};
+
+  [
+    'append', 'attr', 'call', 'data', 'drag', 'classed',
+    'each', 'enter', 'exit', 'getBBox', 'on', 'linkHorizontal',
+    'remove', 'select', 'selectAll', 'style', 'select',
+    'text', 'node', 'html', 'transition', 'duration', 'datum',
+    'source', 'target', 'join',
+  ].forEach((method) => {
+    mockD3[method] = jest.fn(() => mockD3);
+  });
+
+  return mockD3;
+});
 
 describe('Test Class: DefaultDrawer()', () => {
   describe('Test constructor', () => {
@@ -378,7 +394,6 @@ describe('Test Class: DefaultDrawer()', () => {
 
     beforeEach(() => {
       drawer = new DefaultDrawer(new DefaultData());
-      drawer.d3 = mockD3(jest);
     });
 
     describe('Test action: __unselectComponent', () => {
@@ -387,8 +402,8 @@ describe('Test Class: DefaultDrawer()', () => {
         drawer.__unselectComponent();
 
         expect(drawer.actions.selection.current).toBeNull();
-        expect(drawer.d3.select).not.toBeCalled();
-        expect(drawer.d3.style).not.toBeCalled();
+        expect(d3.select).not.toBeCalled();
+        expect(d3.style).not.toBeCalled();
       });
 
       it('On selected component Should unselect it', () => {
@@ -396,8 +411,8 @@ describe('Test Class: DefaultDrawer()', () => {
         drawer.__unselectComponent();
 
         expect(drawer.actions.selection.current).toBeNull();
-        expect(drawer.d3.select).toBeCalled();
-        expect(drawer.d3.style).toBeCalled();
+        expect(d3.select).toBeCalled();
+        expect(d3.style).toBeCalled();
       });
     });
   });
