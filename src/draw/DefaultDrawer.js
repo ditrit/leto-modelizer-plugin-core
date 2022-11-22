@@ -37,10 +37,6 @@ class DefaultDrawer {
      */
     this.pluginData = pluginData;
     /**
-     * D3 library.
-     */
-    this.d3 = d3;
-    /**
      * Id of HTML element where we want to draw.
      * @type {String}
      */
@@ -218,7 +214,7 @@ class DefaultDrawer {
   setDisabledStyle(selector = '.component') {
     const localSelector = `#${this.rootId} ${selector}`;
 
-    this.d3.selectAll(localSelector)
+    d3.selectAll(localSelector)
       .classed('disabled', true);
   }
 
@@ -226,7 +222,7 @@ class DefaultDrawer {
    * Remove the disabled style from previously disabled components.
    */
   unsetAllDisabledStyles() {
-    this.d3.selectAll(`#${this.rootId} .disabled`)
+    d3.selectAll(`#${this.rootId} .disabled`)
       .classed('disabled', false);
   }
 
@@ -246,9 +242,9 @@ class DefaultDrawer {
         || element.classList.contains('container')
       ));
 
-    const target = this.d3.select(`#${event.subject.data.id}`).attr('cursor', 'grabbing');
+    const target = d3.select(`#${event.subject.data.id}`).attr('cursor', 'grabbing');
 
-    this.d3.select('#root-components')
+    d3.select('#root-components')
       .append(() => target.node());
 
     const rootSVGPoint = this.screenToSVG(
@@ -257,7 +253,7 @@ class DefaultDrawer {
       this.svg.select('.container').node(),
     );
 
-    this.d3.select(draggedElement)
+    d3.select(draggedElement)
       .attr(
         'transform',
         event.subject.transform = `translate(${rootSVGPoint.x},${rootSVGPoint.y})`,
@@ -285,10 +281,10 @@ class DefaultDrawer {
     let itemWasDragged = false;
     const dragHandler = this.dragHandler.bind(this);
 
-    return this.d3.drag()
+    return d3.drag()
       .subject((event) => {
         const target = document.elementFromPoint(event.sourceEvent.x, event.sourceEvent.y);
-        const targetData = this.d3.select(target);
+        const targetData = d3.select(target);
 
         return targetData.datum();
       })
@@ -312,7 +308,7 @@ class DefaultDrawer {
     const origParent = this.pluginData.getComponentById(event.subject.parent.data.id)
         || this.shadowRoot;
     const origIndex = origParent.children.findIndex((child) => child.id === event.subject.data.id);
-    const target = dropTarget ? this.d3.select(dropTarget) : null;
+    const target = dropTarget ? d3.select(dropTarget) : null;
 
     if (target) {
       const parentId = target.attr('data-parentId');
@@ -335,10 +331,10 @@ class DefaultDrawer {
    * Create a new svg to render the models in, or fetch an existing one.
    */
   createRenderingContext() {
-    const contextIsPresent = !this.d3.select(`#${this.rootId}>svg`).empty();
+    const contextIsPresent = !d3.select(`#${this.rootId}>svg`).empty();
 
     if (!contextIsPresent) {
-      this.svg = this.d3.select(`#${this.rootId}`)
+      this.svg = d3.select(`#${this.rootId}`)
         .append('svg')
         .attr('viewBox', [0, 0, this.width, this.height])
         .attr('preserveAspectRatio', 'xMinYMin meet')
@@ -350,7 +346,7 @@ class DefaultDrawer {
         .attr('x', 0)
         .attr('y', 0);
     } else {
-      this.svg = this.d3.select(`#${this.rootId}`)
+      this.svg = d3.select(`#${this.rootId}`)
         .select('svg');
     }
   }
@@ -370,7 +366,7 @@ class DefaultDrawer {
     this.drawLinks();
     this.initializeActionMenu();
 
-    this.setViewPortAction(this.d3.select(`#${this.rootId}`));
+    this.setViewPortAction(d3.select(`#${this.rootId}`));
   }
 
   /**
@@ -440,7 +436,7 @@ class DefaultDrawer {
       .attr('x', () => this.margin)
       .attr('y', () => this.minHeight)
       .filter(({ children }) => children)
-      .append(({ data }) => this.d3.select(`#group-${data.id}`).node());
+      .append(({ data }) => d3.select(`#group-${data.id}`).node());
 
     node.select('.component-container>rect').attr('data-parentId', ({ data }) => data.id);
   }
@@ -450,7 +446,7 @@ class DefaultDrawer {
    * @return {[String, Node[]][]} - The nodes grouped by parent.
    */
   buildTree() {
-    const treemapLayout = this.d3.treemap()
+    const treemapLayout = d3.treemap()
       .size([this.width, this.height])
       .tile((data) => {
         const lines = this.__buildLines(data);
@@ -459,7 +455,7 @@ class DefaultDrawer {
         // TODO save/load coordinates
       })
       .round(true);
-    const rootNode = this.d3.hierarchy(this.shadowRoot);
+    const rootNode = d3.hierarchy(this.shadowRoot);
 
     rootNode
       .count()
@@ -472,7 +468,7 @@ class DefaultDrawer {
 
     treemapLayout(rootNode);
 
-    return this.d3.groups(
+    return d3.groups(
       rootNode,
       ({ parent }) => (parent
         && parent.data.id !== '__shadowRoot'
@@ -521,14 +517,14 @@ class DefaultDrawer {
       return;
     }
 
-    const linkGen = this.d3.link(this.d3.curveBumpX)
+    const linkGen = d3.link(d3.curveBumpX)
       .source(({ source, target }) => this.getAnchorPoint(
-        this.d3.select(`#${source}`),
-        this.d3.select(`#${target}`),
+        d3.select(`#${source}`),
+        d3.select(`#${target}`),
       ))
       .target(({ source, target }) => this.getAnchorPoint(
-        this.d3.select(`#${target}`),
-        this.d3.select(`#${source}`),
+        d3.select(`#${target}`),
+        d3.select(`#${source}`),
       ));
 
     const links = this.svg
@@ -538,8 +534,8 @@ class DefaultDrawer {
 
     links.data(pluginLinks, (data) => data)
       .join('path')
-      .filter(({ source, target }) => !this.d3.select(`#${source}`).empty()
-            && !this.d3.select(`#${target}`).empty())
+      .filter(({ source, target }) => !d3.select(`#${source}`).empty()
+            && !d3.select(`#${target}`).empty())
       .classed('link', true)
       .attr('d', linkGen)
       .attr('fill', 'none')
@@ -629,10 +625,10 @@ class DefaultDrawer {
     });
     const drawLinks = this.drawLinks.bind(this);
 
-    element.call(this.d3
+    element.call(d3
       .zoom()
       .on('zoom', function zoomHandler(event) {
-        this.d3.select(this).select('.container').attr('transform', event.transform);
+        d3.select(this).select('.container').attr('transform', event.transform);
         drawLinks();
       }));
   }
@@ -644,7 +640,7 @@ class DefaultDrawer {
    */
   __unselectComponent() {
     if (this.actions.selection.current) {
-      this.d3.select(`#${this.actions.selection.current}`)
+      d3.select(`#${this.actions.selection.current}`)
         .style('outline', '');
       this.actions.selection.current = null;
       this.hideActionMenu();
@@ -657,7 +653,7 @@ class DefaultDrawer {
    * @private
    */
   __selectComponent(id) {
-    const currentComponent = this.d3.select(`#${id}`);
+    const currentComponent = d3.select(`#${id}`);
     const sameElementCliked = this.actions.selection.current === id;
 
     if (this.actions.linkCreation.creating) {
@@ -715,7 +711,7 @@ class DefaultDrawer {
    */
   initializeActionMenu() {
     if (!document.querySelector('#action-menu')) {
-      const actionMenu = this.d3.select(`#${this.rootId}`)
+      const actionMenu = d3.select(`#${this.rootId}`)
         .append('div')
         .attr('id', 'action-menu');
 
@@ -795,7 +791,7 @@ class DefaultDrawer {
     width,
     bottom,
   }) {
-    this.d3.select('#action-menu')
+    d3.select('#action-menu')
       .style('visibility', 'visible')
       .style('top', `${bottom + 10}px `)
       .style('left', `${left + width / 2}px`);
@@ -805,7 +801,7 @@ class DefaultDrawer {
    * Hide the action menu.
    */
   hideActionMenu() {
-    this.d3.select('#action-menu')
+    d3.select('#action-menu')
       .style('visibility', 'hidden');
   }
 }
