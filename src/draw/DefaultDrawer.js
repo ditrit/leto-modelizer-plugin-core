@@ -218,7 +218,7 @@ class DefaultDrawer {
   setDisabledStyle(selector = '.component') {
     const localSelector = `#${this.rootId} ${selector}`;
 
-    d3.selectAll(localSelector)
+    this.d3.selectAll(localSelector)
       .classed('disabled', true);
   }
 
@@ -226,7 +226,7 @@ class DefaultDrawer {
    * Remove the disabled style from previously disabled components.
    */
   unsetAllDisabledStyles() {
-    d3.selectAll(`#${this.rootId} .disabled`)
+    this.d3.selectAll(`#${this.rootId} .disabled`)
       .classed('disabled', false);
   }
 
@@ -246,9 +246,9 @@ class DefaultDrawer {
         || element.classList.contains('container')
       ));
 
-    const target = d3.select(`#${event.subject.data.id}`).attr('cursor', 'grabbing');
+    const target = this.d3.select(`#${event.subject.data.id}`).attr('cursor', 'grabbing');
 
-    d3.select('#root-components')
+    this.d3.select('#root-components')
       .append(() => target.node());
 
     const rootSVGPoint = this.screenToSVG(
@@ -257,7 +257,7 @@ class DefaultDrawer {
       this.svg.select('.container').node(),
     );
 
-    d3.select(draggedElement)
+    this.d3.select(draggedElement)
       .attr(
         'transform',
         event.subject.transform = `translate(${rootSVGPoint.x},${rootSVGPoint.y})`,
@@ -285,10 +285,10 @@ class DefaultDrawer {
     let itemWasDragged = false;
     const dragHandler = this.dragHandler.bind(this);
 
-    return d3.drag()
+    return this.d3.drag()
       .subject((event) => {
         const target = document.elementFromPoint(event.sourceEvent.x, event.sourceEvent.y);
-        const targetData = d3.select(target);
+        const targetData = this.d3.select(target);
 
         return targetData.datum();
       })
@@ -312,7 +312,7 @@ class DefaultDrawer {
     const origParent = this.pluginData.getComponentById(event.subject.parent.data.id)
         || this.shadowRoot;
     const origIndex = origParent.children.findIndex((child) => child.id === event.subject.data.id);
-    const target = dropTarget ? d3.select(dropTarget) : null;
+    const target = dropTarget ? this.d3.select(dropTarget) : null;
 
     if (target) {
       const parentId = target.attr('data-parentId');
@@ -335,10 +335,10 @@ class DefaultDrawer {
    * Create a new svg to render the models in, or fetch an existing one.
    */
   createRenderingContext() {
-    const contextIsPresent = !d3.select(`#${this.rootId}>svg`).empty();
+    const contextIsPresent = !this.d3.select(`#${this.rootId}>svg`).empty();
 
     if (!contextIsPresent) {
-      this.svg = d3.select(`#${this.rootId}`)
+      this.svg = this.d3.select(`#${this.rootId}`)
         .append('svg')
         .attr('viewBox', [0, 0, this.width, this.height])
         .attr('preserveAspectRatio', 'xMinYMin meet')
@@ -350,7 +350,7 @@ class DefaultDrawer {
         .attr('x', 0)
         .attr('y', 0);
     } else {
-      this.svg = d3.select(`#${this.rootId}`)
+      this.svg = this.d3.select(`#${this.rootId}`)
         .select('svg');
     }
   }
@@ -370,7 +370,7 @@ class DefaultDrawer {
     this.drawLinks();
     this.initializeActionMenu();
 
-    this.setViewPortAction(d3.select(`#${this.rootId}`));
+    this.setViewPortAction(this.d3.select(`#${this.rootId}`));
   }
 
   /**
@@ -440,7 +440,7 @@ class DefaultDrawer {
       .attr('x', () => this.margin)
       .attr('y', () => this.minHeight)
       .filter(({ children }) => children)
-      .append(({ data }) => d3.select(`#group-${data.id}`).node());
+      .append(({ data }) => this.d3.select(`#group-${data.id}`).node());
 
     node.select('.component-container>rect').attr('data-parentId', ({ data }) => data.id);
   }
@@ -450,7 +450,7 @@ class DefaultDrawer {
    * @return {[String, Node[]][]} - The nodes grouped by parent.
    */
   buildTree() {
-    const treemapLayout = d3.treemap()
+    const treemapLayout = this.d3.treemap()
       .size([this.width, this.height])
       .tile((data) => {
         const lines = this.__buildLines(data);
@@ -459,7 +459,7 @@ class DefaultDrawer {
         // TODO save/load coordinates
       })
       .round(true);
-    const rootNode = d3.hierarchy(this.shadowRoot);
+    const rootNode = this.d3.hierarchy(this.shadowRoot);
 
     rootNode
       .count()
@@ -472,7 +472,7 @@ class DefaultDrawer {
 
     treemapLayout(rootNode);
 
-    return d3.groups(
+    return this.d3.groups(
       rootNode,
       ({ parent }) => (parent
         && parent.data.id !== '__shadowRoot'
@@ -521,14 +521,14 @@ class DefaultDrawer {
       return;
     }
 
-    const linkGen = d3.link(d3.curveBumpX)
+    const linkGen = this.d3.link(this.d3.curveBumpX)
       .source(({ source, target }) => this.getAnchorPoint(
-        d3.select(`#${source}`),
-        d3.select(`#${target}`),
+        this.d3.select(`#${source}`),
+        this.d3.select(`#${target}`),
       ))
       .target(({ source, target }) => this.getAnchorPoint(
-        d3.select(`#${target}`),
-        d3.select(`#${source}`),
+        this.d3.select(`#${target}`),
+        this.d3.select(`#${source}`),
       ));
 
     const links = this.svg
@@ -538,8 +538,8 @@ class DefaultDrawer {
 
     links.data(pluginLinks, (data) => data)
       .join('path')
-      .filter(({ source, target }) => !d3.select(`#${source}`).empty()
-            && !d3.select(`#${target}`).empty())
+      .filter(({ source, target }) => !this.d3.select(`#${source}`).empty()
+            && !this.d3.select(`#${target}`).empty())
       .classed('link', true)
       .attr('d', linkGen)
       .attr('fill', 'none')
@@ -629,10 +629,10 @@ class DefaultDrawer {
     });
     const drawLinks = this.drawLinks.bind(this);
 
-    element.call(d3
+    element.call(this.d3
       .zoom()
       .on('zoom', function zoomHandler(event) {
-        d3.select(this).select('.container').attr('transform', event.transform);
+        this.d3.select(this).select('.container').attr('transform', event.transform);
         drawLinks();
       }));
   }
@@ -715,7 +715,7 @@ class DefaultDrawer {
    */
   initializeActionMenu() {
     if (!document.querySelector('#action-menu')) {
-      const actionMenu = d3.select(`#${this.rootId}`)
+      const actionMenu = this.d3.select(`#${this.rootId}`)
         .append('div')
         .attr('id', 'action-menu');
 
