@@ -63,9 +63,11 @@ class DefaultPlugin {
    * @param {Function} [events.DeleteEvent.next] - Function to emit delete event, use by the drawer.
    */
   init(events) {
+    console.log('START', 'init');
     this.__drawer.setEvents(events);
     this.__metadata.parse();
     this.data.initLinkDefinitions();
+    console.log('STOP', 'init');
   }
 
   /**
@@ -81,7 +83,9 @@ class DefaultPlugin {
    * @param {String} id - Html id, without '#'.
    */
   draw(id) {
-    this.__drawer.draw(id);
+    console.log('START', 'draw');
+    this.__drawer.draw(id)
+    console.log('STOP', 'draw');
   }
 
   /**
@@ -89,7 +93,9 @@ class DefaultPlugin {
    * @param {FileInput[]} [inputs=[]] - File inputs you want to parse.
    */
   parse(inputs) {
+    console.log('START', 'parse');
     this.__parser.parse(inputs);
+    console.log('START', 'parse');
   }
 
   /**
@@ -106,6 +112,7 @@ class DefaultPlugin {
    * @return {FileInput[]} All generated files.
    */
   render() {
+    console.log('START', 'render');
     return this.__renderer.render();
   }
 }

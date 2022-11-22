@@ -246,6 +246,11 @@ class DefaultData {
    * @private
    */
   __setLinksDefinition(type, definedAttributes) {
+    console.log('plugin-core', definedAttributes);
+    if (!definedAttributes) {
+      return;
+    }
+
     definedAttributes.forEach((attributeDefinition) => {
       if (attributeDefinition.type === 'Link') {
         const linkDefinition = new ComponentLinkDefinition({ type: attributeDefinition.linkType });
