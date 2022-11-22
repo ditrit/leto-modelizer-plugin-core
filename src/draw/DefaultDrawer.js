@@ -212,7 +212,7 @@ class DefaultDrawer {
    * @param {String} [selector='.component'] - CSS selector string.
    */
   setDisabledStyle(selector = '.component') {
-    const localSelector = `#${this.rootId} ${selector}`;
+    const localSelector = `#${this.rootId} ${selector || '.component'}`;
 
     d3.selectAll(localSelector)
       .classed('disabled', true);
