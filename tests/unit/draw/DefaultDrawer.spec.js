@@ -7,13 +7,20 @@ import ComponentDefinition from 'src/models/ComponentDefinition';
 import ComponentAttributeDefinition from 'src/models/ComponentAttributeDefinition';
 
 describe('Test Class: DefaultDrawer()', () => {
-  describe('Test instanciate', () => {
-    it('Test default constructor', () => {
+  describe('Test constructor', () => {
+    it('Test without arguments', () => {
       const drawer = new DefaultDrawer(new DefaultData());
 
-      expect(drawer.resources).toBeNull();
+      expect(drawer.pluginData).toEqual(new DefaultData());
       expect(drawer.rootId).toEqual('root');
-      expect(drawer.d3).not.toBeNull();
+      expect(drawer.resources).toBeNull();
+      expect(drawer.width).toEqual(1280);
+      expect(drawer.height).toEqual(1280);
+      expect(drawer.minWidth).toEqual(230);
+      expect(drawer.minHeight).toEqual(50);
+      expect(drawer.padding).toEqual(30);
+      expect(drawer.margin).toEqual(6);
+      expect(drawer.lineLengthPerDepth).toEqual([5, 1]);
       expect(drawer.events).toEqual({
         SelectEvent: null,
         EditEvent: null,
@@ -25,11 +32,60 @@ describe('Test Class: DefaultDrawer()', () => {
       let drawer = new DefaultDrawer(new DefaultData(), 'resources', {}, 'rootId');
 
       expect(drawer.pluginData).toEqual(new DefaultData());
-      expect(drawer.resources).toEqual('resources');
       expect(drawer.rootId).toEqual('rootId');
-      expect(drawer.d3).not.toBeNull();
+      expect(drawer.resources).toEqual('resources');
+      expect(drawer.width).toEqual(1280);
+      expect(drawer.height).toEqual(1280);
+      expect(drawer.minWidth).toEqual(230);
+      expect(drawer.minHeight).toEqual(50);
+      expect(drawer.padding).toEqual(30);
       expect(drawer.margin).toEqual(6);
-      expect(drawer.actions).not.toBeNull();
+      expect(drawer.lineLengthPerDepth).toEqual([5, 1]);
+      expect(drawer.events).toEqual({
+        SelectEvent: null,
+        EditEvent: null,
+        DeleteEvent: null,
+      });
+
+      drawer = new DefaultDrawer(new DefaultData(), 'resources', {
+        SelectEvent: 1,
+        EditEvent: 2,
+        DeleteEvent: 3,
+      }, 'rootId');
+      expect(drawer.events).toEqual({
+        SelectEvent: 1,
+        EditEvent: 2,
+        DeleteEvent: 3,
+      });
+    });
+
+    it('Test passing options in constructor', () => {
+      let drawer = new DefaultDrawer(
+        new DefaultData(),
+        'resources',
+        {},
+        'rootId',
+        {
+          width: 1,
+          height: 2,
+          minWidth: 3,
+          minHeight: 4,
+          padding: 5,
+          margin: 7,
+          lineLengthPerDepth: [1, 2],
+        },
+      );
+
+      expect(drawer.pluginData).toEqual(new DefaultData());
+      expect(drawer.rootId).toEqual('rootId');
+      expect(drawer.resources).toEqual('resources');
+      expect(drawer.width).toEqual(1);
+      expect(drawer.height).toEqual(2);
+      expect(drawer.minWidth).toEqual(3);
+      expect(drawer.minHeight).toEqual(4);
+      expect(drawer.padding).toEqual(5);
+      expect(drawer.margin).toEqual(7);
+      expect(drawer.lineLengthPerDepth).toEqual([1, 2]);
       expect(drawer.events).toEqual({
         SelectEvent: null,
         EditEvent: null,
