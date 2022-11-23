@@ -136,12 +136,18 @@ class Component extends FileInformation {
   }
 
   /**
-   * Remove id in all link attributes' value then if value is empty remove attribute.
+   * Remove id in link attribute corresponding to the given name if provided
+   * otherwise remove id in all link attributes' value.
+   * Then if value is empty remove attribute.
    * @param {String} id - Id to remove.
+   * @param {String} [name=null] - Name of attribute to remove.
    */
-  removeLinkAttributeById(id) {
+  removeLinkAttribute(id, name = null) {
     this.attributes = this.attributes
       .filter((attribute) => {
+        if (name && attribute.name !== name) {
+          return true;
+        }
         if (attribute.definition && attribute.definition.type === 'Link') {
           const index = attribute.value.findIndex((value) => value === id);
 
