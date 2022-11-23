@@ -1,19 +1,42 @@
 import DefaultDrawer from 'src/draw/DefaultDrawer';
-import mockD3 from 'tests/mock/D3Mock';
+import * as d3 from 'd3';
 import DefaultData from 'src/models/DefaultData';
 import ComponentLinkDefinition from 'src/models/ComponentLinkDefinition';
 import Component from 'src/models/Component';
 import ComponentDefinition from 'src/models/ComponentDefinition';
 import ComponentAttributeDefinition from 'src/models/ComponentAttributeDefinition';
 
+jest.mock('d3', () => {
+  const mockD3 = {};
+
+  [
+    'append', 'attr', 'call', 'data', 'drag', 'classed',
+    'each', 'enter', 'exit', 'getBBox', 'on', 'linkHorizontal',
+    'remove', 'select', 'selectAll', 'style', 'select',
+    'text', 'node', 'html', 'transition', 'duration', 'datum',
+    'source', 'target', 'join',
+  ].forEach((method) => {
+    mockD3[method] = jest.fn(() => mockD3);
+  });
+
+  return mockD3;
+});
+
 describe('Test Class: DefaultDrawer()', () => {
-  describe('Test instanciate', () => {
-    it('Test default constructor', () => {
+  describe('Test constructor', () => {
+    it('Test without arguments', () => {
       const drawer = new DefaultDrawer(new DefaultData());
 
-      expect(drawer.resources).toBeNull();
+      expect(drawer.pluginData).toEqual(new DefaultData());
       expect(drawer.rootId).toEqual('root');
-      expect(drawer.d3).not.toBeNull();
+      expect(drawer.resources).toBeNull();
+      expect(drawer.width).toEqual(1280);
+      expect(drawer.height).toEqual(1280);
+      expect(drawer.minWidth).toEqual(230);
+      expect(drawer.minHeight).toEqual(50);
+      expect(drawer.padding).toEqual(30);
+      expect(drawer.margin).toEqual(6);
+      expect(drawer.lineLengthPerDepth).toEqual([5, 1]);
       expect(drawer.events).toEqual({
         SelectEvent: null,
         EditEvent: null,
@@ -25,11 +48,60 @@ describe('Test Class: DefaultDrawer()', () => {
       let drawer = new DefaultDrawer(new DefaultData(), 'resources', {}, 'rootId');
 
       expect(drawer.pluginData).toEqual(new DefaultData());
-      expect(drawer.resources).toEqual('resources');
       expect(drawer.rootId).toEqual('rootId');
-      expect(drawer.d3).not.toBeNull();
+      expect(drawer.resources).toEqual('resources');
+      expect(drawer.width).toEqual(1280);
+      expect(drawer.height).toEqual(1280);
+      expect(drawer.minWidth).toEqual(230);
+      expect(drawer.minHeight).toEqual(50);
+      expect(drawer.padding).toEqual(30);
       expect(drawer.margin).toEqual(6);
-      expect(drawer.actions).not.toBeNull();
+      expect(drawer.lineLengthPerDepth).toEqual([5, 1]);
+      expect(drawer.events).toEqual({
+        SelectEvent: null,
+        EditEvent: null,
+        DeleteEvent: null,
+      });
+
+      drawer = new DefaultDrawer(new DefaultData(), 'resources', {
+        SelectEvent: 1,
+        EditEvent: 2,
+        DeleteEvent: 3,
+      }, 'rootId');
+      expect(drawer.events).toEqual({
+        SelectEvent: 1,
+        EditEvent: 2,
+        DeleteEvent: 3,
+      });
+    });
+
+    it('Test passing options in constructor', () => {
+      let drawer = new DefaultDrawer(
+        new DefaultData(),
+        'resources',
+        {},
+        'rootId',
+        {
+          width: 1,
+          height: 2,
+          minWidth: 3,
+          minHeight: 4,
+          padding: 5,
+          margin: 7,
+          lineLengthPerDepth: [1, 2],
+        },
+      );
+
+      expect(drawer.pluginData).toEqual(new DefaultData());
+      expect(drawer.rootId).toEqual('rootId');
+      expect(drawer.resources).toEqual('resources');
+      expect(drawer.width).toEqual(1);
+      expect(drawer.height).toEqual(2);
+      expect(drawer.minWidth).toEqual(3);
+      expect(drawer.minHeight).toEqual(4);
+      expect(drawer.padding).toEqual(5);
+      expect(drawer.margin).toEqual(7);
+      expect(drawer.lineLengthPerDepth).toEqual([1, 2]);
       expect(drawer.events).toEqual({
         SelectEvent: null,
         EditEvent: null,
@@ -322,7 +394,6 @@ describe('Test Class: DefaultDrawer()', () => {
 
     beforeEach(() => {
       drawer = new DefaultDrawer(new DefaultData());
-      drawer.d3 = mockD3(jest);
     });
 
     describe('Test action: __unselectComponent', () => {
@@ -331,8 +402,8 @@ describe('Test Class: DefaultDrawer()', () => {
         drawer.__unselectComponent();
 
         expect(drawer.actions.selection.current).toBeNull();
-        expect(drawer.d3.select).not.toBeCalled();
-        expect(drawer.d3.style).not.toBeCalled();
+        expect(d3.select).not.toBeCalled();
+        expect(d3.style).not.toBeCalled();
       });
 
       it('On selected component Should unselect it', () => {
@@ -340,8 +411,8 @@ describe('Test Class: DefaultDrawer()', () => {
         drawer.__unselectComponent();
 
         expect(drawer.actions.selection.current).toBeNull();
-        expect(drawer.d3.select).toBeCalled();
-        expect(drawer.d3.style).toBeCalled();
+        expect(d3.select).toBeCalled();
+        expect(d3.style).toBeCalled();
       });
     });
   });
@@ -352,7 +423,6 @@ describe('Test Class: DefaultDrawer()', () => {
 
     beforeEach(() => {
       data = new DefaultData();
-      data.links = [];
       data.components = [
         new Component({
           id: 'cmp1',
@@ -408,15 +478,19 @@ describe('Test Class: DefaultDrawer()', () => {
 
     it('Should create a link with the proper definition', () => {
       drawer.createLink();
-      expect(data.links.length).toBe(1);
-      expect(data.links[0])
+      const links = data.getLinks();
+
+      expect(links.length).toBe(1);
+      expect(links[0])
         .toEqual(expect.objectContaining({ definition: data.definitions.links[0] }));
     });
 
     it('Should create a link between the correct components', () => {
       drawer.createLink();
-      expect(data.links.length).toBe(1);
-      expect(data.links[0]).toEqual(
+      const links = data.getLinks();
+
+      expect(links.length).toBe(1);
+      expect(links[0]).toEqual(
         expect.objectContaining({
           source: data.components[0].id,
           target: data.components[1].id,

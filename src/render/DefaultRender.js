@@ -16,8 +16,8 @@ class DefaultRender {
   }
 
   /**
-   * Transform all provided components and links in file inputs.
-   * @return {FileInput[]} - Generated files from components and links.
+   * Transform all provided components in file inputs.
+   * @return {FileInput[]} - Generated files from components.
    */
   render() {
     return [];

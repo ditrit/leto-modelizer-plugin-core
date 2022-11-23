@@ -37,10 +37,6 @@ class DefaultDrawer {
      */
     this.pluginData = pluginData;
     /**
-     * D3 library.
-     */
-    this.d3 = d3;
-    /**
      * Id of HTML element where we want to draw.
      * @type {String}
      */
@@ -216,7 +212,7 @@ class DefaultDrawer {
    * @param {String} [selector='.component'] - CSS selector string.
    */
   setDisabledStyle(selector = '.component') {
-    const localSelector = `#${this.rootId} ${selector}`;
+    const localSelector = `#${this.rootId} ${selector || '.component'}`;
 
     d3.selectAll(localSelector)
       .classed('disabled', true);
@@ -515,7 +511,9 @@ class DefaultDrawer {
    * Render links in model view.
    */
   drawLinks() {
-    if (!this.pluginData.links) {
+    const pluginLinks = this.pluginData.getLinks();
+
+    if (!pluginLinks) {
       return;
     }
 
@@ -534,7 +532,7 @@ class DefaultDrawer {
 
     links.raise();
 
-    links.data(this.pluginData.links, (data) => data)
+    links.data(pluginLinks, (data) => data)
       .join('path')
       .filter(({ source, target }) => !d3.select(`#${source}`).empty()
             && !d3.select(`#${target}`).empty())
@@ -642,7 +640,7 @@ class DefaultDrawer {
    */
   __unselectComponent() {
     if (this.actions.selection.current) {
-      this.d3.select(`#${this.actions.selection.current}`)
+      d3.select(`#${this.actions.selection.current}`)
         .style('outline', '');
       this.actions.selection.current = null;
       this.hideActionMenu();
@@ -655,7 +653,7 @@ class DefaultDrawer {
    * @private
    */
   __selectComponent(id) {
-    const currentComponent = this.d3.select(`#${id}`);
+    const currentComponent = d3.select(`#${id}`);
     const sameElementCliked = this.actions.selection.current === id;
 
     if (this.actions.linkCreation.creating) {
@@ -701,7 +699,6 @@ class DefaultDrawer {
       definition: activeLinkType,
     });
 
-    this.pluginData.links.push(newLink);
     this.actions.linkCreation.source.setLinkAttribute(newLink);
 
     this.cancelLinkCreationInteraction();
@@ -794,7 +791,7 @@ class DefaultDrawer {
     width,
     bottom,
   }) {
-    this.d3.select('#action-menu')
+    d3.select('#action-menu')
       .style('visibility', 'visible')
       .style('top', `${bottom + 10}px `)
       .style('left', `${left + width / 2}px`);
@@ -804,7 +801,7 @@ class DefaultDrawer {
    * Hide the action menu.
    */
   hideActionMenu() {
-    this.d3.select('#action-menu')
+    d3.select('#action-menu')
       .style('visibility', 'hidden');
   }
 }
