@@ -103,8 +103,8 @@ describe('Test class: DefaultData', () => {
         }));
 
         pluginData.removeLink(new ComponentLink({
-          source: 'link1',
-          target: 'test',
+          source: 'test',
+          target: 'link1',
           definition: new ComponentLinkDefinition({ attributeRef: 'link', type: 'Reverse' }),
         }));
 
@@ -182,8 +182,8 @@ describe('Test class: DefaultData', () => {
           }),
           new ComponentLinkDefinition({
             attributeRef: 'link2',
-            sourceRef: 'laptop2',
-            targetRef: 'server',
+            sourceRef: 'server',
+            targetRef: 'laptop2',
             type: 'Reverse',
           }),
           new ComponentLinkDefinition({

@@ -208,11 +208,7 @@ class DefaultData {
     const { source, target } = link;
     const { attributeRef } = link.definition;
 
-    if (link.definition.type === 'Reverse') {
-      this.getComponentById(target).removeLinkAttribute(source, attributeRef);
-    } else {
-      this.getComponentById(source).removeLinkAttribute(target, attributeRef);
-    }
+    this.getComponentById(source).removeLinkAttribute(target, attributeRef);
   }
 
   /**
@@ -265,15 +261,9 @@ class DefaultData {
         const linkDefinition = new ComponentLinkDefinition({
           type: attributeDefinition.linkType,
           attributeRef: attributeDefinition.name,
+          sourceRef: type,
+          targetRef: attributeDefinition.linkRef,
         });
-
-        if (attributeDefinition.linkType === 'Reverse') {
-          linkDefinition.sourceRef = attributeDefinition.linkRef;
-          linkDefinition.targetRef = type;
-        } else {
-          linkDefinition.sourceRef = type;
-          linkDefinition.targetRef = attributeDefinition.linkRef;
-        }
 
         this.definitions.links.push(linkDefinition);
       } else if (attributeDefinition.type === 'Object') {
