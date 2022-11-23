@@ -348,11 +348,12 @@ describe('Test class: Component', () => {
       });
     });
 
-    describe('Test method: removeLinkAttributeById', () => {
+    describe('Test method: removeLinkAttribute', () => {
       it('Should do nothing without link in attributes', () => {
         const component = new Component();
 
-        component.removeLinkAttributeById('test');
+        component.removeLinkAttribute('test', 'unknown');
+        component.removeLinkAttribute('test', 'other');
         expect(component.attributes).toEqual([]);
 
         const attribute = new ComponentAttribute({
@@ -366,8 +367,34 @@ describe('Test class: Component', () => {
         });
 
         component.attributes.push(attribute);
-        component.removeLinkAttributeById('test');
+        component.removeLinkAttribute('test', 'unknown');
+        component.removeLinkAttribute('test', 'other');
         expect(component.attributes).toEqual([attribute]);
+      });
+
+      it('Should do nothing on unknown id', () => {
+        const component = new Component();
+
+        component.attributes.push(new ComponentAttribute({
+          name: 'link',
+          value: ['other'],
+          type: 'String',
+          definition: new ComponentAttributeDefinition({
+            name: 'other',
+            type: 'Link',
+          }),
+        }));
+
+        component.removeLinkAttribute('test', 'link');
+        expect(component.attributes).toEqual([new ComponentAttribute({
+          name: 'link',
+          value: ['other'],
+          type: 'String',
+          definition: new ComponentAttributeDefinition({
+            name: 'other',
+            type: 'Link',
+          }),
+        })]);
       });
 
       it('Should remove value corresponding to the given id in links array', () => {
@@ -383,7 +410,7 @@ describe('Test class: Component', () => {
           }),
         }));
 
-        component.removeLinkAttributeById('test');
+        component.removeLinkAttribute('test', 'link');
         expect(component.attributes).toEqual([new ComponentAttribute({
           name: 'link',
           value: ['other'],
@@ -410,7 +437,52 @@ describe('Test class: Component', () => {
             }),
           }));
 
-          component.removeLinkAttributeById('test');
+          component.removeLinkAttribute('test', 'link');
+          expect(component.attributes).toEqual([]);
+        },
+      );
+
+      it('Should remove value corresponding to the given id in links array', () => {
+        const component = new Component();
+
+        component.attributes.push(new ComponentAttribute({
+          name: 'link',
+          value: ['test', 'other'],
+          type: 'String',
+          definition: new ComponentAttributeDefinition({
+            name: 'other',
+            type: 'Link',
+          }),
+        }));
+
+        component.removeLinkAttribute('test');
+        expect(component.attributes).toEqual([new ComponentAttribute({
+          name: 'link',
+          value: ['other'],
+          type: 'String',
+          definition: new ComponentAttributeDefinition({
+            name: 'other',
+            type: 'Link',
+          }),
+        })]);
+      });
+
+      it(
+        'Should remove value corresponding to the given id then the attribute if array is empty',
+        () => {
+          const component = new Component();
+
+          component.attributes.push(new ComponentAttribute({
+            name: 'link',
+            value: ['test'],
+            type: 'String',
+            definition: new ComponentAttributeDefinition({
+              name: 'other',
+              type: 'Link',
+            }),
+          }));
+
+          component.removeLinkAttribute('test');
           expect(component.attributes).toEqual([]);
         },
       );

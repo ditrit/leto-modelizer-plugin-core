@@ -196,8 +196,23 @@ class DefaultData {
         this.__removeRefAttributeById(component.children, id);
       }
 
-      component.removeLinkAttributeById(id);
+      component.removeLinkAttribute(id);
     });
+  }
+
+  /**
+   * Remove link attribute in components.
+   * @param {ComponentLink} link - Link to remove.
+   */
+  removeLink(link) {
+    const { source, target } = link;
+    const { attributeRef } = link.definition;
+
+    if (link.definition.type === 'Reverse') {
+      this.getComponentById(target).removeLinkAttribute(source, attributeRef);
+    } else {
+      this.getComponentById(source).removeLinkAttribute(target, attributeRef);
+    }
   }
 
   /**

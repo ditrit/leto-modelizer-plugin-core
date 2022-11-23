@@ -28,17 +28,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add method `getComponentsByType` in `DefaultData`.
 - Add method `getAttributeByName` in `Component`.
 - Add method `initLinkDefinitions` in `DefaultData` and call it in `init` in `DefaultPlugin`.
+- Add method `removeLink` in `DefaultData`.
+- Add attribute `name` for method `removeLinkAttribute` of `Component`.
 
 ### Changed
 
 - Rename the `draw` method to `drawComponents`.
-- Switch action menu position parameter from `absolute` to `fixed`. 
+- Switch action menu position parameter from `absolute` to `fixed`.
 - Update constructor of `DefaultDrawer`, `DefaultRenderer`, `DefaultParser` and `DefaultMetadata` to use `DefaultData`.
 - Update `draw` method of `DefaultDrawer` to only use the container id.
 - Rename method `getDefinitions` of `DefaultMetadata` to `parse` and make it update directly the plugin data.
 - Make the method `parse` of `DefaultParser` update directly the plugin data instead of return components, links and errors.
 - `DefaultDrawer` constructor props re-ordered to `(pluginData, resources, events, rootId, options)` based on the likelihood of each prop being changed by the user.
 - Update `drawComponents` to make full use of d3's api.
+- Rename method `removeLinkAttributeById` of `Component` in `removeLinkAttribute`.
 
 ### Removed
 
