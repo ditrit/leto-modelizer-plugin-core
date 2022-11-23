@@ -62,6 +62,56 @@ describe('Test class: DefaultData', () => {
   });
 
   describe('Test methods', () => {
+    describe('Test method: removeLink', () => {
+      it('Should remove default link', () => {
+        const pluginData = new DefaultData();
+
+        pluginData.components.push(new Component({
+          id: 'test',
+          name: 'test',
+          attributes: [new ComponentAttribute({
+            name: 'link',
+            value: ['link1'],
+            definition: new ComponentAttributeDefinition({
+              type: 'Link',
+            }),
+          })],
+        }));
+
+        pluginData.removeLink(new ComponentLink({
+          source: 'test',
+          target: 'link1',
+          definition: new ComponentLinkDefinition({ attributeRef: 'link' }),
+        }));
+
+        expect(pluginData.components[0].attributes).toEqual([]);
+      });
+
+      it('Should remove reverse link', () => {
+        const pluginData = new DefaultData();
+
+        pluginData.components.push(new Component({
+          id: 'test',
+          name: 'test',
+          attributes: [new ComponentAttribute({
+            name: 'link',
+            value: ['link1'],
+            definition: new ComponentAttributeDefinition({
+              type: 'Link',
+            }),
+          })],
+        }));
+
+        pluginData.removeLink(new ComponentLink({
+          source: 'link1',
+          target: 'test',
+          definition: new ComponentLinkDefinition({ attributeRef: 'link', type: 'Reverse' }),
+        }));
+
+        expect(pluginData.components[0].attributes).toEqual([]);
+      });
+    });
+
     describe('Test method: addComponent', () => {
       it('Should create new component and add it to the components list', () => {
         const pluginData = new DefaultData();
