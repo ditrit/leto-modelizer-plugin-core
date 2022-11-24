@@ -372,11 +372,10 @@ class DefaultDrawer {
   /**
    * Handle component click event. Set selected style on it.
    * @param {PointerEvent} event - The click event.
-   * @param {Node} data - The clicked component data.
    */
-  clickHandler(event, data) {
+  clickHandler(event) {
     event.stopPropagation();
-    this.__selectComponent(data.data.id);
+    this.__selectComponent(d3.select(event.currentTarget));
   }
 
   /**
@@ -399,6 +398,8 @@ class DefaultDrawer {
       .attr('id', ({ data }) => data.id)
       .on('click', clicked)
       .call(drag)
+      .attr('x', ({ x0 }) => x0)
+      .attr('y', ({ y0 }) => y0)
       .attr('transform', ({ x0, y0 }) => `translate(${x0},${y0})`);
 
     node
@@ -642,7 +643,8 @@ class DefaultDrawer {
    */
   __unselectComponent() {
     if (this.actions.selection.current) {
-      d3.select(`#${this.actions.selection.current}`)
+      d3.select(`#${this.rootId} .selected`)
+        .classed('selected', false)
         .style('outline', '');
       this.actions.selection.current = null;
       this.hideActionMenu();
@@ -650,39 +652,42 @@ class DefaultDrawer {
   }
 
   /**
-   * Unselects current selected element and selects element by its id.
-   * @param {String} id - Id of component to select.
+   * Unselects current selected element and selects a new one.
+   * @param {Selection} targetSelection - Component or link to select.
    * @private
    */
-  __selectComponent(id) {
-    const currentComponent = d3.select(`#${id}`);
-    const sameElementCliked = this.actions.selection.current === id;
+  __selectComponent(targetSelection) {
+    const currentComponent = targetSelection.datum() instanceof ComponentLink
+      ? targetSelection.datum()
+      : targetSelection.datum().data;
+    const sameElementClicked = this.actions.selection.current === currentComponent;
 
     if (this.actions.linkCreation.creating) {
-      if (currentComponent.node().classList.contains('disabled')) {
+      if (targetSelection.node().classList.contains('disabled')) {
         return;
       }
 
-      this.actions.linkCreation.target = currentComponent.datum().data;
+      this.actions.linkCreation.target = currentComponent;
       this.createLink();
     } else {
       this.__unselectComponent();
 
-      if (sameElementCliked) {
+      if (sameElementClicked) {
         return;
       }
 
-      currentComponent
+      targetSelection
+        .classed('selected', true)
         .style('outline', this.actions.selection.style)
         .style('outline-offset', this.actions.selection.offset);
-      this.actions.selection.current = id;
+      this.actions.selection.current = currentComponent;
 
       // TODO: replace by: if (this.events?.EditEvent) {
       if (this.events && this.events.EditEvent) {
-        this.events.EditEvent.next(currentComponent.datum().data);
+        this.events.EditEvent.next(currentComponent);
       }
 
-      this.displayActionMenu(currentComponent.node().getBoundingClientRect());
+      this.initializeActionMenu(targetSelection);
     }
   }
 
@@ -757,7 +762,7 @@ class DefaultDrawer {
    */
   startLinkCreationInteraction() {
     if (this.actions.selection.current) {
-      const source = this.pluginData.getComponentById(this.actions.selection.current);
+      const source = this.pluginData.getComponentById(this.actions.selection.current.id);
       const allowedLinkTargets = source.definition.definedAttributes
         .filter((a) => a.type === 'Link');
       const forbiddenTypes = allowedLinkTargets
