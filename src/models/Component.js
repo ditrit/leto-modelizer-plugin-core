@@ -35,6 +35,7 @@ class Component extends FileInformation {
       children,
     } = props;
 
+    this.__class = 'Component';
     /**
      * The id of this Component.
      * @type {String}

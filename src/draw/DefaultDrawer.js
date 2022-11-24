@@ -663,7 +663,7 @@ class DefaultDrawer {
    * @private
    */
   __selectComponent(targetSelection) {
-    const currentComponent = targetSelection.datum() instanceof ComponentLink
+    const currentComponent = targetSelection.datum().__class === 'Link'
       ? targetSelection.datum()
       : targetSelection.datum().data;
     const sameElementClicked = this.actions.selection.current === currentComponent;
@@ -689,7 +689,7 @@ class DefaultDrawer {
       this.actions.selection.current = currentComponent;
 
       // TODO: replace by: if (this.events?.EditEvent) {
-      if (this.events && this.events.EditEvent) {
+      if (this.events && this.events.EditEvent && currentComponent.__class === 'Component') {
         this.events.EditEvent.next(currentComponent);
       }
 
@@ -834,8 +834,8 @@ class DefaultDrawer {
    * @return {MenuActions[]} - The list of menu actions.
    */
   getMenuActions(menuTarget) {
-    const actions = {
-      Component: [
+    if (menuTarget.__class === 'Component') {
+      return [
         {
           id: 'create-link',
           icon: actionIcons.link,
@@ -851,22 +851,20 @@ class DefaultDrawer {
             this.draw(this.rootId);
           },
         },
-      ],
-      ComponentLink: [
-        {
-          id: 'remove-link',
-          icon: actionIcons.trash,
-          handler() {
-            this.pluginData.removeLink(this.actions.selection.current);
-            this.draw(this.rootId);
-          },
-        },
-      ],
-    };
+      ];
+    }
 
-    return actions[menuTarget.constructor.name === 'Node'
-      ? menuTarget.data.constructor.name
-      : menuTarget.constructor.name];
+    return [
+      {
+        id: 'remove-link',
+        icon: actionIcons.trash,
+        handler() {
+          console.log(this.actions.selection.current);
+          this.pluginData.removeLink(this.actions.selection.current);
+          this.draw(this.rootId);
+        },
+      },
+    ];
   }
 
   /**

@@ -24,6 +24,7 @@ class ComponentLink extends FileInformation {
       definition,
     } = props;
 
+    this.__class = 'Link';
     /**
      * Where the link is created.
      * @type {Object}
