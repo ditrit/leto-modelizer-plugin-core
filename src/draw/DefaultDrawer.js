@@ -165,9 +165,9 @@ class DefaultDrawer {
         item.children
           // TODO: replace by: .filter((child) => child.data?.definition?.isContainer)
           .filter((child) => child
-              && child.data
-              && child.data.definition
-              && child.data.definition.isContainer)
+            && child.data
+            && child.data.definition
+            && child.data.definition.isContainer)
           .reduce(
             (acc, child) => acc + this.__getVerticalCoefficient(child),
             0,
@@ -176,26 +176,26 @@ class DefaultDrawer {
       const localChildValue = item.children
         // TODO: replace by: .filter((child) => !child.data?.definition?.isContainer)
         .filter((child) => !(child
-              && child.data
-              && child.data.definition
-              && child.data.definition.isContainer))
+          && child.data
+          && child.data.definition
+          && child.data.definition.isContainer))
         .reduce((acc, child) => acc + child.value, 0);
 
       return localChildValue / this.getLineLengthForDepth(item.depth)
-          + childHeights
-      // TODO: replace by: + (item.data?.definition?.isContainer ? 1 : 0);
-          + ((item.data
-              && item.data.definition
-              && item.data.definition.isContainer)
-            ? 1 : 0);
+        + childHeights
+        // TODO: replace by: + (item.data?.definition?.isContainer ? 1 : 0);
+        + ((item.data
+          && item.data.definition
+          && item.data.definition.isContainer)
+          ? 1 : 0);
     }
 
     return item.value / this.getLineLengthForDepth(item.depth)
-        // TODO: replace by: + (item.data?.definition?.isContainer ? 1 : 0);
-        + ((item.data
-            && item.data.definition
-            && item.data.definition.isContainer)
-          ? 1 : 0);
+      // TODO: replace by: + (item.data?.definition?.isContainer ? 1 : 0);
+      + ((item.data
+        && item.data.definition
+        && item.data.definition.isContainer)
+        ? 1 : 0);
   }
 
   /**
@@ -306,7 +306,7 @@ class DefaultDrawer {
    */
   handleDropEvent(event, dropTarget) {
     const origParent = this.pluginData.getComponentById(event.subject.parent.data.id)
-        || this.shadowRoot;
+      || this.shadowRoot;
     const origIndex = origParent.children.findIndex((child) => child.id === event.subject.data.id);
     const target = dropTarget ? d3.select(dropTarget) : null;
 
@@ -420,10 +420,10 @@ class DefaultDrawer {
       .html(({ data }) => this.resources.icons[data.definition.icon]);
 
     node.select('rect')
-    // TODO replace by: .filter((d) => d.data?.definition?.isContainer)
+      // TODO replace by: .filter((d) => d.data?.definition?.isContainer)
       .filter((d) => d.data
-          && d.data.definition
-          && d.data.definition.isContainer)
+        && d.data.definition
+        && d.data.definition.isContainer)
       .attr('height', ({ y0, y1 }) => y1 - y0)
       .attr('width', ({ x0, x1 }) => x1 - x0);
 
@@ -462,7 +462,7 @@ class DefaultDrawer {
       .sort((a, b) => (b.height - a.height)
         || (b.value - a.value)
         || ((b.data && b.data.definition && b.data.definition.isContainer ? 1 : 0)
-        - (a.data && a.data.definition && a.data.definition.isContainer ? 1 : 0)));
+          - (a.data && a.data.definition && a.data.definition.isContainer ? 1 : 0)));
     /* TODO replace above by: || (b.data.definition?.isContainer || 0)
             - (a.data.definition?.isContainer || 0)); */
 
@@ -471,7 +471,7 @@ class DefaultDrawer {
     return d3.groups(
       rootNode,
       ({ parent }) => (parent
-        && parent.data.id !== '__shadowRoot'
+      && parent.data.id !== '__shadowRoot'
         ? `group-${parent.data.id}`
         : 'root-components'),
     ).filter(([data]) => data !== 'root-__shadowRoot');
@@ -535,12 +535,14 @@ class DefaultDrawer {
     links.data(pluginLinks, (data) => data)
       .join('path')
       .filter(({ source, target }) => !d3.select(`#${source}`).empty()
-            && !d3.select(`#${target}`).empty())
+        && !d3.select(`#${target}`).empty())
       .classed('link', true)
       .attr('d', linkGen)
       .attr('fill', 'none')
       .attr('stroke', 'black')
-      .attr('stroke-width', 2);
+      .attr('stroke-width', 2)
+      .attr('cursor', 'pointer')
+      .on('click', (event) => this.clickHandler(event));
   }
 
   /**
@@ -570,15 +572,15 @@ class DefaultDrawer {
         const verticalCoefficient = Math.ceil(this.__getVerticalCoefficient(item));
 
         item.x1 = item.x0 + (horizontalCoefficient * (this.minWidth + 2 * this.margin))
-            + (item.height * 2 * this.padding)
-            + (horizontalCoefficient - 1)
-            * (this.padding + 2 * this.margin);
+          + (item.height * 2 * this.padding)
+          + (horizontalCoefficient - 1)
+          * (this.padding + 2 * this.margin);
 
         item.y1 = item.y0
-            + (verticalCoefficient * this.minHeight)
-            + (item.height * this.padding)
-            + (verticalCoefficient - 1)
-            * (this.padding + this.margin);
+          + (verticalCoefficient * this.minHeight)
+          + (item.height * this.padding)
+          + (verticalCoefficient - 1)
+          * (this.padding + this.margin);
 
         prevItem = item;
       });
@@ -691,7 +693,7 @@ class DefaultDrawer {
     const { source, target } = this.actions.linkCreation;
     const activeLinkType = this.pluginData.definitions.links
       .find((definition) => definition.sourceRef === source.definition.type
-            && definition.targetRef === target.definition.type);
+        && definition.targetRef === target.definition.type);
 
     const newLink = new ComponentLink({
       source: source.id,
