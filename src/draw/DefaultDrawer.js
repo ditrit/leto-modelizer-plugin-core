@@ -733,6 +733,7 @@ class DefaultDrawer {
 
     const zoomTransform = d3.zoomTransform(this.svg.select('.container').node());
 
+    console.log('plugin-core', actionIcons, actions);
     actionMenu
       .append('rect')
       .attr('fill', 'lightgrey')
