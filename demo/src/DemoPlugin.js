@@ -1,4 +1,4 @@
-import { DefaultData, DefaultPlugin } from 'leto-modelizer-plugin-core';
+import { DefaultData, DefaultPlugin } from '../../dist/leto-modelizer-plugin-core';
 import DemoMetadata from './DemoMetadata';
 import DemoParser from './DemoParser';
 

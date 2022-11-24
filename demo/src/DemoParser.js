@@ -1,9 +1,8 @@
 import {
   Component,
   ComponentAttribute,
-  ComponentLink,
   DefaultParser
-} from 'leto-modelizer-plugin-core';
+} from '../../dist/leto-modelizer-plugin-core';
 
 class DemoParser extends DefaultParser {
   parse() {
