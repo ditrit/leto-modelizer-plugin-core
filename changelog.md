@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add method `initLinkDefinitions` in `DefaultData` and call it in `init` in `DefaultPlugin`.
 - Add method `removeLink` in `DefaultData`.
 - Add attribute `name` for method `removeLinkAttribute` of `Component`.
+- Add `getMenuAction` that contains all action handler.
 
 ### Changed
 
@@ -42,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `DefaultDrawer` constructor props re-ordered to `(pluginData, resources, events, rootId, options)` based on the likelihood of each prop being changed by the user.
 - Update `drawComponents` to make full use of d3's api.
 - Rename method `removeLinkAttributeById` of `Component` in `removeLinkAttribute`.
+- Rework the action menu to have more visual feedback, improve positioning comportment and adapt his content with available actions.
 
 ### Removed
 
@@ -49,6 +51,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove `interactjs` and `bin-pack` dependencies.
 - Remove arguments of method `render` of `DefaultRender` to directly use the plugin data.
 - Remove `links` from `DefaultData`.
+
+### Fixed
+- Fix indentation in `DefaultDrawer`.
 
 ## [0.8.1] - 2022-10-12
 
