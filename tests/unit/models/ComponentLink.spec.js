@@ -5,6 +5,7 @@ describe('Test class: ComponentLink', () => {
     it('Check variable instantiation', () => {
       const link = new ComponentLink();
 
+      expect(link.__class).toEqual('Link');
       expect(link.source).toBeNull();
       expect(link.target).toBeNull();
       expect(link.definition).toBeNull();
@@ -13,6 +14,7 @@ describe('Test class: ComponentLink', () => {
     it('Check passing undefined variables to constructor', () => {
       const link = new ComponentLink({});
 
+      expect(link.__class).toEqual('Link');
       expect(link.source).toBeNull();
       expect(link.target).toBeNull();
       expect(link.definition).toBeNull();
@@ -25,6 +27,7 @@ describe('Test class: ComponentLink', () => {
         definition: {},
       });
 
+      expect(link.__class).toEqual('Link');
       expect(link.source).toEqual('source');
       expect(link.target).toEqual('target');
       expect(link.definition).toBeDefined();

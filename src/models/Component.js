@@ -36,6 +36,12 @@ class Component extends FileInformation {
     } = props;
 
     /**
+     * Use for drawer to get the type of object.
+     * @type {String}
+     * @private
+     */
+    this.__class = 'Component';
+    /**
      * The id of this Component.
      * @type {String}
      */
