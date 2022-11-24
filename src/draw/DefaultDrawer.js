@@ -25,6 +25,7 @@ class DefaultDrawer {
    * @param {Number} [options.margin=6] - Component margin thickness.
    * @param {Number[]} [options.lineLengthPerDepth=[5,1]] - Number of components
    * per line at a given depth. Valid values: 1 - Infinity.
+   * @param {Number} [options.actionMenuButtonSize] - The size of each action menu button.
    */
   constructor(pluginData, resources = null, events = {
     SelectEvent: null,
@@ -82,6 +83,12 @@ class DefaultDrawer {
      */
     this.lineLengthPerDepth = options.lineLengthPerDepth !== undefined
       ? options.lineLengthPerDepth : [5, 1];
+
+    /**
+     * The size of each action menu button.
+     * @type {Number}
+     */
+    this.actionMenuButtonSize = options.actionMenuButtonSize || 24;
     /**
      * Store for actions, used to set specific actions values when making actions.
      * @type {Object}
@@ -364,7 +371,6 @@ class DefaultDrawer {
     this.drawComponents();
 
     this.drawLinks();
-    this.initializeActionMenu();
 
     this.setViewPortAction(d3.select(`#${this.rootId}`));
   }
@@ -714,47 +720,89 @@ class DefaultDrawer {
   }
 
   /**
-   * Initialize the action menu.
+   * Initialize the action menu for a given target.
+   * @param {Selection} targetSelection - D3 selection of the target object.
    */
-  initializeActionMenu() {
-    if (!document.querySelector('#action-menu')) {
-      const actionMenu = d3.select(`#${this.rootId}`)
-        .append('div')
-        .attr('id', 'action-menu');
+  initializeActionMenu(targetSelection) {
+    const actionMenu = this.svg
+      .select('.container')
+      .append('svg')
+      .attr('id', 'action-menu');
 
-      actionMenu
-        .append('button')
-        .attr('class', 'link')
-        .html(actionIcons.link)
-        .on('click', () => {
-          this.startLinkCreationInteraction();
-        });
+    const actions = this.getMenuActions(targetSelection.datum());
 
-      actionMenu
-        .append('button')
-        .attr('class', 'trash')
-        .html(actionIcons.trash)
-        .on('click', () => {
-          this.pluginData.removeComponentById(this.actions.selection.current);
-          this.draw(this.rootId);
-        });
+    const zoomTransform = d3.zoomTransform(this.svg.select('.container').node());
 
-      actionMenu
-        .style('position', 'fixed')
-        .style('overflow', 'hidden')
-        .style('border-radius', '5px')
-        .style('visibility', 'hidden')
-        .style('transform', 'translateX(-50%)');
+    actionMenu
+      .append('rect')
+      .attr('fill', 'lightgrey')
+      .attr('width', this.actionMenuButtonSize * actions.length)
+      .attr('height', this.actionMenuButtonSize)
+      .attr('rx', 5);
 
-      actionMenu.selectAll('button')
-        .style('width', '30px')
-        .style('height', '30px')
-        .style('border', 'none');
+    const { bottom, width, left } = targetSelection.node().getBoundingClientRect();
+    const { x, y } = this.screenToSVG(
+      (left + (width / 2)) - ((this.actionMenuButtonSize * actions.length) / 2) * zoomTransform.k,
+      bottom + 20,
+      this.svg.select('.container').node(),
+    );
 
-      actionMenu.selectAll('svg')
-        .style('width', '20px')
-        .style('height', '20px');
-    }
+    actionMenu
+      .attr('x', x)
+      .attr('y', y);
+
+    const buttons = actionMenu
+      .selectAll('svg')
+      .data(actions)
+      .join('svg')
+      .attr('id', (data) => data.id)
+      .attr('width', this.actionMenuButtonSize)
+      .attr('height', this.actionMenuButtonSize)
+      .attr('x', (_d, index) => (this.actionMenuButtonSize * index))
+      .attr('preserveAspectRatio', 'xMinYMin meet')
+      .attr('cursor', 'pointer')
+      .on('click', (event, data) => {
+        event.stopPropagation();
+        const handler = data.handler.bind(this);
+
+        handler(event, data);
+      });
+
+    buttons
+      .append('rect')
+      .classed('bg-button', true)
+      .attr('fill', 'lightgrey')
+      .attr('rx', 5)
+      .style('width', this.actionMenuButtonSize)
+      .style('height', this.actionMenuButtonSize);
+
+    buttons
+      .on('mouseenter', function onHover() {
+        d3.select(this)
+          .select('.bg-button')
+          .attr('fill', 'grey');
+      })
+      .on('mouseleave', function onLeave() {
+        d3.select(this)
+          .select('.bg-button')
+          .attr('fill', 'lightgrey');
+      });
+
+    buttons
+      .append('g')
+      .attr('x', 0)
+      .attr('y', 0)
+      .html((d) => d.icon)
+      .select('svg')
+      .attr('width', '80%')
+      .attr('height', '80%')
+      .attr('x', '10%')
+      .attr('y', '10%');
+
+    actionMenu.selectAll('button')
+      .style('width', '30px')
+      .style('height', '30px')
+      .style('border', 'none');
   }
 
   /**
@@ -786,30 +834,11 @@ class DefaultDrawer {
   }
 
   /**
-   * Display and positioning of the action menu.
-   * @param {Object} position - Data of the component's position that the target of action menu.
-   * @param {position.top} position.top - Viewport top position of the component.
-   * @param {position.left} position.left - Viewport left position of the component.
-   * @param {position.width} position.width - Width of the component.
-   * @param {position.height} position.height - Height of the component.
-   */
-  displayActionMenu({
-    left,
-    width,
-    bottom,
-  }) {
-    d3.select('#action-menu')
-      .style('visibility', 'visible')
-      .style('top', `${bottom + 10}px `)
-      .style('left', `${left + width / 2}px`);
-  }
-
-  /**
    * Hide the action menu.
    */
   hideActionMenu() {
     d3.select('#action-menu')
-      .style('visibility', 'hidden');
+      .remove();
   }
 }
 export default DefaultDrawer;
