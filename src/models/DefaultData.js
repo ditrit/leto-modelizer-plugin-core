@@ -66,7 +66,7 @@ class DefaultData {
 
   /**
    * Get version of plugin core.
-   * @returns {String} Version of plugin core.
+   * @return {String} Version of plugin core.
    */
   get coreVersion() {
     return CORE_VERSION;
@@ -108,7 +108,7 @@ class DefaultData {
   /**
    * Get all components corresponding to the given type.
    * @param {String} type - Type of component to find.
-   * @returns {Component[]} Component list.
+   * @return {Component[]} Component list.
    */
   getComponentsByType(type) {
     return this.__getComponentsByType([], this.components, type);
@@ -119,7 +119,7 @@ class DefaultData {
    * @param {Component[]} result - Component array to set and retrieve.
    * @param {Component[]} components - Array to find components.
    * @param {String} type - Component type to search.
-   * @returns {Component[]} Component list.
+   * @return {Component[]} Component list.
    * @private
    */
   __getComponentsByType(result, components, type) {
@@ -213,7 +213,7 @@ class DefaultData {
 
   /**
    * Get all links from all component attributes.
-   * @returns {ComponentLink[]}
+   * @return {ComponentLink[]}
    */
   getLinks() {
     const links = [];
