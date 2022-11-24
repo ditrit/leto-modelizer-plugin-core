@@ -663,7 +663,7 @@ class DefaultDrawer {
    * @private
    */
   __selectComponent(targetSelection) {
-    const currentComponent = targetSelection.datum() instanceof ComponentLink
+    const currentComponent = targetSelection.datum().__class === 'Link'
       ? targetSelection.datum()
       : targetSelection.datum().data;
     const sameElementClicked = this.actions.selection.current === currentComponent;
@@ -689,7 +689,7 @@ class DefaultDrawer {
       this.actions.selection.current = currentComponent;
 
       // TODO: replace by: if (this.events?.EditEvent) {
-      if (this.events && this.events.EditEvent) {
+      if (this.events && this.events.EditEvent && currentComponent.__class === 'Component') {
         this.events.EditEvent.next(currentComponent);
       }
 
@@ -729,7 +729,7 @@ class DefaultDrawer {
       .append('svg')
       .attr('id', 'action-menu');
 
-    const actions = this.getMenuActions(targetSelection.datum());
+    const actions = this.getMenuActions(targetSelection);
 
     const zoomTransform = d3.zoomTransform(this.svg.select('.container').node());
 
@@ -825,16 +825,16 @@ class DefaultDrawer {
 
   /**
    * Get a list of actions to fill the menu for a given target.
-   * @param {Object} menuTarget - The target object.
+   * @param {Object} targetSelection - The target object.
    * @type {Object}
    * @property {String} id - Id of the action button.
    * @property {String} icon - Icon to display in the action button
    * @property {Function} handler - Function called on action click.
    * @return {MenuActions[]} - The list of menu actions.
    */
-  getMenuActions(menuTarget) {
-    const actions = {
-      Component: [
+  getMenuActions(targetSelection) {
+    if (targetSelection.classed('component')) {
+      return [
         {
           id: 'create-link',
           icon: actionIcons.link,
@@ -850,22 +850,19 @@ class DefaultDrawer {
             this.draw(this.rootId);
           },
         },
-      ],
-      ComponentLink: [
-        {
-          id: 'remove-link',
-          icon: actionIcons.trash,
-          handler() {
-            this.pluginData.removeLink(this.actions.selection.current);
-            this.draw(this.rootId);
-          },
-        },
-      ],
-    };
+      ];
+    }
 
-    return actions[menuTarget.constructor.name === 'Node'
-      ? menuTarget.data.constructor.name
-      : menuTarget.constructor.name];
+    return [
+      {
+        id: 'remove-link',
+        icon: actionIcons.trash,
+        handler() {
+          this.pluginData.removeLink(this.actions.selection.current);
+          this.draw(this.rootId);
+        },
+      },
+    ];
   }
 
   /**

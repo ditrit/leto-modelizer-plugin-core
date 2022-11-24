@@ -3,7 +3,7 @@ import {
   ComponentDefinition,
   ComponentLinkDefinition,
   DefaultMetadata
-} from 'leto-modelizer-plugin-core';
+} from '../../dist/leto-modelizer-plugin-core';
 
 class DemoMetadata extends DefaultMetadata {
   parse() {

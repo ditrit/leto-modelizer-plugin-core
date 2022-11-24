@@ -25,6 +25,12 @@ class ComponentLink extends FileInformation {
     } = props;
 
     /**
+     * Use for drawer to get the type of object.
+     * @type {String}
+     * @private
+     */
+    this.__class = 'Link';
+    /**
      * Where the link is created.
      * @type {Object}
      */

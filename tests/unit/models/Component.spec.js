@@ -10,6 +10,7 @@ describe('Test class: Component', () => {
       const component = new Component();
 
       expect(component.id).toBeNull();
+      expect(component.__class).toEqual('Component');
       expect(component.name).toBeNull();
       expect(component.definition).toBeNull();
       expect(component.drawOption).toBeNull();
@@ -22,6 +23,7 @@ describe('Test class: Component', () => {
       const component = new Component({});
 
       expect(component.id).toBeNull();
+      expect(component.__class).toEqual('Component');
       expect(component.name).toBeNull();
       expect(component.definition).toBeNull();
       expect(component.drawOption).toBeNull();
@@ -42,6 +44,7 @@ describe('Test class: Component', () => {
       });
 
       expect(component.id).toEqual('id');
+      expect(component.__class).toEqual('Component');
       expect(component.name).toEqual('name');
       expect(component.definition).toEqual('definition');
       expect(component.drawOption).toEqual('drawOption');
