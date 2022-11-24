@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/models/ComponentAttributeDefinition.js | leto-modelizer-plugin-core</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="Library that contains all models for modelling tools in Leto&apos;s projects."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="leto-modelizer-plugin-core"><meta property="twitter:description" content="Library that contains all models for modelling tools in Leto&apos;s projects."></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/ditrit/leto-modelizer-plugin-core"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#assets-actions">assets/actions</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-actionIcons">actionIcons</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#draw">draw</a><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/draw/DefaultDrawer.js~DefaultDrawer.html">DefaultDrawer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#error">error</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/error/ParseError.js~ParseError.html">ParseError</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#metadata">metadata</a><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/metadata/DefaultMetadata.js~DefaultMetadata.html">DefaultMetadata</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#models">models</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/models/Component.js~Component.html">Component</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/models/ComponentAttribute.js~ComponentAttribute.html">ComponentAttribute</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/models/ComponentAttributeDefinition.js~ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/models/ComponentDefinition.js~ComponentDefinition.html">ComponentDefinition</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/models/ComponentDrawOption.js~ComponentDrawOption.html">ComponentDrawOption</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/models/ComponentLink.js~ComponentLink.html">ComponentLink</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/models/ComponentLinkDefinition.js~ComponentLinkDefinition.html">ComponentLinkDefinition</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/models/DefaultData.js~DefaultData.html">DefaultData</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/models/DefaultPlugin.js~DefaultPlugin.html">DefaultPlugin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/models/FileInformation.js~FileInformation.html">FileInformation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/models/FileInput.js~FileInput.html">FileInput</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#parser">parser</a><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/parser/DefaultParser.js~DefaultParser.html">DefaultParser</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#render">render</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/render/DefaultRender.js~DefaultRender.html">DefaultRender</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/models/ComponentAttributeDefinition.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
+ * Define Attributes for type.
+ */
+class ComponentAttributeDefinition {
+  /**
+   * Default constructor
+   *
+   * @param {String} [props.name] - Attribute name.
+   * @param {String} [props.type] - Attribute type,
+   * valid types are String/Boolean/Number/Array/Object/Link/Reference.
+   * @param {String} [props.linkType] - Type of link, valid types are Default/Reverse.
+   * @param {String[]} [props.linkRef=[]] - Reference of accepted component for link.
+   * @param {String} [props.linkColor=&apos;black&apos;] - Color of the link.
+   * @param {Number} [props.linkWidth=2] - Width of the link.
+   * @param {Number[]} [props.linkDashStyle] - Dash style of the link. See stroke-dasharray of svg.
+   * @param {String[]} [props.containerRef=[]] - Reference of accepted component for container.
+   * @param {Boolean} [props.required=false] - Attribute is required.
+   * @param {ComponentAttributeDefinition[]} [props.definedAttributes=[]] - Defined attributes for
+   * this type.
+   * @param {Object} [props.rules={}] - Rules of this type of Attribute.
+   * @param {Array} [props.rules.values] - Default values of attribute.
+   * @param {Number} [props.rules.min] - Minimum value of Attribute.
+   * @param {Number} [props.rules.max] - Maximum value of Attribute.
+   * @param {String} [props.rules.regex] - Regular expression to constrain the format of the value.
+   */
+  constructor(props = {
+    name: null,
+    type: null,
+    linkType: null,
+    linkRef: [],
+    linkColor: &apos;black&apos;,
+    linkWidth: 2,
+    linkDashStyle: null,
+    containerRef: [],
+    required: false,
+    definedAttributes: [],
+    rules: {
+      values: null,
+      min: null,
+      max: null,
+      regex: null,
+    },
+  }) {
+    const {
+      name,
+      type,
+      linkType,
+      linkRef,
+      linkColor,
+      linkWidth,
+      linkDashStyle,
+      containerRef,
+      definedAttributes,
+      required,
+      rules,
+    } = props;
+
+    /**
+     * Attribute name.
+     * @type {String}
+     */
+    this.name = name || null;
+    /**
+     * Attribute type, valid types are String/Boolean/Number/Array/Object/Link/Reference.
+     * @type {String}
+     */
+    this.type = type || null;
+    /**
+     * Type of link, valid types are Default/Reverse.
+     * @type {String}
+     */
+    this.linkType = linkType || null;
+    /**
+     * Define list of Component that can be linked with this.
+     * @type {String[]}
+     */
+    this.linkRef = linkRef || [];
+    /**
+     * Color of the link.
+     * @type {String}
+     */
+    this.linkColor = linkColor || &apos;black&apos;;
+    /**
+     * Width of the link.
+     * @type {Number}
+     */
+    this.linkWidth = linkWidth || 2;
+    /**
+     * Dash style of the link. See stroke-dasharray of svg.
+     * @type {Number[]}
+     */
+    this.linkDashStyle = linkDashStyle || null;
+    /**
+     * Define list of Component that can be the container of this component.
+     * @type {String[]}
+     */
+    this.containerRef = containerRef || [];
+    /**
+     * Defined attributes for this type.
+     * @type {ComponentAttributeDefinition[]}
+     */
+    this.definedAttributes = definedAttributes || [];
+    /**
+     * Attribute is required.
+     * @type {Boolean}
+     */
+    this.required = required || false;
+    /**
+     * Rules of this type of Attribute.
+     * @type {Object}
+     */
+    this.rules = {
+      values: null,
+      min: null,
+      max: null,
+      regex: null,
+      ...rules,
+    };
+  }
+}
+
+export default ComponentAttributeDefinition;
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

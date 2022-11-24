@@ -1,0 +1,104 @@
+{
+  "coverage": "96.08%",
+  "expectCount": 179,
+  "actualCount": 172,
+  "files": {
+    "src/assets/actions/actionIcons.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        1
+      ]
+    },
+    "src/draw/DefaultDrawer.js": {
+      "expectCount": 50,
+      "actualCount": 47,
+      "undocumentLines": [
+        155,
+        387,
+        434
+      ]
+    },
+    "src/error/ParseError.js": {
+      "expectCount": 8,
+      "actualCount": 8,
+      "undocumentLines": []
+    },
+    "src/metadata/DefaultMetadata.js": {
+      "expectCount": 5,
+      "actualCount": 5,
+      "undocumentLines": []
+    },
+    "src/models/Component.js": {
+      "expectCount": 15,
+      "actualCount": 15,
+      "undocumentLines": []
+    },
+    "src/models/ComponentAttribute.js": {
+      "expectCount": 6,
+      "actualCount": 6,
+      "undocumentLines": []
+    },
+    "src/models/ComponentAttributeDefinition.js": {
+      "expectCount": 13,
+      "actualCount": 13,
+      "undocumentLines": []
+    },
+    "src/models/ComponentDefinition.js": {
+      "expectCount": 9,
+      "actualCount": 9,
+      "undocumentLines": []
+    },
+    "src/models/ComponentDrawOption.js": {
+      "expectCount": 7,
+      "actualCount": 6,
+      "undocumentLines": [
+        50
+      ]
+    },
+    "src/models/ComponentLink.js": {
+      "expectCount": 6,
+      "actualCount": 6,
+      "undocumentLines": []
+    },
+    "src/models/ComponentLinkDefinition.js": {
+      "expectCount": 9,
+      "actualCount": 9,
+      "undocumentLines": []
+    },
+    "src/models/DefaultData.js": {
+      "expectCount": 18,
+      "actualCount": 17,
+      "undocumentLines": [
+        6
+      ]
+    },
+    "src/models/DefaultPlugin.js": {
+      "expectCount": 13,
+      "actualCount": 13,
+      "undocumentLines": []
+    },
+    "src/models/FileInformation.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "src/models/FileInput.js": {
+      "expectCount": 3,
+      "actualCount": 3,
+      "undocumentLines": []
+    },
+    "src/parser/DefaultParser.js": {
+      "expectCount": 6,
+      "actualCount": 6,
+      "undocumentLines": []
+    },
+    "src/render/DefaultRender.js": {
+      "expectCount": 6,
+      "actualCount": 5,
+      "undocumentLines": [
+        7
+      ]
+    }
+  }
+}
