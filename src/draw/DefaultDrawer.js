@@ -824,6 +824,51 @@ class DefaultDrawer {
   }
 
   /**
+   * Get a list of actions to fill the menu for a given target.
+   * @param {Object} menuTarget - The target object.
+   * @type {Object}
+   * @property {String} id - Id of the action button.
+   * @property {String} icon - Icon to display in the action button
+   * @property {Function} handler - Function called on action click.
+   * @return {MenuActions[]} - The list of menu actions.
+   */
+  getMenuActions(menuTarget) {
+    const actions = {
+      Component: [
+        {
+          id: 'create-link',
+          icon: actionIcons.link,
+          handler() {
+            this.startLinkCreationInteraction();
+          },
+        },
+        {
+          id: 'remove-component',
+          icon: actionIcons.trash,
+          handler() {
+            this.pluginData.removeComponentById(this.actions.selection.current.id);
+            this.draw(this.rootId);
+          },
+        },
+      ],
+      ComponentLink: [
+        {
+          id: 'remove-link',
+          icon: actionIcons.trash,
+          handler() {
+            this.pluginData.removeLink(this.actions.selection.current);
+            this.draw(this.rootId);
+          },
+        },
+      ],
+    };
+
+    return actions[menuTarget.constructor.name === 'Node'
+      ? menuTarget.data.constructor.name
+      : menuTarget.constructor.name];
+  }
+
+  /**
    * Handle link creation being cancelled.
    */
   cancelLinkCreationInteraction() {
