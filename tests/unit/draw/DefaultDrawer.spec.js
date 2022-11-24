@@ -5,6 +5,7 @@ import ComponentLinkDefinition from 'src/models/ComponentLinkDefinition';
 import Component from 'src/models/Component';
 import ComponentDefinition from 'src/models/ComponentDefinition';
 import ComponentAttributeDefinition from 'src/models/ComponentAttributeDefinition';
+import ComponentLink from 'src/models/ComponentLink';
 
 jest.mock('d3', () => {
   const mockD3 = {};
@@ -521,6 +522,41 @@ describe('Test Class: DefaultDrawer()', () => {
     it('Should re-draw the links', () => {
       drawer.createLink();
       expect(drawer.drawLinks).toHaveBeenCalled();
+    });
+  });
+
+  describe('Test method: getMenuActions', () => {
+    let drawer;
+
+    beforeEach(() => {
+      drawer = new DefaultDrawer(new DefaultData());
+    });
+
+    it('Should use the object class name to find the actions', () => {
+      expect(drawer.getMenuActions(new Component()))
+        .toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({ id: 'create-link' }),
+            expect.objectContaining({ id: 'remove-component' }),
+          ]),
+        );
+
+      expect(drawer.getMenuActions(new ComponentLink())).toEqual(
+        expect.arrayContaining([expect.objectContaining({ id: 'remove-link' })]),
+      );
+    });
+
+    it('Should use the nested data when receiving a Node object', async () => {
+      const { default: Node } = await import('../../mocks/Node');
+      const node = new Node({ data: new Component() });
+
+      expect(drawer.getMenuActions(node))
+        .toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({ id: 'create-link' }),
+            expect.objectContaining({ id: 'remove-component' }),
+          ]),
+        );
     });
   });
 });

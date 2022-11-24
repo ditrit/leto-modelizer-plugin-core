@@ -25,6 +25,7 @@ class DefaultDrawer {
    * @param {Number} [options.margin=6] - Component margin thickness.
    * @param {Number[]} [options.lineLengthPerDepth=[5,1]] - Number of components
    * per line at a given depth. Valid values: 1 - Infinity.
+   * @param {Number} [options.actionMenuButtonSize] - The size of each action menu button.
    */
   constructor(pluginData, resources = null, events = {
     SelectEvent: null,
@@ -82,6 +83,12 @@ class DefaultDrawer {
      */
     this.lineLengthPerDepth = options.lineLengthPerDepth !== undefined
       ? options.lineLengthPerDepth : [5, 1];
+
+    /**
+     * The size of each action menu button.
+     * @type {Number}
+     */
+    this.actionMenuButtonSize = options.actionMenuButtonSize || 24;
     /**
      * Store for actions, used to set specific actions values when making actions.
      * @type {Object}
@@ -165,9 +172,9 @@ class DefaultDrawer {
         item.children
           // TODO: replace by: .filter((child) => child.data?.definition?.isContainer)
           .filter((child) => child
-              && child.data
-              && child.data.definition
-              && child.data.definition.isContainer)
+            && child.data
+            && child.data.definition
+            && child.data.definition.isContainer)
           .reduce(
             (acc, child) => acc + this.__getVerticalCoefficient(child),
             0,
@@ -176,26 +183,26 @@ class DefaultDrawer {
       const localChildValue = item.children
         // TODO: replace by: .filter((child) => !child.data?.definition?.isContainer)
         .filter((child) => !(child
-              && child.data
-              && child.data.definition
-              && child.data.definition.isContainer))
+          && child.data
+          && child.data.definition
+          && child.data.definition.isContainer))
         .reduce((acc, child) => acc + child.value, 0);
 
       return localChildValue / this.getLineLengthForDepth(item.depth)
-          + childHeights
-      // TODO: replace by: + (item.data?.definition?.isContainer ? 1 : 0);
-          + ((item.data
-              && item.data.definition
-              && item.data.definition.isContainer)
-            ? 1 : 0);
+        + childHeights
+        // TODO: replace by: + (item.data?.definition?.isContainer ? 1 : 0);
+        + ((item.data
+          && item.data.definition
+          && item.data.definition.isContainer)
+          ? 1 : 0);
     }
 
     return item.value / this.getLineLengthForDepth(item.depth)
-        // TODO: replace by: + (item.data?.definition?.isContainer ? 1 : 0);
-        + ((item.data
-            && item.data.definition
-            && item.data.definition.isContainer)
-          ? 1 : 0);
+      // TODO: replace by: + (item.data?.definition?.isContainer ? 1 : 0);
+      + ((item.data
+        && item.data.definition
+        && item.data.definition.isContainer)
+        ? 1 : 0);
   }
 
   /**
@@ -306,7 +313,7 @@ class DefaultDrawer {
    */
   handleDropEvent(event, dropTarget) {
     const origParent = this.pluginData.getComponentById(event.subject.parent.data.id)
-        || this.shadowRoot;
+      || this.shadowRoot;
     const origIndex = origParent.children.findIndex((child) => child.id === event.subject.data.id);
     const target = dropTarget ? d3.select(dropTarget) : null;
 
@@ -364,7 +371,6 @@ class DefaultDrawer {
     this.drawComponents();
 
     this.drawLinks();
-    this.initializeActionMenu();
 
     this.setViewPortAction(d3.select(`#${this.rootId}`));
   }
@@ -372,11 +378,10 @@ class DefaultDrawer {
   /**
    * Handle component click event. Set selected style on it.
    * @param {PointerEvent} event - The click event.
-   * @param {Node} data - The clicked component data.
    */
-  clickHandler(event, data) {
+  clickHandler(event) {
     event.stopPropagation();
-    this.__selectComponent(data.data.id);
+    this.__selectComponent(d3.select(event.currentTarget));
   }
 
   /**
@@ -399,6 +404,8 @@ class DefaultDrawer {
       .attr('id', ({ data }) => data.id)
       .on('click', clicked)
       .call(drag)
+      .attr('x', ({ x0 }) => x0)
+      .attr('y', ({ y0 }) => y0)
       .attr('transform', ({ x0, y0 }) => `translate(${x0},${y0})`);
 
     node
@@ -420,10 +427,10 @@ class DefaultDrawer {
       .html(({ data }) => this.resources.icons[data.definition.icon]);
 
     node.select('rect')
-    // TODO replace by: .filter((d) => d.data?.definition?.isContainer)
+      // TODO replace by: .filter((d) => d.data?.definition?.isContainer)
       .filter((d) => d.data
-          && d.data.definition
-          && d.data.definition.isContainer)
+        && d.data.definition
+        && d.data.definition.isContainer)
       .attr('height', ({ y0, y1 }) => y1 - y0)
       .attr('width', ({ x0, x1 }) => x1 - x0);
 
@@ -462,7 +469,7 @@ class DefaultDrawer {
       .sort((a, b) => (b.height - a.height)
         || (b.value - a.value)
         || ((b.data && b.data.definition && b.data.definition.isContainer ? 1 : 0)
-        - (a.data && a.data.definition && a.data.definition.isContainer ? 1 : 0)));
+          - (a.data && a.data.definition && a.data.definition.isContainer ? 1 : 0)));
     /* TODO replace above by: || (b.data.definition?.isContainer || 0)
             - (a.data.definition?.isContainer || 0)); */
 
@@ -471,7 +478,7 @@ class DefaultDrawer {
     return d3.groups(
       rootNode,
       ({ parent }) => (parent
-        && parent.data.id !== '__shadowRoot'
+      && parent.data.id !== '__shadowRoot'
         ? `group-${parent.data.id}`
         : 'root-components'),
     ).filter(([data]) => data !== 'root-__shadowRoot');
@@ -535,12 +542,14 @@ class DefaultDrawer {
     links.data(pluginLinks, (data) => data)
       .join('path')
       .filter(({ source, target }) => !d3.select(`#${source}`).empty()
-            && !d3.select(`#${target}`).empty())
+        && !d3.select(`#${target}`).empty())
       .classed('link', true)
       .attr('d', linkGen)
       .attr('fill', 'none')
       .attr('stroke', 'black')
-      .attr('stroke-width', 2);
+      .attr('stroke-width', 2)
+      .attr('cursor', 'pointer')
+      .on('click', (event) => this.clickHandler(event));
   }
 
   /**
@@ -570,15 +579,15 @@ class DefaultDrawer {
         const verticalCoefficient = Math.ceil(this.__getVerticalCoefficient(item));
 
         item.x1 = item.x0 + (horizontalCoefficient * (this.minWidth + 2 * this.margin))
-            + (item.height * 2 * this.padding)
-            + (horizontalCoefficient - 1)
-            * (this.padding + 2 * this.margin);
+          + (item.height * 2 * this.padding)
+          + (horizontalCoefficient - 1)
+          * (this.padding + 2 * this.margin);
 
         item.y1 = item.y0
-            + (verticalCoefficient * this.minHeight)
-            + (item.height * this.padding)
-            + (verticalCoefficient - 1)
-            * (this.padding + this.margin);
+          + (verticalCoefficient * this.minHeight)
+          + (item.height * this.padding)
+          + (verticalCoefficient - 1)
+          * (this.padding + this.margin);
 
         prevItem = item;
       });
@@ -640,7 +649,8 @@ class DefaultDrawer {
    */
   __unselectComponent() {
     if (this.actions.selection.current) {
-      d3.select(`#${this.actions.selection.current}`)
+      d3.select(`#${this.rootId} .selected`)
+        .classed('selected', false)
         .style('outline', '');
       this.actions.selection.current = null;
       this.hideActionMenu();
@@ -648,39 +658,42 @@ class DefaultDrawer {
   }
 
   /**
-   * Unselects current selected element and selects element by its id.
-   * @param {String} id - Id of component to select.
+   * Unselects current selected element and selects a new one.
+   * @param {Selection} targetSelection - Component or link to select.
    * @private
    */
-  __selectComponent(id) {
-    const currentComponent = d3.select(`#${id}`);
-    const sameElementCliked = this.actions.selection.current === id;
+  __selectComponent(targetSelection) {
+    const currentComponent = targetSelection.datum() instanceof ComponentLink
+      ? targetSelection.datum()
+      : targetSelection.datum().data;
+    const sameElementClicked = this.actions.selection.current === currentComponent;
 
     if (this.actions.linkCreation.creating) {
-      if (currentComponent.node().classList.contains('disabled')) {
+      if (targetSelection.node().classList.contains('disabled')) {
         return;
       }
 
-      this.actions.linkCreation.target = currentComponent.datum().data;
+      this.actions.linkCreation.target = currentComponent;
       this.createLink();
     } else {
       this.__unselectComponent();
 
-      if (sameElementCliked) {
+      if (sameElementClicked) {
         return;
       }
 
-      currentComponent
+      targetSelection
+        .classed('selected', true)
         .style('outline', this.actions.selection.style)
         .style('outline-offset', this.actions.selection.offset);
-      this.actions.selection.current = id;
+      this.actions.selection.current = currentComponent;
 
       // TODO: replace by: if (this.events?.EditEvent) {
       if (this.events && this.events.EditEvent) {
-        this.events.EditEvent.next(currentComponent.datum().data);
+        this.events.EditEvent.next(currentComponent);
       }
 
-      this.displayActionMenu(currentComponent.node().getBoundingClientRect());
+      this.initializeActionMenu(targetSelection);
     }
   }
 
@@ -691,7 +704,7 @@ class DefaultDrawer {
     const { source, target } = this.actions.linkCreation;
     const activeLinkType = this.pluginData.definitions.links
       .find((definition) => definition.sourceRef === source.definition.type
-            && definition.targetRef === target.definition.type);
+        && definition.targetRef === target.definition.type);
 
     const newLink = new ComponentLink({
       source: source.id,
@@ -707,47 +720,89 @@ class DefaultDrawer {
   }
 
   /**
-   * Initialize the action menu.
+   * Initialize the action menu for a given target.
+   * @param {Selection} targetSelection - D3 selection of the target object.
    */
-  initializeActionMenu() {
-    if (!document.querySelector('#action-menu')) {
-      const actionMenu = d3.select(`#${this.rootId}`)
-        .append('div')
-        .attr('id', 'action-menu');
+  initializeActionMenu(targetSelection) {
+    const actionMenu = this.svg
+      .select('.container')
+      .append('svg')
+      .attr('id', 'action-menu');
 
-      actionMenu
-        .append('button')
-        .attr('class', 'link')
-        .html(actionIcons.link)
-        .on('click', () => {
-          this.startLinkCreationInteraction();
-        });
+    const actions = this.getMenuActions(targetSelection.datum());
 
-      actionMenu
-        .append('button')
-        .attr('class', 'trash')
-        .html(actionIcons.trash)
-        .on('click', () => {
-          this.pluginData.removeComponentById(this.actions.selection.current);
-          this.draw(this.rootId);
-        });
+    const zoomTransform = d3.zoomTransform(this.svg.select('.container').node());
 
-      actionMenu
-        .style('position', 'fixed')
-        .style('overflow', 'hidden')
-        .style('border-radius', '5px')
-        .style('visibility', 'hidden')
-        .style('transform', 'translateX(-50%)');
+    actionMenu
+      .append('rect')
+      .attr('fill', 'lightgrey')
+      .attr('width', this.actionMenuButtonSize * actions.length)
+      .attr('height', this.actionMenuButtonSize)
+      .attr('rx', 5);
 
-      actionMenu.selectAll('button')
-        .style('width', '30px')
-        .style('height', '30px')
-        .style('border', 'none');
+    const { bottom, width, left } = targetSelection.node().getBoundingClientRect();
+    const { x, y } = this.screenToSVG(
+      (left + (width / 2)) - ((this.actionMenuButtonSize * actions.length) / 2) * zoomTransform.k,
+      bottom + 20,
+      this.svg.select('.container').node(),
+    );
 
-      actionMenu.selectAll('svg')
-        .style('width', '20px')
-        .style('height', '20px');
-    }
+    actionMenu
+      .attr('x', x)
+      .attr('y', y);
+
+    const buttons = actionMenu
+      .selectAll('svg')
+      .data(actions)
+      .join('svg')
+      .attr('id', (data) => data.id)
+      .attr('width', this.actionMenuButtonSize)
+      .attr('height', this.actionMenuButtonSize)
+      .attr('x', (_d, index) => (this.actionMenuButtonSize * index))
+      .attr('preserveAspectRatio', 'xMinYMin meet')
+      .attr('cursor', 'pointer')
+      .on('click', (event, data) => {
+        event.stopPropagation();
+        const handler = data.handler.bind(this);
+
+        handler(event, data);
+      });
+
+    buttons
+      .append('rect')
+      .classed('bg-button', true)
+      .attr('fill', 'lightgrey')
+      .attr('rx', 5)
+      .style('width', this.actionMenuButtonSize)
+      .style('height', this.actionMenuButtonSize);
+
+    buttons
+      .on('mouseenter', function onHover() {
+        d3.select(this)
+          .select('.bg-button')
+          .attr('fill', 'grey');
+      })
+      .on('mouseleave', function onLeave() {
+        d3.select(this)
+          .select('.bg-button')
+          .attr('fill', 'lightgrey');
+      });
+
+    buttons
+      .append('g')
+      .attr('x', 0)
+      .attr('y', 0)
+      .html((d) => d.icon)
+      .select('svg')
+      .attr('width', '80%')
+      .attr('height', '80%')
+      .attr('x', '10%')
+      .attr('y', '10%');
+
+    actionMenu.selectAll('button')
+      .style('width', '30px')
+      .style('height', '30px')
+      .style('border', 'none');
   }
 
   /**
@@ -755,7 +810,7 @@ class DefaultDrawer {
    */
   startLinkCreationInteraction() {
     if (this.actions.selection.current) {
-      const source = this.pluginData.getComponentById(this.actions.selection.current);
+      const source = this.pluginData.getComponentById(this.actions.selection.current.id);
       const allowedLinkTargets = source.definition.definedAttributes
         .filter((a) => a.type === 'Link');
       const forbiddenTypes = allowedLinkTargets
@@ -769,6 +824,51 @@ class DefaultDrawer {
   }
 
   /**
+   * Get a list of actions to fill the menu for a given target.
+   * @param {Object} menuTarget - The target object.
+   * @type {Object}
+   * @property {String} id - Id of the action button.
+   * @property {String} icon - Icon to display in the action button
+   * @property {Function} handler - Function called on action click.
+   * @return {MenuActions[]} - The list of menu actions.
+   */
+  getMenuActions(menuTarget) {
+    const actions = {
+      Component: [
+        {
+          id: 'create-link',
+          icon: actionIcons.link,
+          handler() {
+            this.startLinkCreationInteraction();
+          },
+        },
+        {
+          id: 'remove-component',
+          icon: actionIcons.trash,
+          handler() {
+            this.pluginData.removeComponentById(this.actions.selection.current.id);
+            this.draw(this.rootId);
+          },
+        },
+      ],
+      ComponentLink: [
+        {
+          id: 'remove-link',
+          icon: actionIcons.trash,
+          handler() {
+            this.pluginData.removeLink(this.actions.selection.current);
+            this.draw(this.rootId);
+          },
+        },
+      ],
+    };
+
+    return actions[menuTarget.constructor.name === 'Node'
+      ? menuTarget.data.constructor.name
+      : menuTarget.constructor.name];
+  }
+
+  /**
    * Handle link creation being cancelled.
    */
   cancelLinkCreationInteraction() {
@@ -779,30 +879,11 @@ class DefaultDrawer {
   }
 
   /**
-   * Display and positioning of the action menu.
-   * @param {Object} position - Data of the component's position that the target of action menu.
-   * @param {position.top} position.top - Viewport top position of the component.
-   * @param {position.left} position.left - Viewport left position of the component.
-   * @param {position.width} position.width - Width of the component.
-   * @param {position.height} position.height - Height of the component.
-   */
-  displayActionMenu({
-    left,
-    width,
-    bottom,
-  }) {
-    d3.select('#action-menu')
-      .style('visibility', 'visible')
-      .style('top', `${bottom + 10}px `)
-      .style('left', `${left + width / 2}px`);
-  }
-
-  /**
    * Hide the action menu.
    */
   hideActionMenu() {
     d3.select('#action-menu')
-      .style('visibility', 'hidden');
+      .remove();
   }
 }
 export default DefaultDrawer;

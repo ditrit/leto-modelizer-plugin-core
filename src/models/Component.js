@@ -165,7 +165,7 @@ class Component extends FileInformation {
   /**
    * Get attribute corresponding to the given name.
    * @param {String} name - Name of attribute to find.
-   * @returns {ComponentAttribute|null} Component attribute or null.
+   * @return {ComponentAttribute|null} Component attribute or null.
    */
   getAttributeByName(name) {
     return this.__getAttributeByName(this.attributes, name);
@@ -176,7 +176,7 @@ class Component extends FileInformation {
    * Search in sub-attributes of "Object" attributes also.
    * @param {ComponentAttribute[]} attributes - Attributes list.
    * @param {String} name - Name of attribute to find.
-   * @returns {ComponentAttribute|null} Component attribute or null.
+   * @return {ComponentAttribute|null} Component attribute or null.
    * @private
    */
   __getAttributeByName(attributes, name) {
