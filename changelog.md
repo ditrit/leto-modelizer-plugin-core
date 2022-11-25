@@ -60,6 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update `drawComponents` to make full use of d3's api.
 - Rename method `removeLinkAttributeById` of `Component` in `removeLinkAttribute`.
 - Rework the action menu to have more visual feedback, improve positioning comportment and adapt his content with available actions.
+- Update component rendering in `drawComponents` to use template strings via [nunjucks](https://mozilla.github.io/nunjucks/). 
 
 ### Removed
 
