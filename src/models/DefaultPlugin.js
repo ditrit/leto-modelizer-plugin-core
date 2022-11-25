@@ -86,10 +86,13 @@ class DefaultPlugin {
 
   /**
    * Convert the content of files into plugin data.
+   * Configuration file is used for setting up the components' configuration.
+   * @param {FileInput} file - Configuration file of components.
    * @param {FileInput[]} [inputs=[]] - File inputs you want to parse.
    */
-  parse(inputs) {
+  parse(file, inputs) {
     this.__parser.parse(inputs);
+    this.__parser.parseConfiguration(file);
   }
 
   /**

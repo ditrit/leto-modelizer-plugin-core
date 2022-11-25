@@ -1,3 +1,5 @@
+import ComponentDrawOption from '../models/ComponentDrawOption';
+
 /**
  * Class that used for parsing.
  * @interface
@@ -22,6 +24,28 @@ class DefaultParser {
   parse(inputs = []) { /* eslint no-unused-vars: 0 */ // --> OFF
     this.pluginData.components = [];
     this.pluginData.parseErrors = [];
+  }
+
+  /**
+   * Set configuration into Components.
+   * @param {FileInput} file - Configuration file of components.
+   */
+  parseConfiguration(file) {
+    const config = JSON.parse(file.content);
+
+    if (!config[this.pluginData.name]) {
+      return;
+    }
+
+    Object.keys(config[this.pluginData.name]).forEach((id) => {
+      const component = this.pluginData.getComponentById(id);
+
+      if (!component || !config[this.pluginData.name][id]) {
+        return;
+      }
+
+      component.drawOption = new ComponentDrawOption(config[this.pluginData.name][id]);
+    });
   }
 
   /**

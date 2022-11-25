@@ -113,13 +113,16 @@ describe('Test class: DefaultPlugin', () => {
     describe('Test method: parse', () => {
       it('Should call parse method from parser', () => {
         const mockParse = jest.fn();
+        const mockParseConfiguration = jest.fn();
         const plugin = new DefaultPlugin({
           pluginParser: {
             parse: mockParse,
+            parseConfiguration: mockParseConfiguration,
           },
         });
 
         plugin.parse();
+        expect(mockParseConfiguration).toBeCalled();
         expect(mockParse).toBeCalled();
       });
     });
