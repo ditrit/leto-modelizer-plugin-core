@@ -105,6 +105,8 @@ class DefaultDrawer {
         creating: false,
       },
       drag: {
+        offsetX: 0,
+        offsetY: 0,
         state: false,
         target: null,
       },
@@ -263,7 +265,8 @@ class DefaultDrawer {
     d3.select(draggedElement)
       .attr(
         'transform',
-        event.subject.transform = `translate(${rootSVGPoint.x},${rootSVGPoint.y})`,
+        event.subject.transform = `translate(${rootSVGPoint.x - this.actions.drag.offsetX},
+        ${rootSVGPoint.y - this.actions.drag.offsetY})`,
       );
 
     if (event.subject.data.definition) {
@@ -294,6 +297,10 @@ class DefaultDrawer {
         const targetData = d3.select(target);
 
         return targetData.datum();
+      })
+      .on('start', (event) => {
+        this.actions.drag.offsetX = event.x - event.subject.x0;
+        this.actions.drag.offsetY = event.y - event.subject.y0;
       })
       .on('drag', function dragged(event) {
         dropTarget = dragHandler(this, event);
