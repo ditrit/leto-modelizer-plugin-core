@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import ComponentDrawOption from '../models/ComponentDrawOption';
 import actionIcons from '../assets/actions/actionIcons';
 import ComponentLink from '../models/ComponentLink';
 
@@ -269,6 +270,8 @@ class DefaultDrawer {
         ${rootSVGPoint.y - this.actions.drag.offsetY})`,
       );
 
+    event.subject.x = rootSVGPoint.x - this.actions.drag.offsetX;
+    event.subject.y = rootSVGPoint.y - this.actions.drag.offsetY;
     if (event.subject.data.definition) {
       const forbiddenTypes = event.subject.data.definition.parentTypes
         .map((type) => `.component:not(#${event.subject.data.id}):not(.${type})`)
@@ -314,29 +317,63 @@ class DefaultDrawer {
   }
 
   /**
+   * Starting from a given node, recursively mark all parent nodes as needing a resize.
+   * @param {Node} node - The node to start from.
+   * @private
+   */
+  __markAsNeedingResize(node) {
+    if (node.data.drawOption) {
+      node.data.drawOption.needsResizing = true;
+    }
+    if (node.parent) {
+      this.__markAsNeedingResize(node.parent);
+    }
+  }
+
+  /**
    * Update component hierarchy and re-render.
    * @param {DragEvent} event - D3's drag event.
    * @param {Element} dropTarget - The element on which the dragged component was dropped.
    */
   handleDropEvent(event, dropTarget) {
-    const origParent = this.pluginData.getComponentById(event.subject.parent.data.id)
-      || this.shadowRoot;
-    const origIndex = origParent.children.findIndex((child) => child.id === event.subject.data.id);
+    let origParent = this.pluginData.getComponentById(event.subject.parent.data.id);
     const target = dropTarget ? d3.select(dropTarget) : null;
 
-    if (target) {
-      const parentId = target.attr('data-parentId');
-      const newParent = this.pluginData.getComponentById(parentId);
+    if (target === origParent) {
+      const { x, y } = event.subject;
+      const width = event.subject.x1 - event.subject.x0;
+      const height = event.subject.y1 - event.subject.y0;
 
-      if (newParent.definition.childrenTypes.includes(event.subject.data.definition.type)) {
-        origParent.children.splice(origIndex, 1);
-        event.subject.data.setReferenceAttribute(newParent);
-        newParent.children.push(event.subject.data);
-      }
+      event.subject.data.drawOption = new ComponentDrawOption({
+        x, y, width, height,
+      });
     } else {
-      origParent.children.splice(origIndex, 1);
-      event.subject.data.removeAllReferenceAttributes();
-      this.pluginData.components.push(event.subject.data);
+      origParent ||= this.shadowRoot;
+      const origIndex = origParent.children
+        .findIndex((child) => child.id === event.subject.data.id);
+
+      if (event.subject.parent) {
+        this.__markAsNeedingResize(event.subject.parent);
+      }
+      event.subject.data.drawOption = null;
+
+      if (target) {
+        const parentId = target.attr('data-parentId');
+        const newParent = this.pluginData.getComponentById(parentId);
+        const newParentNode = d3.select(`#${parentId}`).datum();
+
+        if (newParent.definition.childrenTypes.includes(event.subject.data.definition.type)) {
+          origParent.children.splice(origIndex, 1);
+          event.subject.data.setReferenceAttribute(newParent);
+          newParent.children.push(event.subject.data);
+          this.__markAsNeedingResize(newParentNode);
+        }
+      } else {
+        origParent.children.splice(origIndex, 1);
+        event.subject.data.removeAllReferenceAttributes();
+
+        this.pluginData.components.push(event.subject.data);
+      }
     }
     this.draw(this.rootId);
   }
@@ -476,7 +513,9 @@ class DefaultDrawer {
       .sort((a, b) => (b.height - a.height)
         || (b.value - a.value)
         || ((b.data && b.data.definition && b.data.definition.isContainer ? 1 : 0)
-          - (a.data && a.data.definition && a.data.definition.isContainer ? 1 : 0)));
+          - (a.data && a.data.definition && a.data.definition.isContainer ? 1 : 0))
+        || ((a.data && a.data.drawOption ? 1 : 0)
+          - (b.data && b.data.drawOption ? 1 : 0)));
     /* TODO replace above by: || (b.data.definition?.isContainer || 0)
             - (a.data.definition?.isContainer || 0)); */
 
@@ -573,30 +612,48 @@ class DefaultDrawer {
       };
 
       line.items.forEach((item) => {
-        item.x0 = prevItem.x1 + this.padding;
-        item.y0 = previousTallestItem.y1 + this.padding;
+        if (item.data.drawOption) {
+          item.x0 = item.data.drawOption.x;
+          item.y0 = item.data.drawOption.y;
+        } else {
+          item.x0 = prevItem.x1 + this.padding;
+          item.y0 = previousTallestItem.y1 + this.padding;
+          prevItem = item;
+        }
 
-        /*
-         item.depth and item.height are set by d3 and represent the position of the node in
-         the hierarchy:
-         - height: how many layers exist below this node;
-         - depth: how deep in the tree the node is
-         */
-        const horizontalCoefficient = Math.min(item.value, this.getLineLengthForDepth(item.depth));
-        const verticalCoefficient = Math.ceil(this.__getVerticalCoefficient(item));
+        if (!item.data.drawOption || item.data.drawOption.needsResizing) {
+          /*
+           item.depth and item.height are set by d3 and represent the position of the node in
+           the hierarchy:
+           - height: how many layers exist below this node;
+           - depth: how deep in the tree the node is
+           */
+          const horizontalCoefficient = Math.min(
+            item.value,
+            this.getLineLengthForDepth(item.depth),
+          );
+          const verticalCoefficient = Math.ceil(this.__getVerticalCoefficient(item));
 
-        item.x1 = item.x0 + (horizontalCoefficient * (this.minWidth + 2 * this.margin))
-          + (item.height * 2 * this.padding)
-          + (horizontalCoefficient - 1)
-          * (this.padding + 2 * this.margin);
+          item.x1 = item.x0 + (horizontalCoefficient * (this.minWidth + 2 * this.margin))
+            + (item.height * 2 * this.padding)
+            + (horizontalCoefficient - 1)
+            * (this.padding + 2 * this.margin);
 
-        item.y1 = item.y0
-          + (verticalCoefficient * this.minHeight)
-          + (item.height * this.padding)
-          + (verticalCoefficient - 1)
-          * (this.padding + this.margin);
+          item.y1 = item.y0
+            + (verticalCoefficient * this.minHeight)
+            + (item.height * this.padding)
+            + (verticalCoefficient - 1)
+            * (this.padding + this.margin);
 
-        prevItem = item;
+          if (item.data.drawOption) {
+            item.data.drawOption.needsResizing = false;
+            item.data.drawOption.width = item.x1 - item.x0;
+            item.data.drawOption.height = item.y1 - item.y0;
+          }
+        } else {
+          item.x1 = item.x0 + item.data.drawOption.width;
+          item.y1 = item.y0 + item.data.drawOption.height;
+        }
       });
       if (line.items.length > 0) {
         const maxLineValue = Math.max(...line.items.map((item) => item.value));

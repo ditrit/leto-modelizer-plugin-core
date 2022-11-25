@@ -9,18 +9,22 @@ class ComponentDrawOption {
    * @param {Number} [props.y] - Y Position of Component.
    * @param {Number} [props.width] - Width of Component in pixel.
    * @param {Number} [props.height] - Height of Component in pixel.
+   * @param {Boolean} [props.needsResizing] - Flag to indicate if
+   * the width and height need re-computing.
    */
   constructor(props = {
     x: null,
     y: null,
     width: null,
     height: null,
+    needsResizing: false,
   }) {
     const {
       x,
       y,
       width,
       height,
+      needsResizing,
     } = props;
 
     /**
@@ -43,6 +47,7 @@ class ComponentDrawOption {
      * @type {Number}
      */
     this.height = height || null;
+    this.needsResizing = needsResizing || false;
   }
 }
 
