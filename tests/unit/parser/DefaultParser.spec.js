@@ -1,5 +1,8 @@
 import DefaultParser from 'src/parser/DefaultParser';
 import DefaultData from 'src/models/DefaultData';
+import Component from 'src/models/Component';
+import FileInput from 'src/models/FileInput';
+import ComponentDrawOption from 'src/models/ComponentDrawOption';
 
 describe('Test Class: DefaultParser()', () => {
   describe('Test constructor', () => {
@@ -43,6 +46,84 @@ describe('Test Class: DefaultParser()', () => {
 
         expect(defaultParser.isParsable()).toBeFalsy();
         expect(defaultParser.isParsable(null)).toBeFalsy();
+      });
+    });
+
+    describe('Test method: parseConfiguration', () => {
+      it('Should not change component on empty configuration', () => {
+        const pluginData = new DefaultData({ name: 'test' });
+        const defaultParser = new DefaultParser(pluginData);
+        const configFile = new FileInput({
+          path: 'test.json',
+          content: JSON.stringify({}),
+        });
+
+        pluginData.components.push(new Component({ id: 'c2' }));
+        defaultParser.parseConfiguration(configFile);
+
+        expect(pluginData.components).toEqual([new Component({ id: 'c2' })]);
+      });
+
+      it('Should not change component without plugin configuration', () => {
+        const pluginData = new DefaultData({ name: 'test' });
+        const defaultParser = new DefaultParser(pluginData);
+        const configFile = new FileInput({
+          path: 'test.json',
+          content: JSON.stringify({
+            other: {
+              test: 1,
+            },
+          }),
+        });
+
+        pluginData.components.push(new Component({ id: 'c2' }));
+        defaultParser.parseConfiguration(configFile);
+
+        expect(pluginData.components).toEqual([new Component({ id: 'c2' })]);
+      });
+
+      it('Should not change component without component configuration', () => {
+        const pluginData = new DefaultData({ name: 'test' });
+        const defaultParser = new DefaultParser(pluginData);
+        const configFile = new FileInput({
+          path: 'test.json',
+          content: JSON.stringify({
+            other: {
+              test: 1,
+            },
+            test: {
+              c1: 1,
+            },
+          }),
+        });
+
+        pluginData.components.push(new Component({ id: 'c2' }));
+        defaultParser.parseConfiguration(configFile);
+
+        expect(pluginData.components).toEqual([new Component({ id: 'c2' })]);
+      });
+
+      it('Should update component', () => {
+        const pluginData = new DefaultData({ name: 'test' });
+        const defaultParser = new DefaultParser(pluginData);
+        const configFile = new FileInput({
+          path: 'test.json',
+          content: JSON.stringify({
+            test: {
+              c1: new ComponentDrawOption({ x: 1 }),
+              c2: new ComponentDrawOption({ x: 2 }),
+            },
+          }),
+        });
+
+        pluginData.components.push(new Component({ id: 'c1' }));
+        pluginData.components.push(new Component({ id: 'c2' }));
+        defaultParser.parseConfiguration(configFile);
+
+        expect(pluginData.components).toEqual([
+          new Component({ id: 'c1', drawOption: new ComponentDrawOption({ x: 1 }) }),
+          new Component({ id: 'c2', drawOption: new ComponentDrawOption({ x: 2 }) }),
+        ]);
       });
     });
   });

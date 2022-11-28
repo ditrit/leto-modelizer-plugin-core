@@ -86,10 +86,13 @@ class DefaultPlugin {
 
   /**
    * Convert the content of files into plugin data.
+   * Configuration file is used for setting up the components' configuration.
+   * @param {FileInput} file - Configuration file of components.
    * @param {FileInput[]} [inputs=[]] - File inputs you want to parse.
    */
-  parse(inputs) {
+  parse(file, inputs) {
     this.__parser.parse(inputs);
+    this.__parser.parseConfiguration(file);
   }
 
   /**
@@ -103,9 +106,13 @@ class DefaultPlugin {
 
   /**
    * Return all generated files from plugin data.
+   * Configuration file is used for saving the components' configuration.
+   * @param {FileInput} file - Configuration file of components.
    * @return {FileInput[]} All generated files.
    */
-  render() {
+  render(file) {
+    this.__renderer.renderConfiguration(file);
+
     return this.__renderer.render();
   }
 }

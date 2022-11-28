@@ -22,6 +22,26 @@ class DefaultRender {
   render() {
     return [];
   }
+
+  /**
+   * Update configuration file content according to components data.
+   * @param {FileInput} file - Configuration file of components.
+   */
+  renderConfiguration(file) {
+    const configuration = {};
+
+    this.pluginData.components
+      .filter((component) => component.drawOption)
+      .forEach((component) => {
+        configuration[component.id] = component.drawOption;
+      });
+
+    const config = JSON.parse(file.content) || {};
+
+    config[this.pluginData.name] = configuration;
+
+    file.content = JSON.stringify(config, (key, value) => (value === null ? undefined : value));
+  }
 }
 
 export default DefaultRender;
