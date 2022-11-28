@@ -5,6 +5,7 @@ import ComponentLinkDefinition from 'src/models/ComponentLinkDefinition';
 import Component from 'src/models/Component';
 import ComponentDefinition from 'src/models/ComponentDefinition';
 import ComponentAttributeDefinition from 'src/models/ComponentAttributeDefinition';
+import ComponentDrawOption from 'src/models/ComponentDrawOption';
 
 jest.mock('d3', () => {
   const mockD3 = {};
@@ -200,6 +201,62 @@ describe('Test Class: DefaultDrawer()', () => {
       expect(data[0].items[1].x1).toEqual(524);
       expect(data[0].items[1].y1).toEqual(60);
     });
+    it('Should not modify manually set coordinates', () => {
+      data[0].items[0].data.drawOption = new ComponentDrawOption({
+        x: 1,
+        y: 1,
+        width: 100,
+        height: 50,
+      });
+      data[0].items[1].data.drawOption = new ComponentDrawOption({
+        x: 150,
+        y: 100,
+        width: 100,
+        height: 60,
+      });
+
+      drawer.setupTiles(data);
+      expect(data[0].items[0].x0).toEqual(1);
+      expect(data[0].items[0].y0).toEqual(1);
+      expect(data[0].items[0].x1).toEqual(101);
+      expect(data[0].items[0].y1).toEqual(51);
+
+      expect(data[0].items[1].x0).toEqual(150);
+      expect(data[0].items[1].y0).toEqual(100);
+      expect(data[0].items[1].x1).toEqual(250);
+      expect(data[0].items[1].y1).toEqual(160);
+    });
+    it(
+      `Should only recompute the height and width 
+    of a manually positioned component when requested`,
+      () => {
+        data[0].items[0].data.drawOption = new ComponentDrawOption({
+          x: 1,
+          y: 1,
+          width: 100,
+          height: 50,
+          needsResizing: true,
+        });
+        data[0].items[1].data.drawOption = new ComponentDrawOption({
+          x: 150,
+          y: 100,
+          width: 100,
+          height: 60,
+          needsResizing: true,
+        });
+
+        drawer.setupTiles(data);
+        expect(data[0].items[0].x0).toEqual(1);
+        expect(data[0].items[0].y0).toEqual(1);
+        expect(data[0].items[0].x1).toEqual(263);
+        expect(data[0].items[0].y1).toEqual(127);
+
+        expect(data[0].items[1].x0).toEqual(150);
+        expect(data[0].items[1].y0).toEqual(100);
+        expect(data[0].items[1].x1).toEqual(392);
+        expect(data[0].items[1].y1).toEqual(150);
+      },
+    );
   });
 
   describe('Test method: __getVerticalCoefficient', () => {
@@ -543,6 +600,43 @@ describe('Test Class: DefaultDrawer()', () => {
       expect(drawer.getMenuActions({ classed: () => false })).toEqual(
         expect.arrayContaining([expect.objectContaining({ id: 'remove-link' })]),
       );
+    });
+  });
+
+  describe('Test method: __markAsNeedingResize', () => {
+    let drawer;
+
+    beforeEach(() => {
+      drawer = new DefaultDrawer();
+    });
+
+    it('Should flag the starting node', () => {
+      const startNode = { data: { drawOption: new ComponentDrawOption() } };
+
+      drawer.__markAsNeedingResize(startNode);
+      expect(startNode.data.drawOption.needsResizing).toEqual(true);
+    });
+
+    it('Should flag the parent nodes', () => {
+      const n3 = { data: { drawOption: new ComponentDrawOption() } };
+      const n2 = { parent: n3, data: { drawOption: new ComponentDrawOption() } };
+      const n1 = { parent: n2, data: { drawOption: new ComponentDrawOption() } };
+
+      drawer.__markAsNeedingResize(n1);
+      expect(n1.data.drawOption.needsResizing).toEqual(true);
+      expect(n2.data.drawOption.needsResizing).toEqual(true);
+      expect(n3.data.drawOption.needsResizing).toEqual(true);
+    });
+
+    it('Should skip nodes without drawOption but still flag their parents', () => {
+      const n3 = { data: { drawOption: new ComponentDrawOption() } };
+      const n2 = { parent: n3, data: { } };
+      const n1 = { parent: n2, data: { } };
+
+      drawer.__markAsNeedingResize(n1);
+      expect(n1.data.drawOption).toBeFalsy();
+      expect(n2.data.drawOption).toBeFalsy();
+      expect(n3.data.drawOption.needsResizing).toEqual(true);
     });
   });
 });
