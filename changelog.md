@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add save and retrieve position of component in `DefaultPlugin`:
   - Add configuration `file` in first argument of method `parse` in `DefaultPlugin`.
   - Add configuration `file` in argument of method `render` in `DefaultPlugin`.
+- Add support for manual component positioning.
+- Add support for top and bottom link anchors.
 
 ## [0.9.1] - 2022/11/24
 
@@ -46,8 +48,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add method `removeLink` in `DefaultData`.
 - Add attribute `name` for method `removeLinkAttribute` of `Component`.
 - Add `getMenuAction` that contains all action handler.
-- Add support for manual component positioning.
-- Add support for top and bottom link anchors.
 
 ### Changed
 
