@@ -47,6 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add attribute `name` for method `removeLinkAttribute` of `Component`.
 - Add `getMenuAction` that contains all action handler.
 - Add support for manual component positioning.
+- Add support for top and bottom link anchors.
 
 ### Changed
 

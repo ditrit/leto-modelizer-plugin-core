@@ -531,7 +531,7 @@ class DefaultDrawer {
   }
 
   /**
-   * Get the anchor point on source selection facing target selection.
+   * Get the most appropriate anchor point for a link towards the given target.
    * @param {Selection} sourceSelection - The source D3 selection object.
    * @param {Selection} targetSelection - The target D3 selection object.
    * @return {Number[]|null} - Tuple representing x,y coordinates,
@@ -544,16 +544,58 @@ class DefaultDrawer {
 
     const sourceCoords = sourceSelection.node().getBoundingClientRect();
     const targetCoords = targetSelection.node().getBoundingClientRect();
-    const anchorPoint = {
-      x: sourceCoords.x,
-      y: sourceCoords.top + (sourceCoords.height / 2),
-    };
+    const sourceAnchorPoints = [
+      {
+        y: sourceCoords.top,
+        x: sourceCoords.x + (sourceCoords.width / 2),
+      },
+      {
+        y: sourceCoords.bottom,
+        x: sourceCoords.x + (sourceCoords.width / 2),
+      },
+      {
+        x: sourceCoords.left,
+        y: sourceCoords.top + (sourceCoords.height / 2),
+      },
+      {
+        x: sourceCoords.right,
+        y: sourceCoords.top + (sourceCoords.height / 2),
+      },
+    ];
+    const targetAnchorPoints = [
+      {
+        y: targetCoords.top,
+        x: targetCoords.x + (targetCoords.width / 2),
+      },
+      {
+        y: targetCoords.bottom,
+        x: targetCoords.x + (targetCoords.width / 2),
+      },
+      {
+        x: targetCoords.left,
+        y: targetCoords.top + (targetCoords.height / 2),
+      },
+      {
+        x: targetCoords.right,
+        y: targetCoords.top + (targetCoords.height / 2),
+      },
+    ];
+    let minDistance = Infinity;
+    let anchorPoint;
 
-    if (targetCoords.right < sourceCoords.left) {
-      anchorPoint.x = sourceCoords.left;
-    } else {
-      anchorPoint.x = sourceCoords.right;
-    }
+    sourceAnchorPoints.forEach((point) => {
+      targetAnchorPoints.forEach((targetPoint) => {
+        const distance = Math.round(Math.sqrt(
+          (targetPoint.x - point.x) ** 2
+          + (targetPoint.y - point.y) ** 2,
+        ));
+
+        if (distance < minDistance) {
+          minDistance = distance;
+          anchorPoint = point;
+        }
+      });
+    });
 
     const { x, y } = this.screenToSVG(anchorPoint.x, anchorPoint.y);
 
@@ -579,7 +621,6 @@ class DefaultDrawer {
         d3.select(`#${target}`),
         d3.select(`#${source}`),
       ));
-
     const links = this.svg
       .selectAll('.link');
 
