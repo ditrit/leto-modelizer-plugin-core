@@ -18,10 +18,10 @@ export default {
             rx="4" ry="4"></rect>
           <text class="component-name"
             x="50" y="1.5em"
-            style="font-size: 14px; font-weight: 600">Component Name</text>
+            style="font-size: 14px; font-weight: 600">{{ name }}</text>
           <text class="component-type"
             x="50" y="3em"
-            style="font-size: 12px; font-style: italic">component_type</text>
+            style="font-size: 12px; font-style: italic">{{ definition.type }}</text>
         </g>
         <circle class="anchor" r="0" cx="50%" cy="0%" anchor="top"></circle>
         <circle class="anchor" r="0" cx="50%" cy="100%" anchor="bottom"></circle>
@@ -50,10 +50,10 @@ export default {
           rx="4" ry="4"></rect>
     <text class="component-name"
           x="50" y="1.5em"
-          style="font-size: 14px; font-weight: 600">Component Name</text>
+          style="font-size: 14px; font-weight: 600">{{ name }}</text>
     <text class="component-type"
           x="50" y="3em"
-          style="font-size: 12px; font-style: italic">component_type</text>
+          style="font-size: 12px; font-style: italic">{{ definition.type }}</text>
   </g>
 
   <circle class="anchor" cx="50%" cy="0%" anchor="top" r="0"></circle>

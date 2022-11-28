@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import nunjucks from 'nunjucks';
 import ComponentDrawOption from '../models/ComponentDrawOption';
 import actionIcons from '../assets/actions/actionIcons';
 import ComponentLink from '../models/ComponentLink';
@@ -457,16 +458,15 @@ class DefaultDrawer {
       .attr('class', ({ data }) => `component
         component-${data.definition.model}
         ${data.definition.type}`)
-      .html(({ data }) => this.resources.models[data.definition.model])
+      .html(({ data }) => nunjucks.renderString(
+        this.resources.models[data.definition.model],
+        data,
+      ))
       .select('svg')
       .attr('id', ({ data }) => `svg-${data.id}`)
       .attr('height', ({ y0, y1 }) => y1 - y0)
       .attr('width', ({ x0, x1 }) => x1 - x0);
 
-    node.select('.component-name')
-      .text(({ data }) => data.name);
-    node.select('.component-type')
-      .text(({ data }) => data.definition.type);
     node.select('.component-icon')
       .html(({ data }) => this.resources.icons[data.definition.icon]);
 
