@@ -513,5 +513,31 @@ describe('Test class: Component', () => {
         expect(component.getAttributeByName('sub')).toEqual(subAttribute);
       });
     });
+
+    describe('Test method: getContainerId', () => {
+      it('Should return null when there is no attributes', () => {
+        expect(new Component().getContainerId()).toBeNull();
+      });
+
+      it('Should return null when there is no reference attributes', () => {
+        expect(new Component({
+          attributes: [new ComponentAttribute({
+            name: 'test',
+          })],
+        }).getContainerId()).toBeNull();
+      });
+
+      it('Should return id when there is a reference attribute', () => {
+        expect(new Component({
+          attributes: [new ComponentAttribute({
+            name: 'test',
+            value: 'test',
+            definition: new ComponentAttributeDefinition({
+              type: 'Reference',
+            }),
+          })],
+        }).getContainerId()).toEqual('test');
+      });
+    });
   });
 });

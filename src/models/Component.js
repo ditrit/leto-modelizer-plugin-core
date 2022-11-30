@@ -193,6 +193,17 @@ class Component extends FileInformation {
 
     return null;
   }
+
+  /**
+   * Retrieve container id from attributes.
+   * @return {String} Id of container or null;
+   */
+  getContainerId() {
+    const attribute = this.attributes.find(({ definition }) => definition
+      && definition.type === 'Reference');
+
+    return !attribute ? null : attribute.value;
+  }
 }
 
 export default Component;
