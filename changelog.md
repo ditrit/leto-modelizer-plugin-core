@@ -5,11 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-## Ureleased
+## [Unreleased]
+
+### Added
+
+- Method `getchildren` by component id in `DefaultData`.
+- Method `getContainerId` on `Component`.
+- Add `files` parameter in method `render` of `DefaultRender` to list all files managed by the plugin.
+
+### Removed
+
+- Remove attribute `children` of `Component` to transform components tree in components Array.
 
 ### Changed
 
 - Updated `drawLinks` to dynamically select curve type based on components relative positions.
+- Replace method `render` by `renderFiles` as method to be overridden by plugin.
+
+### Fixed
+
+- Method `render` in `DefaultRender` now returns files that are no longer linked to components.
 
 ## [0.10.0] - 2022/11/28
 
