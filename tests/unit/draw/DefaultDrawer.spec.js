@@ -639,4 +639,58 @@ describe('Test Class: DefaultDrawer()', () => {
       expect(n3.data.drawOption.needsResizing).toEqual(true);
     });
   });
+
+  describe('Test method: getBearing', () => {
+    let drawer;
+
+    beforeEach(() => {
+      drawer = new DefaultDrawer();
+    });
+
+    it('Should return 0 when the second component is below the first', () => {
+      expect(drawer.getBearing({
+        x: 100,
+        y: 100,
+      }, {
+        x: 100,
+        y: 200,
+      })).toEqual(expect.closeTo(0));
+    });
+    it('Should return 180 when the second component is above the first', () => {
+      expect(drawer.getBearing({
+        x: 100,
+        y: 200,
+      }, {
+        x: 100,
+        y: 100,
+      })).toEqual(expect.closeTo(180));
+    });
+    it('Should return 90 when the second component is right of the first', () => {
+      expect(drawer.getBearing({
+        x: 100,
+        y: 100,
+      }, {
+        x: 200,
+        y: 100,
+      })).toEqual(expect.closeTo(90));
+    });
+    it('Should return 270 when the second component is left of the first', () => {
+      expect(drawer.getBearing({
+        x: 200,
+        y: 100,
+      }, {
+        x: 100,
+        y: 100,
+      })).toEqual(expect.closeTo(270));
+    });
+    it('Should support negative coordinates', () => {
+      expect(drawer.getBearing({
+        x: -200,
+        y: -100,
+      }, {
+        x: -100,
+        y: -100,
+      })).toEqual(expect.closeTo(90));
+    });
+  });
 });

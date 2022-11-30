@@ -543,59 +543,41 @@ class DefaultDrawer {
     }
 
     const sourceCoords = sourceSelection.node().getBoundingClientRect();
-    const targetCoords = targetSelection.node().getBoundingClientRect();
-    const sourceAnchorPoints = [
-      {
-        y: sourceCoords.top,
-        x: sourceCoords.x + (sourceCoords.width / 2),
-      },
-      {
-        y: sourceCoords.bottom,
-        x: sourceCoords.x + (sourceCoords.width / 2),
-      },
-      {
-        x: sourceCoords.left,
-        y: sourceCoords.top + (sourceCoords.height / 2),
-      },
-      {
-        x: sourceCoords.right,
-        y: sourceCoords.top + (sourceCoords.height / 2),
-      },
-    ];
-    const targetAnchorPoints = [
-      {
-        y: targetCoords.top,
-        x: targetCoords.x + (targetCoords.width / 2),
-      },
-      {
-        y: targetCoords.bottom,
-        x: targetCoords.x + (targetCoords.width / 2),
-      },
-      {
-        x: targetCoords.left,
-        y: targetCoords.top + (targetCoords.height / 2),
-      },
-      {
-        x: targetCoords.right,
-        y: targetCoords.top + (targetCoords.height / 2),
-      },
-    ];
-    let minDistance = Infinity;
+    const sourceCenter = this.getSelectionCenter(sourceSelection);
+    const targetCenter = this.getSelectionCenter(targetSelection);
+
+    const angle = this.getBearing(
+      this.screenToSVG(sourceCenter.x, sourceCenter.y, this.svg.select('.container').node()),
+      this.screenToSVG(targetCenter.x, targetCenter.y, this.svg.select('.container').node()),
+    );
+
+    const topAnchor = {
+      y: sourceCoords.top,
+      x: sourceCoords.x + (sourceCoords.width / 2),
+    };
+    const bottomAnchor = {
+      y: sourceCoords.bottom,
+      x: sourceCoords.x + (sourceCoords.width / 2),
+    };
+    const leftAnchor = {
+      x: sourceCoords.left,
+      y: sourceCoords.top + (sourceCoords.height / 2),
+    };
+    const rightAnchor = {
+      x: sourceCoords.right,
+      y: sourceCoords.top + (sourceCoords.height / 2),
+    };
     let anchorPoint;
 
-    sourceAnchorPoints.forEach((point) => {
-      targetAnchorPoints.forEach((targetPoint) => {
-        const distance = Math.round(Math.sqrt(
-          (targetPoint.x - point.x) ** 2
-          + (targetPoint.y - point.y) ** 2,
-        ));
-
-        if (distance < minDistance) {
-          minDistance = distance;
-          anchorPoint = point;
-        }
-      });
-    });
+    if (angle < 45 || angle >= 315) {
+      anchorPoint = bottomAnchor;
+    } else if (angle >= 45 && angle < 135) {
+      anchorPoint = rightAnchor;
+    } else if (angle >= 135 && angle < 225) {
+      anchorPoint = topAnchor;
+    } else {
+      anchorPoint = leftAnchor;
+    }
 
     const { x, y } = this.screenToSVG(anchorPoint.x, anchorPoint.y);
 
@@ -612,31 +594,97 @@ class DefaultDrawer {
       return;
     }
 
-    const linkGen = d3.link(d3.curveBumpX)
-      .source(({ source, target }) => this.getAnchorPoint(
-        d3.select(`#${source}`),
-        d3.select(`#${target}`),
-      ))
-      .target(({ source, target }) => this.getAnchorPoint(
-        d3.select(`#${target}`),
-        d3.select(`#${source}`),
-      ));
     const links = this.svg
       .selectAll('.link');
-
-    links.raise();
 
     links.data(pluginLinks, (data) => data)
       .join('path')
       .filter(({ source, target }) => !d3.select(`#${source}`).empty()
         && !d3.select(`#${target}`).empty())
       .classed('link', true)
-      .attr('d', linkGen)
+      .attr('d', (link) => {
+        const generator = this.getLinkGenerator(link);
+
+        return generator(link);
+      })
       .attr('fill', 'none')
       .attr('stroke', 'black')
       .attr('stroke-width', 2)
       .attr('cursor', 'pointer')
       .on('click', (event) => this.clickHandler(event));
+
+    links.raise();
+  }
+
+  /**
+   * Get the coordinates for a given selection's center.
+   * @param {Selection} selection - The selection to find the center for.
+   */
+  getSelectionCenter(selection) {
+    const box = selection.node().getBoundingClientRect();
+
+    return {
+      x: box.left + (box.width / 2),
+      y: box.top + (box.height / 2),
+    };
+  }
+
+  /**
+   * Get the angle (in degrees) between two points.
+   * 0 = pointB is directly below.
+   * 180 = pointB is directly above.
+   * @param {Object} pointA - The point to get the bearing from.
+   * @param {Object} pointB - The point to get the bearing to.
+   * @return {Number} - The bearing.
+   */
+  getBearing(pointA, pointB) {
+    const normalizedTargetVector = {
+      x: (pointB.x - pointA.x)
+        / (Math.sqrt((pointB.x - pointA.x) ** 2 + (pointB.y - pointA.y) ** 2)),
+      y: (pointB.y - pointA.y)
+        / (Math.sqrt((pointB.x - pointA.x) ** 2 + (pointB.y - pointA.y) ** 2)),
+    };
+
+    return (
+      (Math.atan2(
+        normalizedTargetVector.x,
+        normalizedTargetVector.y,
+      )
+      * (180 / Math.PI)) + 360)
+      % 360;
+  }
+
+  /**
+   * Build a new d3 link generator for a ComponentLink
+   * @param {ComponentLink} link - The link to build the generator for.
+   * @returns {Object} - A d3 link generator.
+   */
+  getLinkGenerator(link) {
+    const source = d3.select(`#${link.source}`);
+    const target = d3.select(`#${link.target}`);
+
+    const sourceAnchor = this.getAnchorPoint(source, target);
+    const targetAnchor = this.getAnchorPoint(target, source);
+
+    const sourceCenter = this.getSelectionCenter(source);
+    const targetCenter = this.getSelectionCenter(target);
+
+    const angle = this.getBearing(
+      this.screenToSVG(sourceCenter.x, sourceCenter.y, this.svg.select('.container').node()),
+      this.screenToSVG(targetCenter.x, targetCenter.y, this.svg.select('.container').node()),
+    );
+
+    let curve;
+
+    if (angle < 45 || angle >= 315 || (angle >= 135 && angle < 225)) {
+      curve = d3.curveBumpY;
+    } else {
+      curve = d3.curveBumpX;
+    }
+
+    return d3.link(curve)
+      .source(() => sourceAnchor)
+      .target(() => targetAnchor);
   }
 
   /**
