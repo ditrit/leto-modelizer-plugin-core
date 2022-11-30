@@ -78,31 +78,7 @@ class DefaultData {
    * @return {Component} Component or null.
    */
   getComponentById(id) {
-    return this.__getComponentById(this.components, id);
-  }
-
-  /**
-   * Get component by id.
-   * If components is not present in the provided components, look on their children.
-   * @param {Component[]} components - Components to search the id.
-   * @param {String} id - Id to search.
-   * @return {Component|null} Return searched component or null.
-   * @private
-   */
-  __getComponentById(components, id) {
-    // Remove sonar code smell, because its more optimized with a for loop.
-    for (let index = 0; index < components.length; index += 1) { // NOSONAR
-      if (components[index].id === id) {
-        return components[index];
-      }
-      const component = this.__getComponentById(components[index].children, id);
-
-      if (component) {
-        return component;
-      }
-    }
-
-    return null;
+    return this.components.find((component) => component.id === id) || null;
   }
 
   /**
@@ -111,27 +87,7 @@ class DefaultData {
    * @return {Component[]} Component list.
    */
   getComponentsByType(type) {
-    return this.__getComponentsByType([], this.components, type);
-  }
-
-  /**
-   * Get all components corresponding to the given type.
-   * @param {Component[]} result - Component array to set and retrieve.
-   * @param {Component[]} components - Array to find components.
-   * @param {String} type - Component type to search.
-   * @return {Component[]} Component list.
-   * @private
-   */
-  __getComponentsByType(result, components, type) {
-    // Remove sonar code smell, because its more optimized with a for loop.
-    for (let index = 0; index < components.length; index += 1) { // NOSONAR
-      if (components[index].definition.type === type) {
-        result.push(components[index]);
-      }
-      this.__getComponentsByType(result, components[index].children, type);
-    }
-
-    return result;
+    return this.components.filter(({ definition }) => definition && definition.type === type);
   }
 
   /**
@@ -150,52 +106,13 @@ class DefaultData {
   /**
    * Remove component by id and all attributes that used this component id.
    * @param {String} id - Component id.
-   * @return {Boolean} Indicate if component is removed or not.
    */
   removeComponentById(id) {
-    const isRemoved = this.__removeComponentById(this.components, id);
+    this.getChildren(id).forEach((component) => this.removeComponentById(component.id));
 
-    this.__removeRefAttributeById(this.components, id);
+    this.components = this.components.filter((component) => component.id !== id);
 
-    return isRemoved;
-  }
-
-  /**
-   * Remove components by id.
-   * If not present in the provided components, look on their children.
-   * @param {Component[]} components - Components to search the id.
-   * @param {String} id - Id to remove.
-   * @return {Boolean} Indicate if the component is removed.
-   * @private
-   */
-  __removeComponentById(components, id) {
-    // Remove sonar code smell, because its more optimized with a for loop.
-    for (let index = 0; index < components.length; index += 1) { // NOSONAR
-      if (components[index].id === id) {
-        components.splice(index, 1);
-
-        return true;
-      }
-      if (this.__removeComponentById(components[index].children, id)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  /**
-   * Remove id in all attributes' value then if value is empty remove attribute.
-   * @param {Component[]} components - Components to search the id.
-   * @param {String} id - Id to remove.
-   * @private
-   */
-  __removeRefAttributeById(components, id) {
-    components.forEach((component) => {
-      if (component.children.length > 0) {
-        this.__removeRefAttributeById(component.children, id);
-      }
-
+    this.components.forEach((component) => {
       component.removeLinkAttribute(id);
     });
   }
@@ -270,6 +187,15 @@ class DefaultData {
         this.__setLinkDefinitions(type, attributeDefinition.definedAttributes);
       }
     });
+  }
+
+  /**
+   * Get children of container component with corresponding id.
+   * @param {String} id - Component container id.
+   * @return {Component[]} Children component array.
+   */
+  getChildren(id) {
+    return this.components.filter((component) => component.getContainerId() === id);
   }
 }
 

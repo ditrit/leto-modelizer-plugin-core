@@ -321,10 +321,9 @@ describe('Test class: DefaultData', () => {
         const test1 = new Component({
           definition: new ComponentDefinition({ type: 'test' }),
           id: 'test1',
-          children: [test2, notTest],
         });
 
-        pluginData.components = [test1, notTest];
+        pluginData.components = [test1, notTest, test2];
         expect(pluginData.getComponentsByType('test')).toEqual([test1, test2]);
       });
     });
@@ -349,22 +348,6 @@ describe('Test class: DefaultData', () => {
           definition,
         }));
       });
-
-      it('Should return the sub-component corresponding to the given id', () => {
-        const definition = new ComponentDefinition();
-        const pluginData = new DefaultData();
-
-        pluginData.addComponent('test', definition);
-        pluginData.addComponent('test2', definition);
-        pluginData.components[0].children = [pluginData.components[1]];
-        pluginData.components = [pluginData.components[0]];
-
-        expect(pluginData.getComponentById('test2')).toEqual(new Component({
-          id: 'test2',
-          name: 'test2',
-          definition,
-        }));
-      });
     });
 
     describe('Test method: removeComponentById', () => {
@@ -375,7 +358,7 @@ describe('Test class: DefaultData', () => {
         pluginData.addComponent('test', definition);
         pluginData.addComponent('test2', definition);
 
-        expect(pluginData.removeComponentById('test')).toEqual(true);
+        pluginData.removeComponentById('test');
         expect(pluginData.components).toEqual([
           new Component({
             id: 'test2',
@@ -395,7 +378,7 @@ describe('Test class: DefaultData', () => {
         pluginData.addComponent('test', definition);
         pluginData.addComponent('test2', definition);
 
-        expect(pluginData.removeComponentById('unknown')).toEqual(false);
+        pluginData.removeComponentById('unknown');
         expect(pluginData.components).toEqual([
           new Component({
             id: 'test',
@@ -411,27 +394,34 @@ describe('Test class: DefaultData', () => {
       });
 
       it('Should remove the sub-component corresponding to the given id', () => {
-        const definition = new ComponentDefinition();
+        const definition = new ComponentDefinition({
+          name: 'server',
+          definedAttributes: [new ComponentAttributeDefinition({
+            name: 'test',
+            type: 'Reference',
+            containerRef: 'server',
+          })],
+        });
         const pluginData = new DefaultData();
 
         pluginData.addComponent('root', definition);
         pluginData.addComponent('child', definition);
         pluginData.addComponent('subChild', definition);
-
-        pluginData.components[1].children = [pluginData.components[2]];
-        pluginData.components[0].children = [pluginData.components[1]];
-        pluginData.components = [pluginData.components[0]];
+        pluginData.getComponentById('root')
+          .setReferenceAttribute(pluginData.getComponentById('child'));
+        pluginData.getComponentById('child')
+          .setReferenceAttribute(pluginData.getComponentById('subChild'));
 
         pluginData.removeComponentById('subChild');
         expect(pluginData.components).toEqual([
           new Component({
             id: 'root',
             name: 'root',
-            children: [new Component({
-              id: 'child',
-              name: 'child',
-              definition,
-            })],
+            definition,
+          }),
+          new Component({
+            id: 'child',
+            name: 'child',
             definition,
           }),
         ]);
@@ -470,13 +460,9 @@ describe('Test class: DefaultData', () => {
           definition: new ComponentAttributeDefinition({ type: 'Link' }),
         });
 
-        pluginData.components[0].children = [pluginData.components[1]];
         pluginData.components[0].attributes.push(rootAttribute);
-        pluginData.components[1].children = [pluginData.components[2]];
         pluginData.components[1].attributes.push(childAttribute);
         pluginData.components[3].attributes.push(otherChildAttribute);
-
-        pluginData.components = [pluginData.components[0], pluginData.components[3]];
 
         pluginData.removeComponentById('subChild');
         expect(pluginData.components).toEqual([
@@ -487,11 +473,11 @@ describe('Test class: DefaultData', () => {
               value: ['child'],
               definition: new ComponentAttributeDefinition({ type: 'Link' }),
             })],
-            children: [new Component({
-              id: 'child',
-              name: 'child',
-              definition,
-            })],
+            definition,
+          }),
+          new Component({
+            id: 'child',
+            name: 'child',
             definition,
           }),
           new Component({
@@ -522,6 +508,30 @@ describe('Test class: DefaultData', () => {
             definition,
           }),
         ]);
+      });
+
+      it('Should remove all child components on removing container component', () => {
+        const definition = new ComponentDefinition();
+        const pluginData = new DefaultData();
+
+        pluginData.addComponent('root', definition);
+        pluginData.addComponent('child', definition);
+        pluginData.addComponent('subChild', definition);
+
+        pluginData.components[1].attributes = [new ComponentAttribute({
+          name: 'test',
+          value: 'root',
+          definition: new ComponentAttributeDefinition({ name: 'test', type: 'Reference' }),
+        })];
+
+        pluginData.components[2].attributes = [new ComponentAttribute({
+          name: 'test',
+          value: 'child',
+          definition: new ComponentAttributeDefinition({ name: 'test', type: 'Reference' }),
+        })];
+
+        pluginData.removeComponentById('root');
+        expect(pluginData.components).toEqual([]);
       });
 
       it('Should do nothing on unknown id', () => {
