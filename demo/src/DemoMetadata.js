@@ -3,7 +3,7 @@ import {
   ComponentDefinition,
   ComponentLinkDefinition,
   DefaultMetadata
-} from '../../dist/leto-modelizer-plugin-core';
+} from 'leto-modelizer-plugin-core';
 
 class DemoMetadata extends DefaultMetadata {
   parse() {
@@ -58,7 +58,7 @@ class DemoMetadata extends DefaultMetadata {
       model: 'DefaultContainer',
       parentTypes: ['network'],
       childrenTypes: ['server', 'network'],
-      definedAttributes: [this.pluginData.__nameAttributeDefinition],
+      definedAttributes: [this.pluginData.__nameAttributeDefinition, this.pluginData.__networkAttributeDefinition],
       isContainer: true,
     });
 

@@ -14,7 +14,7 @@
 import { onMounted } from 'vue';
 import resources from './assets/resources';
 import DemoPlugin from '@/DemoPlugin';
-import { ComponentDrawOption, FileInput } from '../../dist/leto-modelizer-plugin-core';
+import { ComponentDrawOption, FileInput } from 'leto-modelizer-plugin-core';
 
 function onSelect({ isSelected, id }) {
   console.log('Select event', id, isSelected);
