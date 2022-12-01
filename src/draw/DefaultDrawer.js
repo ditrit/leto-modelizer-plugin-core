@@ -826,9 +826,9 @@ class DefaultDrawer {
         .style('outline-offset', this.actions.selection.offset);
       this.actions.selection.current = currentComponent;
 
-      // TODO: replace by: if (this.events?.EditEvent) {
-      if (this.events && this.events.EditEvent && currentComponent.__class === 'Component') {
-        this.events.EditEvent.next(currentComponent);
+      // TODO: replace by: if (this.events?.SelectEvent && (...)) {
+      if (this.events && this.events.SelectEvent && currentComponent.__class === 'Component') {
+        this.events.SelectEvent.next(currentComponent);
       }
 
       this.initializeActionMenu(targetSelection);
