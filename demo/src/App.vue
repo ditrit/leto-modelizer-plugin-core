@@ -19,11 +19,8 @@ import { ComponentDrawOption, FileInput } from 'leto-modelizer-plugin-core';
 function onSelect({ isSelected, id }) {
   console.log('Select event', id, isSelected);
 }
-function onEdit({ id }) {
-  console.log('Edit event', id);
-}
-function onDelete({ id }) {
-  console.log('Delete event', id);
+function onUpdate() {
+  console.log('Update event');
 }
 function savePosition() {
   const configuration = new FileInput({ path: 'localstorage', content: '' });
@@ -45,8 +42,7 @@ const defaultConfiguration = JSON.stringify({
 
 plugin.init({
   SelectEvent: { next: onSelect },
-  EditEvent: { next: onEdit },
-  DeleteEvent: { next: onDelete },
+  UpdateEvent: { next: onUpdate },
 });
 
 plugin.initResources(resources);
