@@ -15,8 +15,6 @@ class DefaultDrawer {
    * @param {Object} [resources=null] - Object that contains resources.
    * @param {Object} [events] - Events list.
    * @param {Function} [events.SelectEvent.next] - Function to emit selection event.
-   * @param {Function} [events.EditEvent.next] - Function to emit edit event.
-   * @param {Function} [events.DeleteEvent.next] - Function to emit delete event.
    * @param {String} [rootId="root"] - Id of HTML element where we want to draw.
    * @param {Object} [options={}] - Rendering options.
    * @param {Number} [options.width=1280] - Render svg viewbox width.
@@ -31,8 +29,6 @@ class DefaultDrawer {
    */
   constructor(pluginData, resources = null, events = {
     SelectEvent: null,
-    EditEvent: null,
-    DeleteEvent: null,
   }, rootId = 'root', options = {}) {
     /**
      * Plugin data storage.
@@ -148,18 +144,12 @@ class DefaultDrawer {
   /**
    * Set events.
    * @param {Function} [events.SelectEvent.next] - Function to emit selection event.
-   * @param {Function} [events.EditEvent.next] - Function to emit edit event.
-   * @param {Function} [events.DeleteEvent.next] - Function to emit delete event.
    */
   setEvents(events = {
     SelectEvent: null,
-    EditEvent: null,
-    DeleteEvent: null,
   }) {
     this.events = {
       SelectEvent: events.SelectEvent || null,
-      EditEvent: events.EditEvent || null,
-      DeleteEvent: events.DeleteEvent || null,
     };
   }
 

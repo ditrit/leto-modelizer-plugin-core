@@ -59,8 +59,6 @@ class DefaultPlugin {
    * Set events in plugin and initialize metadata.
    * @param {Function} [events.SelectEvent.next] - Function to emit selection event, use by the
    * drawer.
-   * @param {Function} [events.EditEvent.next] - Function to emit edit event, use by the drawer.
-   * @param {Function} [events.DeleteEvent.next] - Function to emit delete event, use by the drawer.
    */
   init(events) {
     this.__drawer.setEvents(events);
