@@ -15,6 +15,7 @@ class DefaultDrawer {
    * @param {Object} [resources=null] - Object that contains resources.
    * @param {Object} [events] - Events list.
    * @param {Function} [events.SelectEvent.next] - Function to emit selection event.
+   * @param {Function} [events.UpdateEvent.next] - Function to emit update event.
    * @param {String} [rootId="root"] - Id of HTML element where we want to draw.
    * @param {Object} [options={}] - Rendering options.
    * @param {Number} [options.width=1280] - Render svg viewbox width.
@@ -29,6 +30,7 @@ class DefaultDrawer {
    */
   constructor(pluginData, resources = null, events = {
     SelectEvent: null,
+    UpdateEvent: null,
   }, rootId = 'root', options = {}) {
     /**
      * Plugin data storage.
@@ -144,13 +146,26 @@ class DefaultDrawer {
   /**
    * Set events.
    * @param {Function} [events.SelectEvent.next] - Function to emit selection event.
+   * @param {Function} [events.UpdateEvent.next] - Function to emit update event.
    */
   setEvents(events = {
     SelectEvent: null,
+    UpdateEvent: null,
   }) {
     this.events = {
       SelectEvent: events.SelectEvent || null,
+      UpdateEvent: events.UpdateEvent || null,
     };
+  }
+
+  /**
+   * Emit UpdateEvent if defined.
+   */
+  emitUpdateEvent() {
+    // TODO: replace by: if (this.events?.UpdateEvent) {
+    if (this.events && this.events.UpdateEvent) {
+      this.events.UpdateEvent.next();
+    }
   }
 
   /**
@@ -358,6 +373,7 @@ class DefaultDrawer {
       }
     }
 
+    this.emitUpdateEvent();
     this.draw(this.rootId);
   }
 
@@ -852,6 +868,8 @@ class DefaultDrawer {
 
     this.actions.linkCreation.source.setLinkAttribute(newLink);
 
+    this.emitUpdateEvent();
+
     this.cancelLinkCreationInteraction();
 
     this.drawLinks();
@@ -985,6 +1003,7 @@ class DefaultDrawer {
           icon: actionIcons.trash,
           handler() {
             this.pluginData.removeComponentById(this.actions.selection.current.id);
+            this.emitUpdateEvent();
             this.draw(this.rootId);
           },
         },
@@ -997,6 +1016,7 @@ class DefaultDrawer {
         icon: actionIcons.trash,
         handler() {
           this.pluginData.removeLink(this.actions.selection.current);
+          this.emitUpdateEvent();
           this.draw(this.rootId);
         },
       },

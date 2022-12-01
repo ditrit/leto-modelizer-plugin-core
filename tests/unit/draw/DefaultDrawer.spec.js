@@ -40,8 +40,7 @@ describe('Test Class: DefaultDrawer()', () => {
       expect(drawer.lineLengthPerDepth).toEqual([5, 1]);
       expect(drawer.events).toEqual({
         SelectEvent: null,
-        EditEvent: null,
-        DeleteEvent: null,
+        UpdateEvent: null,
       });
     });
 
@@ -60,19 +59,16 @@ describe('Test Class: DefaultDrawer()', () => {
       expect(drawer.lineLengthPerDepth).toEqual([5, 1]);
       expect(drawer.events).toEqual({
         SelectEvent: null,
-        EditEvent: null,
-        DeleteEvent: null,
+        UpdateEvent: null,
       });
 
       drawer = new DefaultDrawer(new DefaultData(), 'resources', {
         SelectEvent: 1,
-        EditEvent: 2,
-        DeleteEvent: 3,
+        UpdateEvent: 2,
       }, 'rootId');
       expect(drawer.events).toEqual({
         SelectEvent: 1,
-        EditEvent: 2,
-        DeleteEvent: 3,
+        UpdateEvent: 2,
       });
     });
 
@@ -105,20 +101,75 @@ describe('Test Class: DefaultDrawer()', () => {
       expect(drawer.lineLengthPerDepth).toEqual([1, 2]);
       expect(drawer.events).toEqual({
         SelectEvent: null,
-        EditEvent: null,
-        DeleteEvent: null,
+        UpdateEvent: null,
       });
 
       drawer = new DefaultDrawer(new DefaultData(), 'resources', {
         SelectEvent: 1,
-        EditEvent: 2,
-        DeleteEvent: 3,
+        UpdateEvent: 2,
       }, 'rootId');
       expect(drawer.events).toEqual({
         SelectEvent: 1,
-        EditEvent: 2,
-        DeleteEvent: 3,
+        UpdateEvent: 2,
       });
+    });
+  });
+
+  describe('Test method: setEvents', () => {
+    it('Should be set with null when it is set without arguments', () => {
+      const drawer = new DefaultDrawer();
+
+      drawer.setEvents();
+
+      expect(drawer.events).toEqual({
+        SelectEvent: null,
+        UpdateEvent: null,
+      });
+    });
+
+    it('Should be set with null when it is set with an empty object', () => {
+      const drawer = new DefaultDrawer();
+
+      drawer.setEvents({});
+
+      expect(drawer.events).toEqual({
+        SelectEvent: null,
+        UpdateEvent: null,
+      });
+    });
+
+    it('Should be set with corresponding value when it is set with an object', () => {
+      const drawer = new DefaultDrawer();
+
+      drawer.setEvents({
+        SelectEvent: 1,
+        UpdateEvent: 2,
+      });
+
+      expect(drawer.events).toEqual({
+        SelectEvent: 1,
+        UpdateEvent: 2,
+      });
+    });
+  });
+
+  describe('Test method: emitUpdateEvent', () => {
+    it('Should emit event if its provide', () => {
+      const drawer = new DefaultDrawer();
+      const event = jest.fn();
+
+      drawer.emitUpdateEvent();
+      drawer.setEvents({});
+
+      drawer.emitUpdateEvent();
+      drawer.setEvents({
+        UpdateEvent: {
+          next: event,
+        },
+      });
+
+      drawer.emitUpdateEvent();
+      expect(event).toBeCalledTimes(1);
     });
   });
 

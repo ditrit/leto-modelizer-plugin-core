@@ -58,6 +58,7 @@ class DefaultPlugin {
    * Init method, to call once before all plugin usages.
    * Set events in plugin and initialize metadata.
    * @param {Function} [events.SelectEvent.next] - Function to emit selection event, use by the
+   * @param {Function} [events.UpdateEvent.next] - Function to emit update event, use by the
    * drawer.
    */
   init(events) {
