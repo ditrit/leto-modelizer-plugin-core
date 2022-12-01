@@ -12,10 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Method `getchildren` by component id in `DefaultData`.
 - Method `getContainerId` on `Component`.
 - Add `files` parameter in method `render` of `DefaultRender` to list all files managed by the plugin.
+- Add `UpdateEvent` to notify modelizer of all updates on components made by user.
 
 ### Removed
 
 - Remove attribute `children` of `Component` to transform components tree in components Array.
+- Remove `EditEvent` and `DeleteEvent` in `DefaultDrawer`.
 
 ### Changed
 
