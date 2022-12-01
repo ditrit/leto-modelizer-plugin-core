@@ -2,7 +2,7 @@ import {
   Component,
   ComponentAttribute,
   DefaultParser
-} from '../../dist/leto-modelizer-plugin-core';
+} from 'leto-modelizer-plugin-core';
 
 class DemoParser extends DefaultParser {
   parse() {
@@ -36,7 +36,6 @@ class DemoParser extends DefaultParser {
           definition: this.pluginData.__networkLinkAttributeDefinition,
         }),
       ],
-      children: [],
     });
 
     const externalLaptop = new Component({
@@ -63,7 +62,6 @@ class DemoParser extends DefaultParser {
           definition: this.pluginData.__userAttributeDefinition,
         }),
       ],
-      children: [],
     });
 
     const mailServer = new Component({
@@ -96,7 +94,6 @@ class DemoParser extends DefaultParser {
           definition: this.pluginData.__laptopLinkAttributeDefinition,
         }),
       ],
-      children: [],
     });
 
     const httpServer = new Component({
@@ -123,7 +120,6 @@ class DemoParser extends DefaultParser {
           definition: this.pluginData.__networkAttributeDefinition,
         }),
       ],
-      children: [],
     });
 
     const dmz1 = new Component({
@@ -138,7 +134,6 @@ class DemoParser extends DefaultParser {
           definition: this.pluginData.__nameAttributeDefinition,
         }),
       ],
-      children: [mailServer, httpServer],
     });
 
     const dmz2 = new Component({
@@ -153,10 +148,9 @@ class DemoParser extends DefaultParser {
           definition: this.pluginData.__nameAttributeDefinition,
         }),
       ],
-      children: [],
     });
 
-    this.pluginData.components = [internalLaptop, dmz1, dmz2, externalLaptop];
+    this.pluginData.components = [internalLaptop, dmz1, dmz2, externalLaptop, mailServer, httpServer];
     this.pluginData.parseErrors = [];
   }
 }

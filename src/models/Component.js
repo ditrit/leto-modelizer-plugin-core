@@ -15,7 +15,6 @@ class Component extends FileInformation {
    * Component.
    * @param {ComponentDrawOption} [props.drawOption] - The options used to draw this Component.
    * @param {ComponentAttribute[]} [props.attributes=[]] - Attributes of Component.
-   * @param {ComponentAttribute[]} [props.children=[]] - Children of Component.
    */
   constructor(props = {
     id: null,
@@ -23,7 +22,6 @@ class Component extends FileInformation {
     definition: null,
     drawOption: null,
     attributes: [],
-    children: [],
   }) {
     super(props);
     const {
@@ -32,7 +30,6 @@ class Component extends FileInformation {
       definition,
       drawOption,
       attributes,
-      children,
     } = props;
 
     /**
@@ -66,11 +63,6 @@ class Component extends FileInformation {
      * @type {ComponentAttribute[]}
      */
     this.attributes = attributes || [];
-    /**
-     * Array that contains all subcomponents.
-     * @type {Component[]}
-     */
-    this.children = children || [];
   }
 
   /**
@@ -200,6 +192,17 @@ class Component extends FileInformation {
     }
 
     return null;
+  }
+
+  /**
+   * Retrieve container id from attributes.
+   * @return {String} Id of container or null;
+   */
+  getContainerId() {
+    const attribute = this.attributes.find(({ definition }) => definition
+      && definition.type === 'Reference');
+
+    return !attribute ? null : attribute.value;
   }
 }
 

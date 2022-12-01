@@ -26,6 +26,39 @@ describe('Test Class: DefaultRender()', () => {
 
         expect(defaultRender.render()).toEqual([]);
       });
+
+      it('Should set empty content to all files that are not linked to components', () => {
+        const defaultRender = new DefaultRender();
+
+        defaultRender.renderFiles = () => [new FileInput({
+          path: 'test.tf',
+          content: 'test',
+        })];
+
+        expect(defaultRender.render([
+          new FileInput({ path: 'test.tf', content: 'old' }),
+          new FileInput({ path: 'to_delete.tf', content: 'old' }),
+        ])).toEqual([
+          new FileInput({ path: 'test.tf', content: 'test' }),
+          new FileInput({ path: 'to_delete.tf', content: '' }),
+        ]);
+      });
+
+      it('Should return new files', () => {
+        const defaultRender = new DefaultRender();
+
+        defaultRender.renderFiles = () => [new FileInput({
+          path: 'test.tf',
+          content: 'test',
+        })];
+
+        expect(defaultRender.render([
+          new FileInput({ path: 'to_delete.tf', content: 'old' }),
+        ])).toEqual([
+          new FileInput({ path: 'to_delete.tf', content: '' }),
+          new FileInput({ path: 'test.tf', content: 'test' }),
+        ]);
+      });
     });
 
     describe('Test method: renderConfiguration', () => {

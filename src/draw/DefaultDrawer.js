@@ -337,7 +337,7 @@ class DefaultDrawer {
    * @param {Element} dropTarget - The element on which the dragged component was dropped.
    */
   handleDropEvent(event, dropTarget) {
-    let origParent = this.pluginData.getComponentById(event.subject.parent.data.id);
+    const origParent = this.pluginData.getComponentById(event.subject.parent.data.id);
     const target = dropTarget ? d3.select(dropTarget) : null;
 
     if (target === origParent) {
@@ -349,10 +349,6 @@ class DefaultDrawer {
         x, y, width, height,
       });
     } else {
-      origParent ||= this.shadowRoot;
-      const origIndex = origParent.children
-        .findIndex((child) => child.id === event.subject.data.id);
-
       if (event.subject.parent) {
         this.__markAsNeedingResize(event.subject.parent);
       }
@@ -364,18 +360,14 @@ class DefaultDrawer {
         const newParentNode = d3.select(`#${parentId}`).datum();
 
         if (newParent.definition.childrenTypes.includes(event.subject.data.definition.type)) {
-          origParent.children.splice(origIndex, 1);
           event.subject.data.setReferenceAttribute(newParent);
-          newParent.children.push(event.subject.data);
           this.__markAsNeedingResize(newParentNode);
         }
       } else {
-        origParent.children.splice(origIndex, 1);
         event.subject.data.removeAllReferenceAttributes();
-
-        this.pluginData.components.push(event.subject.data);
       }
     }
+
     this.draw(this.rootId);
   }
 
@@ -506,7 +498,10 @@ class DefaultDrawer {
         // TODO save/load coordinates
       })
       .round(true);
-    const rootNode = d3.hierarchy(this.shadowRoot);
+    const rootNode = d3.hierarchy(
+      this.shadowRoot,
+      ({ id }) => this.pluginData.getChildren(id === '__shadowRoot' ? null : id),
+    );
 
     rootNode
       .count()

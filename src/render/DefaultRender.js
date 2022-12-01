@@ -2,6 +2,8 @@
  * Class that compile a Component to data.
  * @interface
  */
+import FileInput from '../models/FileInput';
+
 class DefaultRender {
   /**
    * Default constructor.
@@ -17,9 +19,29 @@ class DefaultRender {
 
   /**
    * Transform all provided components in file inputs.
+   * @param {FileInput[]} files - Files managed by the plugin.
    * @return {FileInput[]} - Generated files from components.
    */
-  render() {
+  render(files = []) {
+    const rendererFiles = files.reduce((acc, file) => {
+      acc[file.path] = '';
+
+      return acc;
+    }, {});
+
+    this.renderFiles().forEach((file) => {
+      rendererFiles[file.path] = file.content;
+    });
+
+    return Object.keys(rendererFiles)
+      .map((path) => new FileInput({ path, content: rendererFiles[path] }));
+  }
+
+  /**
+   * Transform all provided components in file inputs.
+   * @return {FileInput[]} - Generated files from components.
+   */
+  renderFiles() {
     return [];
   }
 

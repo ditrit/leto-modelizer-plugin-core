@@ -15,7 +15,6 @@ describe('Test class: Component', () => {
       expect(component.definition).toBeNull();
       expect(component.drawOption).toBeNull();
       expect(component.attributes).toEqual([]);
-      expect(component.children).toEqual([]);
       expect(component.path).toBeNull();
     });
 
@@ -28,7 +27,6 @@ describe('Test class: Component', () => {
       expect(component.definition).toBeNull();
       expect(component.drawOption).toBeNull();
       expect(component.attributes).toEqual([]);
-      expect(component.children).toEqual([]);
       expect(component.path).toBeNull();
     });
 
@@ -39,7 +37,6 @@ describe('Test class: Component', () => {
         definition: 'definition',
         drawOption: 'drawOption',
         attributes: 'attributes',
-        children: 'children',
         path: 'path',
       });
 
@@ -49,7 +46,6 @@ describe('Test class: Component', () => {
       expect(component.definition).toEqual('definition');
       expect(component.drawOption).toEqual('drawOption');
       expect(component.attributes).toEqual('attributes');
-      expect(component.children).toEqual('children');
       expect(component.path).toEqual('path');
     });
   });
@@ -515,6 +511,32 @@ describe('Test class: Component', () => {
 
       it('Should return sub attribute on asking sub attribute', () => {
         expect(component.getAttributeByName('sub')).toEqual(subAttribute);
+      });
+    });
+
+    describe('Test method: getContainerId', () => {
+      it('Should return null when there is no attributes', () => {
+        expect(new Component().getContainerId()).toBeNull();
+      });
+
+      it('Should return null when there is no reference attributes', () => {
+        expect(new Component({
+          attributes: [new ComponentAttribute({
+            name: 'test',
+          })],
+        }).getContainerId()).toBeNull();
+      });
+
+      it('Should return id when there is a reference attribute', () => {
+        expect(new Component({
+          attributes: [new ComponentAttribute({
+            name: 'test',
+            value: 'test',
+            definition: new ComponentAttributeDefinition({
+              type: 'Reference',
+            }),
+          })],
+        }).getContainerId()).toEqual('test');
       });
     });
   });
