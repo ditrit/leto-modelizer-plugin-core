@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Updated `drawLinks` to dynamically select curve type based on components relative positions.
 
+### Fixed
+
+- Fixed disabled style application when the origin could have multiple targets.
+
 ## [0.10.0] - 2022/11/28
 
 ### Added
