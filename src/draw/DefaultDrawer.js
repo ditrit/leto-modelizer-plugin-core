@@ -15,8 +15,7 @@ class DefaultDrawer {
    * @param {Object} [resources=null] - Object that contains resources.
    * @param {Object} [events] - Events list.
    * @param {Function} [events.SelectEvent.next] - Function to emit selection event.
-   * @param {Function} [events.EditEvent.next] - Function to emit edit event.
-   * @param {Function} [events.DeleteEvent.next] - Function to emit delete event.
+   * @param {Function} [events.UpdateEvent.next] - Function to emit update event.
    * @param {String} [rootId="root"] - Id of HTML element where we want to draw.
    * @param {Object} [options={}] - Rendering options.
    * @param {Number} [options.width=1280] - Render svg viewbox width.
@@ -31,8 +30,7 @@ class DefaultDrawer {
    */
   constructor(pluginData, resources = null, events = {
     SelectEvent: null,
-    EditEvent: null,
-    DeleteEvent: null,
+    UpdateEvent: null,
   }, rootId = 'root', options = {}) {
     /**
      * Plugin data storage.
@@ -148,19 +146,26 @@ class DefaultDrawer {
   /**
    * Set events.
    * @param {Function} [events.SelectEvent.next] - Function to emit selection event.
-   * @param {Function} [events.EditEvent.next] - Function to emit edit event.
-   * @param {Function} [events.DeleteEvent.next] - Function to emit delete event.
+   * @param {Function} [events.UpdateEvent.next] - Function to emit update event.
    */
   setEvents(events = {
     SelectEvent: null,
-    EditEvent: null,
-    DeleteEvent: null,
+    UpdateEvent: null,
   }) {
     this.events = {
       SelectEvent: events.SelectEvent || null,
-      EditEvent: events.EditEvent || null,
-      DeleteEvent: events.DeleteEvent || null,
+      UpdateEvent: events.UpdateEvent || null,
     };
+  }
+
+  /**
+   * Emit UpdateEvent if defined.
+   */
+  emitUpdateEvent() {
+    // TODO: replace by: if (this.events?.UpdateEvent) {
+    if (this.events && this.events.UpdateEvent) {
+      this.events.UpdateEvent.next();
+    }
   }
 
   /**
@@ -368,6 +373,7 @@ class DefaultDrawer {
       }
     }
 
+    this.emitUpdateEvent();
     this.draw(this.rootId);
   }
 
@@ -836,9 +842,9 @@ class DefaultDrawer {
         .style('outline-offset', this.actions.selection.offset);
       this.actions.selection.current = currentComponent;
 
-      // TODO: replace by: if (this.events?.EditEvent) {
-      if (this.events && this.events.EditEvent && currentComponent.__class === 'Component') {
-        this.events.EditEvent.next(currentComponent);
+      // TODO: replace by: if (this.events?.SelectEvent && (...)) {
+      if (this.events && this.events.SelectEvent && currentComponent.__class === 'Component') {
+        this.events.SelectEvent.next(currentComponent);
       }
 
       this.initializeActionMenu(targetSelection);
@@ -861,6 +867,8 @@ class DefaultDrawer {
     });
 
     this.actions.linkCreation.source.setLinkAttribute(newLink);
+
+    this.emitUpdateEvent();
 
     this.cancelLinkCreationInteraction();
 
@@ -995,6 +1003,7 @@ class DefaultDrawer {
           icon: actionIcons.trash,
           handler() {
             this.pluginData.removeComponentById(this.actions.selection.current.id);
+            this.emitUpdateEvent();
             this.draw(this.rootId);
           },
         },
@@ -1007,6 +1016,7 @@ class DefaultDrawer {
         icon: actionIcons.trash,
         handler() {
           this.pluginData.removeLink(this.actions.selection.current);
+          this.emitUpdateEvent();
           this.draw(this.rootId);
         },
       },
