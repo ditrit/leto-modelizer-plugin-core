@@ -280,10 +280,10 @@ class DefaultDrawer {
     event.subject.y = rootSVGPoint.y - this.actions.drag.offsetY;
     if (event.subject.data.definition) {
       const forbiddenTypes = event.subject.data.definition.parentTypes
-        .map((type) => `.component:not(#${event.subject.data.id}):not(.${type})`)
-        .join(',');
+        .map((type) => `:not(.${type})`)
+        .join('');
 
-      this.setDisabledStyle(forbiddenTypes);
+      this.setDisabledStyle(`.component:not(#${event.subject.data.id})${forbiddenTypes}`);
     }
 
     this.drawLinks();
@@ -639,20 +639,12 @@ class DefaultDrawer {
    * @return {Number} - The bearing.
    */
   getBearing(pointA, pointB) {
-    const normalizedTargetVector = {
-      x: (pointB.x - pointA.x)
-        / (Math.sqrt((pointB.x - pointA.x) ** 2 + (pointB.y - pointA.y) ** 2)),
-      y: (pointB.y - pointA.y)
-        / (Math.sqrt((pointB.x - pointA.x) ** 2 + (pointB.y - pointA.y) ** 2)),
-    };
+    const distanceXBA = pointB.x - pointA.x;
+    const distanceYBA = pointB.y - pointA.y;
+    const x = distanceXBA / (Math.sqrt(distanceXBA ** 2 + distanceYBA ** 2));
+    const y = distanceYBA / (Math.sqrt(distanceXBA ** 2 + distanceYBA ** 2));
 
-    return (
-      (Math.atan2(
-        normalizedTargetVector.x,
-        normalizedTargetVector.y,
-      )
-      * (180 / Math.PI)) + 360)
-      % 360;
+    return ((Math.atan2(x, y) * (180 / Math.PI)) + 360) % 360;
   }
 
   /**
@@ -970,12 +962,13 @@ class DefaultDrawer {
       const allowedLinkTargets = source.definition.definedAttributes
         .filter((a) => a.type === 'Link');
       const forbiddenTypes = allowedLinkTargets
-        .map((linkTarget) => `.component:not(#${source.id}):not(.${linkTarget.linkRef})`)
-        .join(',');
+        .map((linkTarget) => `:not(.${linkTarget.linkRef})`)
+        .join('');
 
       this.actions.linkCreation.creating = true;
       this.actions.linkCreation.source = source;
-      this.setDisabledStyle(forbiddenTypes);
+
+      this.setDisabledStyle(`.component:not(#${source.id})${forbiddenTypes}`);
     }
   }
 
