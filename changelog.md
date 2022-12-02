@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Replace esdoc by jsdoc
 
+### Fixed
+
+- Save configuration even if the file content is null.
+
 ## [0.11.0] - 2022/12/07
 
 ### Added
