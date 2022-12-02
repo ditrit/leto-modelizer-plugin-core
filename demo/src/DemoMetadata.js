@@ -44,7 +44,6 @@ class DemoMetadata extends DefaultMetadata {
       linkRef: 'laptop',
     })
 
-
     this.pluginData.__networkLinkAttributeDefinition = new ComponentAttributeDefinition({
       name: 'network_link',
       type: 'Link',
@@ -72,6 +71,7 @@ class DemoMetadata extends DefaultMetadata {
         this.pluginData.__networkAttributeDefinition,
         this.pluginData.__ipAttributeDefinition,
         this.pluginData.__laptopLinkAttributeDefinition,
+        this.pluginData.__networkLinkAttributeDefinition,
       ],
       isContainer: false,
     });
@@ -94,6 +94,13 @@ class DemoMetadata extends DefaultMetadata {
     this.pluginData.__networkLinkDefinition = new ComponentLinkDefinition({
       attributeRef: 'network_link',
       sourceRef: 'laptop',
+      targetRef: 'network',
+      type: 'Default',
+    });
+
+    this.pluginData.__serverNetworkLinkDefinition = new ComponentLinkDefinition({
+      attributeRef: 'network_link',
+      sourceRef: 'server',
       targetRef: 'network',
       type: 'Default',
     });
