@@ -10,6 +10,7 @@ class ComponentLinkDefinition {
    * @param {String} [props.targetRef] - Reference of component can be the target of the link.
    * @param {String} [props.type] - Representation of the link.
    * @param {String} [props.color='black'] - Color of the link.
+   * @param {Number} [props.width=2] - Width of the link.
    */
   constructor(props = {
     attributeRef: null,
@@ -17,6 +18,7 @@ class ComponentLinkDefinition {
     targetRef: null,
     type: null,
     color: 'black',
+    width: 2,
   }) {
     const {
       attributeRef,
@@ -24,6 +26,7 @@ class ComponentLinkDefinition {
       targetRef,
       type,
       color,
+      width,
     } = props;
 
     /**
@@ -51,6 +54,11 @@ class ComponentLinkDefinition {
      * @type {String}
      */
     this.color = color || 'black';
+    /**
+     * Color of the link.
+     * @type {Number}
+     */
+    this.width = width || 2;
   }
 }
 

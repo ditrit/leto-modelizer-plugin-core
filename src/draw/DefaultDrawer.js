@@ -609,8 +609,8 @@ class DefaultDrawer {
         return generator(link);
       })
       .attr('fill', 'none')
-      .attr('stroke-width', 2)
       .attr('stroke', (link) => link.definition.color)
+      .attr('stroke-width', (link) => link.definition.width)
       .attr('cursor', 'pointer')
       .on('click', (event) => this.clickHandler(event));
 
