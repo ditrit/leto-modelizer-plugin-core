@@ -10,6 +10,7 @@ class ComponentAttributeDefinition {
    * valid types are String/Boolean/Number/Array/Object/Link/Reference.
    * @param {String} [props.linkType] - Type of link, valid types are Default/Reverse.
    * @param {String[]} [props.linkRef=[]] - Reference of accepted component for link.
+   * @param {String} [props.linkColor='black'] - Color of the link.
    * @param {String[]} [props.containerRef=[]] - Reference of accepted component for container.
    * @param {Boolean} [props.required=false] - Attribute is required.
    * @param {ComponentAttributeDefinition[]} [props.definedAttributes=[]] - Defined attributes for
@@ -25,6 +26,7 @@ class ComponentAttributeDefinition {
     type: null,
     linkType: null,
     linkRef: [],
+    linkColor: 'black',
     containerRef: [],
     required: false,
     definedAttributes: [],
@@ -40,6 +42,7 @@ class ComponentAttributeDefinition {
       type,
       linkType,
       linkRef,
+      linkColor,
       containerRef,
       definedAttributes,
       required,
@@ -66,6 +69,11 @@ class ComponentAttributeDefinition {
      * @type {String[]}
      */
     this.linkRef = linkRef || [];
+    /**
+     * Color of the link.
+     * @type {String}
+     */
+    this.linkColor = linkColor || 'black';
     /**
      * Define list of Component that can be the container of this component.
      * @type {String[]}

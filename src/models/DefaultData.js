@@ -180,6 +180,7 @@ class DefaultData {
           attributeRef: attributeDefinition.name,
           sourceRef: type,
           targetRef: attributeDefinition.linkRef,
+          color: attributeDefinition.linkColor,
         });
 
         this.definitions.links.push(linkDefinition);

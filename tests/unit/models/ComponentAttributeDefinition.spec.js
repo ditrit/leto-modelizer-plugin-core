@@ -9,6 +9,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.type).toBeNull();
       expect(definedAttribute.linkType).toBeNull();
       expect(definedAttribute.linkRef).toEqual([]);
+      expect(definedAttribute.linkColor).toEqual('black');
       expect(definedAttribute.containerRef).toEqual([]);
       expect(definedAttribute.definedAttributes).toEqual([]);
       expect(definedAttribute.required).toEqual(false);
@@ -25,6 +26,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.type).toBeNull();
       expect(definedAttribute.linkType).toBeNull();
       expect(definedAttribute.linkRef).toEqual([]);
+      expect(definedAttribute.linkColor).toEqual('black');
       expect(definedAttribute.containerRef).toEqual([]);
       expect(definedAttribute.definedAttributes).toEqual([]);
       expect(definedAttribute.required).toEqual(false);
@@ -41,6 +43,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.type).toBeNull();
       expect(definedAttribute.linkType).toBeNull();
       expect(definedAttribute.linkRef).toEqual([]);
+      expect(definedAttribute.linkColor).toEqual('black');
       expect(definedAttribute.containerRef).toEqual([]);
       expect(definedAttribute.definedAttributes).toEqual([]);
       expect(definedAttribute.required).toEqual(false);
@@ -56,6 +59,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
         type: 'type',
         linkType: 'Default',
         linkRef: ['linkRef'],
+        linkColor: 'blue',
         containerRef: ['containerRef'],
         definedAttributes: [new ComponentAttributeDefinition()],
         required: true,
@@ -72,6 +76,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.linkType).toEqual('Default');
       expect(definedAttribute.linkRef.length).toEqual(1);
       expect(definedAttribute.linkRef[0]).toEqual('linkRef');
+      expect(definedAttribute.linkColor).toEqual('blue');
       expect(definedAttribute.containerRef.length).toEqual(1);
       expect(definedAttribute.containerRef[0]).toEqual('containerRef');
       expect(definedAttribute.definedAttributes.length).toEqual(1);

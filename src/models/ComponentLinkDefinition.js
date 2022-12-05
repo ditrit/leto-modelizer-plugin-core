@@ -9,18 +9,21 @@ class ComponentLinkDefinition {
    * @param {String} [props.sourceRef] - Reference of component can be the source in a link.
    * @param {String} [props.targetRef] - Reference of component can be the target of the link.
    * @param {String} [props.type] - Representation of the link.
+   * @param {String} [props.color='black'] - Color of the link.
    */
   constructor(props = {
     attributeRef: null,
     sourceRef: null,
     targetRef: null,
     type: null,
+    color: 'black',
   }) {
     const {
       attributeRef,
       sourceRef,
       targetRef,
       type,
+      color,
     } = props;
 
     /**
@@ -43,6 +46,11 @@ class ComponentLinkDefinition {
      * @type {String}
      */
     this.type = type || null;
+    /**
+     * Color of the link.
+     * @type {String}
+     */
+    this.color = color || 'black';
   }
 }
 
