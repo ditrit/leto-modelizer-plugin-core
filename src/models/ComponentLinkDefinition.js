@@ -11,6 +11,7 @@ class ComponentLinkDefinition {
    * @param {String} [props.type] - Representation of the link.
    * @param {String} [props.color='black'] - Color of the link.
    * @param {Number} [props.width=2] - Width of the link.
+   * @param {Number[]} [props.dashStyle] - Dash style of the link. See stroke-dasharray of svg.
    */
   constructor(props = {
     attributeRef: null,
@@ -19,6 +20,7 @@ class ComponentLinkDefinition {
     type: null,
     color: 'black',
     width: 2,
+    dashStyle: null,
   }) {
     const {
       attributeRef,
@@ -27,6 +29,7 @@ class ComponentLinkDefinition {
       type,
       color,
       width,
+      dashStyle,
     } = props;
 
     /**
@@ -59,6 +62,11 @@ class ComponentLinkDefinition {
      * @type {Number}
      */
     this.width = width || 2;
+    /**
+     * Dash style of the link. See stroke-dasharray of svg.
+     * @type {Number[]}
+     */
+    this.dashStyle = dashStyle || null;
   }
 }
 

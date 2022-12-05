@@ -182,6 +182,7 @@ class DefaultData {
           targetRef: attributeDefinition.linkRef,
           color: attributeDefinition.linkColor,
           width: attributeDefinition.linkWidth,
+          dashStyle: attributeDefinition.linkDashStyle,
         });
 
         this.definitions.links.push(linkDefinition);

@@ -611,6 +611,7 @@ class DefaultDrawer {
       .attr('fill', 'none')
       .attr('stroke', (link) => link.definition.color)
       .attr('stroke-width', (link) => link.definition.width)
+      .attr('stroke-dasharray', (link) => link.definition.dashStyle || 'none')
       .attr('cursor', 'pointer')
       .on('click', (event) => this.clickHandler(event));
 

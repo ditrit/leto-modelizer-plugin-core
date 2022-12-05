@@ -11,6 +11,7 @@ describe('Test class: ComponentLinkDefinition', () => {
       expect(link.type).toBeNull();
       expect(link.color).toEqual('black');
       expect(link.width).toEqual(2);
+      expect(link.dashStyle).toBeNull();
     });
 
     it('Check passing undefined variables to constructor', () => {
@@ -22,6 +23,7 @@ describe('Test class: ComponentLinkDefinition', () => {
       expect(link.type).toBeNull();
       expect(link.color).toEqual('black');
       expect(link.width).toEqual(2);
+      expect(link.dashStyle).toBeNull();
     });
 
     it('Check passing variable to constructor', () => {
@@ -32,6 +34,7 @@ describe('Test class: ComponentLinkDefinition', () => {
         type: 'type',
         color: 'blue',
         width: 3,
+        dashStyle: [1, 1],
       });
 
       expect(link.attributeRef).toEqual('attr');
@@ -40,6 +43,7 @@ describe('Test class: ComponentLinkDefinition', () => {
       expect(link.type).toEqual('type');
       expect(link.color).toEqual('blue');
       expect(link.width).toEqual(3);
+      expect(link.dashStyle).toEqual([1, 1]);
     });
   });
 });
