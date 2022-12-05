@@ -48,6 +48,9 @@ class DemoMetadata extends DefaultMetadata {
       name: 'network_link',
       type: 'Link',
       linkRef: 'network',
+      linkColor: '#ff0000',
+      linkWidth: 5,
+      linkDashStyle: [25, 5],
     })
 
     // Component Definitions
@@ -90,32 +93,14 @@ class DemoMetadata extends DefaultMetadata {
       isContainer: false,
     });
 
-    // Component link Definitions
-    this.pluginData.__networkLinkDefinition = new ComponentLinkDefinition({
-      attributeRef: 'network_link',
-      sourceRef: 'laptop',
-      targetRef: 'network',
-      type: 'Default',
-    });
-
-    this.pluginData.__serverNetworkLinkDefinition = new ComponentLinkDefinition({
-      attributeRef: 'network_link',
-      sourceRef: 'server',
-      targetRef: 'network',
-      type: 'Default',
-    });
-
-    this.pluginData.__laptopLinkDefinition = new ComponentLinkDefinition({
-      attributeRef: 'laptop_link',
-      sourceRef: 'server',
-      targetRef: 'laptop',
-      type: 'Default',
-    });
-
     this.pluginData.definitions = {
-      components: [this.pluginData.__networkDefinition, this.pluginData.__serverDefinition, this.pluginData.__laptopDefinition],
-      links: [this.pluginData.__networkLinkDefinition, this.pluginData.__laptopLinkDefinition],
+      components: [
+        this.pluginData.__networkDefinition,
+        this.pluginData.__serverDefinition,
+        this.pluginData.__laptopDefinition,
+      ],
     };
+    this.pluginData.initLinkDefinitions();
   }
 }
 
