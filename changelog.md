@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Method `getContainerId` on `Component`.
 - Add `files` parameter in method `render` of `DefaultRender` to list all files managed by the plugin.
 - Add `UpdateEvent` to notify modelizer of all updates on components made by user.
+- Add attributes in `ComponentAttributeDefinition` to manage customization of link:
+  - `LinkColor` to define the color of the link, default black.
+  - `LinkWidth` to define the width of the link, default 2px.
+  - `LinkDashStyle` to define the dash style of the link, default null for a line link.
 
 ### Removed
 

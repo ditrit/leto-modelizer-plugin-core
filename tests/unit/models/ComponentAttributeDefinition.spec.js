@@ -9,6 +9,9 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.type).toBeNull();
       expect(definedAttribute.linkType).toBeNull();
       expect(definedAttribute.linkRef).toEqual([]);
+      expect(definedAttribute.linkColor).toEqual('black');
+      expect(definedAttribute.linkWidth).toEqual(2);
+      expect(definedAttribute.linkDashStyle).toBeNull();
       expect(definedAttribute.containerRef).toEqual([]);
       expect(definedAttribute.definedAttributes).toEqual([]);
       expect(definedAttribute.required).toEqual(false);
@@ -25,6 +28,9 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.type).toBeNull();
       expect(definedAttribute.linkType).toBeNull();
       expect(definedAttribute.linkRef).toEqual([]);
+      expect(definedAttribute.linkColor).toEqual('black');
+      expect(definedAttribute.linkWidth).toEqual(2);
+      expect(definedAttribute.linkDashStyle).toBeNull();
       expect(definedAttribute.containerRef).toEqual([]);
       expect(definedAttribute.definedAttributes).toEqual([]);
       expect(definedAttribute.required).toEqual(false);
@@ -35,12 +41,15 @@ describe('Test class: ComponentAttributeDefinition', () => {
     });
 
     it('Check passing empty rules to constructor', () => {
-      const definedAttribute = new ComponentAttributeDefinition({ rules: {} });
+      const definedAttribute = new ComponentAttributeDefinition({ rules: {}, linkWidth: 0 });
 
       expect(definedAttribute.name).toBeNull();
       expect(definedAttribute.type).toBeNull();
       expect(definedAttribute.linkType).toBeNull();
       expect(definedAttribute.linkRef).toEqual([]);
+      expect(definedAttribute.linkColor).toEqual('black');
+      expect(definedAttribute.linkWidth).toEqual(2);
+      expect(definedAttribute.linkDashStyle).toBeNull();
       expect(definedAttribute.containerRef).toEqual([]);
       expect(definedAttribute.definedAttributes).toEqual([]);
       expect(definedAttribute.required).toEqual(false);
@@ -56,6 +65,9 @@ describe('Test class: ComponentAttributeDefinition', () => {
         type: 'type',
         linkType: 'Default',
         linkRef: ['linkRef'],
+        linkColor: 'blue',
+        linkWidth: 3,
+        linkDashStyle: [1, 1],
         containerRef: ['containerRef'],
         definedAttributes: [new ComponentAttributeDefinition()],
         required: true,
@@ -72,6 +84,9 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.linkType).toEqual('Default');
       expect(definedAttribute.linkRef.length).toEqual(1);
       expect(definedAttribute.linkRef[0]).toEqual('linkRef');
+      expect(definedAttribute.linkColor).toEqual('blue');
+      expect(definedAttribute.linkWidth).toEqual(3);
+      expect(definedAttribute.linkDashStyle).toEqual([1, 1]);
       expect(definedAttribute.containerRef.length).toEqual(1);
       expect(definedAttribute.containerRef[0]).toEqual('containerRef');
       expect(definedAttribute.definedAttributes.length).toEqual(1);
