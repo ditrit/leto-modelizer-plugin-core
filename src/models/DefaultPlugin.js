@@ -106,13 +106,14 @@ class DefaultPlugin {
   /**
    * Return all generated files from plugin data.
    * Configuration file is used for saving the components' configuration.
-   * @param {FileInput} file - Configuration file of components.
+   * @param {FileInput} configurationFile - Configuration file of components.
+   * @param {FileInput[]} files - File inputs you want to render.
    * @return {FileInput[]} All generated files.
    */
-  render(file) {
-    this.__renderer.renderConfiguration(file);
+  render(configurationFile, files) {
+    this.__renderer.renderConfiguration(configurationFile);
 
-    return this.__renderer.render();
+    return this.__renderer.render(files);
   }
 }
 
