@@ -2,16 +2,17 @@ import ComponentDrawOption from '../models/ComponentDrawOption';
 
 /**
  * Class that used for parsing.
- * @interface
  */
 class DefaultParser {
   /**
    * Default constructor.
+   *
    * @param {DefaultData} pluginData - Plugin data storage.
    */
   constructor(pluginData) {
     /**
      * Plugin data storage.
+     *
      * @type {DefaultData}
      */
     this.pluginData = pluginData || null;
@@ -19,6 +20,7 @@ class DefaultParser {
 
   /**
    * Convert the content of files into Components.
+   *
    * @param {FileInput[]} [inputs=[]] - Data you want to parse.
    */
   parse(inputs = []) { /* eslint no-unused-vars: 0 */ // --> OFF
@@ -28,6 +30,7 @@ class DefaultParser {
 
   /**
    * Set configuration into Components.
+   *
    * @param {FileInput} file - Configuration file of components.
    */
   parseConfiguration(file) {
@@ -50,8 +53,9 @@ class DefaultParser {
 
   /**
    * Indicate if this parser can parse this file.
+   *
    * @param {FileInformation} fileInformation - File information.
-   * @return {Boolean} - Boolean that indicates if this file can be parsed or not.
+   * @returns {boolean} - Boolean that indicates if this file can be parsed or not.
    */
   isParsable(fileInformation) {
     return fileInformation !== undefined && fileInformation !== null;

@@ -11,10 +11,12 @@ const CORE_VERSION = packageInfo.version;
 class DefaultData {
   /**
    * Default constructor.
-   * @param {String} props.name - Name of plugin.
-   * @param {String} props.version - Version of plugin.
+   *
+   * @param {object} props - All properties.
+   * @param {string} props.name - Name of plugin.
+   * @param {string} props.version - Version of plugin.
    * @param {Component[]} [props.components=[]] - Components array.
-   * @param {Object} [props.definitions={}] - All definitions.
+   * @param {object} [props.definitions={}] - All definitions.
    * @param {ComponentDefinition[]} [props.definitions.components=[]] - All component definitions.
    * @param {ComponentLinkDefinition[]} [props.definitions.link=[]] - All component link
    * definitions.
@@ -32,21 +34,25 @@ class DefaultData {
   }) {
     /**
      * Plugin name.
-     * @type {String}
+     *
+     * @type {string}
      */
     this.name = props.name || null;
     /**
      * Plugin version.
-     * @type {String}
+     *
+     * @type {string}
      */
     this.version = props.version || null;
     /**
      * All plugin components.
+     *
      * @type {Component[]}
      */
     this.components = props.components || [];
     /**
      * All plugin definitions.
+     *
      * @type {{components: ComponentDefinition[], links: ComponentLinkDefinition[]}}
      */
     this.definitions = {
@@ -59,6 +65,7 @@ class DefaultData {
     }
     /**
      * All parser errors.
+     *
      * @type {ParseError[]}
      */
     this.parseErrors = props.parseErrors || [];
@@ -66,7 +73,8 @@ class DefaultData {
 
   /**
    * Get version of plugin core.
-   * @return {String} Version of plugin core.
+   *
+   * @returns {string} Version of plugin core.
    */
   get coreVersion() {
     return CORE_VERSION;
@@ -74,8 +82,9 @@ class DefaultData {
 
   /**
    * Get component by id.
-   * @param {String} id - Component id.
-   * @return {Component} Component or null.
+   *
+   * @param {string} id - Component id.
+   * @returns {Component} Component or null.
    */
   getComponentById(id) {
     return this.components.find((component) => component.id === id) || null;
@@ -83,8 +92,9 @@ class DefaultData {
 
   /**
    * Get all components corresponding to the given type.
-   * @param {String} type - Type of component to find.
-   * @return {Component[]} Component list.
+   *
+   * @param {string} type - Type of component to find.
+   * @returns {Component[]} Component list.
    */
   getComponentsByType(type) {
     return this.components.filter(({ definition }) => definition && definition.type === type);
@@ -92,7 +102,8 @@ class DefaultData {
 
   /**
    * Create new component.
-   * @param {String} id - Component id.
+   *
+   * @param {string} id - Component id.
    * @param {ComponentDefinition} definition - Component definition.
    */
   addComponent(id, definition) {
@@ -105,7 +116,8 @@ class DefaultData {
 
   /**
    * Remove component by id and all attributes that used this component id.
-   * @param {String} id - Component id.
+   *
+   * @param {string} id - Component id.
    */
   removeComponentById(id) {
     this.getChildren(id).forEach((component) => this.removeComponentById(component.id));
@@ -119,6 +131,7 @@ class DefaultData {
 
   /**
    * Remove link attribute in components.
+   *
    * @param {ComponentLink} link - Link to remove.
    */
   removeLink(link) {
@@ -130,7 +143,8 @@ class DefaultData {
 
   /**
    * Get all links from all component attributes.
-   * @return {ComponentLink[]}
+   *
+   * @returns {ComponentLink[]} List of links.
    */
   getLinks() {
     const links = [];
@@ -168,7 +182,8 @@ class DefaultData {
 
   /**
    * Set link definition in link definitions
-   * @param {String} type - Component type to link.
+   *
+   * @param {string} type - Component type to link.
    * @param {ComponentAttributeDefinition[]} definedAttributes - Component attribute definitions.
    * @private
    */
@@ -194,8 +209,9 @@ class DefaultData {
 
   /**
    * Get children of container component with corresponding id.
-   * @param {String} id - Component container id.
-   * @return {Component[]} Children component array.
+   *
+   * @param {string} id - Component container id.
+   * @returns {Component[]} Children component array.
    */
   getChildren(id) {
     return this.components.filter((component) => component.getContainerId() === id);

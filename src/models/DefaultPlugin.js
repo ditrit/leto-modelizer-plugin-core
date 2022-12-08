@@ -10,6 +10,8 @@ import DefaultRender from '../render/DefaultRender';
 class DefaultPlugin {
   /**
    * Default constructor.
+   *
+   * @param {object} [props={}] - Object that contains all properties to set.
    * @param {DefaultData} props.pluginData - Plugin data storage.
    * @param {DefaultDrawer} props.pluginDrawer - Plugin drawer.
    * @param {DefaultMetadata} props.pluginMetadata - Plugin metadata.
@@ -25,29 +27,34 @@ class DefaultPlugin {
   }) {
     /**
      * Plugin data storage.
+     *
      * @type {DefaultData}
      */
     this.data = props.pluginData || new DefaultData();
     /**
      * Plugin drawer.
+     *
      * @type {DefaultDrawer}
      * @private
      */
     this.__drawer = props.pluginDrawer || new DefaultDrawer(this.data);
     /**
      * Plugin metadata.
+     *
      * @type {DefaultMetadata}
      * @private
      */
     this.__metadata = props.pluginMetadata || new DefaultMetadata(this.data);
     /**
      * Plugin parser.
+     *
      * @type {DefaultParser}
      * @private
      */
     this.__parser = props.pluginParser || new DefaultParser(this.data);
     /**
      * Plugin renderer.
+     *
      * @type {DefaultRender}
      * @private
      */
@@ -57,6 +64,8 @@ class DefaultPlugin {
   /**
    * Init method, to call once before all plugin usages.
    * Set events in plugin and initialize metadata.
+   *
+   * @param {object} [events] - Events list.
    * @param {Function} [events.SelectEvent.next] - Function to emit selection event, use by the
    * @param {Function} [events.UpdateEvent.next] - Function to emit update event, use by the
    * drawer.
@@ -69,7 +78,8 @@ class DefaultPlugin {
 
   /**
    * Set resources in plugin.
-   * @param {Object} [resources=null] - Object that contains resources.
+   *
+   * @param {object} [resources=null] - Object that contains resources.
    */
   initResources(resources) {
     this.__drawer.resources = resources;
@@ -77,7 +87,8 @@ class DefaultPlugin {
 
   /**
    * Draws all data in the html element defined by the id.
-   * @param {String} id - Html id, without '#'.
+   *
+   * @param {string} id - Html id, without '#'.
    */
   draw(id) {
     this.__drawer.draw(id);
@@ -86,6 +97,7 @@ class DefaultPlugin {
   /**
    * Convert the content of files into plugin data.
    * Configuration file is used for setting up the components' configuration.
+   *
    * @param {FileInput} file - Configuration file of components.
    * @param {FileInput[]} [inputs=[]] - File inputs you want to parse.
    */
@@ -96,8 +108,9 @@ class DefaultPlugin {
 
   /**
    * Indicate if this parser can parse this file.
+   *
    * @param {FileInformation} fileInformation - File information.
-   * @return {Boolean} - Boolean that indicates if this file can be parsed or not.
+   * @returns {boolean} - Boolean that indicates if this file can be parsed or not.
    */
   isParsable(fileInformation) {
     return this.__parser.isParsable(fileInformation);
@@ -106,9 +119,10 @@ class DefaultPlugin {
   /**
    * Return all generated files from plugin data.
    * Configuration file is used for saving the components' configuration.
+   *
    * @param {FileInput} configurationFile - Configuration file of components.
    * @param {FileInput[]} files - File inputs you want to render.
-   * @return {FileInput[]} All generated files.
+   * @returns {FileInput[]} All generated files.
    */
   render(configurationFile, files) {
     this.__renderer.renderConfiguration(configurationFile);

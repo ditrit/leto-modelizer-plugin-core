@@ -2,14 +2,16 @@ import FileInformation from './FileInformation';
 
 /**
  * Class that links Components together.
- * @extends {FileInformation}
+ *
+ * @augments {FileInformation}
  */
 class ComponentLink extends FileInformation {
   /**
    * Default constructor.
    *
-   * @param {String} [props.source] - Id of component can be the source in a link.
-   * @param {String} [props.target] - Id of component can be the target of the link.
+   * @param {object} [props={}] - Object that contains all properties to set.
+   * @param {string} [props.source] - Id of component can be the source in a link.
+   * @param {string} [props.target] - Id of component can be the target of the link.
    * @param {ComponentLinkDefinition} [props.definition] - The definition of the link.
    */
   constructor(props = {
@@ -26,22 +28,26 @@ class ComponentLink extends FileInformation {
 
     /**
      * Use for drawer to get the type of object.
-     * @type {String}
+     *
+     * @type {string}
      * @private
      */
     this.__class = 'Link';
     /**
      * Where the link is created.
-     * @type {Object}
+     *
+     * @type {object}
      */
     this.source = source || null;
     /**
      * Target of the link.
-     * @type
+     *
+     * @type {object}
      */
     this.target = target || null;
     /**
      * The definition of the link.
+     *
      * @type {ComponentLinkDefinition}
      */
     this.definition = definition || null;

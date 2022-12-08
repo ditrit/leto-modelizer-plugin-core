@@ -1,17 +1,18 @@
 /**
  * Class that compile a Component to data.
- * @interface
  */
 import FileInput from '../models/FileInput';
 
 class DefaultRender {
   /**
    * Default constructor.
+   *
    * @param {DefaultData} pluginData - Plugin data storage.
    */
   constructor(pluginData) {
     /**
      * Plugin data storage.
+     *
      * @type {DefaultData}
      */
     this.pluginData = pluginData || null;
@@ -19,8 +20,9 @@ class DefaultRender {
 
   /**
    * Transform all provided components in file inputs.
+   *
    * @param {FileInput[]} files - Files managed by the plugin.
-   * @return {FileInput[]} - Generated files from components.
+   * @returns {FileInput[]} - Generated files from components.
    */
   render(files = []) {
     const rendererFiles = files.reduce((acc, file) => {
@@ -39,7 +41,8 @@ class DefaultRender {
 
   /**
    * Transform all provided components in file inputs.
-   * @return {FileInput[]} - Generated files from components.
+   *
+   * @returns {FileInput[]} - Generated files from components.
    */
   renderFiles() {
     return [];
@@ -47,6 +50,7 @@ class DefaultRender {
 
   /**
    * Update configuration file content according to components data.
+   *
    * @param {FileInput} file - Configuration file of components.
    */
   renderConfiguration(file) {

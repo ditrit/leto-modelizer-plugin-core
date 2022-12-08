@@ -3,14 +3,16 @@ import FileInformation from './FileInformation';
 
 /**
  * A model for modelling tools in Leto Modelizer.
- * @extends {FileInformation}
+ *
+ * @augments {FileInformation}
  */
 class Component extends FileInformation {
   /**
    * Default constructor.
    *
-   * @param {String} [props.id] - The id of this Component.
-   * @param {String} [props.name] - The name of this Component.
+   * @param {object} [props={}] - Object that contains all properties to set.
+   * @param {string} [props.id] - The id of this Component.
+   * @param {string} [props.name] - The name of this Component.
    * @param {ComponentDefinition} [props.definition] - The Definition used to instantiate this
    * Component.
    * @param {ComponentDrawOption} [props.drawOption] - The options used to draw this Component.
@@ -34,32 +36,38 @@ class Component extends FileInformation {
 
     /**
      * Use for drawer to get the type of object.
-     * @type {String}
+     *
+     * @type {string}
      * @private
      */
     this.__class = 'Component';
     /**
      * The id of this Component.
-     * @type {String}
+     *
+     * @type {string}
      */
     this.id = id || null;
     /**
      * The name of this Component.
-     * @type {String}
+     *
+     * @type {string}
      */
     this.name = name || null;
     /**
      * The Definition used to instantiate this Component.
+     *
      * @type {ComponentDefinition}
      */
     this.definition = definition || null;
     /**
      * The options used to draw this Component.
+     *
      * @type {ComponentDrawOption}
      */
     this.drawOption = drawOption || null;
     /**
      * Attributes of Component.
+     *
      * @type {ComponentAttribute[]}
      */
     this.attributes = attributes || [];
@@ -67,6 +75,7 @@ class Component extends FileInformation {
 
   /**
    * Set container value in attributes.
+   *
    * @param {Component} container - Container.
    */
   setReferenceAttribute(container) {
@@ -98,6 +107,7 @@ class Component extends FileInformation {
 
   /**
    * Remove all reference attributes, corresponding to the container if existing.
+   *
    * @param {Component} container - Container.
    */
   removeAllReferenceAttributes(container) {
@@ -113,6 +123,7 @@ class Component extends FileInformation {
 
   /**
    * Set the attribute of a given link
+   *
    * @param {ComponentLink} link - The link we want to set the attribute.
    */
   setLinkAttribute(link) {
@@ -137,8 +148,9 @@ class Component extends FileInformation {
    * Remove id in link attribute corresponding to the given name if provided
    * otherwise remove id in all link attributes' value.
    * Then if value is empty remove attribute.
-   * @param {String} id - Id to remove.
-   * @param {String} [name=null] - Name of attribute to remove.
+   *
+   * @param {string} id - Id to remove.
+   * @param {string} [name=null] - Name of attribute to remove.
    */
   removeLinkAttribute(id, name = null) {
     this.attributes = this.attributes
@@ -162,8 +174,9 @@ class Component extends FileInformation {
 
   /**
    * Get attribute corresponding to the given name.
-   * @param {String} name - Name of attribute to find.
-   * @return {ComponentAttribute|null} Component attribute or null.
+   *
+   * @param {string} name - Name of attribute to find.
+   * @returns {ComponentAttribute|null} Component attribute or null.
    */
   getAttributeByName(name) {
     return this.__getAttributeByName(this.attributes, name);
@@ -172,9 +185,10 @@ class Component extends FileInformation {
   /**
    * Get attribute from attributes list corresponding to the given name.
    * Search in sub-attributes of "Object" attributes also.
+   *
    * @param {ComponentAttribute[]} attributes - Attributes list.
-   * @param {String} name - Name of attribute to find.
-   * @return {ComponentAttribute|null} Component attribute or null.
+   * @param {string} name - Name of attribute to find.
+   * @returns {ComponentAttribute|null} Component attribute or null.
    * @private
    */
   __getAttributeByName(attributes, name) {
@@ -196,7 +210,8 @@ class Component extends FileInformation {
 
   /**
    * Retrieve container id from attributes.
-   * @return {String} Id of container or null;
+   *
+   * @returns {string} Id of container or null;
    */
   getContainerId() {
     const attribute = this.attributes.find(({ definition }) => definition

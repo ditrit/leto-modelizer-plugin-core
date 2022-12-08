@@ -1,6 +1,10 @@
 module.exports = {
   root: true,
 
+  plugins: [
+    'jsdoc',
+  ],
+
   parserOptions: {
     parser: '@babel/eslint-parser',
     ecmaVersion: 2022, // Allows for the parsing of modern ECMAScript features
@@ -16,7 +20,8 @@ module.exports = {
   // Rules order is important, please avoid shuffling them
   extends: [
     'airbnb-base',
-    "plugin:cypress/recommended"
+    "plugin:cypress/recommended",
+    "plugin:jsdoc/recommended",
   ],
 
   globals: {
@@ -26,10 +31,12 @@ module.exports = {
   },
 
   ignorePatterns: [
+    'docs/*',
     'dist/*',
     'cypress/*',
     '*/assets/*',
-    'jest.config.js'
+    'jest.config.js',
+    'cypress.config.js'
   ],
   // add your custom rules here
   rules: {
@@ -64,5 +71,6 @@ module.exports = {
 
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'jsdoc/no-undefined-types': 'off'
   },
 };

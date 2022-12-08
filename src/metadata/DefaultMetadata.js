@@ -1,15 +1,16 @@
 /**
  * Class that represent the metadata of a specific implementation.
- * @interface
  */
 class DefaultMetadata {
   /**
    * Default constructor.
+   *
    * @param {DefaultData} pluginData - Plugin data storage.
    */
   constructor(pluginData) {
     /**
      * Plugin data storage.
+     *
      * @type {DefaultData}
      */
     this.pluginData = pluginData || null;
@@ -17,7 +18,8 @@ class DefaultMetadata {
 
   /**
    * Validate the provided metadata with a schemas.
-   * @return {Boolean} - True if metadata is valid.
+   *
+   * @returns {boolean} - True if metadata is valid.
    */
   validate() {
     return true;
