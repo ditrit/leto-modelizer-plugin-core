@@ -178,8 +178,7 @@ class DefaultDrawer {
    * Emit UpdateEvent if defined.
    */
   emitUpdateEvent() {
-    // TODO: replace by: if (this.events?.UpdateEvent) {
-    if (this.events && this.events.UpdateEvent) {
+    if (this.events?.UpdateEvent) {
       this.events.UpdateEvent.next();
     }
   }
@@ -192,43 +191,26 @@ class DefaultDrawer {
    * @private
    */
   __getVerticalCoefficient(item) {
-    // TODO: replace by: if (item.children?.length > 0) {
-    if (item.children && item.children.length > 0) {
+    if (item.children?.length > 0) {
       const childHeights = Math.ceil(
         item.children
-          // TODO: replace by: .filter((child) => child.data?.definition?.isContainer)
-          .filter((child) => child
-            && child.data
-            && child.data.definition
-            && child.data.definition.isContainer)
+          .filter((child) => child?.data?.definition?.isContainer)
           .reduce(
             (acc, child) => acc + this.__getVerticalCoefficient(child),
             0,
           ),
       );
       const localChildValue = item.children
-        // TODO: replace by: .filter((child) => !child.data?.definition?.isContainer)
-        .filter((child) => !(child
-          && child.data
-          && child.data.definition
-          && child.data.definition.isContainer))
+        .filter((child) => !(child.data?.definition?.isContainer))
         .reduce((acc, child) => acc + child.value, 0);
 
       return localChildValue / this.getLineLengthForDepth(item.depth)
         + childHeights
-        // TODO: replace by: + (item.data?.definition?.isContainer ? 1 : 0);
-        + ((item.data
-          && item.data.definition
-          && item.data.definition.isContainer)
-          ? 1 : 0);
+        + (item.data?.definition?.isContainer ? 1 : 0);
     }
 
     return item.value / this.getLineLengthForDepth(item.depth)
-      // TODO: replace by: + (item.data?.definition?.isContainer ? 1 : 0);
-      + ((item.data
-        && item.data.definition
-        && item.data.definition.isContainer)
-        ? 1 : 0);
+      + (item.data?.definition?.isContainer ? 1 : 0);
   }
 
   /**
@@ -494,10 +476,7 @@ class DefaultDrawer {
       .html(({ data }) => this.resources.icons[data.definition.icon]);
 
     node.select('rect')
-      // TODO replace by: .filter((d) => d.data?.definition?.isContainer)
-      .filter((d) => d.data
-        && d.data.definition
-        && d.data.definition.isContainer)
+      .filter((d) => d.data?.definition?.isContainer)
       .attr('height', ({ y0, y1 }) => y1 - y0)
       .attr('width', ({ x0, x1 }) => x1 - x0);
 
@@ -539,12 +518,8 @@ class DefaultDrawer {
       .count()
       .sort((a, b) => (b.height - a.height)
         || (b.value - a.value)
-        || ((b.data && b.data.definition && b.data.definition.isContainer ? 1 : 0)
-          - (a.data && a.data.definition && a.data.definition.isContainer ? 1 : 0))
-        || ((a.data && a.data.drawOption ? 1 : 0)
-          - (b.data && b.data.drawOption ? 1 : 0)));
-    /* TODO replace above by: || (b.data.definition?.isContainer || 0)
-            - (a.data.definition?.isContainer || 0)); */
+        || ((b.data?.definition?.isContainer ? 1 : 0) - (a.data?.definition?.isContainer ? 1 : 0))
+        || ((a.data?.drawOption ? 1 : 0) - (b.data?.drawOption ? 1 : 0)));
 
     treemapLayout(rootNode);
 
@@ -871,8 +846,7 @@ class DefaultDrawer {
         .style('outline-offset', this.actions.selection.offset);
       this.actions.selection.current = currentComponent;
 
-      // TODO: replace by: if (this.events?.SelectEvent && (...)) {
-      if (this.events && this.events.SelectEvent && currentComponent.__class === 'Component') {
+      if (this.events?.SelectEvent && currentComponent.__class === 'Component') {
         this.events.SelectEvent.next(currentComponent);
       }
 
