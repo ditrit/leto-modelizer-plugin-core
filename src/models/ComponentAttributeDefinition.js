@@ -5,23 +5,24 @@ class ComponentAttributeDefinition {
   /**
    * Default constructor
    *
-   * @param {String} [props.name] - Attribute name.
-   * @param {String} [props.type] - Attribute type,
+   * @param {object} [props={}] - Object that contains all properties to set.
+   * @param {string} [props.name] - Attribute name.
+   * @param {string} [props.type] - Attribute type,
    * valid types are String/Boolean/Number/Array/Object/Link/Reference.
-   * @param {String} [props.linkType] - Type of link, valid types are Default/Reverse.
-   * @param {String[]} [props.linkRef=[]] - Reference of accepted component for link.
-   * @param {String} [props.linkColor='black'] - Color of the link.
-   * @param {Number} [props.linkWidth=2] - Width of the link.
-   * @param {Number[]} [props.linkDashStyle] - Dash style of the link. See stroke-dasharray of svg.
-   * @param {String[]} [props.containerRef=[]] - Reference of accepted component for container.
-   * @param {Boolean} [props.required=false] - Attribute is required.
+   * @param {string} [props.linkType] - Type of link, valid types are Default/Reverse.
+   * @param {string[]} [props.linkRef=[]] - Reference of accepted component for link.
+   * @param {string} [props.linkColor='black'] - Color of the link.
+   * @param {number} [props.linkWidth=2] - Width of the link.
+   * @param {number[]} [props.linkDashStyle] - Dash style of the link. See stroke-dasharray of svg.
+   * @param {string[]} [props.containerRef=[]] - Reference of accepted component for container.
+   * @param {boolean} [props.required=false] - Attribute is required.
    * @param {ComponentAttributeDefinition[]} [props.definedAttributes=[]] - Defined attributes for
    * this type.
-   * @param {Object} [props.rules={}] - Rules of this type of Attribute.
+   * @param {object} [props.rules={}] - Rules of this type of Attribute.
    * @param {Array} [props.rules.values] - Default values of attribute.
-   * @param {Number} [props.rules.min] - Minimum value of Attribute.
-   * @param {Number} [props.rules.max] - Maximum value of Attribute.
-   * @param {String} [props.rules.regex] - Regular expression to constrain the format of the value.
+   * @param {number} [props.rules.min] - Minimum value of Attribute.
+   * @param {number} [props.rules.max] - Maximum value of Attribute.
+   * @param {string} [props.rules.regex] - Regular expression to constrain the format of the value.
    */
   constructor(props = {
     name: null,
@@ -57,57 +58,68 @@ class ComponentAttributeDefinition {
 
     /**
      * Attribute name.
-     * @type {String}
+     *
+     * @type {string}
      */
     this.name = name || null;
     /**
      * Attribute type, valid types are String/Boolean/Number/Array/Object/Link/Reference.
-     * @type {String}
+     *
+     * @type {string}
      */
     this.type = type || null;
     /**
      * Type of link, valid types are Default/Reverse.
-     * @type {String}
+     *
+     * @type {string}
      */
     this.linkType = linkType || null;
     /**
      * Define list of Component that can be linked with this.
-     * @type {String[]}
+     *
+     * @type {string[]}
      */
     this.linkRef = linkRef || [];
     /**
      * Color of the link.
-     * @type {String}
+     *
+     * @type {string}
      */
     this.linkColor = linkColor || 'black';
     /**
      * Width of the link.
-     * @type {Number}
+     *
+     * @type {number}
      */
     this.linkWidth = linkWidth || 2;
     /**
      * Dash style of the link. See stroke-dasharray of svg.
-     * @type {Number[]}
+     *
+     * @type {number[]}
      */
     this.linkDashStyle = linkDashStyle || null;
     /**
      * Define list of Component that can be the container of this component.
-     * @type {String[]}
+     *
+     * @type {string[]}
      */
     this.containerRef = containerRef || [];
     /**
      * Defined attributes for this type.
+     *
      * @type {ComponentAttributeDefinition[]}
      */
     this.definedAttributes = definedAttributes || [];
     /**
      * Attribute is required.
-     * @type {Boolean}
+     *
+     * @type {boolean}
      */
     this.required = required || false;
     /**
      * Rules of this type of Attribute.
-     * @type {Object}
+     *
+     * @type {object}
      */
     this.rules = {
       values: null,

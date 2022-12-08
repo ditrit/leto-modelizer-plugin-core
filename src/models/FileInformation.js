@@ -4,7 +4,9 @@
 class FileInformation {
   /**
    * Default constructor.
-   * @param {String} [props.path=null] - File path.
+   *
+   * @param {object} [props={}] - Object that contains all properties to set.
+   * @param {string} [props.path=null] - File path.
    */
   constructor(props = { path: null }) {
     const {
@@ -13,14 +15,16 @@ class FileInformation {
 
     /**
      * Path of the file.
-     * @type {String}
+     *
+     * @type {string}
      */
     this.path = path || null;
   }
 
   /**
    * Get file name.
-   * @return {String} File name
+   *
+   * @returns {string} File name
    */
   get fileName() {
     return this.path ? this.path.replace(/^.*[\\/]/, '') : null;

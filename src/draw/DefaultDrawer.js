@@ -6,27 +6,27 @@ import ComponentLink from '../models/ComponentLink';
 
 /**
  * Class that draws a component in a graphical representation.
- * @interface
  */
 class DefaultDrawer {
   /**
    * Default constructor
+   *
    * @param {DefaultData} pluginData - Plugin data storage.
-   * @param {Object} [resources=null] - Object that contains resources.
-   * @param {Object} [events] - Events list.
+   * @param {object} [resources=null] - Object that contains resources.
+   * @param {object} [events] - Events list.
    * @param {Function} [events.SelectEvent.next] - Function to emit selection event.
    * @param {Function} [events.UpdateEvent.next] - Function to emit update event.
-   * @param {String} [rootId="root"] - Id of HTML element where we want to draw.
-   * @param {Object} [options={}] - Rendering options.
-   * @param {Number} [options.width=1280] - Render svg viewbox width.
-   * @param {Number} [options.height=1280] - Render svg viewbox height.
-   * @param {Number} [options.minWidth=230] - Minimum width of a component.
-   * @param {Number} [options.minHeight=50] - Minimum height of a component.
-   * @param {Number} [options.padding=30] - Padding around a component.
-   * @param {Number} [options.margin=6] - Component margin thickness.
-   * @param {Number[]} [options.lineLengthPerDepth=[5,1]] - Number of components
+   * @param {string} [rootId="root"] - Id of HTML element where we want to draw.
+   * @param {object} [options={}] - Rendering options.
+   * @param {number} [options.width=1280] - Render svg viewbox width.
+   * @param {number} [options.height=1280] - Render svg viewbox height.
+   * @param {number} [options.minWidth=230] - Minimum width of a component.
+   * @param {number} [options.minHeight=50] - Minimum height of a component.
+   * @param {number} [options.padding=30] - Padding around a component.
+   * @param {number} [options.margin=6] - Component margin thickness.
+   * @param {number[]} [options.lineLengthPerDepth=[5,1]] - Number of components
    * per line at a given depth. Valid values: 1 - Infinity.
-   * @param {Number} [options.actionMenuButtonSize] - The size of each action menu button.
+   * @param {number} [options.actionMenuButtonSize] - The size of each action menu button.
    */
   constructor(pluginData, resources = null, events = {
     SelectEvent: null,
@@ -34,64 +34,76 @@ class DefaultDrawer {
   }, rootId = 'root', options = {}) {
     /**
      * Plugin data storage.
+     *
      * @type {DefaultData}
      */
     this.pluginData = pluginData;
     /**
      * Id of HTML element where we want to draw.
-     * @type {String}
+     *
+     * @type {string}
      */
     this.rootId = rootId;
     /**
      * Object that contains resources.
-     * @type {Object}
+     *
+     * @type {object}
      */
     this.resources = resources;
     /**
      * Render svg viewbox width.
-     * @type {Number}
+     *
+     * @type {number}
      */
     this.width = options.width !== undefined ? options.width : 1280;
     /**
      * Render svg viewbox height.
-     * @type {Number}
+     *
+     * @type {number}
      */
     this.height = options.height !== undefined ? options.height : 1280;
     /**
      * Minimum width of a component.
-     * @type {Number}
+     *
+     * @type {number}
      */
     this.minWidth = options.minWidth !== undefined ? options.minWidth : 230;
     /**
      * Minimum height of a component.
-     * @type {Number}
+     *
+     * @type {number}
      */
     this.minHeight = options.minHeight !== undefined ? options.minHeight : 50;
     /**
      * Padding around components.
-     * @type {Number}
+     *
+     * @type {number}
      */
     this.padding = options.padding !== undefined ? options.padding : 30;
     /**
      * Component margin thickness.
-     * @type {Number}
+     *
+     * @type {number}
      */
     this.margin = options.margin !== undefined ? options.margin : 6;
     /**
      * Number of components per line at a given depth. Valid values: 1 - Infinity.
-     * @type {Number[]}
+     *
+     * @type {number[]}
      */
     this.lineLengthPerDepth = options.lineLengthPerDepth !== undefined
       ? options.lineLengthPerDepth : [5, 1];
 
     /**
      * The size of each action menu button.
-     * @type {Number}
+     *
+     * @type {number}
      */
     this.actionMenuButtonSize = options.actionMenuButtonSize || 24;
     /**
      * Store for actions, used to set specific actions values when making actions.
-     * @type {Object}
+     *
+     * @type {object}
      */
     this.actions = {
       selection: {
@@ -117,10 +129,11 @@ class DefaultDrawer {
 
   /**
    * Convert screen coordinates into a given svg referential.
-   * @param {Number} screenX - Screen x coordinate.
-   * @param {Number} screenY - Screen y coordinate.
+   *
+   * @param {number} screenX - Screen x coordinate.
+   * @param {number} screenY - Screen y coordinate.
    * @param {SVGSVGElement} [svg=null] - SVG referential.
-   * @return {DOMPoint} - The transformed coordinates.
+   * @returns {DOMPoint} - The transformed coordinates.
    */
   screenToSVG(screenX, screenY, svg = null) {
     const localSvg = svg || this.svg.node();
@@ -131,10 +144,11 @@ class DefaultDrawer {
 
   /**
    * Convert svg coordinates into screen coordinates.
-   * @param {Number} svgX - SVG x coordinate.
-   * @param {Number} svgY - SVG y coordinate.
+   *
+   * @param {number} svgX - SVG x coordinate.
+   * @param {number} svgY - SVG y coordinate.
    * @param {SVGSVGElement} [svg=null] - SVG referential.
-   * @return {DOMPoint} - The transformed coordinates.
+   * @returns {DOMPoint} - The transformed coordinates.
    */
   SVGToScreen(svgX, svgY, svg = null) {
     const localSvg = svg || this.svg.node();
@@ -145,6 +159,8 @@ class DefaultDrawer {
 
   /**
    * Set events.
+   *
+   * @param {object} [events] - Events list.
    * @param {Function} [events.SelectEvent.next] - Function to emit selection event.
    * @param {Function} [events.UpdateEvent.next] - Function to emit update event.
    */
@@ -170,8 +186,9 @@ class DefaultDrawer {
 
   /**
    * Compute a coefficient representing how tall a component will be based on its children's layout.
+   *
    * @param {Node} item - The component to check.
-   * @return {Number} - The coefficient.
+   * @returns {number} - The coefficient.
    * @private
    */
   __getVerticalCoefficient(item) {
@@ -216,8 +233,9 @@ class DefaultDrawer {
 
   /**
    * Get the maximum line length for a given depth.
-   * @param {Number} [depth] - The depth to check.
-   * @return {Number} - The maximum length at that depth.
+   *
+   * @param {number} [depth] - The depth to check.
+   * @returns {number} - The maximum length at that depth.
    */
   getLineLengthForDepth(depth) {
     return this.lineLengthPerDepth[Math.min(depth, this.lineLengthPerDepth.length - 1)];
@@ -225,7 +243,8 @@ class DefaultDrawer {
 
   /**
    * Apply the disabled style to all elements matching the selector.
-   * @param {String} [selector='.component'] - CSS selector string.
+   *
+   * @param {string} [selector='.component'] - CSS selector string.
    */
   setDisabledStyle(selector = '.component') {
     const localSelector = `#${this.rootId} ${selector || '.component'}`;
@@ -244,9 +263,10 @@ class DefaultDrawer {
 
   /**
    * Handles dragging a component across the screen and return the element it will be dropped on.
+   *
    * @param {Element} draggedElement - The DOM element being dragged.
    * @param {DragEvent} event - The emitted drag event.
-   * @return {Element} - The element to drop the dragged element onto.
+   * @returns {Element} - The element to drop the dragged element onto.
    */
   dragHandler(draggedElement, event) {
     this.hideActionMenu();
@@ -293,7 +313,8 @@ class DefaultDrawer {
 
   /**
    * Create and return d3 drag behaviour.
-   * @return {Function} - D3 drag behaviour.
+   *
+   * @returns {Function} - D3 drag behaviour.
    */
   setupDragBehavior() {
     let dropTarget = null;
@@ -324,6 +345,7 @@ class DefaultDrawer {
 
   /**
    * Starting from a given node, recursively mark all parent nodes as needing a resize.
+   *
    * @param {Node} node - The node to start from.
    * @private
    */
@@ -338,6 +360,7 @@ class DefaultDrawer {
 
   /**
    * Update component hierarchy and re-render.
+   *
    * @param {DragEvent} event - D3's drag event.
    * @param {Element} dropTarget - The element on which the dragged component was dropped.
    */
@@ -403,7 +426,8 @@ class DefaultDrawer {
 
   /**
    * Draws all Components and ComponentLinks in the parentId Element.
-   * @param {String} rootId - Id of the container where you want to draw.
+   *
+   * @param {string} rootId - Id of the container where you want to draw.
    */
   draw(rootId) {
     this.rootId = rootId;
@@ -420,6 +444,7 @@ class DefaultDrawer {
 
   /**
    * Handle component click event. Set selected style on it.
+   *
    * @param {PointerEvent} event - The click event.
    */
   clickHandler(event) {
@@ -492,7 +517,8 @@ class DefaultDrawer {
 
   /**
    * Build d3 hierarchy and treemap layout.
-   * @return {[String, Node[]][]} - The nodes grouped by parent.
+   *
+   * @returns {Array} - The nodes grouped by parent.
    */
   buildTree() {
     const treemapLayout = d3.treemap()
@@ -533,9 +559,10 @@ class DefaultDrawer {
 
   /**
    * Get the most appropriate anchor point for a link towards the given target.
+   *
    * @param {Selection} sourceSelection - The source D3 selection object.
    * @param {Selection} targetSelection - The target D3 selection object.
-   * @return {Number[]|null} - Tuple representing x,y coordinates,
+   * @returns {number[] | null} - Tuple representing x,y coordinates,
    * null if lacking source and/or target. Format required by d3.
    */
   getAnchorPoint(sourceSelection, targetSelection) {
@@ -620,7 +647,9 @@ class DefaultDrawer {
 
   /**
    * Get the coordinates for a given selection's center.
+   *
    * @param {Selection} selection - The selection to find the center for.
+   * @returns {object} Position of selection.
    */
   getSelectionCenter(selection) {
     const box = selection.node().getBoundingClientRect();
@@ -635,9 +664,10 @@ class DefaultDrawer {
    * Get the angle (in degrees) between two points.
    * 0 = pointB is directly below.
    * 180 = pointB is directly above.
-   * @param {Object} pointA - The point to get the bearing from.
-   * @param {Object} pointB - The point to get the bearing to.
-   * @return {Number} - The bearing.
+   *
+   * @param {object} pointA - The point to get the bearing from.
+   * @param {object} pointB - The point to get the bearing to.
+   * @returns {number} - The bearing.
    */
   getBearing(pointA, pointB) {
     const distanceXBA = pointB.x - pointA.x;
@@ -650,8 +680,9 @@ class DefaultDrawer {
 
   /**
    * Build a new d3 link generator for a ComponentLink
+   *
    * @param {ComponentLink} link - The link to build the generator for.
-   * @returns {Object} - A d3 link generator.
+   * @returns {object} - A d3 link generator.
    */
   getLinkGenerator(link) {
     const source = d3.select(`#${link.source}`);
@@ -683,6 +714,7 @@ class DefaultDrawer {
 
   /**
    * Compute the dimension of every component.
+   *
    * @param {Array} lines - Rows of components.
    */
   setupTiles(lines) {
@@ -748,8 +780,9 @@ class DefaultDrawer {
 
   /**
    * Build and fill the layout lines for a Node.
+   *
    * @param {Node} data - The Node to build lines for.
-   * @return {[{total: number, items: Node[]}]} - A list of lines.
+   * @returns {Array} - A list of lines.
    * @private
    */
   __buildLines({ children, depth }) {
@@ -772,7 +805,8 @@ class DefaultDrawer {
 
   /**
    * Set actions on viewport.
-   * @param {Object} element - D3 element related to the actions.
+   *
+   * @param {object} element - D3 element related to the actions.
    */
   setViewPortAction(element) {
     this.svg.on('click', () => {
@@ -792,6 +826,7 @@ class DefaultDrawer {
   /**
    * Action to unselect current element.
    * If no element is selected, does nothing.
+   *
    * @private
    */
   __unselectComponent() {
@@ -806,6 +841,7 @@ class DefaultDrawer {
 
   /**
    * Unselects current selected element and selects a new one.
+   *
    * @param {Selection} targetSelection - Component or link to select.
    * @private
    */
@@ -870,6 +906,7 @@ class DefaultDrawer {
 
   /**
    * Initialize the action menu for a given target.
+   *
    * @param {Selection} targetSelection - D3 selection of the target object.
    */
   initializeActionMenu(targetSelection) {
@@ -975,12 +1012,13 @@ class DefaultDrawer {
 
   /**
    * Get a list of actions to fill the menu for a given target.
-   * @param {Object} targetSelection - The target object.
-   * @type {Object}
-   * @property {String} id - Id of the action button.
-   * @property {String} icon - Icon to display in the action button
+   *
+   * @param {object} targetSelection - The target object.
+   * @type {object}
+   * @property {string} id - Id of the action button.
+   * @property {string} icon - Icon to display in the action button
    * @property {Function} handler - Function called on action click.
-   * @return {MenuActions[]} - The list of menu actions.
+   * @returns {Array} - The list of menu actions.
    */
   getMenuActions(targetSelection) {
     if (targetSelection.classed('component')) {
