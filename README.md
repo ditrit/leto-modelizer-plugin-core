@@ -108,9 +108,13 @@ Explanation of usage of scripts in `package.json`.
 
 Build this project in `dist` folder.
 
+### prepare:docs
+
+Fix betterdocs template for jsdoc and make it work.
+
 ### build:docs
 
-Generate documentation with esdoc.
+Generate documentation with jsdoc.
 
 ### demo
 
