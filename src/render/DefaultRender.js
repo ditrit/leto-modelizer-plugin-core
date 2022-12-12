@@ -66,7 +66,7 @@ class DefaultRender {
 
     config[this.pluginData.name] = configuration;
 
-    file.content = JSON.stringify(config, (key, value) => (value === null ? undefined : value));
+    file.content = JSON.stringify(config, (key, value) => (value === null ? undefined : value), 2);
   }
 }
 

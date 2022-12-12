@@ -76,7 +76,7 @@ describe('Test Class: DefaultRender()', () => {
         expect(configFile.path).toEqual('test.json');
         expect(configFile.content).toEqual(JSON.stringify({
           test: {},
-        }));
+        }, null, 2));
       });
 
       it('Should update file content on empty configuration file', () => {
@@ -103,7 +103,7 @@ describe('Test Class: DefaultRender()', () => {
               needsResizing: false,
             },
           },
-        }));
+        }, null, 2));
       });
 
       it('Should update file content without removing other plugins configuration', () => {
@@ -138,7 +138,7 @@ describe('Test Class: DefaultRender()', () => {
           test: {
             c1: 1,
           },
-        }));
+        }, null, 2));
       });
     });
   });
