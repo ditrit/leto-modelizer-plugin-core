@@ -34,6 +34,10 @@ class DefaultParser {
    * @param {FileInput} file - Configuration file of components.
    */
   parseConfiguration(file) {
+    if (file.content == null) {
+      return;
+    }
+
     const config = JSON.parse(file.content);
 
     if (!config[this.pluginData.name]) {

@@ -49,6 +49,20 @@ describe('Test Class: DefaultParser()', () => {
       });
     });
 
+    it('Should save configuration even if the file content is null', () => {
+      const pluginData = new DefaultData({ name: 'test' });
+      const defaultParser = new DefaultParser(pluginData);
+      const configFile = new FileInput({
+        path: 'test.json',
+        content: null,
+      });
+
+      pluginData.components.push(new Component({ id: 'c2' }));
+      defaultParser.parseConfiguration(configFile);
+
+      expect(pluginData.components).toEqual([new Component({ id: 'c2' })]);
+    });
+
     describe('Test method: parseConfiguration', () => {
       it('Should not change component on empty configuration', () => {
         const pluginData = new DefaultData({ name: 'test' });
