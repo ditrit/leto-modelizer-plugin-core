@@ -252,6 +252,29 @@ describe('Test Class: DefaultDrawer()', () => {
       expect(data[0].items[1].x1).toEqual(524);
       expect(data[0].items[1].y1).toEqual(60);
     });
+
+    it('Should save the newly computed layout positions', () => {
+      drawer.setupTiles(data);
+
+      expect(data[0].items[0].data.drawOption).toBeDefined();
+      expect(data[0].items[1].data.drawOption).toBeDefined();
+
+      expect(data[0].items[0].data.drawOption).toEqual(new ComponentDrawOption({
+        x: 10,
+        y: 10,
+        needsResizing: false,
+        height: 126,
+        width: 262,
+      }));
+      expect(data[0].items[1].data.drawOption).toEqual(new ComponentDrawOption({
+        x: 282,
+        y: 10,
+        needsResizing: false,
+        height: 50,
+        width: 242,
+      }));
+    });
+
     it('Should not modify manually set coordinates', () => {
       data[0].items[0].data.drawOption = new ComponentDrawOption({
         x: 1,
@@ -416,52 +439,62 @@ describe('Test Class: DefaultDrawer()', () => {
             height: 0,
             depth: 2,
             value: 1,
+            data: {},
           },
           {
             height: 0,
             depth: 2,
             value: 1,
+            data: {},
           }],
           depth: 1,
           height: 1,
           parent: null,
           value: 2,
+          data: {},
         }, {
           children: [],
           depth: 1,
           height: 0,
           parent: null,
           value: 1,
+          data: {},
         }, {
           children: [],
           depth: 1,
           height: 0,
           parent: null,
           value: 1,
+          data: {},
         }, {
           children: [],
           depth: 1,
           height: 0,
           parent: null,
           value: 1,
+          data: {},
         }],
         depth: 0,
         height: 2,
         parent: null,
+        data: {},
         value: 5,
       };
     });
 
     it('Should build the correct amount of lines', () => {
-      expect(drawer.__buildLines(data).length).toEqual(1);
-      expect(drawer.__buildLines(data.children[0]).length).toEqual(2);
+      expect(drawer.__buildLines(data.children, data.depth).length).toEqual(1);
+      expect(drawer.__buildLines(
+        data.children[0].children,
+        data.children[0].depth,
+      ).length).toEqual(2);
     });
 
     it('Should correctly set the items in the lines', () => {
-      expect(drawer.__buildLines(data)[0].items).toEqual(data.children);
-      expect(drawer.__buildLines(data.children[0])[0].items[0])
+      expect(drawer.__buildLines(data.children, data.depth)[0].items).toEqual(data.children);
+      expect(drawer.__buildLines(data.children[0].children, data.children[0].depth)[0].items[0])
         .toEqual(data.children[0].children[0]);
-      expect(drawer.__buildLines(data.children[0])[1].items[0])
+      expect(drawer.__buildLines(data.children[0].children, data.children[0].depth)[1].items[0])
         .toEqual(data.children[0].children[1]);
     });
   });
@@ -707,6 +740,7 @@ describe('Test Class: DefaultDrawer()', () => {
         y: 200,
       })).toEqual(expect.closeTo(0));
     });
+
     it('Should return 180 when the second component is above the first', () => {
       expect(drawer.getBearing({
         x: 100,
@@ -716,6 +750,7 @@ describe('Test Class: DefaultDrawer()', () => {
         y: 100,
       })).toEqual(expect.closeTo(180));
     });
+
     it('Should return 90 when the second component is right of the first', () => {
       expect(drawer.getBearing({
         x: 100,
@@ -725,6 +760,7 @@ describe('Test Class: DefaultDrawer()', () => {
         y: 100,
       })).toEqual(expect.closeTo(90));
     });
+
     it('Should return 270 when the second component is left of the first', () => {
       expect(drawer.getBearing({
         x: 200,
@@ -734,6 +770,7 @@ describe('Test Class: DefaultDrawer()', () => {
         y: 100,
       })).toEqual(expect.closeTo(270));
     });
+
     it('Should support negative coordinates', () => {
       expect(drawer.getBearing({
         x: -200,
@@ -742,6 +779,127 @@ describe('Test Class: DefaultDrawer()', () => {
         x: -100,
         y: -100,
       })).toEqual(expect.closeTo(90));
+    });
+  });
+
+  describe('Test method: getComponentHeight', () => {
+    let component;
+    let drawer;
+
+    beforeEach(() => {
+      drawer = new DefaultDrawer(new DefaultData());
+      component = {
+        id: 'test',
+        data: new Component({
+          id: 'test',
+          drawOption: new ComponentDrawOption({
+            sizeManuallySet: false,
+            height: 0,
+          }),
+          definition: new ComponentDefinition({
+            isContainer: false,
+          }),
+        }),
+        depth: 0,
+        children: null,
+      };
+    });
+
+    it('Should ignore shadowRoot', () => {
+      component.id = '__shadowRoot';
+      expect(drawer.getComponentHeight(component)).toEqual(0);
+    });
+
+    it('Should correctly compute height without children', () => {
+      expect(drawer.getComponentHeight(component)).toEqual(drawer.minHeight);
+      component.data.definition.isContainer = true;
+      expect(drawer.getComponentHeight(component))
+        .toEqual(2 * drawer.minHeight + drawer.padding + drawer.margin);
+    });
+
+    it('Should correctly compute height with children', () => {
+      component.data.definition.isContainer = true;
+      component.children = [
+        { depth: 1, y1: 3 * (drawer.minHeight + drawer.padding) },
+        { depth: 1, y1: 4 * (drawer.minHeight + drawer.padding) },
+        { depth: 1, y1: 5 * (drawer.minHeight + drawer.padding) },
+      ];
+      expect(drawer.getComponentHeight(component))
+        .toEqual(component.children[2].y1 + drawer.minHeight + drawer.padding + drawer.margin);
+    });
+  });
+
+  describe('Test method: getComponentWidth', () => {
+    let component;
+    let drawer;
+
+    beforeEach(() => {
+      drawer = new DefaultDrawer(new DefaultData());
+      component = {
+        id: 'test',
+        data: new Component({
+          id: 'test',
+          drawOption: new ComponentDrawOption({
+            sizeManuallySet: false,
+            height: 0,
+          }),
+          definition: new ComponentDefinition({
+            isContainer: false,
+          }),
+        }),
+        children: null,
+      };
+    });
+
+    it('Should ignore shadowRoot', () => {
+      component.id = '__shadowRoot';
+      expect(drawer.getComponentWidth(component)).toEqual(0);
+    });
+
+    it('Should correctly compute width without children', () => {
+      expect(drawer.getComponentWidth(component)).toEqual(drawer.minWidth);
+      component.data.definition.isContainer = true;
+      expect(drawer.getComponentWidth(component))
+        .toEqual(drawer.minWidth);
+    });
+
+    it('Should correctly compute width with children', () => {
+      component.data.definition.isContainer = true;
+      component.children = [
+        { x1: drawer.minWidth + drawer.padding },
+        { x1: 2 * drawer.minWidth + drawer.padding },
+        { x1: 3 * drawer.minWidth + drawer.padding },
+      ];
+      expect(drawer.getComponentWidth(component))
+        .toEqual(component.children[2].x1 + drawer.padding + drawer.margin);
+    });
+  });
+
+  describe('Test method: initializeComponentDrawOption ', () => {
+    let drawer;
+    let component;
+
+    beforeEach(() => {
+      drawer = new DefaultDrawer(new DefaultData());
+      component = {
+        value: 1,
+        height: 0,
+        depth: 0,
+        data: new Component({
+          definition: new ComponentDefinition({ isContainer: false }),
+        }),
+      };
+    });
+
+    it('Should initialize the component\'s draw options', () => {
+      drawer.initializeComponentDrawOptions(component);
+      expect(component.data.drawOption).toBeDefined();
+    });
+
+    it('Should pre-compute the component\'s dimensions', () => {
+      drawer.initializeComponentDrawOptions(component);
+      expect(component.data.drawOption.width).toEqual(drawer.minWidth + 2 * drawer.margin);
+      expect(component.data.drawOption.height).toEqual(drawer.minHeight);
     });
   });
 });

@@ -133,7 +133,7 @@ class DefaultDrawer {
    * @param {number} screenX - Screen x coordinate.
    * @param {number} screenY - Screen y coordinate.
    * @param {SVGSVGElement} [svg=null] - SVG referential.
-   * @returns {DOMPoint} - The transformed coordinates.
+   * @returns {DOMPoint} The transformed coordinates.
    */
   screenToSVG(screenX, screenY, svg = null) {
     const localSvg = svg || this.svg.node();
@@ -148,7 +148,7 @@ class DefaultDrawer {
    * @param {number} svgX - SVG x coordinate.
    * @param {number} svgY - SVG y coordinate.
    * @param {SVGSVGElement} [svg=null] - SVG referential.
-   * @returns {DOMPoint} - The transformed coordinates.
+   * @returns {DOMPoint} The transformed coordinates.
    */
   SVGToScreen(svgX, svgY, svg = null) {
     const localSvg = svg || this.svg.node();
@@ -187,7 +187,7 @@ class DefaultDrawer {
    * Compute a coefficient representing how tall a component will be based on its children's layout.
    *
    * @param {Node} item - The component to check.
-   * @returns {number} - The coefficient.
+   * @returns {number} The coefficient.
    * @private
    */
   __getVerticalCoefficient(item) {
@@ -217,7 +217,7 @@ class DefaultDrawer {
    * Get the maximum line length for a given depth.
    *
    * @param {number} [depth] - The depth to check.
-   * @returns {number} - The maximum length at that depth.
+   * @returns {number} The maximum length at that depth.
    */
   getLineLengthForDepth(depth) {
     return this.lineLengthPerDepth[Math.min(depth, this.lineLengthPerDepth.length - 1)];
@@ -248,7 +248,7 @@ class DefaultDrawer {
    *
    * @param {Element} draggedElement - The DOM element being dragged.
    * @param {DragEvent} event - The emitted drag event.
-   * @returns {Element} - The element to drop the dragged element onto.
+   * @returns {Element} The element to drop the dragged element onto.
    */
   dragHandler(draggedElement, event) {
     this.hideActionMenu();
@@ -296,7 +296,7 @@ class DefaultDrawer {
   /**
    * Create and return d3 drag behaviour.
    *
-   * @returns {Function} - D3 drag behaviour.
+   * @returns {Function} D3 drag behaviour.
    */
   setupDragBehavior() {
     let dropTarget = null;
@@ -350,13 +350,16 @@ class DefaultDrawer {
     const origParent = this.pluginData.getComponentById(event.subject.parent.data.id);
     const target = dropTarget ? d3.select(dropTarget) : null;
 
-    if (target === origParent) {
-      const { x, y } = event.subject;
+    if (target === origParent || (origParent?.id === target?.datum().data?.id)) {
+      const { x, y } = event;
       const width = event.subject.x1 - event.subject.x0;
       const height = event.subject.y1 - event.subject.y0;
 
       event.subject.data.drawOption = new ComponentDrawOption({
-        x, y, width, height,
+        x: x - this.actions.drag.offsetX,
+        y: y - this.actions.drag.offsetY,
+        width,
+        height,
       });
     } else {
       if (event.subject.parent) {
@@ -469,23 +472,21 @@ class DefaultDrawer {
       ))
       .select('svg')
       .attr('id', ({ data }) => `svg-${data.id}`)
-      .attr('height', ({ y0, y1 }) => y1 - y0)
-      .attr('width', ({ x0, x1 }) => x1 - x0);
+      .attr('height', (component) => this.getComponentHeight(component))
+      .attr('width', (component) => this.getComponentWidth(component));
 
     node.select('.component-icon')
       .html(({ data }) => this.resources.icons[data.definition.icon]);
 
     node.select('rect')
       .filter((d) => d.data?.definition?.isContainer)
-      .attr('height', ({ y0, y1 }) => y1 - y0)
-      .attr('width', ({ x0, x1 }) => x1 - x0);
+      .attr('height', (component) => this.getComponentHeight(component))
+      .attr('width', (component) => this.getComponentWidth(component));
 
     node.select('.component-container')
-      .attr('height', ({ y0, y1 }) => Math.max(
-        y1 - (y0 + this.minHeight) - this.margin,
-        this.minHeight,
-      ))
-      .attr('width', ({ x0, x1 }) => Math.max(x1 - x0 - 2 * this.margin, this.minWidth))
+      .attr('height', (component) => this.getComponentHeight(component)
+        - this.minHeight - this.margin)
+      .attr('width', (component) => this.getComponentWidth(component) - 2 * this.margin)
       .attr('x', () => this.margin)
       .attr('y', () => this.minHeight)
       .filter(({ children }) => children)
@@ -495,15 +496,60 @@ class DefaultDrawer {
   }
 
   /**
+   * Initialize component height and width then store them in its drawOptions.
+   *
+   * @param {Node} component - The component to initialize the values for.
+   */
+  initializeComponentDrawOptions(component) {
+    /*
+      component.depth and component.height are set by d3 and represent the position of the node in
+      the hierarchy:
+      - height: how many layers exist below this node
+      - depth: how deep in the tree the node is
+    */
+    const horizontalCoefficient = Math.min(
+      component.value,
+      this.getLineLengthForDepth(component.depth),
+    );
+    const verticalCoefficient = Math.ceil(this.__getVerticalCoefficient(component));
+
+    const width = (horizontalCoefficient * (this.minWidth + 2 * this.margin))
+      + (component.height * 2 * this.padding)
+      + (horizontalCoefficient - 1)
+      * (this.padding + 2 * this.margin);
+
+    const height = (verticalCoefficient * this.minHeight)
+      + (component.height * this.padding)
+      + (verticalCoefficient - 1)
+      * (this.padding + this.margin);
+
+    if (!component.data.drawOption) {
+      component.data.drawOption = new ComponentDrawOption({
+        needsPositioning: true,
+        width,
+        height,
+      });
+    } else {
+      component.data.drawOption.width = width;
+      component.data.drawOption.height = height;
+    }
+  }
+
+  /**
    * Build d3 hierarchy and treemap layout.
    *
-   * @returns {Array} - The nodes grouped by parent.
+   * @returns {Array} The nodes grouped by parent.
    */
   buildTree() {
     const treemapLayout = d3.treemap()
       .size([this.width, this.height])
       .tile((data) => {
-        const lines = this.__buildLines(data);
+        const newComponents = data.children.filter((child) => !child.data.drawOption);
+        const existingComponents = data.children.filter((child) => child.data.drawOption);
+
+        newComponents.forEach((component) => this.initializeComponentDrawOptions(component));
+
+        const lines = this.__buildLines(existingComponents.concat(newComponents), data.depth);
 
         this.setupTiles(lines);
         // TODO save/load coordinates
@@ -642,7 +688,7 @@ class DefaultDrawer {
    *
    * @param {object} pointA - The point to get the bearing from.
    * @param {object} pointB - The point to get the bearing to.
-   * @returns {number} - The bearing.
+   * @returns {number} The bearing.
    */
   getBearing(pointA, pointB) {
     const distanceXBA = pointB.x - pointA.x;
@@ -657,7 +703,7 @@ class DefaultDrawer {
    * Build a new d3 link generator for a ComponentLink
    *
    * @param {ComponentLink} link - The link to build the generator for.
-   * @returns {object} - A d3 link generator.
+   * @returns {object} A d3 link generator.
    */
   getLinkGenerator(link) {
     const source = d3.select(`#${link.source}`);
@@ -688,6 +734,48 @@ class DefaultDrawer {
   }
 
   /**
+   * Compute the component's height then store it in its drawOptions.
+   *
+   * @param {Node} component - The component to get the height for.
+   * @returns {number} The computed height.
+   */
+  getComponentHeight(component) {
+    if (component.id === '__shadowRoot') {
+      return 0;
+    }
+
+    const containerSpacing = this.minHeight + this.padding + this.margin;
+    const childHeights = component.children
+      ? component.children.map(({ y1 }) => y1 + containerSpacing)
+      : [0];
+
+    component.data.drawOption.height = (Math.max(
+      this.minHeight + (component.data.definition.isContainer * containerSpacing),
+      ...childHeights,
+    ));
+
+    return component.data.drawOption.height;
+  }
+
+  /**
+   * Compute the component's width then store it in its drawOptions.
+   *
+   * @param {Node} component - The component to get the width for.
+   * @returns {number} The computed width.
+   */
+  getComponentWidth(component) {
+    if (component.id === '__shadowRoot') {
+      return 0;
+    }
+    const childWidths = component.children ? component.children.map(({ x1 }) => x1) : [0];
+
+    component.data.drawOption.width = Math.max(this.minWidth, ...childWidths)
+      + (!!(component.children) * (this.padding + this.margin));
+
+    return component.data.drawOption.width;
+  }
+
+  /**
    * Compute the dimension of every component.
    *
    * @param {Array} lines - Rows of components.
@@ -695,87 +783,116 @@ class DefaultDrawer {
   setupTiles(lines) {
     let previousTallestItem = { x1: 0, y1: 0 };
 
-    lines.forEach((line, lineIndex) => {
-      let prevItem = {
-        x1: 0,
-        y0: lineIndex * this.minHeight + this.padding,
-      };
+    lines
+      .forEach((line) => {
+        let prevItem = {
+          x1: 0,
+          y0: line.band + this.padding,
+        };
 
-      line.items.forEach((item) => {
-        if (item.data.drawOption) {
-          item.x0 = item.data.drawOption.x;
-          item.y0 = item.data.drawOption.y;
-        } else {
-          item.x0 = prevItem.x1 + this.padding;
-          item.y0 = previousTallestItem.y1 + this.padding;
-          prevItem = item;
-        }
+        line.items
+          .map((item) => {
+            if (!item.data.drawOption) {
+              item.data.drawOption = new ComponentDrawOption({
+                needsPositioning: true,
+                needsResizing: true,
+              });
+            }
 
-        if (!item.data.drawOption || item.data.drawOption.needsResizing) {
-          /*
-           item.depth and item.height are set by d3 and represent the position of the node in
-           the hierarchy:
-           - height: how many layers exist below this node;
-           - depth: how deep in the tree the node is
-           */
-          const horizontalCoefficient = Math.min(
-            item.value,
-            this.getLineLengthForDepth(item.depth),
-          );
-          const verticalCoefficient = Math.ceil(this.__getVerticalCoefficient(item));
+            return item;
+          })
+          .sort((itemA, itemB) => {
+            if (itemA.data.drawOption.needsPositioning && !itemB.data.drawOption.needsPositioning) {
+              return 1;
+            }
 
-          item.x1 = item.x0 + (horizontalCoefficient * (this.minWidth + 2 * this.margin))
-            + (item.height * 2 * this.padding)
-            + (horizontalCoefficient - 1)
-            * (this.padding + 2 * this.margin);
+            if (!itemA.data.drawOption.needsPositioning
+              && !itemB.data.drawOption.needsPositioning) {
+              return itemA.data.drawOption.x - itemB.data.drawOption.x;
+            }
 
-          item.y1 = item.y0
-            + (verticalCoefficient * this.minHeight)
-            + (item.height * this.padding)
-            + (verticalCoefficient - 1)
-            * (this.padding + this.margin);
+            return 0;
+          })
+          .forEach((item) => {
+            if (item.data.drawOption.needsPositioning) {
+              item.data.drawOption.x = prevItem.x1 + this.padding;
+              item.data.drawOption.y = previousTallestItem.y1 + this.padding;
+              item.data.drawOption.needsPositioning = false;
+            }
 
-          if (item.data.drawOption) {
-            item.data.drawOption.needsResizing = false;
-            item.data.drawOption.width = item.x1 - item.x0;
-            item.data.drawOption.height = item.y1 - item.y0;
-          }
-        } else {
-          item.x1 = item.x0 + item.data.drawOption.width;
-          item.y1 = item.y0 + item.data.drawOption.height;
+            item.x0 = item.data.drawOption.x;
+            item.y0 = item.data.drawOption.y;
+            prevItem = item;
+
+            if (item.data.drawOption.needsResizing) {
+              this.initializeComponentDrawOptions(item);
+              item.data.drawOption.needsResizing = false;
+            }
+
+            item.x1 = item.x0 + item.data.drawOption.width;
+            item.y1 = item.y0 + item.data.drawOption.height;
+          });
+
+        if (line.items.length > 0) {
+          const maxLineValue = Math.max(...line.items.map((item) => item.value));
+
+          previousTallestItem = line.items.find((item) => item.value === maxLineValue);
         }
       });
-      if (line.items.length > 0) {
-        const maxLineValue = Math.max(...line.items.map((item) => item.value));
-
-        previousTallestItem = line.items.find((item) => item.value === maxLineValue);
-      }
-    });
   }
 
   /**
    * Build and fill the layout lines for a Node.
    *
-   * @param {Node} data - The Node to build lines for.
-   * @returns {Array} - A list of lines.
+   * @param {Node[]} children - The Node's children to build lines with.
+   * @param {number} depth - The Node's depth.
+   * @returns {Array} A list of lines.
    * @private
    */
-  __buildLines({ children, depth }) {
-    const lines = [{ total: 0, items: [] }];
+  __buildLines(children, depth) {
+    let lines = [];
     let activeLineIndex = 0;
     let activeLine = lines[activeLineIndex];
 
     children.forEach((child) => {
-      if (activeLine.items.length >= this.getLineLengthForDepth(depth)) {
-        lines.push({ total: 0, items: [] });
-        activeLineIndex += 1;
+      lines = lines.sort((la, lb) => la.band - lb.band);
+
+      if (child.data.drawOption && !child.data.drawOption.needsPositioning) {
+        activeLineIndex = lines.findIndex(
+          (line) => line.band === Math.floor(child.data.drawOption.y / 100) * 100,
+        );
+
+        if (activeLineIndex === -1) {
+          lines.push({
+            total: 0,
+            band: Math.floor(child.data.drawOption.y / 100) * 100,
+            items: [],
+          });
+          activeLineIndex = lines.length - 1;
+        }
+      } else {
+        activeLineIndex = 0;
+
+        while (activeLineIndex < lines.length
+          && lines[activeLineIndex].items.length >= this.getLineLengthForDepth(depth)) {
+          activeLineIndex += 1;
+        }
+
+        if (activeLineIndex === lines.length) {
+          lines.push({
+            total: 0,
+            band: activeLineIndex > 0 ? lines[activeLineIndex - 1].band + 100 : 0,
+            items: [],
+          });
+        }
       }
+
       activeLine = lines[activeLineIndex];
       activeLine.total += child.value;
       activeLine.items.push(child);
     });
 
-    return lines;
+    return lines.sort((la, lb) => la.band - lb.band);
   }
 
   /**
@@ -992,7 +1109,7 @@ class DefaultDrawer {
    * @property {string} id - Id of the action button.
    * @property {string} icon - Icon to display in the action button
    * @property {Function} handler - Function called on action click.
-   * @returns {Array} - The list of menu actions.
+   * @returns {Array} The list of menu actions.
    */
   getMenuActions(targetSelection) {
     if (targetSelection.classed('component')) {
