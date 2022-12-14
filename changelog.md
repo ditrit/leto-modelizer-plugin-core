@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Replace esdoc by jsdoc
 - Make configuration readable by user in the configuration file.
+- Save component's positions after the layout is automatically generated.
 
 ### Fixed
 
