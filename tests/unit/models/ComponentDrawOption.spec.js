@@ -10,6 +10,7 @@ describe('Test class: ComponentDrawOption', () => {
       expect(componentDrawOption.width).toBeNull();
       expect(componentDrawOption.height).toBeNull();
       expect(componentDrawOption.needsResizing).toEqual(false);
+      expect(componentDrawOption.needsPositioning).toEqual(false);
     });
     it('Check passing undefined variables to constructor', () => {
       const componentDrawOption = new ComponentDrawOption({});
@@ -19,6 +20,7 @@ describe('Test class: ComponentDrawOption', () => {
       expect(componentDrawOption.width).toBeNull();
       expect(componentDrawOption.height).toBeNull();
       expect(componentDrawOption.needsResizing).toEqual(false);
+      expect(componentDrawOption.needsPositioning).toEqual(false);
     });
 
     it('Check passing variable to constructor', () => {
@@ -28,6 +30,7 @@ describe('Test class: ComponentDrawOption', () => {
         width: 3,
         height: 4,
         needsResizing: true,
+        needsPositioning: true,
       });
 
       expect(componentDrawOption.x).toEqual(1);
@@ -35,6 +38,7 @@ describe('Test class: ComponentDrawOption', () => {
       expect(componentDrawOption.width).toEqual(3);
       expect(componentDrawOption.height).toEqual(4);
       expect(componentDrawOption.needsResizing).toEqual(true);
+      expect(componentDrawOption.needsPositioning).toEqual(true);
     });
   });
 });
