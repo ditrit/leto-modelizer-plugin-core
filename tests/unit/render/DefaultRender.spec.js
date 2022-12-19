@@ -101,6 +101,7 @@ describe('Test Class: DefaultRender()', () => {
             c1: {
               x: 1,
               needsResizing: false,
+              needsPositioning: false,
             },
           },
         }, null, 2));
