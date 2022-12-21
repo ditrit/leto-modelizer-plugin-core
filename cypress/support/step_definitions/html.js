@@ -83,10 +83,8 @@ Then('I expect {string} to have {string} as parent', (templateSelector, template
 Then('I expect {string} to be at position {int},{int}', (templateSelector, x, y) => {
   const selector = nunjucks.renderString(templateSelector, cy.context);
 
-  cy.get(selector).should(($elem) => {
-    const element = $elem[0];
-    const rect = element.getBoundingClientRect();
-    expect(Math.trunc(rect.x)).eq(x);
-    expect(Math.trunc(rect.y)).eq(y);
+  cy.get(selector).should((element) => {
+    expect(Math.trunc(element.position().left)).eq(x);
+    expect(Math.trunc(element.position().top)).eq(y);
   });
 });

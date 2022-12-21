@@ -13,24 +13,15 @@ export function drag(dragSelector, dropSelector) {
   if (typeof dropSelector === 'string') {
     const droppable = Cypress.$(dropSelector)[0];
     targetCoords = droppable.getBoundingClientRect();
-    targetCoords.x += targetCoords.width * 0.1;
-    targetCoords.y += targetCoords.height * 0.1;
+    targetCoords.x = targetCoords.x - originCoords.x;
+    targetCoords.y = targetCoords.y - originCoords.y;
   } else {
     targetCoords = dropSelector;
   }
 
-  cy.window().then((win) => {
-    draggable.dispatchEvent(
-      new MouseEvent(
-        'mousedown',
-        { clientX: originCoords.x, clientY: originCoords.y, view: win },
-      ),
-    );
-    draggable.dispatchEvent(new MouseEvent('mousemove', {
-      view: win,
-      clientX: targetCoords.x,
-      clientY: targetCoords.y,
-    }));
-    draggable.dispatchEvent(new MouseEvent('mouseup', { view: win }));
-  });
+  cy.get(dragSelector)
+    .realMouseDown()
+    .realMouseMove(targetCoords.x, targetCoords.y,  { position: "center" })
+    .realMouseUp();
 }
+
