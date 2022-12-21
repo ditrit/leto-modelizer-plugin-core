@@ -25,5 +25,6 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import { drag } from './drag-support';
+import 'cypress-real-events';
 
 Cypress.Commands.add('drag', drag);
