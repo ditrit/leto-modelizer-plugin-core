@@ -10,7 +10,7 @@ When('I drag {string} onto {string}', (templateOriginSelector, templateDestinati
   cy.drag(originSelector, destinationSelector);
 });
 
-When('I drag {string} to {int},{int}', (templateSelector, x, y) => {
+When('I drag {string} of {int},{int}', (templateSelector, x, y) => {
   const selector = nunjucks.renderString(templateSelector, cy.context);
 
   cy.drag(selector, { x, y });
