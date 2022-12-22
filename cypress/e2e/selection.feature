@@ -1,35 +1,72 @@
-Feature: Test component selection
+Feature: Test component/link selection
 
   Background:
     Given I clear localstorage
     And I visit the "/"
 
 
-  Scenario: Clicking on a component should select it
+  Scenario Outline: Clicking on a <type> should select it
+    When I click on "<selector>"
+    Then I expect <type> "<selector>" to have style "outlineColor" set to "rgb(0, 149, 255)"
+    And I expect <type> "<selector>" to have style "outlineStyle" set to "solid"
+    And I expect <type> "<selector>" to have style "outlineWidth" set to "2px"
+
+    Examples:
+      | type      | selector                                   |
+      | component | #external1                                 |
+      | link      | #link-server-laptop_link-server1-external1 |
+
+  Scenario Outline: Clicking again on a <type> should deselect it
+    Given I click on "<selector>"
+
+    When I click on "<selector>"
+    Then I expect <type> "<selector>" to have style "outline" set to ""
+
+    Examples:
+      | type      | selector                                   |
+      | component | #external1                                 |
+      | link      | #link-server-laptop_link-server1-external1 |
+
+  Scenario Outline: Clicking away from a selected <type> should deselect it
+    Given I click on "<selector>"
+
+    When I click on "#root"
+    Then I expect <type> "<selector>" to have style "outline" set to ""
+
+    Examples:
+      | type      | selector                                   |
+      | component | #external1                                 |
+      | link      | #link-server-laptop_link-server1-external1 |
+
+  Scenario Outline: Clicking on a different <type> should select it and deselect the previous one
+    Given I click on "<selector1>"
+
+    When I click on "<selector2>"
+    Then I expect <type> "<selector1>" to have style "outline" set to ""
+    And I expect <type> "<selector2>" to have style "outlineColor" set to "rgb(0, 149, 255)"
+    And I expect <type> "<selector2>" to have style "outlineStyle" set to "solid"
+    And I expect <type> "<selector2>" to have style "outlineWidth" set to "2px"
+
+    Examples:
+      | type      | selector1                                  | selector2                                    |
+      | component | #external1                                 | #internal1                                   |
+      | component | #external1                                 | #link-laptop-network_link-internal1-network1 |
+      | link      | #link-server-laptop_link-server1-external1 | #link-laptop-network_link-internal1-network1 |
+      | link      | #link-server-laptop_link-server1-external1 | #external1                                   |
+
+  Scenario: Clicking on a component should select it and make action menu appear
     When I click on "#root #external1"
     Then I expect component "#root #external1" to have style "outlineColor" set to "rgb(0, 149, 255)"
     And I expect component "#root #external1" to have style "outlineStyle" set to "solid"
     And I expect component "#root #external1" to have style "outlineWidth" set to "2px"
+    And I expect "#action-menu" is visible
+    And I expect "#create-link" is visible
+    And I expect "#remove-component" is visible
 
-  Scenario: Clicking again on a component should deselect it
-    Given I click on "#root #external1"
-
-    When I click on "#root #external1"
-    Then I expect component "#root #external1" to have style "outline" set to ""
-
-
-  Scenario: Clicking away from a selected component should deselect it
-    Given I click on "#root #external1"
-
-    When I click on "#root"
-    Then I expect component "#root #external1" to have style "outline" set to ""
-
-
-  Scenario: Clicking on a different component should select it and deselect the previous one
-    Given I click on "#root #external1"
-
-    When I click on "#root #internal1"
-    Then I expect component "#root #external1" to have style "outline" set to ""
-    And I expect component "#root #internal1" to have style "outlineColor" set to "rgb(0, 149, 255)"
-    And I expect component "#root #internal1" to have style "outlineStyle" set to "solid"
-    And I expect component "#root #internal1" to have style "outlineWidth" set to "2px"
+  Scenario: Clicking on a link should select it and make action menu appear
+    When I click on "#link-server-laptop_link-server1-external1"
+    Then I expect component "#link-server-laptop_link-server1-external1" to have style "outlineColor" set to "rgb(0, 149, 255)"
+    And I expect component "#link-server-laptop_link-server1-external1" to have style "outlineStyle" set to "solid"
+    And I expect component "#link-server-laptop_link-server1-external1" to have style "outlineWidth" set to "2px"
+    And I expect "#action-menu" is visible
+    And I expect "#remove-link" is visible
