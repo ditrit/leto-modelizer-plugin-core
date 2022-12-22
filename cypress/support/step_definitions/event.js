@@ -1,7 +1,15 @@
 import { When } from '@badeball/cypress-cucumber-preprocessor';
 import nunjucks from 'nunjucks';
 
-When('I click on {string}', (selector) => cy.get(selector).click());
+When('I click on {string}', (selector) => cy.get(selector).realClick({
+  button: 'left',
+  position: 'center'
+}));
+
+When('I click on {string} of {string}', (position, selector) => cy.get(selector).realClick({
+  button: 'left',
+  position
+}));
 
 When('I drag {string} onto {string}', (templateOriginSelector, templateDestinationSelector) => {
   const originSelector = nunjucks.renderString(templateOriginSelector, cy.context);
