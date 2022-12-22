@@ -656,6 +656,9 @@ class DefaultDrawer {
 
         return generator(link);
       })
+      .attr('id', ({ definition, source, target }) => (
+        `link-${definition.sourceRef}-${definition.attributeRef}-${source}-${target}`
+      ))
       .attr('fill', 'none')
       .attr('stroke', (link) => link.definition.color)
       .attr('stroke-width', (link) => link.definition.width)
