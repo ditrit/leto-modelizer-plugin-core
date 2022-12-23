@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unrelease]
 
-## Changed
+### Added
+
+- Add a lot of e2e tests to improve e2e coverage
+
+### Changed
 
 - Replace esdoc by jsdoc
 - Make configuration readable by user in the configuration file.

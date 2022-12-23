@@ -6,6 +6,11 @@ Then(/^I expect ["'](.*)["'] (?:is|to be) visible$/, (templateSelector) => {
   cy.get(selector).should('be.visible');
 });
 
+Then(/^I expect ["'](.*)["'] (?:is|to be) not visible$/, (templateSelector) => {
+  const selector = nunjucks.renderString(templateSelector, cy.context);
+  cy.get(selector).should('not.be.visible');
+});
+
 Then('I expect {string} is {string}', (templateSelector, templateExpectedValue) => {
   const selector = nunjucks.renderString(templateSelector, cy.context);
   const expectedValue = nunjucks.renderString(templateExpectedValue, cy.context);
@@ -40,7 +45,7 @@ Then(/^I expect (?:switch|checkbox) ["'](.*)["'] (?:(?:to be)|is) (checked|unche
   cy.get(selector).should('have.attr', 'aria-checked', expectedSwitchStatus);
 });
 
-Then('I expect component/field/element {string} to have style {string} set to {string}', (templateSelector, templateExpectedStyleAttribute, templateExpectedStyleValue) => {
+Then('I expect component/field/element/link {string} to have style {string} set to {string}', (templateSelector, templateExpectedStyleAttribute, templateExpectedStyleValue) => {
   const selector = nunjucks.renderString(templateSelector, cy.context);
   const expectedStyleAttribute = nunjucks.renderString(templateExpectedStyleAttribute, cy.context);
   const expectedStyleValue = nunjucks.renderString(templateExpectedStyleValue, cy.context);
@@ -87,4 +92,25 @@ Then('I expect {string} to be at position {int},{int}', (templateSelector, x, y)
     expect(Math.trunc(element.position().left)).eq(x);
     expect(Math.trunc(element.position().top)).eq(y);
   });
+});
+
+Then('I expect {string} width is {int}', (templateSelector, width) => {
+  const selector = nunjucks.renderString(templateSelector, cy.context);
+
+  cy.get(selector).should((element) => {
+    expect(Math.trunc(element.width())).eq(width);
+  });
+});
+
+Then('I expect {string} height is {int}', (templateSelector, height) => {
+  const selector = nunjucks.renderString(templateSelector, cy.context);
+
+  cy.get(selector).should((element) => {
+    expect(Math.trunc(element.height())).eq(height);
+  });
+});
+
+Then('I expect {string} appear {int} time(s) on screen', (templateSelector, count) => {
+  const selector = nunjucks.renderString(templateSelector, cy.context);
+  cy.get(selector).should('have.length', count);
 });
