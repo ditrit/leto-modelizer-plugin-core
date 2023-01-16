@@ -87,7 +87,10 @@ describe('Test class: Component', () => {
         }));
 
         expect(component.attributes.length).toEqual(1);
-        expect(component.attributes[0]).toMatchObject({ name: 'container', value: 'containerId' });
+        expect(component.attributes[0]).toMatchObject({
+          name: 'container',
+          value: 'containerId',
+        });
         expect(component.attributes[0].definition).not.toBeNull();
       });
 
@@ -123,7 +126,10 @@ describe('Test class: Component', () => {
         }));
 
         expect(component.attributes.length).toEqual(1);
-        expect(component.attributes[0]).toMatchObject({ name: 'container', value: 'containerId' });
+        expect(component.attributes[0]).toMatchObject({
+          name: 'container',
+          value: 'containerId',
+        });
         expect(component.attributes[0].definition).not.toBeNull();
       });
     });
@@ -160,8 +166,7 @@ describe('Test class: Component', () => {
           }),
         }));
 
-        expect(component.attributes.length)
-          .toEqual(0);
+        expect(component.attributes.length).toEqual(0);
       });
 
       it('Should do nothing if attribute does not exist', () => {
@@ -196,8 +201,14 @@ describe('Test class: Component', () => {
         }));
 
         expect(component.attributes.length).toEqual(2);
-        expect(component.attributes[0]).toMatchObject({ name: 'test', value: 'containerId' });
-        expect(component.attributes[1]).toMatchObject({ name: 'container2', value: 'containerId' });
+        expect(component.attributes[0]).toMatchObject({
+          name: 'test',
+          value: 'containerId',
+        });
+        expect(component.attributes[1]).toMatchObject({
+          name: 'container2',
+          value: 'containerId',
+        });
       });
 
       it('Should do nothing if attribute does not exist', () => {
@@ -231,10 +242,15 @@ describe('Test class: Component', () => {
           }),
         }));
 
-        expect(component.attributes.length)
-          .toEqual(2);
-        expect(component.attributes[0]).toMatchObject({ name: 'test', value: 'containerId' });
-        expect(component.attributes[1]).toMatchObject({ name: 'container2', value: 'containerId' });
+        expect(component.attributes.length).toEqual(2);
+        expect(component.attributes[0]).toMatchObject({
+          name: 'test',
+          value: 'containerId',
+        });
+        expect(component.attributes[1]).toMatchObject({
+          name: 'container2',
+          value: 'containerId',
+        });
       });
 
       it('Should remove all container attributes', () => {
@@ -262,9 +278,11 @@ describe('Test class: Component', () => {
 
         component.removeAllReferenceAttributes();
 
-        expect(component.attributes.length)
-          .toEqual(1);
-        expect(component.attributes[0]).toMatchObject({ name: 'name', value: 'test' });
+        expect(component.attributes.length).toEqual(1);
+        expect(component.attributes[0]).toMatchObject({
+          name: 'name',
+          value: 'test',
+        });
       });
     });
 
@@ -317,7 +335,7 @@ describe('Test class: Component', () => {
         expect(component.attributes[0].value).toEqual(['target02']);
       });
 
-      it('Should do nothing when attribute already exists', () => {
+      it('Should do nothing if attribute already exists', () => {
         const link = new ComponentLink({
           source: 'source03',
           target: 'target03',
@@ -422,7 +440,7 @@ describe('Test class: Component', () => {
       });
 
       it(
-        'Should remove value corresponding to the given id then the attribute if array is empty',
+        'Should remove value from given attribute then the attribute itself if it\'s empty.',
         () => {
           const component = new Component();
 
@@ -466,25 +484,22 @@ describe('Test class: Component', () => {
         })]);
       });
 
-      it(
-        'Should remove value corresponding to the given id then the attribute if array is empty',
-        () => {
-          const component = new Component();
+      it('Should remove the given ComponentLink id in the value array.', () => {
+        const component = new Component();
 
-          component.attributes.push(new ComponentAttribute({
-            name: 'link',
-            value: ['test'],
-            type: 'String',
-            definition: new ComponentAttributeDefinition({
-              name: 'other',
-              type: 'Link',
-            }),
-          }));
+        component.attributes.push(new ComponentAttribute({
+          name: 'link',
+          value: ['test'],
+          type: 'String',
+          definition: new ComponentAttributeDefinition({
+            name: 'other',
+            type: 'Link',
+          }),
+        }));
 
-          component.removeLinkAttribute('test');
-          expect(component.attributes).toEqual([]);
-        },
-      );
+        component.removeLinkAttribute('test');
+        expect(component.attributes).toEqual([]);
+      });
     });
 
     describe('Test method: getAttributeByName', () => {
@@ -515,11 +530,11 @@ describe('Test class: Component', () => {
     });
 
     describe('Test method: getContainerId', () => {
-      it('Should return null when there is no attributes', () => {
+      it('Should return null if there is no attributes', () => {
         expect(new Component().getContainerId()).toBeNull();
       });
 
-      it('Should return null when there is no reference attributes', () => {
+      it('Should return null if there is no reference attributes', () => {
         expect(new Component({
           attributes: [new ComponentAttribute({
             name: 'test',
@@ -527,7 +542,7 @@ describe('Test class: Component', () => {
         }).getContainerId()).toBeNull();
       });
 
-      it('Should return id when there is a reference attribute', () => {
+      it('Should return id if there is a reference attribute', () => {
         expect(new Component({
           attributes: [new ComponentAttribute({
             name: 'test',
@@ -537,6 +552,789 @@ describe('Test class: Component', () => {
             }),
           })],
         }).getContainerId()).toEqual('test');
+      });
+    });
+
+    describe('Test method: hasError', () => {
+      describe('Test required attribute', () => {
+        const attributeDefinition = new ComponentAttributeDefinition({
+          name: 'attribute-string',
+          type: 'String',
+          required: true,
+        });
+
+        it('Should return false if the required attribute is provided', () => {
+          const attribute = new ComponentAttribute({
+            name: 'attribute-string',
+            value: 'string',
+            type: 'String',
+            definition: attributeDefinition,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinition],
+            },
+          }).hasError()).toEqual(false);
+        });
+
+        it('Should return true if the required attribute isn\'t provided', () => {
+          const attribute = new ComponentAttribute({
+            name: 'attribute-strong',
+            value: 'strong',
+            type: 'String',
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinition],
+            },
+          }).hasError()).toEqual(true);
+        });
+      });
+
+      describe('Test String attribute', () => {
+        const attributeDefinition = new ComponentAttributeDefinition({
+          name: 'attribute-string',
+          type: 'String',
+          rules: {
+            min: 5,
+            max: 10,
+            regex: /^[a-z]+$/,
+          },
+        });
+
+        it('Should return false if the "values" rule includes the attribute\'s value', () => {
+          const attributeDefinitionValue = new ComponentAttributeDefinition({
+            name: 'attribute-string',
+            type: 'String',
+            rules: { values: ['test'] },
+          });
+
+          const attribute = new ComponentAttribute({
+            name: 'attribute-string',
+            value: 'test',
+            type: 'String',
+            definition: attributeDefinitionValue,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: { definedAttributes: [attributeDefinitionValue] },
+          }).hasError()).toEqual(false);
+        });
+
+        it(
+          'Should return true if the "values" rule doesn\'t include the attribute\'s value',
+          () => {
+            const attributeDefinitionValue = new ComponentAttributeDefinition({
+              name: 'attribute-string',
+              type: 'String',
+              rules: {
+                values: ['test'],
+              },
+            });
+
+            const attribute = new ComponentAttribute({
+              name: 'attribute-string',
+              value: 'string',
+              type: 'String',
+              definition: attributeDefinitionValue,
+            });
+
+            expect(new Component({
+              attributes: [attribute],
+              definition: {
+                definedAttributes: [attributeDefinitionValue],
+              },
+            }).hasError()).toEqual(true);
+          },
+        );
+
+        it('Should return true if attribute\'s value is smaller than the "min" rule', () => {
+          const attribute = new ComponentAttribute({
+            name: 'attribute-string',
+            value: 'str',
+            type: 'String',
+            definition: attributeDefinition,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinition],
+            },
+          }).hasError()).toEqual(true);
+        });
+
+        it('Should return true if attribute\'s value is bigger than the "max" rule', () => {
+          const attribute = new ComponentAttribute({
+            name: 'attribute-string',
+            value: 'stringifies',
+            type: 'String',
+            definition: attributeDefinition,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinition],
+            },
+          }).hasError()).toEqual(true);
+        });
+
+        it(
+          'Should return true if the attribute\'s value doesn\'t match the "regex" rule',
+          () => {
+            const attribute = new ComponentAttribute({
+              name: 'attribute-string',
+              value: 'String',
+              type: 'String',
+              definition: attributeDefinition,
+            });
+
+            expect(new Component({
+              attributes: [attribute],
+              definition: {
+                definedAttributes: [attributeDefinition],
+              },
+            }).hasError()).toEqual(true);
+          },
+        );
+
+        it('Should return true if value type isn\'t string', () => {
+          const attributeDefinitionType = new ComponentAttributeDefinition({
+            name: 'attribute-string',
+            type: 'String',
+          });
+
+          const attribute = new ComponentAttribute({
+            name: 'attribute-string',
+            value: 1,
+            type: 'String',
+            definition: attributeDefinitionType,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinitionType],
+            },
+          }).hasError()).toEqual(true);
+        });
+      });
+
+      describe('Test Boolean attribute', () => {
+        it('Should return false if value type is a boolean', () => {
+          const attributeDefinition = new ComponentAttributeDefinition({
+            name: 'attribute-boolean',
+            type: 'Boolean',
+          });
+
+          const attribute = new ComponentAttribute({
+            name: 'attribute-boolean',
+            value: false,
+            type: 'Boolean',
+            definition: attributeDefinition,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: { definedAttributes: [attributeDefinition] },
+          }).hasError()).toEqual(false);
+        });
+
+        it('Should return true if value type isn\'t boolean', () => {
+          const attributeDefinition = new ComponentAttributeDefinition({
+            name: 'attribute-boolean',
+            type: 'Boolean',
+          });
+
+          const attribute = new ComponentAttribute({
+            name: 'attribute-boolean',
+            value: 'string',
+            type: 'Boolean',
+            definition: attributeDefinition,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: { definedAttributes: [attributeDefinition] },
+          }).hasError()).toEqual(true);
+        });
+      });
+
+      describe('Test Number attribute', () => {
+        const attributeDefinition = new ComponentAttributeDefinition({
+          name: 'attribute-number',
+          type: 'Number',
+          rules: {
+            min: 5,
+            max: 10,
+          },
+        });
+
+        it('Should return false if the "values" rule includes the attribute\'s value', () => {
+          const attributeDefinitionValue = new ComponentAttributeDefinition({
+            name: 'attribute-number',
+            type: 'Number',
+            rules: { values: [0, 1] },
+          });
+
+          const attribute = new ComponentAttribute({
+            name: 'attribute-number',
+            value: 1,
+            type: 'Number',
+            definition: attributeDefinitionValue,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinitionValue],
+            },
+          }).hasError()).toEqual(false);
+        });
+
+        it(
+          'Should return true if the "values" rule doesn\'t include the attribute\'s value',
+          () => {
+            const attributeDefinitionValue = new ComponentAttributeDefinition({
+              name: 'attribute-number',
+              type: 'Number',
+              rules: { values: [0, 1] },
+            });
+
+            const attribute = new ComponentAttribute({
+              name: 'attribute-number',
+              value: 2,
+              type: 'Number',
+              definition: attributeDefinitionValue,
+            });
+
+            expect(new Component({
+              attributes: [attribute],
+              definition: {
+                definedAttributes: [attributeDefinitionValue],
+              },
+            }).hasError()).toEqual(true);
+          },
+        );
+
+        it('Should return true if attribute\'s value is smaller than the "min" rule', () => {
+          const attribute = new ComponentAttribute({
+            name: 'attribute-number',
+            value: 4,
+            type: 'Number',
+            definition: attributeDefinition,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinition],
+            },
+          }).hasError()).toEqual(true);
+        });
+
+        it('Should return true if attribute\'s value is bigger than the "max" rule', () => {
+          const attribute = new ComponentAttribute({
+            name: 'attribute-number',
+            value: 11,
+            type: 'Number',
+            definition: attributeDefinition,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinition],
+            },
+          }).hasError()).toEqual(true);
+        });
+
+        it('Should return true if value type isn\'t number', () => {
+          const attributeDefinitionType = new ComponentAttributeDefinition({
+            name: 'attribute-number',
+            type: 'Number',
+          });
+
+          const attribute = new ComponentAttribute({
+            name: 'attribute-number',
+            value: 'number',
+            type: 'Number',
+            definition: attributeDefinitionType,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinitionType],
+            },
+          }).hasError()).toEqual(true);
+        });
+      });
+
+      describe('Test Object attribute', () => {
+        const attributeDefinition = new ComponentAttributeDefinition({
+          name: 'attribute-object',
+          type: 'Object',
+        });
+
+        it('Should return false if value type is an object', () => {
+          const attribute = new ComponentAttribute({
+            name: 'attribute-object',
+            value: {},
+            type: 'Object',
+            definition: attributeDefinition,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinition],
+            },
+          }).hasError()).toEqual(false);
+        });
+
+        it('Should return true if value type isn\'t an object', () => {
+          const attribute = new ComponentAttribute({
+            name: 'attribute-object',
+            value: 'object',
+            type: 'Object',
+            definition: attributeDefinition,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinition],
+            },
+          }).hasError()).toEqual(true);
+        });
+
+        it('Should return false if the "values" rule includes the attribute\'s value', () => {
+          const value1 = { test: 'test1' };
+          const value2 = { test: 'test2' };
+          const attributeDefinitionValue = new ComponentAttributeDefinition({
+            name: 'attribute-object',
+            type: 'Object',
+            rules: { values: [value1, value2] },
+          });
+
+          const attribute = new ComponentAttribute({
+            name: 'attribute-object',
+            value: value2,
+            type: 'Object',
+            definition: attributeDefinitionValue,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinitionValue],
+            },
+          }).hasError()).toEqual(false);
+        });
+
+        it(
+          'Should return true if the "values" rule doesn\'t include the attribute\'s value',
+          () => {
+            const value1 = { test: 'test1' };
+            const value2 = { test: 'test2' };
+            const attributeDefinitionValue = new ComponentAttributeDefinition({
+              name: 'attribute-object',
+              type: 'Object',
+              rules: { values: [value1, value2] },
+            });
+
+            const attribute = new ComponentAttribute({
+              name: 'attribute-object',
+              value: { test: 'test3' },
+              type: 'Object',
+              definition: attributeDefinitionValue,
+            });
+
+            expect(new Component({
+              attributes: [attribute],
+              definition: {
+                definedAttributes: [attributeDefinitionValue],
+              },
+            }).hasError()).toEqual(true);
+          },
+        );
+      });
+
+      describe('Test Array attribute', () => {
+        const attributeDefinition = new ComponentAttributeDefinition({
+          name: 'attribute-array',
+          type: 'Array',
+          rules: {
+            min: 2,
+            max: 5,
+          },
+        });
+
+        it('Should return false if value type is an array', () => {
+          const attribute = new ComponentAttribute({
+            name: 'attribute-array',
+            value: [1, 2, 3],
+            type: 'Array',
+            definition: attributeDefinition,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinition],
+            },
+          }).hasError()).toEqual(false);
+        });
+
+        it('Should return true if value type isn\'t an array', () => {
+          const attribute = new ComponentAttribute({
+            name: 'attribute-array',
+            value: 'array',
+            type: 'Array',
+            definition: attributeDefinition,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinition],
+            },
+          }).hasError()).toEqual(true);
+        });
+
+        it('Should return true if array length is smaller than "min" rule', () => {
+          const attribute = new ComponentAttribute({
+            name: 'attribute-array',
+            value: [1],
+            type: 'Array',
+            definition: attributeDefinition,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinition],
+            },
+          }).hasError()).toEqual(true);
+        });
+
+        it('Should return true if array length is bigger than "max" rule', () => {
+          const attribute = new ComponentAttribute({
+            name: 'attribute-array',
+            value: [1, 2, 3, 4, 5, 6],
+            type: 'Array',
+            definition: attributeDefinition,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinition],
+            },
+          }).hasError()).toEqual(true);
+        });
+
+        it('Should return false if the "values" rule includes the attribute\'s value', () => {
+          const value1 = ['test1'];
+          const value2 = ['test2'];
+          const attributeDefinitionValue = new ComponentAttributeDefinition({
+            name: 'attribute-array',
+            type: 'Array',
+            rules: { values: [value1, value2] },
+          });
+
+          const attribute = new ComponentAttribute({
+            name: 'attribute-array',
+            value: value1,
+            type: 'Array',
+            definition: attributeDefinitionValue,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinitionValue],
+            },
+          }).hasError()).toEqual(false);
+        });
+
+        it(
+          'Should return true if the "values" rule doesn\'t include the attribute\'s value',
+          () => {
+            const attributeDefinitionValue = new ComponentAttributeDefinition({
+              name: 'attribute-array',
+              type: 'Array',
+              rules: { values: [['test1'], ['test2']] },
+            });
+
+            const attribute = new ComponentAttribute({
+              name: 'attribute-array',
+              value: ['test3'],
+              type: 'Array',
+              definition: attributeDefinitionValue,
+            });
+
+            expect(new Component({
+              attributes: [attribute],
+              definition: {
+                definedAttributes: [attributeDefinitionValue],
+              },
+            }).hasError()).toEqual(true);
+          },
+        );
+      });
+
+      describe('Test Reference attribute', () => {
+        const attributeDefinition = new ComponentAttributeDefinition({
+          name: 'attribute-reference',
+          type: 'Reference',
+          rules: {
+            min: 2,
+            max: 4,
+          },
+        });
+
+        it('Should return false if the "values" rule does include the attribute\'s value', () => {
+          const attributeDefinitionValue = new ComponentAttributeDefinition({
+            name: 'attribute-reference',
+            type: 'Reference',
+            rules: { values: ['reference00'] },
+          });
+
+          const attribute = new ComponentAttribute({
+            name: 'attribute-reference',
+            value: 'reference00',
+            type: 'String',
+            definition: attributeDefinitionValue,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinitionValue],
+            },
+          }).hasError()).toEqual(false);
+        });
+
+        it(
+          'Should return true if the "values" rule doesn\'t include the attribute\'s value',
+          () => {
+            const attributeDefinitionValue = new ComponentAttributeDefinition({
+              name: 'attribute-reference',
+              type: 'Reference',
+              rules: { values: ['reference00'] },
+            });
+
+            const attribute = new ComponentAttribute({
+              name: 'attribute-reference',
+              value: 'reference01',
+              type: 'String',
+              definition: attributeDefinitionValue,
+            });
+
+            expect(new Component({
+              attributes: [attribute],
+              definition: {
+                definedAttributes: [attributeDefinitionValue],
+              },
+            }).hasError()).toEqual(true);
+          },
+        );
+
+        it('Should return true if attribute\'s value is smaller than the "min" rule', () => {
+          const attribute = new ComponentAttribute({
+            name: 'attribute-reference',
+            value: 'r',
+            type: 'String',
+            definition: attributeDefinition,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinition],
+            },
+          }).hasError()).toEqual(true);
+        });
+
+        it('Should return true if attribute\'s value is bigger than the "max" rule', () => {
+          const attribute = new ComponentAttribute({
+            name: 'attribute-reference',
+            value: 'reference',
+            type: 'String',
+            definition: attributeDefinition,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinition],
+            },
+          }).hasError()).toEqual(true);
+        });
+
+        it('Should return true if value type isn\'t string', () => {
+          const attributeDefinitionType = new ComponentAttributeDefinition({
+            name: 'attribute-reference',
+            type: 'Reference',
+          });
+
+          const attribute = new ComponentAttribute({
+            name: 'attribute-reference',
+            value: [1, 2, 3],
+            type: 'String',
+            definition: attributeDefinitionType,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinitionType],
+            },
+          }).hasError()).toEqual(true);
+        });
+      });
+
+      describe('Test Link attribute', () => {
+        const attributeDefinition = new ComponentAttributeDefinition({
+          name: 'attribute-link',
+          type: 'Link',
+          rules: {
+            min: 2,
+            max: 4,
+          },
+        });
+
+        it('Should return false if the "values" rule does include the attribute\'s value', () => {
+          const links = ['link'];
+          const attributeDefinitionValue = new ComponentAttributeDefinition({
+            name: 'attribute-link',
+            type: 'Link',
+            rules: { values: [links] },
+          });
+
+          const attribute = new ComponentAttribute({
+            name: 'attribute-link',
+            value: links,
+            type: 'Array',
+            definition: attributeDefinitionValue,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinitionValue],
+            },
+          }).hasError()).toEqual(false);
+        });
+
+        it(
+          'Should return true if the "values" rule doesn\'t include the attribute\'s value',
+          () => {
+            const attributeDefinitionValue = new ComponentAttributeDefinition({
+              name: 'attribute-link',
+              type: 'Link',
+              rules: { values: [['link1']] },
+            });
+
+            const attribute = new ComponentAttribute({
+              name: 'attribute-link',
+              value: ['link2'],
+              type: 'Array',
+              definition: attributeDefinitionValue,
+            });
+
+            expect(new Component({
+              attributes: [attribute],
+              definition: {
+                definedAttributes: [attributeDefinitionValue],
+              },
+            }).hasError()).toEqual(true);
+          },
+        );
+
+        it('Should return true if attribute\'s value is smaller than the "min" rule', () => {
+          const attribute = new ComponentAttribute({
+            name: 'attribute-link',
+            value: ['link1'],
+            type: 'Array',
+            definition: attributeDefinition,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinition],
+            },
+          }).hasError()).toEqual(true);
+        });
+
+        it('Should return true if attribute\'s value is bigger than the "max" rule', () => {
+          const attribute = new ComponentAttribute({
+            name: 'attribute-link',
+            value: ['link0', 'link1', 'link2', 'link3', 'link4'],
+            type: 'Array',
+            definition: attributeDefinition,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinition],
+            },
+          }).hasError()).toEqual(true);
+        });
+
+        it('Should return true if value type isn\'t array', () => {
+          const attributeDefinitionType = new ComponentAttributeDefinition({
+            name: 'attribute-link',
+            type: 'Link',
+          });
+
+          const attribute = new ComponentAttribute({
+            name: 'attribute-link',
+            value: 1,
+            type: 'Array',
+            definition: attributeDefinitionType,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinitionType],
+            },
+          }).hasError()).toEqual(true);
+        });
+      });
+
+      describe('Test definition type is wrong', () => {
+        it('Should return true if definition type is wrong', () => {
+          const attributeDefinitionType = new ComponentAttributeDefinition({
+            name: 'attribute-link',
+            type: 'WrongType',
+          });
+
+          const attribute = new ComponentAttribute({
+            name: 'attribute-link',
+            value: 1,
+            type: 'Array',
+            definition: attributeDefinitionType,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinitionType],
+            },
+          }).hasError()).toEqual(true);
+        });
       });
     });
   });
