@@ -12,7 +12,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.linkColor).toEqual('black');
       expect(definedAttribute.linkWidth).toEqual(2);
       expect(definedAttribute.linkDashStyle).toBeNull();
-      expect(definedAttribute.containerRef).toEqual([]);
+      expect(definedAttribute.containerRef).toBeNull();
       expect(definedAttribute.definedAttributes).toEqual([]);
       expect(definedAttribute.required).toEqual(false);
       expect(definedAttribute.rules.values).toBeNull();
@@ -31,7 +31,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.linkColor).toEqual('black');
       expect(definedAttribute.linkWidth).toEqual(2);
       expect(definedAttribute.linkDashStyle).toBeNull();
-      expect(definedAttribute.containerRef).toEqual([]);
+      expect(definedAttribute.containerRef).toBeNull();
       expect(definedAttribute.definedAttributes).toEqual([]);
       expect(definedAttribute.required).toEqual(false);
       expect(definedAttribute.rules.values).toBeNull();
@@ -50,7 +50,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.linkColor).toEqual('black');
       expect(definedAttribute.linkWidth).toEqual(2);
       expect(definedAttribute.linkDashStyle).toBeNull();
-      expect(definedAttribute.containerRef).toEqual([]);
+      expect(definedAttribute.containerRef).toBeNull();
       expect(definedAttribute.definedAttributes).toEqual([]);
       expect(definedAttribute.required).toEqual(false);
       expect(definedAttribute.rules.values).toBeNull();
@@ -68,14 +68,14 @@ describe('Test class: ComponentAttributeDefinition', () => {
         linkColor: 'blue',
         linkWidth: 3,
         linkDashStyle: [1, 1],
-        containerRef: ['containerRef'],
+        containerRef: 'containerRef',
         definedAttributes: [new ComponentAttributeDefinition()],
         required: true,
         rules: {
           values: ['value'],
           min: 1,
           max: 2,
-          regex: '/regex/',
+          regex: /regex/,
         },
       });
 
@@ -87,15 +87,14 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.linkColor).toEqual('blue');
       expect(definedAttribute.linkWidth).toEqual(3);
       expect(definedAttribute.linkDashStyle).toEqual([1, 1]);
-      expect(definedAttribute.containerRef.length).toEqual(1);
-      expect(definedAttribute.containerRef[0]).toEqual('containerRef');
+      expect(definedAttribute.containerRef).toEqual('containerRef');
       expect(definedAttribute.definedAttributes.length).toEqual(1);
       expect(definedAttribute.definedAttributes[0]).not.toBeNull();
       expect(definedAttribute.required).toEqual(true);
       expect(definedAttribute.rules.values).toEqual(['value']);
       expect(definedAttribute.rules.min).toEqual(1);
       expect(definedAttribute.rules.max).toEqual(2);
-      expect(definedAttribute.rules.regex).toEqual('/regex/');
+      expect(definedAttribute.rules.regex).toEqual(/regex/);
     });
   });
 });

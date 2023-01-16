@@ -14,7 +14,7 @@ class ComponentAttributeDefinition {
    * @param {string} [props.linkColor='black'] - Color of the link.
    * @param {number} [props.linkWidth=2] - Width of the link.
    * @param {number[]} [props.linkDashStyle] - Dash style of the link. See stroke-dasharray of svg.
-   * @param {string[]} [props.containerRef=[]] - Reference of accepted component for container.
+   * @param {string} [props.containerRef] - Reference of accepted component for container.
    * @param {boolean} [props.required=false] - Attribute is required.
    * @param {ComponentAttributeDefinition[]} [props.definedAttributes=[]] - Defined attributes for
    * this type.
@@ -32,7 +32,7 @@ class ComponentAttributeDefinition {
     linkColor: 'black',
     linkWidth: 2,
     linkDashStyle: null,
-    containerRef: [],
+    containerRef: null,
     required: false,
     definedAttributes: [],
     rules: {
@@ -99,11 +99,11 @@ class ComponentAttributeDefinition {
      */
     this.linkDashStyle = linkDashStyle || null;
     /**
-     * Define list of Component that can be the container of this component.
+     * Define the reference of Component that can be the container of this component.
      *
-     * @type {string[]}
+     * @type {string}
      */
-    this.containerRef = containerRef || [];
+    this.containerRef = containerRef || null;
     /**
      * Defined attributes for this type.
      *
