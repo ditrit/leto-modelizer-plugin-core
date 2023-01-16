@@ -13,9 +13,9 @@ class DemoMetadata extends DefaultMetadata {
       type: 'String',
       required: true,
       rules: {
-        min: 5,
+        min: 3,
         max: 100,
-        regex: '/[A-Z]{1}[a-z]+(-[A-Z]{1}[a-z]+)*/',
+        regex: /[A-Z]{1}[a-z]+(-[A-Z]{1}[a-z]+)*/,
       },
     });
 
@@ -29,7 +29,7 @@ class DemoMetadata extends DefaultMetadata {
       name: 'ip',
       type: 'String',
       rules: {
-        regex: '/[0-9]{1-3}\\.[0-9]{1-3}\\.[0-9]{1-3}\\.[0-9]{1-3}',
+        regex: /[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/,
       },
     });
 
