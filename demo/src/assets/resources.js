@@ -10,7 +10,7 @@ export default {
         class="template"
         width="230" height="50"
         fill="#474262">
-        <rect width="100%" height="100%" rx="5" ry="5"></rect>
+        <rect class="component-hitbox" width="100%" height="100%" rx="5" ry="5"></rect>
         
         <g fill="white" style="font-family: Calibri, Arial">
           <rect width="38" height="38"
@@ -35,7 +35,7 @@ export default {
      class="template"
      width="230" height="68"
      fill="#474262">
-  <rect width="100%" height="100%" rx="5" ry="5"></rect>
+  <rect class="component-hitbox" width="100%" height="100%" rx="5" ry="5"></rect>
   <svg class="component-container" x="1"
       overflow="visible"
       y="50"
