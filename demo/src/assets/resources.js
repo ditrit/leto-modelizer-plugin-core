@@ -10,7 +10,7 @@ export default {
         class="template"
         width="230" height="50"
         fill="#474262">
-        <rect width="100%" height="100%" rx="5" ry="5"></rect>
+        <rect class="component-hitbox" width="100%" height="100%" rx="5" ry="5"></rect>
         
         <g fill="white" style="font-family: Calibri, Arial">
           <rect width="38" height="38"
@@ -27,7 +27,7 @@ export default {
         <circle class="anchor" r="0" cx="50%" cy="100%" anchor="bottom"></circle>
         <circle class="anchor" r="0" cx="100%" cy="50%" anchor="right"></circle>
         <circle class="anchor" r="0" cx="0%" cy="50%" anchor="left"></circle>
-        <svg class="component-icon" x="9" y="9"></svg>
+        <svg id="icon-{{id}}" class="component-icon" x="9" y="9"></svg>
       </svg>
     `,
     DefaultContainer: `<svg version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +35,7 @@ export default {
      class="template"
      width="230" height="68"
      fill="#474262">
-  <rect width="100%" height="100%" rx="5" ry="5"></rect>
+  <rect class="component-hitbox" width="100%" height="100%" rx="5" ry="5"></rect>
   <svg class="component-container" x="1"
       overflow="visible"
       y="50"
@@ -61,7 +61,7 @@ export default {
   <circle class="anchor" cx="100%" cy="50%" anchor="right" r="0"></circle>
   <circle class="anchor" cx="0%" cy="50%" anchor="left" r="0"></circle>
 
-  <svg class="component-icon" x="9" y="9"></svg>
+  <svg id="icon-{{id}}" class="component-icon" x="9" y="9"></svg>
 </svg>`,
   },
 };

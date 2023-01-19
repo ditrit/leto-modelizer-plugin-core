@@ -59,7 +59,7 @@ Feature: Test component/link deletion
     And I expect "#server1" is visible
     And I expect "#server2" is visible
 
-    When I click on "top" of "#network1"
+    When I click on "#icon-network1"
     And I click on "#remove-component"
     Then I expect ".component" appear 3 times on screen
     And I expect ".component-DefaultModel" appear 2 times on screen
@@ -92,7 +92,7 @@ Feature: Test component/link deletion
     And I expect "#link-server-laptop_link-server1-external1" is visible
     And I expect "#link-laptop-network_link-internal1-network1" is visible
 
-    When I click on "top" of "#external1"
+    When I click on "#icon-external1"
     And I click on "#remove-component"
     Then I expect ".component" appear 5 times on screen
     And I expect ".component-DefaultModel" appear 3 times on screen
@@ -119,7 +119,7 @@ Feature: Test component/link deletion
     And I expect "#link-server-laptop_link-server1-external1" is visible
     And I expect "#link-laptop-network_link-internal1-network1" is visible
 
-    When I click on "top" of "#network1"
+    When I click on "#icon-network1"
     And I click on "#remove-component"
     Then I expect ".component" appear 3 times on screen
     And I expect ".component-DefaultModel" appear 2 times on screen

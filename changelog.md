@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add a lot of e2e tests to improve e2e coverage
+- Add `getDragTarget` method to `DefaultDrawer.js`.
+- Add an id to the component's icons for cypress tests.
 
 ### Changed
 
@@ -21,7 +23,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Save configuration even if the file content is null.
 - Fix drag and drop for e2e tests
-- Fix zoom centered on the mouse
+- Fix component drag behavior when the mouse click on component's icon or text.
+- Fix zoom centered on the mouse.
+- Fix cypress tests to works with new drag action.
 
 ## [0.11.0] - 2022/12/07
 

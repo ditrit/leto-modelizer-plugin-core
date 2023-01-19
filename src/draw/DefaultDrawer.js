@@ -305,7 +305,9 @@ class DefaultDrawer {
 
     return d3.drag()
       .subject((event) => {
-        const target = document.elementFromPoint(event.sourceEvent.x, event.sourceEvent.y);
+        const target = document
+          .elementsFromPoint(event.sourceEvent.x, event.sourceEvent.y)
+          .find((element) => element.classList.contains('component-hitbox'));
         const targetData = d3.select(target);
 
         return targetData.datum();
