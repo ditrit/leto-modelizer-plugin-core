@@ -424,7 +424,7 @@ class DefaultDrawer {
 
     this.drawLinks();
 
-    this.setViewPortAction(d3.select(`#${this.rootId}`));
+    this.setViewPortAction();
   }
 
   /**
@@ -900,17 +900,15 @@ class DefaultDrawer {
 
   /**
    * Set actions on viewport.
-   *
-   * @param {object} element - D3 element related to the actions.
    */
-  setViewPortAction(element) {
+  setViewPortAction() {
     this.svg.on('click', () => {
       this.__unselectComponent();
       this.cancelLinkCreationInteraction();
     });
     const drawLinks = this.drawLinks.bind(this);
 
-    element.call(d3
+    this.svg.call(d3
       .zoom()
       .on('zoom', function zoomHandler(event) {
         d3.select(this).select('.container').attr('transform', event.transform);
