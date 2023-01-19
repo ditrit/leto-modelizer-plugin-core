@@ -27,7 +27,7 @@ export default {
         <circle class="anchor" r="0" cx="50%" cy="100%" anchor="bottom"></circle>
         <circle class="anchor" r="0" cx="100%" cy="50%" anchor="right"></circle>
         <circle class="anchor" r="0" cx="0%" cy="50%" anchor="left"></circle>
-        <svg class="component-icon" x="9" y="9"></svg>
+        <svg id="icon-{{id}}" class="component-icon" x="9" y="9"></svg>
       </svg>
     `,
     DefaultContainer: `<svg version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +61,7 @@ export default {
   <circle class="anchor" cx="100%" cy="50%" anchor="right" r="0"></circle>
   <circle class="anchor" cx="0%" cy="50%" anchor="left" r="0"></circle>
 
-  <svg class="component-icon" x="9" y="9"></svg>
+  <svg id="icon-{{id}}" class="component-icon" x="9" y="9"></svg>
 </svg>`,
   },
 };
