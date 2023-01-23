@@ -762,5 +762,147 @@ describe('Test class: DefaultData', () => {
         ]);
       });
     });
+
+    describe('Test method: getWorkflowLinks', () => {
+      let pluginData;
+
+      beforeEach(() => {
+        pluginData = new DefaultData({
+          components: [
+            new Component({
+              id: 'workflow1',
+              definition: new ComponentDefinition({
+                displayType: 'workflowVertical',
+              }),
+            }),
+            new Component({
+              id: 'workflow2',
+              definition: new ComponentDefinition({
+                displayType: 'workflowVertical',
+              }),
+            }),
+
+            new Component({
+              id: 'workflowStep1',
+              definition: new ComponentDefinition(),
+              attributes: [new ComponentAttribute({
+                name: 'containerId',
+                value: 'workflow1',
+                definition: new ComponentAttributeDefinition({
+                  type: 'Reference',
+                }),
+              })],
+            }), new Component({
+              id: 'workflowStep2',
+              definition: new ComponentDefinition(),
+              attributes: [new ComponentAttribute({
+                name: 'containerId',
+                value: 'workflow1',
+                definition: new ComponentAttributeDefinition({
+                  type: 'Reference',
+                }),
+              })],
+            }),
+            new Component({
+              id: 'workflowStep3',
+              definition: new ComponentDefinition(),
+              attributes: [new ComponentAttribute({
+                name: 'containerId',
+                value: 'workflow1',
+                definition: new ComponentAttributeDefinition({
+                  type: 'Reference',
+                }),
+              }),
+              ],
+            }),
+            new Component({
+              id: 'workflowStep4',
+              definition: new ComponentDefinition(),
+              attributes: [new ComponentAttribute({
+                name: 'containerId',
+                value: 'workflow2',
+                definition: new ComponentAttributeDefinition({
+                  type: 'Reference',
+                }),
+              }),
+              ],
+            }),
+            new Component({
+              id: 'workflowStep5',
+              definition: new ComponentDefinition(),
+              attributes: [new ComponentAttribute({
+                name: 'containerId',
+                value: 'workflow2',
+                definition: new ComponentAttributeDefinition({
+                  type: 'Reference',
+                }),
+              }),
+              ],
+            }),
+          ],
+        });
+      });
+
+      it('Should create links between a workflow component\'s children', () => {
+        const links = pluginData.getWorkflowLinks();
+
+        expect(links).toEqual([
+          new ComponentLink({
+            definition: new ComponentLinkDefinition({
+              sourceRef: '__workflow',
+              attributeRef: '__next',
+            }),
+            source: 'workflowStep1',
+            target: 'workflowStep2',
+          }),
+          new ComponentLink({
+            definition: new ComponentLinkDefinition({
+              sourceRef: '__workflow',
+              attributeRef: '__next',
+            }),
+            source: 'workflowStep2',
+            target: 'workflowStep3',
+          }),
+          new ComponentLink({
+            definition: new ComponentLinkDefinition({
+              sourceRef: '__workflow',
+              attributeRef: '__next',
+            }),
+            source: 'workflowStep4',
+            target: 'workflowStep5',
+          }),
+        ]);
+      });
+
+      it('Should do nothing if there is less than 2 steps in a workflow', () => {
+        pluginData.components = [
+          new Component({
+            id: 'workflow1',
+            definition: new ComponentDefinition({
+              displayType: 'workflowVertical',
+            }),
+          }),
+          new Component({
+            id: 'workflow2',
+            definition: new ComponentDefinition({
+              displayType: 'workflowVertical',
+            }),
+          }),
+          new Component({
+            id: 'workflowStep1',
+            definition: new ComponentDefinition(),
+            attributes: [new ComponentAttribute({
+              name: 'containerId',
+              value: 'workflow1',
+              definition: new ComponentAttributeDefinition({
+                type: 'Reference',
+              }),
+            })],
+          }),
+        ];
+
+        expect(pluginData.getWorkflowLinks()).toEqual([]);
+      });
+    });
   });
 });

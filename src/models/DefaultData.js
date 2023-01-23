@@ -167,7 +167,34 @@ class DefaultData {
       });
     });
 
-    return links;
+    return links.concat(this.getWorkflowLinks());
+  }
+
+  /**
+   * Build internal links for workflow containers.
+   *
+   * @returns {ComponentLink[]} List of links
+   */
+  getWorkflowLinks() {
+    return this.components.filter(({ definition }) => definition.displayType?.match('workflow'))
+      .reduce((links, component) => {
+        const children = this.getChildren(component.id);
+
+        if (children.length > 1) {
+          for (let childIndex = 0; childIndex < children.length - 1; childIndex += 1) {
+            links.push(new ComponentLink({
+              definition: new ComponentLinkDefinition({
+                sourceRef: '__workflow',
+                attributeRef: '__next',
+              }),
+              source: children[childIndex].id,
+              target: children[childIndex + 1].id,
+            }));
+          }
+        }
+
+        return links;
+      }, []);
   }
 
   /**

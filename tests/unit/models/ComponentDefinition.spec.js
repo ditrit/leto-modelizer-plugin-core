@@ -12,6 +12,9 @@ describe('Test class: ComponentDefinition', () => {
       expect(componentDefinition.childrenTypes).toEqual([]);
       expect(componentDefinition.definedAttributes).toEqual([]);
       expect(componentDefinition.isContainer).toBeFalsy();
+      expect(componentDefinition.displayType).toBeFalsy();
+      expect(componentDefinition.preventChildrenMovement).toBeFalsy();
+      expect(componentDefinition.childrenPerLine).toBeFalsy();
     });
 
     it('Check passing undefined variables to constructor', () => {
@@ -24,6 +27,9 @@ describe('Test class: ComponentDefinition', () => {
       expect(componentDefinition.childrenTypes).toEqual([]);
       expect(componentDefinition.definedAttributes).toEqual([]);
       expect(componentDefinition.isContainer).toBeFalsy();
+      expect(componentDefinition.displayType).toBeFalsy();
+      expect(componentDefinition.preventChildrenMovement).toBeFalsy();
+      expect(componentDefinition.childrenPerLine).toBeFalsy();
     });
 
     it('Check passing variable to constructor', () => {
@@ -35,6 +41,9 @@ describe('Test class: ComponentDefinition', () => {
         childrenTypes: ['childrenType'],
         definedAttributes: ['attribute'],
         isContainer: true,
+        displayType: 'test',
+        preventChildrenMovement: true,
+        childrenPerLine: 5,
       });
 
       expect(componentDefinition.type).toEqual('type');
@@ -47,6 +56,9 @@ describe('Test class: ComponentDefinition', () => {
       expect(componentDefinition.definedAttributes.length).toEqual(1);
       expect(componentDefinition.definedAttributes[0]).toEqual('attribute');
       expect(componentDefinition.isContainer).toBeTruthy();
+      expect(componentDefinition.displayType).toEqual('test');
+      expect(componentDefinition.preventChildrenMovement).toBeTruthy();
+      expect(componentDefinition.childrenPerLine).toEqual(5);
     });
   });
 });

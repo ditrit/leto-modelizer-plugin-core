@@ -191,6 +191,11 @@ class DefaultDrawer {
    * @private
    */
   __getVerticalCoefficient(item) {
+    const lineLength = this.getLineLengthForDepth(
+      item.depth,
+      item.parent?.data?.definition?.childrenPerLine,
+    );
+
     if (item.children?.length > 0) {
       const childHeights = Math.ceil(
         item.children
@@ -204,23 +209,27 @@ class DefaultDrawer {
         .filter((child) => !(child.data?.definition?.isContainer))
         .reduce((acc, child) => acc + child.value, 0);
 
-      return localChildValue / this.getLineLengthForDepth(item.depth)
+      return localChildValue
+        / lineLength
         + childHeights
         + (item.data?.definition?.isContainer ? 1 : 0);
     }
 
-    return item.value / this.getLineLengthForDepth(item.depth)
+    return (lineLength === Infinity ? 1 : item.value
+      / lineLength)
       + (item.data?.definition?.isContainer ? 1 : 0);
   }
 
   /**
    * Get the maximum line length for a given depth.
    *
-   * @param {number} [depth] - The depth to check.
+   * @param {number} depth - The depth to check.
+   * @param {boolean} [lineLengthOverride=false] - Override if parent is tagged as a workflow
    * @returns {number} The maximum length at that depth.
    */
-  getLineLengthForDepth(depth) {
-    return this.lineLengthPerDepth[Math.min(depth, this.lineLengthPerDepth.length - 1)];
+  getLineLengthForDepth(depth, lineLengthOverride = null) {
+    return lineLengthOverride
+      || this.lineLengthPerDepth[Math.min(depth, this.lineLengthPerDepth.length - 1)];
   }
 
   /**
@@ -352,7 +361,9 @@ class DefaultDrawer {
     const origParent = this.pluginData.getComponentById(event.subject.parent.data.id);
     const target = dropTarget ? d3.select(dropTarget) : null;
 
-    if (target === origParent || (origParent?.id === target?.datum().data?.id)) {
+    if (target === origParent
+      || (origParent?.id === target?.datum().data?.id
+        && !origParent?.definition?.preventChildrenMovement)) {
       const { x, y } = event;
       const width = event.subject.x1 - event.subject.x0;
       const height = event.subject.y1 - event.subject.y0;
@@ -370,14 +381,7 @@ class DefaultDrawer {
       event.subject.data.drawOption = null;
 
       if (target) {
-        const parentId = target.attr('data-parentId');
-        const newParent = this.pluginData.getComponentById(parentId);
-        const newParentNode = d3.select(`#${parentId}`).datum();
-
-        if (newParent.definition.childrenTypes.includes(event.subject.data.definition.type)) {
-          event.subject.data.setReferenceAttribute(newParent);
-          this.__markAsNeedingResize(newParentNode);
-        }
+        this.changeParent(target, event);
       } else {
         event.subject.data.removeAllReferenceAttributes();
       }
@@ -385,6 +389,160 @@ class DefaultDrawer {
 
     this.emitUpdateEvent();
     this.draw(this.rootId);
+  }
+
+  /**
+   * Change the event subject's parent to the target component.
+   *
+   * @param {Selection} target - Where the dragged element was dropped.
+   * @param {DragEvent} event - D3's drag event.
+   */
+  changeParent(target, event) {
+    const parentId = target.attr('data-parentId');
+    const newParent = this.pluginData.getComponentById(parentId);
+    const newParentNode = d3.select(`#${parentId}`).datum();
+
+    if (newParent.definition.childrenTypes.includes(event.subject.data.definition.type)) {
+      event.subject.data.setReferenceAttribute(newParent);
+      this.__markAsNeedingResize(newParentNode);
+
+      if (newParent?.definition?.displayType === 'workflow') {
+        const newInboundComponent = this.findInsertionPosition(newParentNode, event);
+
+        if (newInboundComponent) {
+          this.pluginData
+            .insertComponentAfter(
+              event.subject.data.id,
+              newInboundComponent.data?.id,
+            );
+        } else if (newParentNode.children?.length > 0) {
+          this.pluginData
+            .insertComponentBefore(
+              event.subject.data.id,
+              newParentNode.children[0].data?.id,
+            );
+        }
+      }
+    }
+  }
+
+  /**
+   * Find after which component the dragged component should be placed in a container.
+   *
+   * @param {Node} parentNode - The destination container.
+   * @param {DragEvent} event - The drag event.
+   * @returns {Component} - The component that will be directly before the dropped component.
+   */
+  findInsertionPosition(parentNode, event) {
+    const xDelta = parentNode.x0 - event.subject.parent.x0;
+    const yDelta = parentNode.y0 - event.subject.parent.y0;
+    const adjustedEventX = event.x - xDelta;
+    const adjustedEventY = event.y - yDelta;
+
+    if (!parentNode.children) {
+      return null;
+    }
+
+    const sameLineComponents = parentNode.children
+      .filter((component) => component.data?.id !== event.subject?.data?.id)
+      .filter((component) => component.y0 <= adjustedEventY
+        && component.y1 >= adjustedEventY);
+
+    if (sameLineComponents.length > 0) {
+      const bracketingComponents = sameLineComponents.reduce((targetInfo, component) => {
+        const distance = adjustedEventX - component.x1;
+
+        if (distance > 0 && distance < targetInfo.distanceLeft) {
+          targetInfo.distanceLeft = distance;
+          targetInfo.componentLeft = component;
+        } else if (distance <= 0 && Math.abs(distance) < targetInfo.distanceRight) {
+          targetInfo.distanceRight = Math.abs(distance);
+          targetInfo.componentRight = component;
+        }
+
+        return targetInfo;
+      }, {
+        distanceLeft: Infinity,
+        distanceRight: Infinity,
+        componentLeft: null,
+        componentRight: null,
+      });
+
+      this.__fillMissingBracket(parentNode, bracketingComponents, event.subject);
+
+      return this.__isInverted(
+        parentNode,
+        bracketingComponents.componentLeft,
+        bracketingComponents.componentRight,
+      )
+        ? bracketingComponents.componentRight
+        : bracketingComponents.componentLeft;
+    }
+    const { component: returnComponent } = parentNode.children
+      .reduce((targetInfo, component) => {
+        const distance = adjustedEventY - component.y1;
+
+        if (distance > 0 && distance <= targetInfo.distance) {
+          targetInfo = { distance, component };
+        }
+
+        return targetInfo;
+      }, { distance: Infinity, component: null });
+
+    return returnComponent;
+  }
+
+  /**
+   * Fill left bracket if missing due to vertical layout.
+   *
+   * @param {Node} parentNode - The parent node
+   * @param {object} bracketingComponents - the components we want to drop the subject between.
+   * @param {Node} subject - The component being dropped.
+   * @private
+   */
+  __fillMissingBracket(parentNode, bracketingComponents, subject) {
+    if (parentNode.children?.length > 1
+      && !bracketingComponents.componentLeft
+      && bracketingComponents.componentRight) {
+      const subjectIndex = parentNode.children
+        .findIndex((component) => component.data?.id === subject?.data?.id);
+      const rightIndex = parentNode.children
+        .findIndex(
+          (component) => component.data?.id === bracketingComponents.componentRight.data?.id,
+        );
+      const newLeftIndex = subjectIndex === rightIndex - 1 ? rightIndex - 2 : rightIndex - 1;
+
+      if (newLeftIndex >= 0) {
+        bracketingComponents.componentLeft = parentNode.children[newLeftIndex];
+      }
+    }
+  }
+
+  /**
+   * Check if two components are being rendered right to left.
+   *
+   * @param {Node} parentNode - The parent component
+   * @param {Node} componentLeft - The left hand component
+   * @param {Node} componentRight - the right hand component
+   * @returns {boolean} - true if the right hand component has a lower index than the left hand one
+   * @private
+   */
+  __isInverted(
+    parentNode,
+    componentLeft,
+    componentRight,
+  ) {
+    const leftIndex = parentNode.children
+      .findIndex(
+        (component) => component.data.id === componentLeft?.data?.id,
+      );
+    const rightIndex = parentNode.children
+      .findIndex(
+        (component) => component.data.id === componentRight?.data?.id,
+      );
+
+    return !!((leftIndex === -1 && rightIndex === (parentNode.children.length - 1))
+      || (leftIndex >= 0 && rightIndex >= 0 && leftIndex > rightIndex));
   }
 
   /**
@@ -511,7 +669,7 @@ class DefaultDrawer {
     */
     const horizontalCoefficient = Math.min(
       component.value,
-      this.getLineLengthForDepth(component.depth),
+      this.getLineLengthForDepth(component.depth, component.data.definition?.childrenPerLine),
     );
     const verticalCoefficient = Math.ceil(this.__getVerticalCoefficient(component));
 
@@ -525,7 +683,7 @@ class DefaultDrawer {
       + (verticalCoefficient - 1)
       * (this.padding + this.margin);
 
-    if (!component.data.drawOption) {
+    if (!component.data.drawOption || component.parent?.data?.definition?.preventChildrenMovement) {
       component.data.drawOption = new ComponentDrawOption({
         needsPositioning: true,
         width,
@@ -546,14 +704,24 @@ class DefaultDrawer {
     const treemapLayout = d3.treemap()
       .size([this.width, this.height])
       .tile((data) => {
-        const newComponents = data.children.filter((child) => !child.data.drawOption);
-        const existingComponents = data.children.filter((child) => child.data.drawOption);
+        const newComponents = data
+          .children
+          .filter((child) => !child.data.drawOption
+            || data.data?.definition?.preventChildrenMovement);
+        const existingComponents = data
+          .children
+          .filter((child) => child.data.drawOption
+            && !(data.data?.definition?.preventChildrenMovement));
 
         newComponents.forEach((component) => this.initializeComponentDrawOptions(component));
 
         const lines = this.__buildLines(existingComponents.concat(newComponents), data.depth);
 
-        this.setupTiles(lines);
+        this.setupTiles(lines.map((line) => {
+          line.items = line.items.filter((item) => item);
+
+          return line;
+        }), data.data?.definition?.displayType === 'workflow');
         // TODO save/load coordinates
       })
       .round(true);
@@ -563,11 +731,7 @@ class DefaultDrawer {
     );
 
     rootNode
-      .count()
-      .sort((a, b) => (b.height - a.height)
-        || (b.value - a.value)
-        || ((b.data?.definition?.isContainer ? 1 : 0) - (a.data?.definition?.isContainer ? 1 : 0))
-        || ((a.data?.drawOption ? 1 : 0) - (b.data?.drawOption ? 1 : 0)));
+      .count();
 
     treemapLayout(rootNode);
 
@@ -784,24 +948,28 @@ class DefaultDrawer {
    * Compute the dimension of every component.
    *
    * @param {Array} lines - Rows of components.
+   * @param {boolean} [invertEven=false] - Layout even line components right to left.
    */
-  setupTiles(lines) {
+  setupTiles(lines, invertEven = false) {
     let previousTallestItem = { x1: 0, y1: 0 };
 
     lines
       .forEach((line) => {
-        let prevItem = {
-          x1: 0,
-          y0: line.band + this.padding,
-        };
-
-        line.items
+        line.items = line.items
           .map((item) => {
             if (!item.data.drawOption) {
               item.data.drawOption = new ComponentDrawOption({
                 needsPositioning: true,
                 needsResizing: true,
               });
+            }
+
+            return item;
+          })
+          .map((item) => {
+            if (item.data.drawOption.needsResizing) {
+              this.initializeComponentDrawOptions(item);
+              item.data.drawOption.needsResizing = false;
             }
 
             return item;
@@ -817,26 +985,42 @@ class DefaultDrawer {
             }
 
             return 0;
-          })
-          .forEach((item) => {
-            if (item.data.drawOption.needsPositioning) {
-              item.data.drawOption.x = prevItem.x1 + this.padding;
-              item.data.drawOption.y = previousTallestItem.y1 + this.padding;
-              item.data.drawOption.needsPositioning = false;
-            }
-
-            item.x0 = item.data.drawOption.x;
-            item.y0 = item.data.drawOption.y;
-            prevItem = item;
-
-            if (item.data.drawOption.needsResizing) {
-              this.initializeComponentDrawOptions(item);
-              item.data.drawOption.needsResizing = false;
-            }
-
-            item.x1 = item.x0 + item.data.drawOption.width;
-            item.y1 = item.y0 + item.data.drawOption.height;
           });
+        /*          .reduceRight((acc, item) => {
+            acc[invertEven && lineIndex % 2 ? 'push' : 'unshift'](item);
+
+            return acc;
+          }, []) */
+      });
+    const rightClamp = Math.max(...lines.map(
+      (line) => (line.items.reduce((acc, item) => acc + item.data.drawOption.width, 0)
+        + (line.items.length + 1) * this.padding),
+    ));
+
+    lines
+      .forEach((line, lineIndex) => {
+        let prevItem = {
+          x1: 0,
+          x0: rightClamp,
+          y0: line.band + this.padding,
+        };
+
+        line.items.forEach((item) => {
+          if (item.data.drawOption.needsPositioning) {
+            item.data.drawOption.x = invertEven && lineIndex % 2
+              ? prevItem.x0 - item.data.drawOption.width - this.padding
+              : prevItem.x1 + this.padding;
+            item.data.drawOption.y = previousTallestItem.y1 + this.padding;
+            item.data.drawOption.needsPositioning = false;
+          }
+
+          item.x0 = item.data.drawOption.x;
+          item.y0 = item.data.drawOption.y;
+          prevItem = item;
+
+          item.x1 = item.x0 + item.data.drawOption.width;
+          item.y1 = item.y0 + item.data.drawOption.height;
+        });
 
         if (line.items.length > 0) {
           const maxLineValue = Math.max(...line.items.map((item) => item.value));
@@ -879,7 +1063,10 @@ class DefaultDrawer {
         activeLineIndex = 0;
 
         while (activeLineIndex < lines.length
-          && lines[activeLineIndex].items.length >= this.getLineLengthForDepth(depth)) {
+        && lines[activeLineIndex].items.length >= this.getLineLengthForDepth(
+          depth,
+          child.parent?.data?.definition?.childrenPerLine,
+        )) {
           activeLineIndex += 1;
         }
 

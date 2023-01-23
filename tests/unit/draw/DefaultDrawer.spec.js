@@ -528,6 +528,153 @@ describe('Test Class: DefaultDrawer()', () => {
       drawer.lineLengthPerDepth = [4];
       expect(drawer.getLineLengthForDepth(6)).toEqual(4);
     });
+
+    it('Should use override value when provided', () => {
+      const drawer = new DefaultDrawer(
+        new DefaultData(),
+        null,
+        {},
+        'root',
+        { lineLengthPerDepth: [4] },
+      );
+
+      expect(drawer.getLineLengthForDepth(5, 1)).toEqual(1);
+      expect(drawer.getLineLengthForDepth(5, 5)).toEqual(5);
+      expect(drawer.getLineLengthForDepth(5, Infinity)).toEqual(Infinity);
+    });
+  });
+
+  describe('Test method: findInsertionPosition', () => {
+    let drawer;
+    let parentNode;
+    let event;
+
+    beforeEach(() => {
+      drawer = new DefaultDrawer();
+      parentNode = {
+        data: {
+          definition: {
+            displayType: 'workflow',
+          },
+        },
+        x0: 0,
+        y0: 0,
+        children: [
+          {
+            data: { id: '1' }, x0: 50, x1: 100, y0: 50, y1: 100,
+          },
+          {
+            data: { id: '2' }, x0: 150, x1: 200, y0: 50, y1: 100,
+          },
+          {
+            data: { id: '3' }, x0: 250, x1: 300, y0: 50, y1: 100,
+          },
+        ],
+
+      };
+      event = {
+        subject: {
+        },
+      };
+    });
+
+    it('Should handle movement within the same container', () => {
+      event.subject.parent = parentNode;
+      event.x = 125;
+      event.y = 75;
+      expect(drawer.findInsertionPosition(parentNode, event))
+        .toEqual({
+          data: { id: '1' }, x0: 50, x1: 100, y0: 50, y1: 100,
+        });
+
+      event.x = 350;
+      expect(drawer.findInsertionPosition(parentNode, event))
+        .toEqual({
+          data: { id: '3' }, x0: 250, x1: 300, y0: 50, y1: 100,
+        });
+
+      event.x = 20;
+      expect(drawer.findInsertionPosition(parentNode, event))
+        .toEqual(null);
+
+      parentNode.children = [
+        {
+          data: { id: '1' }, x0: 50, x1: 100, y0: 50, y1: 100,
+        },
+        {
+          data: { id: '2' }, x0: 50, x1: 100, y0: 150, y1: 200,
+        },
+        {
+          data: { id: '3' }, x0: 50, x1: 100, y0: 250, y1: 300,
+        },
+      ];
+      event.y = 125;
+      expect(drawer.findInsertionPosition(parentNode, event))
+        .toEqual({
+          data: { id: '1' }, x0: 50, x1: 100, y0: 50, y1: 100,
+        });
+
+      event.y = 350;
+      expect(drawer.findInsertionPosition(parentNode, event))
+        .toEqual({
+          data: { id: '3' }, x0: 50, x1: 100, y0: 250, y1: 300,
+        });
+
+      event.y = 50;
+      expect(drawer.findInsertionPosition(parentNode, event))
+        .toEqual(null);
+    });
+
+    it('Should handle movement between two different containers', () => {
+      event.subject.parent = {
+        x0: 1000,
+        y0: 1000,
+      };
+      event.x = -825;
+      event.y = -925;
+      expect(drawer.findInsertionPosition(parentNode, event))
+        .toEqual({
+          data: { id: '1' }, x0: 50, x1: 100, y0: 50, y1: 100,
+        });
+
+      event.x = -625;
+      expect(drawer.findInsertionPosition(parentNode, event))
+        .toEqual({
+          data: { id: '3' }, x0: 250, x1: 300, y0: 50, y1: 100,
+        });
+
+      event.x = -950;
+      expect(drawer.findInsertionPosition(parentNode, event))
+        .toEqual(null);
+
+      parentNode.children = [
+        {
+          data: { id: '1' }, x0: 50, x1: 100, y0: 50, y1: 100,
+        },
+        {
+          data: { id: '2' }, x0: 50, x1: 100, y0: 150, y1: 200,
+        },
+        {
+          data: { id: '3' }, x0: 50, x1: 100, y0: 250, y1: 300,
+        },
+      ];
+      event.x = -925;
+      event.y = -875;
+      expect(drawer.findInsertionPosition(parentNode, event))
+        .toEqual({
+          data: { id: '1' }, x0: 50, x1: 100, y0: 50, y1: 100,
+        });
+
+      event.y = -625;
+      expect(drawer.findInsertionPosition(parentNode, event))
+        .toEqual({
+          data: { id: '3' }, x0: 50, x1: 100, y0: 250, y1: 300,
+        });
+
+      event.y = -950;
+      expect(drawer.findInsertionPosition(parentNode, event))
+        .toEqual(null);
+    });
   });
 
   describe('Test actions', () => {
@@ -900,6 +1047,120 @@ describe('Test Class: DefaultDrawer()', () => {
       drawer.initializeComponentDrawOptions(component);
       expect(component.data.drawOption.width).toEqual(drawer.minWidth + 2 * drawer.margin);
       expect(component.data.drawOption.height).toEqual(drawer.minHeight);
+    });
+  });
+
+  describe('Test method: __isInverted', () => {
+    let drawer;
+    let parentNode;
+
+    beforeEach(() => {
+      drawer = new DefaultDrawer();
+      parentNode = {
+        children: [
+          { data: { id: '1' } },
+          { data: { id: '2' } },
+          { data: { id: '3' } },
+        ],
+      };
+    });
+
+    it('Should return true if the left component index is greater than the right', () => {
+      expect(
+        drawer.__isInverted(parentNode, { data: { id: '3' } }, { data: { id: '2' } }),
+      ).toEqual(true);
+      expect(
+        drawer.__isInverted(parentNode, { data: { id: '2' } }, { data: { id: '1' } }),
+      ).toEqual(true);
+    });
+
+    it('Should return true if the right component is the last in the list', () => {
+      expect(
+        drawer.__isInverted(parentNode, null, { data: { id: '3' } }),
+      ).toEqual(true);
+    });
+
+    it(
+      'Should return false if the left index is smaller or the right component doesn\'t exist',
+      () => {
+        expect(
+          drawer.__isInverted(parentNode, { data: { id: '3' } }, null),
+        ).toEqual(false);
+        expect(
+          drawer.__isInverted(parentNode, null, { data: { id: '1' } }),
+        ).toEqual(false);
+        expect(
+          drawer.__isInverted(parentNode, { data: { id: '2' } }, { data: { id: '3' } }),
+        ).toEqual(false);
+      },
+    );
+  });
+
+  describe('Test method: __fillMissingBracket', () => {
+    let drawer;
+    let parentNode;
+    let bracketingComponents;
+
+    beforeEach(() => {
+      drawer = new DefaultDrawer();
+      bracketingComponents = {
+        componentLeft: null,
+        componentRight: null,
+      };
+      parentNode = {
+        children: [
+          { data: { id: '1' } },
+          { data: { id: '2' } },
+          { data: { id: '3' } },
+        ],
+      };
+    });
+
+    it('Should not change an already set left hand component', () => {
+      const subject = { data: { id: '2' } };
+
+      bracketingComponents.componentLeft = { data: { id: '3' } };
+
+      drawer.__fillMissingBracket(parentNode, bracketingComponents, subject);
+      expect(bracketingComponents).toEqual({
+        componentLeft: { data: { id: '3' } },
+        componentRight: null,
+      });
+    });
+
+    it('Should load the previous component into the left slot', () => {
+      const subject = { data: { id: '4' } };
+
+      bracketingComponents.componentRight = { data: { id: '3' } };
+
+      drawer.__fillMissingBracket(parentNode, bracketingComponents, subject);
+      expect(bracketingComponents).toEqual({
+        componentLeft: { data: { id: '2' } },
+        componentRight: { data: { id: '3' } },
+      });
+    });
+
+    it('Should load the component before the subject if the subject is bracketed', () => {
+      const subject = { data: { id: '2' } };
+
+      bracketingComponents.componentRight = { data: { id: '3' } };
+
+      drawer.__fillMissingBracket(parentNode, bracketingComponents, subject);
+      expect(bracketingComponents).toEqual({
+        componentLeft: { data: { id: '1' } },
+        componentRight: { data: { id: '3' } },
+      });
+    });
+    it('Should do nothing if the right hand component is the first child', () => {
+      const subject = { data: { id: '4' } };
+
+      bracketingComponents.componentRight = { data: { id: '1' } };
+
+      drawer.__fillMissingBracket(parentNode, bracketingComponents, subject);
+      expect(bracketingComponents).toEqual({
+        componentLeft: null,
+        componentRight: { data: { id: '1' } },
+      });
     });
   });
 });
