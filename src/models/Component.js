@@ -80,9 +80,7 @@ class Component extends FileInformation {
    */
   setReferenceAttribute(container) {
     const attributeDefinition = this.definition.definedAttributes
-      .find((definition) => definition.containerRef.includes(
-        container.definition.type,
-      ));
+      .find((definition) => definition.containerRef === container.definition.type);
 
     if (!attributeDefinition) {
       return;
@@ -113,9 +111,12 @@ class Component extends FileInformation {
   removeAllReferenceAttributes(container) {
     if (container) {
       this.attributes = this.attributes
-        .filter(({ definition, value }) => !(definition.type === 'Reference'
-        && definition.containerRef === container.definition.type
-        && value === container.id));
+        .filter(({
+          definition,
+          value,
+        }) => !(definition.type === 'Reference'
+          && definition.containerRef === container.definition.type
+          && value === container.id));
     } else {
       this.attributes = this.attributes.filter(({ definition }) => definition.type !== 'Reference');
     }
@@ -211,13 +212,46 @@ class Component extends FileInformation {
   /**
    * Retrieve container id from attributes.
    *
-   * @returns {string} Id of container or null;
+   * @returns {string} Id of container or null.
    */
   getContainerId() {
     const attribute = this.attributes.find(({ definition }) => definition
       && definition.type === 'Reference');
 
     return !attribute ? null : attribute.value;
+  }
+
+  /**
+   * Check if the component has an error.
+   *
+   * @returns {boolean} - true if the component has an error otherwise false.
+   */
+  hasError() {
+    return this.checkRequiredAttributes() || this.checkAttributesErrors();
+  }
+
+  /**
+   * Check if a required attribute is absent.
+   *
+   * @returns {boolean} - true if a required attribute is absent otherwise false.
+   */
+  checkRequiredAttributes() {
+    return this.definition.definedAttributes
+      .filter((defAttribute) => defAttribute.required)
+      .some((defAttribute) => {
+        const attribute = this.getAttributeByName(defAttribute.name);
+
+        return !attribute || attribute.value === null || attribute.value.trim() === '';
+      });
+  }
+
+  /**
+   * Check if attributes has an error.
+   *
+   * @returns {boolean} - true if attributes has an error otherwise false.
+   */
+  checkAttributesErrors() {
+    return this.attributes.some((attribute) => (attribute.hasError()));
   }
 }
 

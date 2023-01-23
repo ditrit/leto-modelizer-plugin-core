@@ -13,13 +13,13 @@ class DemoParser extends DefaultParser {
       attributes: [
         new ComponentAttribute({
           name: 'name',
-          value: 'laptop1',
+          value: 'Internal',
           type: 'String',
           definition: this.pluginData.__nameAttributeDefinition,
         }),
         new ComponentAttribute({
           name: 'ip',
-          value: '182.18.29.11',
+          value: '182.18.29',
           type: 'String',
           definition: this.pluginData.__ipAttributeDefinition,
         }),
@@ -45,7 +45,7 @@ class DemoParser extends DefaultParser {
       attributes: [
         new ComponentAttribute({
           name: 'name',
-          value: 'laptop2',
+          value: 'Laptop',
           type: 'String',
           definition: this.pluginData.__nameAttributeDefinition,
         }),
@@ -129,7 +129,7 @@ class DemoParser extends DefaultParser {
       attributes: [
         new ComponentAttribute({
           name: 'name',
-          value: 'DMZ',
+          value: 'Dmz',
           type: 'String',
           definition: this.pluginData.__nameAttributeDefinition,
         }),
@@ -143,7 +143,7 @@ class DemoParser extends DefaultParser {
       attributes: [
         new ComponentAttribute({
           name: 'name',
-          value: 'DMZ',
+          value: 'Dmz',
           type: 'String',
           definition: this.pluginData.__nameAttributeDefinition,
         }),

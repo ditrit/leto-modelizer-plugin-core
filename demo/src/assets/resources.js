@@ -11,7 +11,17 @@ export default {
         width="230" height="50"
         fill="#474262">
         <rect class="component-hitbox" width="100%" height="100%" rx="5" ry="5"></rect>
-        
+        {% if hasError %}
+        <g class="component-error">
+            <svg xmlns="http://www.w3.org/2000/svg" 
+                 width="15" height="15"
+                 x=200 y="10"
+                 fill="yellow"
+                 viewBox="0 0 512 512">
+            <path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zm32 224c0 17.7-14.3 32-32 32s-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32z"/>
+            </svg>
+        </g>
+        {% endif %}
         <g fill="white" style="font-family: Calibri, Arial">
           <rect width="38" height="38"
             x="6" y="6"
@@ -30,38 +40,51 @@ export default {
         <svg id="icon-{{id}}" class="component-icon" x="9" y="9"></svg>
       </svg>
     `,
-    DefaultContainer: `<svg version="1.1" xmlns="http://www.w3.org/2000/svg"
-     overflow="visible"
-     class="template"
-     width="230" height="68"
-     fill="#474262">
-  <rect class="component-hitbox" width="100%" height="100%" rx="5" ry="5"></rect>
-  <svg class="component-container" x="1"
-      overflow="visible"
-      y="50"
-      fill="#9691B1">
-    <rect class="container-background"
-          width="100%" height="100%"
-          rx="4" ry="4"></rect>
-  </svg>
-  <g fill="white" style="font-family: Calibri, Arial">
-    <rect width="38" height="38"
-          x="6" y="6"
-          rx="4" ry="4"></rect>
-    <text class="component-name"
-          x="50" y="1.5em"
-          style="font-size: 14px; font-weight: 600">{{ name }}</text>
-    <text class="component-type"
-          x="50" y="3em"
-          style="font-size: 12px; font-style: italic">{{ definition.type }}</text>
-  </g>
-
-  <circle class="anchor" cx="50%" cy="0%" anchor="top" r="0"></circle>
-  <circle class="anchor" cx="50%" cy="100%" anchor="bottom" r="0"></circle>
-  <circle class="anchor" cx="100%" cy="50%" anchor="right" r="0"></circle>
-  <circle class="anchor" cx="0%" cy="50%" anchor="left" r="0"></circle>
-
-  <svg id="icon-{{id}}" class="component-icon" x="9" y="9"></svg>
-</svg>`,
+    DefaultContainer: `
+      <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+           overflow="visible"
+           class="template"
+           width="230" height="68"
+           fill="#474262">
+        <rect class="component-hitbox" width="100%" height="100%" rx="5" ry="5"></rect>
+        {% if hasError %}
+        <g class="component-error">
+            <svg xmlns="http://www.w3.org/2000/svg" 
+                 width="15" height="15"
+                 x=220 y="10"
+                 fill="yellow"
+                 viewBox="0 0 512 512">
+            <path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zm32 224c0 17.7-14.3 32-32 32s-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32z"/>
+            </svg>
+        </g>
+        {% endif %}
+        <svg class="component-container" x="1"
+            overflow="visible"
+            y="50"
+            fill="#9691B1">
+          <rect class="container-background"
+                width="100%" height="100%"
+                rx="4" ry="4"></rect>
+        </svg>
+        <g fill="white" style="font-family: Calibri, Arial">
+          <rect width="38" height="38"
+                x="6" y="6"
+                rx="4" ry="4"></rect>
+          <text class="component-name"
+                x="50" y="1.5em"
+                style="font-size: 14px; font-weight: 600">{{ name }}</text>
+          <text class="component-type"
+                x="50" y="3em"
+                style="font-size: 12px; font-style: italic">{{ definition.type }}</text>
+        </g>
+      
+        <circle class="anchor" cx="50%" cy="0%" anchor="top" r="0"></circle>
+        <circle class="anchor" cx="50%" cy="100%" anchor="bottom" r="0"></circle>
+        <circle class="anchor" cx="100%" cy="50%" anchor="right" r="0"></circle>
+        <circle class="anchor" cx="0%" cy="50%" anchor="left" r="0"></circle>
+  
+        <svg id="icon-{{id}}" class="component-icon" x="9" y="9"></svg>
+      </svg>
+    `,
   },
 };
