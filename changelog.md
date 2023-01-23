@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add a lot of e2e tests to improve e2e coverage
+- Added layout line length overrides.
+- Added `workflow` display type.
+  * It is designed for containers where children ordering is significant.
+  * Drag and drop reordering of children is supported within these containers
+- Add `getDragTarget` method to `DefaultDrawer.js`.
 - Add an id to the component's icons for cypress tests.
 - Add `hasError` method to `Component.js` to check if a component has an error
 - Add methods checking error for all types to `ComponentAttribute.js`
