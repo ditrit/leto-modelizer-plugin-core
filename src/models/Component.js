@@ -87,7 +87,7 @@ class Component extends FileInformation {
     }
 
     const attributes = this.attributes
-      .filter(({ definition }) => definition.name === attributeDefinition.name);
+      .filter(({ definition }) => definition && definition.name === attributeDefinition.name);
 
     if (attributes.length > 0) {
       attributes.forEach((attribute) => {
