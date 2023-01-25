@@ -132,6 +132,41 @@ describe('Test class: Component', () => {
         });
         expect(component.attributes[0].definition).not.toBeNull();
       });
+
+      it('should not raise error when there are attributes without definition', () => {
+        const component = new Component({
+          attributes: [
+            new ComponentAttribute({
+              name: 'attributeWithNullDef',
+              type: 'String',
+            }),
+          ],
+          definition: new ComponentDefinition({
+            definedAttributes: [
+              new ComponentAttributeDefinition({
+                name: 'container',
+                type: 'Reference',
+                containerRef: 'container',
+              }),
+            ],
+          }),
+        });
+
+        component.setReferenceAttribute(new Component({
+          id: 'containerId',
+          definition: new ComponentDefinition({
+            type: 'container',
+          }),
+        }));
+
+        expect(component.attributes.length).toEqual(2);
+        expect(component.attributes[1]).toMatchObject({
+          name: 'container',
+          value: 'containerId',
+        });
+        expect(component.attributes[0].definition).toBeNull();
+        expect(component.attributes[1].definition).not.toBeNull();
+      });
     });
 
     describe('Test method: removeAllReferenceAttributes', () => {

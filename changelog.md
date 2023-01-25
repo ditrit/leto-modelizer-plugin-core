@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix component drag behavior when the mouse click on component's icon or text.
 - Fix zoom centered on the mouse.
 - Fix cypress tests to works with new drag action.
+- Fix error in setReferenceAttribute when there are attributes without definition.
 
 ## [0.11.0] - 2022/12/07
 
