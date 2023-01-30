@@ -167,7 +167,34 @@ class DefaultData {
       });
     });
 
-    return links;
+    return links.concat(this.getWorkflowLinks());
+  }
+
+  /**
+   * Build internal links for workflow containers.
+   *
+   * @returns {ComponentLink[]} List of links
+   */
+  getWorkflowLinks() {
+    return this.components.filter(({ definition }) => definition.displayType?.match('workflow'))
+      .reduce((links, component) => {
+        const children = this.getChildren(component.id);
+
+        if (children.length > 1) {
+          for (let childIndex = 0; childIndex < children.length - 1; childIndex += 1) {
+            links.push(new ComponentLink({
+              definition: new ComponentLinkDefinition({
+                sourceRef: '__workflow',
+                attributeRef: '__next',
+              }),
+              source: children[childIndex].id,
+              target: children[childIndex + 1].id,
+            }));
+          }
+        }
+
+        return links;
+      }, []);
   }
 
   /**
@@ -215,6 +242,67 @@ class DefaultData {
    */
   getChildren(id) {
     return this.components.filter((component) => component.getContainerId() === id);
+  }
+
+  /**
+   * Move a component to a new position in the internal component list.
+   *
+   * @param {string} componentId - The component's id.
+   * @param {number} newIndex - The new index.
+   * @private
+   */
+  __moveComponentToIndex(componentId, newIndex) {
+    const currentIndex = this.components
+      .findIndex((cmp) => cmp.id === componentId);
+
+    if (currentIndex === newIndex) {
+      return;
+    }
+    const component = this.getComponentById(componentId);
+    let adjustedIndex = Math.max(0, newIndex);
+
+    adjustedIndex += adjustedIndex > currentIndex;
+    this.components.splice(adjustedIndex, 0, component);
+    this.components.splice(currentIndex + (adjustedIndex < currentIndex), 1);
+  }
+
+  /**
+   * Insert the moved component before the target in the internal component list
+   *
+   * @param {string} movedId - The id of the component to move
+   * @param {string} targetId - The id of the component that will be immediately
+   * after the moved component
+   */
+  insertComponentBefore(movedId, targetId) {
+    const targetIndex = this.components.findIndex((component) => component.id === targetId);
+
+    if (targetIndex === -1) {
+      return;
+    }
+    this.__moveComponentToIndex(
+      movedId,
+      Math.max(0, targetIndex - 1),
+    );
+  }
+
+  /**
+   * Insert the moved component after the target in the internal component list
+   *
+   * @param {string} movedId - The id of the component to move
+   * @param {string} targetId - The id of the component that will be immediately
+   * before the moved component
+   */
+  insertComponentAfter(movedId, targetId) {
+    const movedIndex = this.components.findIndex((component) => component.id === movedId);
+    const targetIndex = this.components.findIndex((component) => component.id === targetId);
+
+    if (targetIndex === -1) {
+      return;
+    }
+    this.__moveComponentToIndex(
+      movedId,
+      Math.min(this.components.length - 1, targetIndex + (targetIndex < movedIndex)),
+    );
   }
 }
 

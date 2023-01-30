@@ -43,6 +43,11 @@ class DemoMetadata extends DefaultMetadata {
       type: 'Link',
       linkRef: 'laptop',
     })
+    this.pluginData.__workflowAttributeDefinition = new ComponentAttributeDefinition({
+      name: 'workflow',
+      type: 'Reference',
+      containerRef: 'workflow',
+    });
 
     this.pluginData.__networkLinkAttributeDefinition = new ComponentAttributeDefinition({
       name: 'network_link',
@@ -59,7 +64,7 @@ class DemoMetadata extends DefaultMetadata {
       icon: 'network',
       model: 'DefaultContainer',
       parentTypes: ['network'],
-      childrenTypes: ['server', 'network'],
+      childrenTypes: ['server', 'network', 'workflow'],
       definedAttributes: [this.pluginData.__nameAttributeDefinition, this.pluginData.__networkAttributeDefinition],
       isContainer: true,
     });
@@ -93,11 +98,60 @@ class DemoMetadata extends DefaultMetadata {
       isContainer: false,
     });
 
+    this.pluginData.__verticalWorkflowDefinition = new ComponentDefinition({
+      type: 'workflow',
+      icon: 'network',
+      model: 'DefaultContainer',
+      parentTypes: ['network', 'workflow'],
+      childrenTypes: ['workflowStep', 'workflow'],
+      definedAttributes: [
+        this.pluginData.__nameAttributeDefinition,
+        this.pluginData.__networkAttributeDefinition,
+        this.pluginData.__workflowAttributeDefinition,
+      ],
+      isContainer: true,
+      displayType: 'workflow',
+      preventChildrenMovement: true,
+      childrenPerLine: 1
+    });
+
+    this.pluginData.__horizontalWorkflowDefinition = new ComponentDefinition({
+      type: 'workflow',
+      icon: 'network',
+      model: 'DefaultContainer',
+      parentTypes: ['network', 'workflow'],
+      childrenTypes: ['workflowStep', 'workflow'],
+      definedAttributes: [
+        this.pluginData.__nameAttributeDefinition,
+        this.pluginData.__networkAttributeDefinition,
+        this.pluginData.__workflowAttributeDefinition,
+      ],
+      isContainer: true,
+      displayType: 'workflow',
+      preventChildrenMovement: true,
+      childrenPerLine: Infinity
+    });
+
+    this.pluginData.__workflowStepDefinition = new ComponentDefinition({
+      type: 'workflowStep',
+      icon: 'network',
+      model: 'DefaultModel',
+      parentTypes: ['workflow'],
+      definedAttributes: [
+        this.pluginData.__nameAttributeDefinition
+        ,this.pluginData.__workflowAttributeDefinition
+      ],
+      isContainer: false,
+    });
+
     this.pluginData.definitions = {
       components: [
         this.pluginData.__networkDefinition,
         this.pluginData.__serverDefinition,
         this.pluginData.__laptopDefinition,
+        this.pluginData.__verticalWorkflowDefinition,
+        this.pluginData.__horizontalWorkflowDefinition,
+        this.pluginData.__workflowStepDefinition,
       ],
     };
     this.pluginData.initLinkDefinitions();

@@ -566,5 +566,343 @@ describe('Test class: DefaultData', () => {
         ]);
       });
     });
+
+    describe('Test method: __moveComponentToIndex', () => {
+      let pluginData;
+
+      beforeEach(() => {
+        pluginData = new DefaultData();
+        pluginData.components = [
+          { id: '1' },
+          { id: '2' },
+          { id: '3' },
+          { id: '4' },
+          { id: '5' },
+        ];
+      });
+
+      it('Should do nothing when the component is already at the correct index', () => {
+        pluginData.__moveComponentToIndex('3', 2);
+
+        expect(pluginData.components).toEqual([
+          { id: '1' },
+          { id: '2' },
+          { id: '3' },
+          { id: '4' },
+          { id: '5' },
+        ]);
+      });
+
+      it('Should properly handle smaller indexes', () => {
+        pluginData.__moveComponentToIndex('4', 1);
+
+        expect(pluginData.components).toEqual([
+          { id: '1' },
+          { id: '4' },
+          { id: '2' },
+          { id: '3' },
+          { id: '5' },
+        ]);
+      });
+
+      it('Should properly handle greater indexes', () => {
+        pluginData.__moveComponentToIndex('2', 3);
+
+        expect(pluginData.components).toEqual([
+          { id: '1' },
+          { id: '3' },
+          { id: '4' },
+          { id: '2' },
+          { id: '5' },
+        ]);
+      });
+
+      it('Should properly handle 0 index', () => {
+        pluginData.__moveComponentToIndex('3', 0);
+
+        expect(pluginData.components).toEqual([
+          { id: '3' },
+          { id: '1' },
+          { id: '2' },
+          { id: '4' },
+          { id: '5' },
+        ]);
+      });
+
+      it('Should properly handle last index', () => {
+        pluginData.__moveComponentToIndex('3', 4);
+
+        expect(pluginData.components).toEqual([
+          { id: '1' },
+          { id: '2' },
+          { id: '4' },
+          { id: '5' },
+          { id: '3' },
+        ]);
+      });
+    });
+
+    describe('Test method: insertComponentAfter', () => {
+      let pluginData;
+
+      beforeEach(() => {
+        pluginData = new DefaultData();
+        pluginData.components = [
+          { id: '1' },
+          { id: '2' },
+          { id: '3' },
+          { id: '4' },
+          { id: '5' },
+        ];
+      });
+      it('Should properly order components', () => {
+        pluginData.insertComponentAfter('2', '4');
+        expect(pluginData.components).toEqual(
+          [
+            { id: '1' },
+            { id: '3' },
+            { id: '4' },
+            { id: '2' },
+            { id: '5' },
+          ],
+        );
+
+        pluginData.insertComponentAfter('3', '5');
+        expect(pluginData.components).toEqual(
+          [
+            { id: '1' },
+            { id: '4' },
+            { id: '2' },
+            { id: '5' },
+            { id: '3' },
+          ],
+        );
+
+        pluginData.insertComponentAfter('5', '1');
+        expect(pluginData.components).toEqual(
+          [
+            { id: '1' },
+            { id: '5' },
+            { id: '4' },
+            { id: '2' },
+            { id: '3' },
+          ],
+        );
+      });
+
+      it('Should do nothing if the target is not part the component list', () => {
+        pluginData.insertComponentAfter('3', '0');
+        expect(pluginData.components).toEqual([
+          { id: '1' },
+          { id: '2' },
+          { id: '3' },
+          { id: '4' },
+          { id: '5' },
+        ]);
+      });
+    });
+
+    describe('Test method: insertComponentBefore', () => {
+      let pluginData;
+
+      beforeEach(() => {
+        pluginData = new DefaultData();
+        pluginData.components = [
+          { id: '1' },
+          { id: '2' },
+          { id: '3' },
+          { id: '4' },
+          { id: '5' },
+        ];
+      });
+
+      it('Should properly order components', () => {
+        pluginData.insertComponentBefore('2', '4');
+        expect(pluginData.components).toEqual(
+          [
+            { id: '1' },
+            { id: '3' },
+            { id: '2' },
+            { id: '4' },
+            { id: '5' },
+          ],
+        );
+
+        pluginData.insertComponentBefore('3', '5');
+        expect(pluginData.components).toEqual(
+          [
+            { id: '1' },
+            { id: '2' },
+            { id: '4' },
+            { id: '3' },
+            { id: '5' },
+          ],
+        );
+
+        pluginData.insertComponentBefore('5', '1');
+        expect(pluginData.components).toEqual(
+          [
+            { id: '5' },
+            { id: '1' },
+            { id: '2' },
+            { id: '4' },
+            { id: '3' },
+          ],
+        );
+      });
+
+      it('Should do nothing if the target is not part the component list', () => {
+        pluginData.insertComponentBefore('3', '0');
+        expect(pluginData.components).toEqual([
+          { id: '1' },
+          { id: '2' },
+          { id: '3' },
+          { id: '4' },
+          { id: '5' },
+        ]);
+      });
+    });
+
+    describe('Test method: getWorkflowLinks', () => {
+      let pluginData;
+
+      beforeEach(() => {
+        pluginData = new DefaultData({
+          components: [
+            new Component({
+              id: 'workflow1',
+              definition: new ComponentDefinition({
+                displayType: 'workflowVertical',
+              }),
+            }),
+            new Component({
+              id: 'workflow2',
+              definition: new ComponentDefinition({
+                displayType: 'workflowVertical',
+              }),
+            }),
+
+            new Component({
+              id: 'workflowStep1',
+              definition: new ComponentDefinition(),
+              attributes: [new ComponentAttribute({
+                name: 'containerId',
+                value: 'workflow1',
+                definition: new ComponentAttributeDefinition({
+                  type: 'Reference',
+                }),
+              })],
+            }), new Component({
+              id: 'workflowStep2',
+              definition: new ComponentDefinition(),
+              attributes: [new ComponentAttribute({
+                name: 'containerId',
+                value: 'workflow1',
+                definition: new ComponentAttributeDefinition({
+                  type: 'Reference',
+                }),
+              })],
+            }),
+            new Component({
+              id: 'workflowStep3',
+              definition: new ComponentDefinition(),
+              attributes: [new ComponentAttribute({
+                name: 'containerId',
+                value: 'workflow1',
+                definition: new ComponentAttributeDefinition({
+                  type: 'Reference',
+                }),
+              }),
+              ],
+            }),
+            new Component({
+              id: 'workflowStep4',
+              definition: new ComponentDefinition(),
+              attributes: [new ComponentAttribute({
+                name: 'containerId',
+                value: 'workflow2',
+                definition: new ComponentAttributeDefinition({
+                  type: 'Reference',
+                }),
+              }),
+              ],
+            }),
+            new Component({
+              id: 'workflowStep5',
+              definition: new ComponentDefinition(),
+              attributes: [new ComponentAttribute({
+                name: 'containerId',
+                value: 'workflow2',
+                definition: new ComponentAttributeDefinition({
+                  type: 'Reference',
+                }),
+              }),
+              ],
+            }),
+          ],
+        });
+      });
+
+      it('Should create links between a workflow component\'s children', () => {
+        const links = pluginData.getWorkflowLinks();
+
+        expect(links).toEqual([
+          new ComponentLink({
+            definition: new ComponentLinkDefinition({
+              sourceRef: '__workflow',
+              attributeRef: '__next',
+            }),
+            source: 'workflowStep1',
+            target: 'workflowStep2',
+          }),
+          new ComponentLink({
+            definition: new ComponentLinkDefinition({
+              sourceRef: '__workflow',
+              attributeRef: '__next',
+            }),
+            source: 'workflowStep2',
+            target: 'workflowStep3',
+          }),
+          new ComponentLink({
+            definition: new ComponentLinkDefinition({
+              sourceRef: '__workflow',
+              attributeRef: '__next',
+            }),
+            source: 'workflowStep4',
+            target: 'workflowStep5',
+          }),
+        ]);
+      });
+
+      it('Should do nothing if there is less than 2 steps in a workflow', () => {
+        pluginData.components = [
+          new Component({
+            id: 'workflow1',
+            definition: new ComponentDefinition({
+              displayType: 'workflowVertical',
+            }),
+          }),
+          new Component({
+            id: 'workflow2',
+            definition: new ComponentDefinition({
+              displayType: 'workflowVertical',
+            }),
+          }),
+          new Component({
+            id: 'workflowStep1',
+            definition: new ComponentDefinition(),
+            attributes: [new ComponentAttribute({
+              name: 'containerId',
+              value: 'workflow1',
+              definition: new ComponentAttributeDefinition({
+                type: 'Reference',
+              }),
+            })],
+          }),
+        ];
+
+        expect(pluginData.getWorkflowLinks()).toEqual([]);
+      });
+    });
   });
 });

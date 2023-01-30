@@ -11,6 +11,11 @@ Then(/^I expect ["'](.*)["'] (?:is|to be) not visible$/, (templateSelector) => {
   cy.get(selector).should('not.be.visible');
 });
 
+Then(/^I expect ["'](.*)["'] (?:to exist|exists)$/, (templateSelector) => {
+  const selector = nunjucks.renderString(templateSelector, cy.context);
+  cy.get(selector).should('exist');
+});
+
 Then('I expect {string} is {string}', (templateSelector, templateExpectedValue) => {
   const selector = nunjucks.renderString(templateSelector, cy.context);
   const expectedValue = nunjucks.renderString(templateExpectedValue, cy.context);
