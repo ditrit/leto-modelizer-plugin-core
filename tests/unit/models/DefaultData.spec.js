@@ -13,6 +13,7 @@ describe('Test class: DefaultData', () => {
       const pluginData = new DefaultData();
 
       expect(pluginData.name).toBeNull();
+      expect(pluginData.defaultFileName).toBeNull();
       expect(pluginData.version).toBeNull();
       expect(pluginData.components).toEqual([]);
       expect(pluginData.parseErrors).toEqual([]);
@@ -23,6 +24,7 @@ describe('Test class: DefaultData', () => {
       let pluginData = new DefaultData({});
 
       expect(pluginData.name).toBeNull();
+      expect(pluginData.defaultFileName).toBeNull();
       expect(pluginData.version).toBeNull();
       expect(pluginData.components).toEqual([]);
       expect(pluginData.parseErrors).toEqual([]);
@@ -35,6 +37,7 @@ describe('Test class: DefaultData', () => {
     it('Check passing all variables to constructor', () => {
       const pluginData = new DefaultData({
         name: 'name',
+        defaultFileName: 'default',
         version: 'version',
         components: [0],
         parseErrors: [2],
@@ -45,6 +48,7 @@ describe('Test class: DefaultData', () => {
       });
 
       expect(pluginData.name).toEqual('name');
+      expect(pluginData.defaultFileName).toEqual('default');
       expect(pluginData.version).toEqual('version');
       expect(pluginData.components).toEqual([0]);
       expect(pluginData.parseErrors).toEqual([2]);
@@ -119,13 +123,50 @@ describe('Test class: DefaultData', () => {
         expect(pluginData.components).toEqual([]);
 
         const definition = new ComponentDefinition();
+        const id = pluginData.addComponent(definition);
 
-        pluginData.addComponent('test', definition);
         expect(pluginData.components).toEqual([
           new Component({
-            id: 'test',
-            name: 'test',
+            id,
+            name: id,
             definition,
+            path: null,
+          }),
+        ]);
+      });
+
+      it('Should create new component and set correct path without folder', () => {
+        const pluginData = new DefaultData({ defaultFileName: 'test.tf' });
+
+        expect(pluginData.components).toEqual([]);
+
+        const definition = new ComponentDefinition();
+        const id = pluginData.addComponent(definition);
+
+        expect(pluginData.components).toEqual([
+          new Component({
+            id,
+            name: id,
+            definition,
+            path: 'test.tf',
+          }),
+        ]);
+      });
+
+      it('Should create new component and set correct path with folder', () => {
+        const pluginData = new DefaultData({ defaultFileName: 'test.tf' });
+
+        expect(pluginData.components).toEqual([]);
+
+        const definition = new ComponentDefinition();
+        const id = pluginData.addComponent(definition, 'src/');
+
+        expect(pluginData.components).toEqual([
+          new Component({
+            id,
+            name: id,
+            definition,
+            path: 'src/test.tf',
           }),
         ]);
       });
@@ -338,13 +379,13 @@ describe('Test class: DefaultData', () => {
       it('Should return the component corresponding to the given id', () => {
         const definition = new ComponentDefinition();
         const pluginData = new DefaultData();
+        const id = pluginData.addComponent(definition);
 
-        pluginData.addComponent('test', definition);
-        pluginData.addComponent('test2', definition);
+        pluginData.addComponent(definition);
 
-        expect(pluginData.getComponentById('test2')).toEqual(new Component({
-          id: 'test2',
-          name: 'test2',
+        expect(pluginData.getComponentById(id)).toEqual(new Component({
+          id,
+          name: id,
           definition,
         }));
       });
@@ -354,83 +395,89 @@ describe('Test class: DefaultData', () => {
       it('Should remove the component corresponding to the given id', () => {
         const definition = new ComponentDefinition();
         const pluginData = new DefaultData();
+        const id1 = pluginData.addComponent(definition);
+        const id2 = pluginData.addComponent(definition);
 
-        pluginData.addComponent('test', definition);
-        pluginData.addComponent('test2', definition);
-
-        pluginData.removeComponentById('test');
+        pluginData.removeComponentById(id1);
         expect(pluginData.components).toEqual([
           new Component({
-            id: 'test2',
-            name: 'test2',
+            id: id2,
+            name: id2,
             definition,
           }),
         ]);
 
-        pluginData.removeComponentById('test2');
+        pluginData.removeComponentById(id2);
         expect(pluginData.components).toEqual([]);
       });
 
       it('Should do nothing on unknown id', () => {
         const definition = new ComponentDefinition();
         const pluginData = new DefaultData();
-
-        pluginData.addComponent('test', definition);
-        pluginData.addComponent('test2', definition);
+        const id1 = pluginData.addComponent(definition);
+        const id2 = pluginData.addComponent(definition);
 
         pluginData.removeComponentById('unknown');
         expect(pluginData.components).toEqual([
           new Component({
-            id: 'test',
-            name: 'test',
+            id: id1,
+            name: id1,
             definition,
           }),
           new Component({
-            id: 'test2',
-            name: 'test2',
+            id: id2,
+            name: id2,
             definition,
           }),
         ]);
       });
 
       it('Should remove the sub-component corresponding to the given id', () => {
+        const attributeDefinition = new ComponentAttributeDefinition({
+          name: 'test',
+          type: 'Reference',
+          containerRef: 'server',
+        });
         const definition = new ComponentDefinition({
           name: 'server',
-          definedAttributes: [new ComponentAttributeDefinition({
-            name: 'test',
-            type: 'Reference',
-            containerRef: 'server',
-          })],
+          type: 'server',
+          definedAttributes: [attributeDefinition],
         });
         const pluginData = new DefaultData();
+        const rootId = pluginData.addComponent(definition);
+        const childId = pluginData.addComponent(definition);
+        const subChildId = pluginData.addComponent(definition);
 
-        pluginData.addComponent('root', definition);
-        pluginData.addComponent('child', definition);
-        pluginData.addComponent('subChild', definition);
-        pluginData.getComponentById('root')
-          .setReferenceAttribute(pluginData.getComponentById('child'));
-        pluginData.getComponentById('child')
-          .setReferenceAttribute(pluginData.getComponentById('subChild'));
+        pluginData.getComponentById(childId)
+          .setReferenceAttribute(pluginData.getComponentById(rootId));
+        pluginData.getComponentById(subChildId)
+          .setReferenceAttribute(pluginData.getComponentById(childId));
 
-        pluginData.removeComponentById('subChild');
+        pluginData.removeComponentById(subChildId);
         expect(pluginData.components).toEqual([
           new Component({
-            id: 'root',
-            name: 'root',
+            id: rootId,
+            name: rootId,
             definition,
           }),
           new Component({
-            id: 'child',
-            name: 'child',
+            id: childId,
+            name: childId,
+            attributes: [new ComponentAttribute({
+              name: 'test',
+              type: 'String',
+              value: rootId,
+              definition: attributeDefinition,
+            })],
             definition,
           }),
         ]);
 
-        pluginData.removeComponentById('child');
+        pluginData.removeComponentById(childId);
         expect(pluginData.components).toEqual([
           new Component({
-            id: 'root',
-            name: 'root',
+            id: rootId,
+            name: rootId,
             definition,
           }),
         ]);
@@ -439,19 +486,18 @@ describe('Test class: DefaultData', () => {
       it('Should remove Link attribute of component', () => {
         const definition = new ComponentDefinition();
         const pluginData = new DefaultData();
-
-        pluginData.addComponent('root', definition);
-        pluginData.addComponent('child', definition);
-        pluginData.addComponent('subChild', definition);
-        pluginData.addComponent('otherChild', definition);
+        const rootId = pluginData.addComponent(definition);
+        const childId = pluginData.addComponent(definition);
+        const subChildId = pluginData.addComponent(definition);
+        const otherChildId = pluginData.addComponent(definition);
 
         const rootAttribute = new ComponentAttribute({
-          value: ['child', 'subChild'],
+          value: [childId, subChildId],
           definition: new ComponentAttributeDefinition({ type: 'Link' }),
         });
 
         const childAttribute = new ComponentAttribute({
-          value: ['subChild'],
+          value: [subChildId],
           definition: new ComponentAttributeDefinition({ type: 'Link' }),
         });
 
@@ -464,25 +510,25 @@ describe('Test class: DefaultData', () => {
         pluginData.components[1].attributes.push(childAttribute);
         pluginData.components[3].attributes.push(otherChildAttribute);
 
-        pluginData.removeComponentById('subChild');
+        pluginData.removeComponentById(subChildId);
         expect(pluginData.components).toEqual([
           new Component({
-            id: 'root',
-            name: 'root',
+            id: rootId,
+            name: rootId,
             attributes: [new ComponentAttribute({
-              value: ['child'],
+              value: [childId],
               definition: new ComponentAttributeDefinition({ type: 'Link' }),
             })],
             definition,
           }),
           new Component({
-            id: 'child',
-            name: 'child',
+            id: childId,
+            name: childId,
             definition,
           }),
           new Component({
-            id: 'otherChild',
-            name: 'otherChild',
+            id: otherChildId,
+            name: otherChildId,
             attributes: [new ComponentAttribute({
               value: ['test'],
               definition: new ComponentAttributeDefinition({ type: 'Link' }),
@@ -491,16 +537,16 @@ describe('Test class: DefaultData', () => {
           }),
         ]);
 
-        pluginData.removeComponentById('child');
+        pluginData.removeComponentById(childId);
         expect(pluginData.components).toEqual([
           new Component({
-            id: 'root',
-            name: 'root',
+            id: rootId,
+            name: rootId,
             definition,
           }),
           new Component({
-            id: 'otherChild',
-            name: 'otherChild',
+            id: otherChildId,
+            name: otherChildId,
             attributes: [new ComponentAttribute({
               value: ['test'],
               definition: new ComponentAttributeDefinition({ type: 'Link' }),
@@ -513,57 +559,24 @@ describe('Test class: DefaultData', () => {
       it('Should remove all child components on removing container component', () => {
         const definition = new ComponentDefinition();
         const pluginData = new DefaultData();
+        const rootId = pluginData.addComponent(definition);
+        const childId = pluginData.addComponent(definition);
 
-        pluginData.addComponent('root', definition);
-        pluginData.addComponent('child', definition);
-        pluginData.addComponent('subChild', definition);
-
+        pluginData.addComponent(definition);
         pluginData.components[1].attributes = [new ComponentAttribute({
           name: 'test',
-          value: 'root',
+          value: rootId,
           definition: new ComponentAttributeDefinition({ name: 'test', type: 'Reference' }),
         })];
 
         pluginData.components[2].attributes = [new ComponentAttribute({
           name: 'test',
-          value: 'child',
+          value: childId,
           definition: new ComponentAttributeDefinition({ name: 'test', type: 'Reference' }),
         })];
 
-        pluginData.removeComponentById('root');
+        pluginData.removeComponentById(rootId);
         expect(pluginData.components).toEqual([]);
-      });
-
-      it('Should do nothing on unknown id', () => {
-        const pluginData = new DefaultData();
-
-        pluginData.addComponent('root', new ComponentDefinition());
-        pluginData.components[0].attributes.push(new ComponentAttribute({
-          value: 'test',
-          definition: new ComponentAttributeDefinition({ type: 'String' }),
-        }));
-
-        pluginData.components[0].attributes.push(new ComponentAttribute({
-          value: 'test',
-        }));
-
-        pluginData.removeComponentById('child');
-        expect(pluginData.components).toEqual([
-          new Component({
-            id: 'root',
-            name: 'root',
-            attributes: [
-              new ComponentAttribute({
-                value: 'test',
-                definition: new ComponentAttributeDefinition({ type: 'String' }),
-              }),
-              new ComponentAttribute({
-                value: 'test',
-              }),
-            ],
-            definition: new ComponentDefinition(),
-          }),
-        ]);
       });
     });
 
