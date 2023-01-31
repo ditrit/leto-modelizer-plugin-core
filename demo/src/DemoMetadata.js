@@ -129,7 +129,7 @@ class DemoMetadata extends DefaultMetadata {
       isContainer: true,
       displayType: 'workflow',
       preventChildrenMovement: true,
-      childrenPerLine: Infinity
+      childrenPerLine: 5,
     });
 
     this.pluginData.__workflowStepDefinition = new ComponentDefinition({
