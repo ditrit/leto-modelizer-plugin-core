@@ -21,6 +21,7 @@ class DefaultData {
    * @param {ComponentLinkDefinition[]} [props.definitions.link=[]] - All component link
    * definitions.
    * @param {ParseError[]} [props.parseErrors=[]] - Parse errors array.
+   * @param {string} [props.defaultFileName] - Default file name for new components.
    */
   constructor(props = {
     name: null,
@@ -31,6 +32,7 @@ class DefaultData {
       links: [],
     },
     parseErrors: [],
+    defaultFileName: null,
   }) {
     /**
      * Plugin name.
@@ -69,6 +71,12 @@ class DefaultData {
      * @type {ParseError[]}
      */
     this.parseErrors = props.parseErrors || [];
+    /**
+     * Default file name for new components.
+     *
+     * @type {string}
+     */
+    this.defaultFileName = props.defaultFileName || null;
   }
 
   /**
@@ -103,15 +111,43 @@ class DefaultData {
   /**
    * Create new component.
    *
-   * @param {string} id - Component id.
    * @param {ComponentDefinition} definition - Component definition.
+   * @param {string} [folder=''] - Folder path.
+   * @param {string} [fileName] - File name.
+   * @returns {string} Component id.
    */
-  addComponent(id, definition) {
+  addComponent(definition, folder = '', fileName = this.defaultFileName || '') {
+    const id = this.generateComponentId(definition);
+
     this.components.push(new Component({
       id,
       name: id,
       definition,
+      path: `${folder}${fileName}`,
     }));
+
+    return id;
+  }
+
+  /**
+   * Generate id from definition and components list.
+   *
+   * @param {ComponentDefinition} definition - Component definition.
+   * @returns {string} String that is the concatenation of the definition type and an index.
+   */
+  generateComponentId(definition) {
+    const templateId = `${definition.type}_`;
+    const ids = this.components
+      .map(({ id }) => id)
+      .filter((id) => new RegExp(`${templateId}\\d+`).test(id))
+      .map((id) => parseInt(id.substring(templateId.length), 10));
+    let index = 1;
+
+    while (ids.includes(index)) {
+      index += 1;
+    }
+
+    return `${templateId}${index}`;
   }
 
   /**
