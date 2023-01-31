@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `hasError` method to `Component.js` to check if a component has an error
 - Add methods checking error for all types to `ComponentAttribute.js`
 - Add error icon on component SVGs.
+- Add `defaultFileName` attribute to manage the default file name of the new components. 
+- Add method `generateComponentId` in `DefaultData.js` to generate id from definition type.
 
 ### Changed
 
@@ -26,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Make configuration readable by user in the configuration file.
 - Save component's positions after the layout is automatically generated.
 - Change `ComponentAttributeDefinition.` containerRef's type from array to string.
+- Change parameter of method `addComponent` in `DefaultData.js` to accept now the definition and optional `folder` path and optional `fileName` path.
 
 ### Fixed
 
