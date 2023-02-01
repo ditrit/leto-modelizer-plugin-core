@@ -122,12 +122,12 @@ class DefaultPlugin {
    *
    * @param {FileInput} configurationFile - Configuration file of components.
    * @param {FileInput[]} files - File inputs you want to render.
-   * @returns {FileInput[]} All generated files.
+   * @returns {FileInput[]} All generated files including the configuration file.
    */
   render(configurationFile, files) {
     this.__renderer.renderConfiguration(configurationFile);
 
-    return this.__renderer.render(files);
+    return this.__renderer.render(files).concat(configurationFile);
   }
 }
 

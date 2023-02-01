@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Save component's positions after the layout is automatically generated.
 - Change `ComponentAttributeDefinition.` containerRef's type from array to string.
 - Change parameter of method `addComponent` in `DefaultData.js` to accept now the definition and optional `folder` path and optional `fileName` path.
+- Method `render` of `DefaultPlugin.js` now includes the configuration file.
 
 ### Fixed
 
