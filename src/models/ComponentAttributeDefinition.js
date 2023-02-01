@@ -9,6 +9,9 @@ class ComponentAttributeDefinition {
    * @param {string} [props.name] - Attribute name.
    * @param {string} [props.type] - Attribute type,
    * valid types are String/Boolean/Number/Array/Object/Link/Reference.
+   * @param {string} [props.displayName] - Attribute display name.
+   * @param {string} [props.description] - Attribute explanation.
+   * @param {string} [props.url] - URL of the documentation of the attribute.
    * @param {string} [props.linkType] - Type of link, valid types are Default/Reverse.
    * @param {string[]} [props.linkRef=[]] - Reference of accepted component for link.
    * @param {string} [props.linkColor='black'] - Color of the link.
@@ -27,6 +30,9 @@ class ComponentAttributeDefinition {
   constructor(props = {
     name: null,
     type: null,
+    displayName: null,
+    description: null,
+    url: null,
     linkType: null,
     linkRef: [],
     linkColor: 'black',
@@ -45,6 +51,9 @@ class ComponentAttributeDefinition {
     const {
       name,
       type,
+      displayName,
+      description,
+      url,
       linkType,
       linkRef,
       linkColor,
@@ -68,6 +77,24 @@ class ComponentAttributeDefinition {
      * @type {string}
      */
     this.type = type || null;
+    /**
+     * Attribute display name.
+     *
+     * @type {string}
+     */
+    this.displayName = displayName || null;
+    /**
+     * Attribute explanation.
+     *
+     * @type {string}
+     */
+    this.description = description || null;
+    /**
+     * URL of the documentation of the attribute.
+     *
+     * @type {string}
+     */
+    this.url = url || null;
     /**
      * Type of link, valid types are Default/Reverse.
      *

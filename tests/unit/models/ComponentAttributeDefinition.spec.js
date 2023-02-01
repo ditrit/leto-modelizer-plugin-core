@@ -7,6 +7,9 @@ describe('Test class: ComponentAttributeDefinition', () => {
 
       expect(definedAttribute.name).toBeNull();
       expect(definedAttribute.type).toBeNull();
+      expect(definedAttribute.displayName).toBeNull();
+      expect(definedAttribute.description).toBeNull();
+      expect(definedAttribute.url).toBeNull();
       expect(definedAttribute.linkType).toBeNull();
       expect(definedAttribute.linkRef).toEqual([]);
       expect(definedAttribute.linkColor).toEqual('black');
@@ -26,6 +29,9 @@ describe('Test class: ComponentAttributeDefinition', () => {
 
       expect(definedAttribute.name).toBeNull();
       expect(definedAttribute.type).toBeNull();
+      expect(definedAttribute.displayName).toBeNull();
+      expect(definedAttribute.description).toBeNull();
+      expect(definedAttribute.url).toBeNull();
       expect(definedAttribute.linkType).toBeNull();
       expect(definedAttribute.linkRef).toEqual([]);
       expect(definedAttribute.linkColor).toEqual('black');
@@ -45,6 +51,9 @@ describe('Test class: ComponentAttributeDefinition', () => {
 
       expect(definedAttribute.name).toBeNull();
       expect(definedAttribute.type).toBeNull();
+      expect(definedAttribute.displayName).toBeNull();
+      expect(definedAttribute.description).toBeNull();
+      expect(definedAttribute.url).toBeNull();
       expect(definedAttribute.linkType).toBeNull();
       expect(definedAttribute.linkRef).toEqual([]);
       expect(definedAttribute.linkColor).toEqual('black');
@@ -63,6 +72,9 @@ describe('Test class: ComponentAttributeDefinition', () => {
       const definedAttribute = new ComponentAttributeDefinition({
         name: 'name',
         type: 'type',
+        displayName: 'displayName',
+        description: 'description',
+        url: 'url',
         linkType: 'Default',
         linkRef: ['linkRef'],
         linkColor: 'blue',
@@ -81,6 +93,9 @@ describe('Test class: ComponentAttributeDefinition', () => {
 
       expect(definedAttribute.name).toEqual('name');
       expect(definedAttribute.type).toEqual('type');
+      expect(definedAttribute.displayName).toEqual('displayName');
+      expect(definedAttribute.description).toEqual('description');
+      expect(definedAttribute.url).toEqual('url');
       expect(definedAttribute.linkType).toEqual('Default');
       expect(definedAttribute.linkRef.length).toEqual(1);
       expect(definedAttribute.linkRef[0]).toEqual('linkRef');

@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add error icon on component SVGs.
 - Add `defaultFileName` attribute to manage the default file name of the new components. 
 - Add method `generateComponentId` in `DefaultData.js` to generate id from definition type.
+- Add helper properties for component and attribute: `displayName`, `description` and `url`.
 
 ### Changed
 

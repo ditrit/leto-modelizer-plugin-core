@@ -8,6 +8,9 @@ describe('Test class: ComponentDefinition', () => {
       expect(componentDefinition.type).toBeNull();
       expect(componentDefinition.icon).toBeNull();
       expect(componentDefinition.model).toBeNull();
+      expect(componentDefinition.displayName).toBeNull();
+      expect(componentDefinition.description).toBeNull();
+      expect(componentDefinition.url).toBeNull();
       expect(componentDefinition.parentTypes).toEqual([]);
       expect(componentDefinition.childrenTypes).toEqual([]);
       expect(componentDefinition.definedAttributes).toEqual([]);
@@ -23,6 +26,9 @@ describe('Test class: ComponentDefinition', () => {
       expect(componentDefinition.type).toBeNull();
       expect(componentDefinition.icon).toBeNull();
       expect(componentDefinition.model).toBeNull();
+      expect(componentDefinition.displayName).toBeNull();
+      expect(componentDefinition.description).toBeNull();
+      expect(componentDefinition.url).toBeNull();
       expect(componentDefinition.parentTypes).toEqual([]);
       expect(componentDefinition.childrenTypes).toEqual([]);
       expect(componentDefinition.definedAttributes).toEqual([]);
@@ -36,7 +42,10 @@ describe('Test class: ComponentDefinition', () => {
       const componentDefinition = new ComponentDefinition({
         type: 'type',
         icon: 'icon',
-        model: 'model ',
+        model: 'model',
+        displayName: 'displayName',
+        description: 'description',
+        url: 'url',
         parentTypes: ['type'],
         childrenTypes: ['childrenType'],
         definedAttributes: ['attribute'],
@@ -48,7 +57,10 @@ describe('Test class: ComponentDefinition', () => {
 
       expect(componentDefinition.type).toEqual('type');
       expect(componentDefinition.icon).toEqual('icon');
-      expect(componentDefinition.model).toEqual('model ');
+      expect(componentDefinition.model).toEqual('model');
+      expect(componentDefinition.displayName).toEqual('displayName');
+      expect(componentDefinition.description).toEqual('description');
+      expect(componentDefinition.url).toEqual('url');
       expect(componentDefinition.parentTypes.length).toEqual(1);
       expect(componentDefinition.parentTypes[0]).toEqual('type');
       expect(componentDefinition.childrenTypes.length).toEqual(1);
