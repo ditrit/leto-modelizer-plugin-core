@@ -129,7 +129,7 @@ describe('Test class: DefaultPlugin', () => {
 
     describe('Test method: render', () => {
       it('Should call render method from renderer', () => {
-        const mockRender = jest.fn(() => 'test');
+        const mockRender = jest.fn(() => ['test']);
         const mockRenderConfiguration = jest.fn();
         const plugin = new DefaultPlugin({
           pluginRenderer: {
@@ -138,9 +138,9 @@ describe('Test class: DefaultPlugin', () => {
           },
         });
 
-        const result = plugin.render();
+        const result = plugin.render('config');
 
-        expect(result).toEqual('test');
+        expect(result).toEqual(['test', 'config']);
         expect(mockRenderConfiguration).toBeCalled();
         expect(mockRender).toBeCalled();
       });
