@@ -9,6 +9,9 @@ class ComponentDefinition {
    * @param {string} [props.type] - The type of the associated component.
    * @param {string} [props.icon] - The icon's name of this type of component.
    * @param {string} [props.model] - Name of SVG template to render this type of component.
+   * @param {string} [props.displayName] - Display name of the component.
+   * @param {string} [props.description] - Explanation of the component.
+   * @param {string} [props.url] - URL of the documentation of the component.
    * @param {string[]} [props.parentTypes=[]] - The list of types that can be the parent.
    * @param {string[]} [props.childrenTypes=[]] - The list of types that can be the children.
    * @param {ComponentAttributeDefinition[]} [props.definedAttributes=[]] - Defined attributes for
@@ -25,6 +28,9 @@ class ComponentDefinition {
     type: null,
     icon: null,
     model: null,
+    displayName: null,
+    description: null,
+    url: null,
     parentTypes: [],
     childrenTypes: [],
     definedAttributes: [],
@@ -37,6 +43,9 @@ class ComponentDefinition {
       type,
       icon,
       model,
+      displayName,
+      description,
+      url,
       parentTypes,
       childrenTypes,
       definedAttributes,
@@ -64,6 +73,24 @@ class ComponentDefinition {
      * @type {string}
      */
     this.model = model || null;
+    /**
+     * Display name of the component.
+     *
+     * @type {string}
+     */
+    this.displayName = displayName || null;
+    /**
+     * Explanation of the component.
+     *
+     * @type {string}
+     */
+    this.description = description || null;
+    /**
+     * URL of the documentation of the component.
+     *
+     * @type {string}
+     */
+    this.url = url || null;
     /**
      * The list of types that can be the parent.
      *
