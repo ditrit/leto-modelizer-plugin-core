@@ -1,0 +1,270 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  tracking-code-which-will-go-to-the-HEAD
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> models/DefaultPlugin.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">leto-modelizer-plugin-core</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/ditrit/leto-modelizer-plugin-core#README.md"
+                        >
+                            Github
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>models/DefaultPlugin.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import DefaultData from './DefaultData';
+import DefaultDrawer from '../draw/DefaultDrawer';
+import DefaultMetadata from '../metadata/DefaultMetadata';
+import DefaultParser from '../parser/DefaultParser';
+import DefaultRender from '../render/DefaultRender';
+
+/**
+ * Default plugin structure.
+ */
+class DefaultPlugin {
+  /**
+   * Default constructor.
+   *
+   * @param {object} [props={}] - Object that contains all properties to set.
+   * @param {DefaultData} props.pluginData - Plugin data storage.
+   * @param {DefaultDrawer} props.pluginDrawer - Plugin drawer.
+   * @param {DefaultMetadata} props.pluginMetadata - Plugin metadata.
+   * @param {DefaultParser} props.pluginParser - Plugin parser.
+   * @param {DefaultRender} props.pluginRenderer - Plugin renderer.
+   */
+  constructor(props = {
+    pluginData: null,
+    pluginDrawer: null,
+    pluginMetadata: null,
+    pluginParser: null,
+    pluginRenderer: null,
+  }) {
+    /**
+     * Plugin data storage.
+     *
+     * @type {DefaultData}
+     */
+    this.data = props.pluginData || new DefaultData();
+    /**
+     * Plugin drawer.
+     *
+     * @type {DefaultDrawer}
+     * @private
+     */
+    this.__drawer = props.pluginDrawer || new DefaultDrawer(this.data);
+    /**
+     * Plugin metadata.
+     *
+     * @type {DefaultMetadata}
+     * @private
+     */
+    this.__metadata = props.pluginMetadata || new DefaultMetadata(this.data);
+    /**
+     * Plugin parser.
+     *
+     * @type {DefaultParser}
+     * @private
+     */
+    this.__parser = props.pluginParser || new DefaultParser(this.data);
+    /**
+     * Plugin renderer.
+     *
+     * @type {DefaultRender}
+     * @private
+     */
+    this.__renderer = props.pluginRenderer || new DefaultRender(this.data);
+  }
+
+  /**
+   * Init method, to call once before all plugin usages.
+   * Set events in plugin and initialize metadata.
+   *
+   * @param {object} [events] - Events list.
+   * @param {Function} [events.SelectEvent.next] - Function to emit selection event, use by the
+   * @param {Function} [events.UpdateEvent.next] - Function to emit update event, use by the
+   * drawer.
+   */
+  init(events) {
+    this.__drawer.setEvents(events);
+    this.__metadata.parse();
+    this.data.initLinkDefinitions();
+  }
+
+  /**
+   * Set resources in plugin.
+   *
+   * @param {object} [resources=null] - Object that contains resources.
+   */
+  initResources(resources) {
+    this.__drawer.resources = resources;
+  }
+
+  /**
+   * Draws all data in the html element defined by the id.
+   *
+   * @param {string} id - Html id, without '#'.
+   */
+  draw(id) {
+    this.__drawer.draw(id);
+  }
+
+  /**
+   * Convert the content of files into plugin data.
+   * Configuration file is used for setting up the components' configuration.
+   *
+   * @param {FileInput} file - Configuration file of components.
+   * @param {FileInput[]} [inputs=[]] - File inputs you want to parse.
+   */
+  parse(file, inputs) {
+    this.__parser.parse(inputs);
+    this.__parser.parseConfiguration(file);
+  }
+
+  /**
+   * Indicate if this parser can parse this file.
+   *
+   * @param {FileInformation} fileInformation - File information.
+   * @returns {boolean} - Boolean that indicates if this file can be parsed or not.
+   */
+  isParsable(fileInformation) {
+    return this.__parser.isParsable(fileInformation);
+  }
+
+  /**
+   * Return all generated files from plugin data.
+   * Configuration file is used for saving the components' configuration.
+   *
+   * @param {FileInput} configurationFile - Configuration file of components.
+   * @param {FileInput[]} files - File inputs you want to render.
+   * @returns {FileInput[]} All generated files including the configuration file.
+   */
+  render(configurationFile, files) {
+    this.__renderer.renderConfiguration(configurationFile);
+
+    return this.__renderer.render(files).concat(configurationFile);
+  }
+}
+
+export default DefaultPlugin;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>
