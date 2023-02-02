@@ -1,0 +1,1493 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  tracking-code-which-will-go-to-the-HEAD
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> draw/DefaultDrawer.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">leto-modelizer-plugin-core</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/ditrit/leto-modelizer-plugin-core#README.md"
+                        >
+                            Github
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>draw/DefaultDrawer.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as d3 from 'd3';
+import nunjucks from 'nunjucks';
+import ComponentDrawOption from '../models/ComponentDrawOption';
+import actionIcons from '../assets/actions/actionIcons';
+import ComponentLink from '../models/ComponentLink';
+
+/**
+ * Class that draws a component in a graphical representation.
+ */
+class DefaultDrawer {
+  /**
+   * Default constructor
+   *
+   * @param {DefaultData} pluginData - Plugin data storage.
+   * @param {object} [resources=null] - Object that contains resources.
+   * @param {object} [events] - Events list.
+   * @param {Function} [events.SelectEvent.next] - Function to emit selection event.
+   * @param {Function} [events.UpdateEvent.next] - Function to emit update event.
+   * @param {string} [rootId="root"] - Id of HTML element where we want to draw.
+   * @param {object} [options={}] - Rendering options.
+   * @param {number} [options.width=1280] - Render svg viewbox width.
+   * @param {number} [options.height=1280] - Render svg viewbox height.
+   * @param {number} [options.minWidth=230] - Minimum width of a component.
+   * @param {number} [options.minHeight=50] - Minimum height of a component.
+   * @param {number} [options.padding=30] - Padding around a component.
+   * @param {number} [options.margin=6] - Component margin thickness.
+   * @param {number[]} [options.lineLengthPerDepth=[5,1]] - Number of components
+   * per line at a given depth. Valid values: 1 - Infinity.
+   * @param {number} [options.actionMenuButtonSize] - The size of each action menu button.
+   */
+  constructor(pluginData, resources = null, events = {
+    SelectEvent: null,
+    UpdateEvent: null,
+  }, rootId = 'root', options = {}) {
+    /**
+     * Plugin data storage.
+     *
+     * @type {DefaultData}
+     */
+    this.pluginData = pluginData;
+    /**
+     * Id of HTML element where we want to draw.
+     *
+     * @type {string}
+     */
+    this.rootId = rootId;
+    /**
+     * Object that contains resources.
+     *
+     * @type {object}
+     */
+    this.resources = resources;
+    /**
+     * Render svg viewbox width.
+     *
+     * @type {number}
+     */
+    this.width = options.width !== undefined ? options.width : 1280;
+    /**
+     * Render svg viewbox height.
+     *
+     * @type {number}
+     */
+    this.height = options.height !== undefined ? options.height : 1280;
+    /**
+     * Minimum width of a component.
+     *
+     * @type {number}
+     */
+    this.minWidth = options.minWidth !== undefined ? options.minWidth : 230;
+    /**
+     * Minimum height of a component.
+     *
+     * @type {number}
+     */
+    this.minHeight = options.minHeight !== undefined ? options.minHeight : 50;
+    /**
+     * Padding around components.
+     *
+     * @type {number}
+     */
+    this.padding = options.padding !== undefined ? options.padding : 30;
+    /**
+     * Component margin thickness.
+     *
+     * @type {number}
+     */
+    this.margin = options.margin !== undefined ? options.margin : 6;
+    /**
+     * Number of components per line at a given depth. Valid values: 1 - Infinity.
+     *
+     * @type {number[]}
+     */
+    this.lineLengthPerDepth = options.lineLengthPerDepth !== undefined
+      ? options.lineLengthPerDepth : [5, 1];
+
+    /**
+     * The size of each action menu button.
+     *
+     * @type {number}
+     */
+    this.actionMenuButtonSize = options.actionMenuButtonSize || 24;
+    /**
+     * Store for actions, used to set specific actions values when making actions.
+     *
+     * @type {object}
+     */
+    this.actions = {
+      selection: {
+        current: null,
+        style: '2px solid hsl(205, 100%, 50%)',
+        offset: '3px',
+      },
+      linkCreation: {
+        source: null,
+        target: null,
+        creating: false,
+      },
+      drag: {
+        offsetX: 0,
+        offsetY: 0,
+        state: false,
+        target: null,
+      },
+    };
+
+    this.setEvents(events);
+  }
+
+  /**
+   * Convert screen coordinates into a given svg referential.
+   *
+   * @param {number} screenX - Screen x coordinate.
+   * @param {number} screenY - Screen y coordinate.
+   * @param {SVGSVGElement} [svg=null] - SVG referential.
+   * @returns {DOMPoint} The transformed coordinates.
+   */
+  screenToSVG(screenX, screenY, svg = null) {
+    const localSvg = svg || this.svg.node();
+    const pivotPoint = new DOMPoint(screenX, screenY);
+
+    return pivotPoint.matrixTransform(localSvg.getScreenCTM().inverse());
+  }
+
+  /**
+   * Convert svg coordinates into screen coordinates.
+   *
+   * @param {number} svgX - SVG x coordinate.
+   * @param {number} svgY - SVG y coordinate.
+   * @param {SVGSVGElement} [svg=null] - SVG referential.
+   * @returns {DOMPoint} The transformed coordinates.
+   */
+  SVGToScreen(svgX, svgY, svg = null) {
+    const localSvg = svg || this.svg.node();
+    const pivotPoint = new DOMPoint(svgX, svgY);
+
+    return pivotPoint.matrixTransform(localSvg.getScreenCTM());
+  }
+
+  /**
+   * Set events.
+   *
+   * @param {object} [events] - Events list.
+   * @param {Function} [events.SelectEvent.next] - Function to emit selection event.
+   * @param {Function} [events.UpdateEvent.next] - Function to emit update event.
+   */
+  setEvents(events = {
+    SelectEvent: null,
+    UpdateEvent: null,
+  }) {
+    this.events = {
+      SelectEvent: events.SelectEvent || null,
+      UpdateEvent: events.UpdateEvent || null,
+    };
+  }
+
+  /**
+   * Emit UpdateEvent if defined.
+   */
+  emitUpdateEvent() {
+    if (this.events?.UpdateEvent) {
+      this.events.UpdateEvent.next();
+    }
+  }
+
+  /**
+   * Compute a coefficient representing how tall a component will be based on its children's layout.
+   *
+   * @param {Node} item - The component to check.
+   * @returns {number} The coefficient.
+   * @private
+   */
+  __getVerticalCoefficient(item) {
+    const lineLength = this.getLineLengthForDepth(
+      item.depth,
+      item.parent?.data?.definition?.childrenPerLine,
+    );
+
+    if (item.children?.length > 0) {
+      const childHeights = Math.ceil(
+        item.children
+          .filter((child) => child?.data?.definition?.isContainer)
+          .reduce(
+            (acc, child) => acc + this.__getVerticalCoefficient(child),
+            0,
+          ),
+      );
+      const localChildValue = item.children
+        .filter((child) => !(child.data?.definition?.isContainer))
+        .reduce((acc, child) => acc + child.value, 0);
+
+      return localChildValue
+        / lineLength
+        + childHeights
+        + (item.data?.definition?.isContainer ? 1 : 0);
+    }
+
+    return (lineLength === Infinity ? 1 : item.value
+      / lineLength)
+      + (item.data?.definition?.isContainer ? 1 : 0);
+  }
+
+  /**
+   * Get the maximum line length for a given depth.
+   *
+   * @param {number} depth - The depth to check.
+   * @param {boolean} [lineLengthOverride=false] - Override if parent is tagged as a workflow
+   * @returns {number} The maximum length at that depth.
+   */
+  getLineLengthForDepth(depth, lineLengthOverride = null) {
+    return lineLengthOverride
+      || this.lineLengthPerDepth[Math.min(depth, this.lineLengthPerDepth.length - 1)];
+  }
+
+  /**
+   * Apply the disabled style to all elements matching the selector.
+   *
+   * @param {string} [selector='.component'] - CSS selector string.
+   */
+  setDisabledStyle(selector = '.component') {
+    const localSelector = `#${this.rootId} ${selector || '.component'}`;
+
+    d3.selectAll(localSelector)
+      .classed('disabled', true);
+  }
+
+  /**
+   * Remove the disabled style from previously disabled components.
+   */
+  unsetAllDisabledStyles() {
+    d3.selectAll(`#${this.rootId} .disabled`)
+      .classed('disabled', false);
+  }
+
+  /**
+   * Handles dragging a component across the screen and return the element it will be dropped on.
+   *
+   * @param {Element} draggedElement - The DOM element being dragged.
+   * @param {DragEvent} event - The emitted drag event.
+   * @returns {Element} The element to drop the dragged element onto.
+   */
+  dragHandler(draggedElement, event) {
+    this.hideActionMenu();
+
+    const dropTarget = document
+      .elementsFromPoint(event.sourceEvent.x, event.sourceEvent.y)
+      .find((element) => event.subject.data.id !== element.dataset.parentId &amp;&amp; (
+        element.classList.contains('container-background')
+        || element.classList.contains('container')
+      ));
+
+    const target = d3.select(`#${event.subject.data.id}`).attr('cursor', 'grabbing');
+
+    d3.select('#root-components')
+      .append(() => target.node());
+
+    const rootSVGPoint = this.screenToSVG(
+      event.sourceEvent.clientX,
+      event.sourceEvent.clientY,
+      this.svg.select('.container').node(),
+    );
+
+    d3.select(draggedElement)
+      .attr(
+        'transform',
+        event.subject.transform = `translate(${rootSVGPoint.x - this.actions.drag.offsetX},
+        ${rootSVGPoint.y - this.actions.drag.offsetY})`,
+      );
+
+    event.subject.x = rootSVGPoint.x - this.actions.drag.offsetX;
+    event.subject.y = rootSVGPoint.y - this.actions.drag.offsetY;
+    if (event.subject.data.definition) {
+      const forbiddenTypes = event.subject.data.definition.parentTypes
+        .map((type) => `:not(.${type})`)
+        .join('');
+
+      this.setDisabledStyle(`.component:not(#${event.subject.data.id})${forbiddenTypes}`);
+    }
+
+    this.drawLinks();
+
+    return dropTarget;
+  }
+
+  /**
+   * Create and return d3 drag behaviour.
+   *
+   * @returns {Function} D3 drag behaviour.
+   */
+  setupDragBehavior() {
+    let dropTarget = null;
+    let itemWasDragged = false;
+    const dragHandler = this.dragHandler.bind(this);
+
+    return d3.drag()
+      .subject((event) => {
+        const target = document
+          .elementsFromPoint(event.sourceEvent.x, event.sourceEvent.y)
+          .find((element) => element.classList.contains('component-hitbox'));
+        const targetData = d3.select(target);
+
+        return targetData.datum();
+      })
+      .on('start', (event) => {
+        this.actions.drag.offsetX = event.x - event.subject.x0;
+        this.actions.drag.offsetY = event.y - event.subject.y0;
+      })
+      .on('drag', function dragged(event) {
+        dropTarget = dragHandler(this, event);
+        itemWasDragged = true;
+      })
+      .on('end', (event) => {
+        if (itemWasDragged) {
+          this.handleDropEvent(event, dropTarget);
+        }
+      });
+  }
+
+  /**
+   * Starting from a given node, recursively mark all parent nodes as needing a resize.
+   *
+   * @param {Node} node - The node to start from.
+   * @private
+   */
+  __markAsNeedingResize(node) {
+    if (node.data.drawOption) {
+      node.data.drawOption.needsResizing = true;
+    }
+    if (node.parent) {
+      this.__markAsNeedingResize(node.parent);
+    }
+  }
+
+  /**
+   * Update component hierarchy and re-render.
+   *
+   * @param {DragEvent} event - D3's drag event.
+   * @param {Element} dropTarget - The element on which the dragged component was dropped.
+   */
+  handleDropEvent(event, dropTarget) {
+    const origParent = this.pluginData.getComponentById(event.subject.parent.data.id);
+    const target = dropTarget ? d3.select(dropTarget) : null;
+
+    if (target === origParent
+      || (origParent?.id === target?.datum().data?.id
+        &amp;&amp; !origParent?.definition?.preventChildrenMovement)) {
+      const { x, y } = event;
+      const width = event.subject.x1 - event.subject.x0;
+      const height = event.subject.y1 - event.subject.y0;
+
+      event.subject.data.drawOption = new ComponentDrawOption({
+        x: x - this.actions.drag.offsetX,
+        y: y - this.actions.drag.offsetY,
+        width,
+        height,
+      });
+    } else {
+      if (event.subject.parent) {
+        this.__markAsNeedingResize(event.subject.parent);
+      }
+      event.subject.data.drawOption = null;
+
+      if (target) {
+        this.changeParent(target, event);
+      } else {
+        event.subject.data.removeAllReferenceAttributes();
+      }
+    }
+
+    this.emitUpdateEvent();
+    this.draw(this.rootId);
+  }
+
+  /**
+   * Change the event subject's parent to the target component.
+   *
+   * @param {Selection} target - Where the dragged element was dropped.
+   * @param {DragEvent} event - D3's drag event.
+   */
+  changeParent(target, event) {
+    const parentId = target.attr('data-parentId');
+    const newParent = this.pluginData.getComponentById(parentId);
+    const newParentNode = d3.select(`#${parentId}`).datum();
+
+    if (newParent.definition.childrenTypes.includes(event.subject.data.definition.type)) {
+      event.subject.data.setReferenceAttribute(newParent);
+      this.__markAsNeedingResize(newParentNode);
+
+      if (newParent?.definition?.displayType === 'workflow') {
+        const newInboundComponent = this.findInsertionPosition(newParentNode, event);
+
+        if (newInboundComponent) {
+          this.pluginData
+            .insertComponentAfter(
+              event.subject.data.id,
+              newInboundComponent.data?.id,
+            );
+        } else if (newParentNode.children?.length > 0) {
+          this.pluginData
+            .insertComponentBefore(
+              event.subject.data.id,
+              newParentNode.children[0].data?.id,
+            );
+        }
+      }
+    }
+  }
+
+  /**
+   * Find after which component the dragged component should be placed in a container.
+   *
+   * @param {Node} parentNode - The destination container.
+   * @param {DragEvent} event - The drag event.
+   * @returns {Component} - The component that will be directly before the dropped component.
+   */
+  findInsertionPosition(parentNode, event) {
+    const xDelta = parentNode.x0 - event.subject.parent.x0;
+    const yDelta = parentNode.y0 - event.subject.parent.y0;
+    const adjustedEventX = event.x - xDelta;
+    const adjustedEventY = event.y - yDelta;
+
+    if (!parentNode.children) {
+      return null;
+    }
+
+    const sameLineComponents = parentNode.children
+      .filter((component) => component.data?.id !== event.subject?.data?.id)
+      .filter((component) => component.y0 &lt;= adjustedEventY
+        &amp;&amp; component.y1 >= adjustedEventY);
+
+    if (sameLineComponents.length > 0) {
+      const bracketingComponents = sameLineComponents.reduce((targetInfo, component) => {
+        const distance = adjustedEventX - component.x1;
+
+        if (distance > 0 &amp;&amp; distance &lt; targetInfo.distanceLeft) {
+          targetInfo.distanceLeft = distance;
+          targetInfo.componentLeft = component;
+        } else if (distance &lt;= 0 &amp;&amp; Math.abs(distance) &lt; targetInfo.distanceRight) {
+          targetInfo.distanceRight = Math.abs(distance);
+          targetInfo.componentRight = component;
+        }
+
+        return targetInfo;
+      }, {
+        distanceLeft: Infinity,
+        distanceRight: Infinity,
+        componentLeft: null,
+        componentRight: null,
+      });
+
+      this.__fillMissingBracket(parentNode, bracketingComponents, event.subject);
+
+      return this.__isInverted(
+        parentNode,
+        bracketingComponents.componentLeft,
+        bracketingComponents.componentRight,
+      )
+        ? bracketingComponents.componentRight
+        : bracketingComponents.componentLeft;
+    }
+    const { component: returnComponent } = parentNode.children
+      .reduce((targetInfo, component) => {
+        const distance = adjustedEventY - component.y1;
+
+        if (distance > 0 &amp;&amp; distance &lt;= targetInfo.distance) {
+          targetInfo = { distance, component };
+        }
+
+        return targetInfo;
+      }, { distance: Infinity, component: null });
+
+    return returnComponent;
+  }
+
+  /**
+   * Fill left bracket if missing due to vertical layout.
+   *
+   * @param {Node} parentNode - The parent node
+   * @param {object} bracketingComponents - the components we want to drop the subject between.
+   * @param {Node} subject - The component being dropped.
+   * @private
+   */
+  __fillMissingBracket(parentNode, bracketingComponents, subject) {
+    if (parentNode.children?.length > 1
+      &amp;&amp; !bracketingComponents.componentLeft
+      &amp;&amp; bracketingComponents.componentRight) {
+      const subjectIndex = parentNode.children
+        .findIndex((component) => component.data?.id === subject?.data?.id);
+      const rightIndex = parentNode.children
+        .findIndex(
+          (component) => component.data?.id === bracketingComponents.componentRight.data?.id,
+        );
+      const newLeftIndex = subjectIndex === rightIndex - 1 ? rightIndex - 2 : rightIndex - 1;
+
+      if (newLeftIndex >= 0) {
+        bracketingComponents.componentLeft = parentNode.children[newLeftIndex];
+      }
+    }
+  }
+
+  /**
+   * Check if two components are being rendered right to left.
+   *
+   * @param {Node} parentNode - The parent component
+   * @param {Node} componentLeft - The left hand component
+   * @param {Node} componentRight - the right hand component
+   * @returns {boolean} - true if the right hand component has a lower index than the left hand one
+   * @private
+   */
+  __isInverted(
+    parentNode,
+    componentLeft,
+    componentRight,
+  ) {
+    const leftIndex = parentNode.children
+      .findIndex(
+        (component) => component.data.id === componentLeft?.data?.id,
+      );
+    const rightIndex = parentNode.children
+      .findIndex(
+        (component) => component.data.id === componentRight?.data?.id,
+      );
+
+    return !!((leftIndex === -1 &amp;&amp; rightIndex === (parentNode.children.length - 1))
+      || (leftIndex >= 0 &amp;&amp; rightIndex >= 0 &amp;&amp; leftIndex > rightIndex));
+  }
+
+  /**
+   * Create a new svg to render the models in, or fetch an existing one.
+   */
+  createRenderingContext() {
+    const contextIsPresent = !d3.select(`#${this.rootId}>svg`).empty();
+
+    if (!contextIsPresent) {
+      this.svg = d3.select(`#${this.rootId}`)
+        .append('svg')
+        .attr('viewBox', [0, 0, this.width, this.height])
+        .attr('preserveAspectRatio', 'xMinYMin meet')
+        .style('font', '10px sans-serif');
+      this.svg.append('g')
+        .attr('class', 'container')
+        .attr('height', '100%')
+        .attr('width', '100%')
+        .attr('x', 0)
+        .attr('y', 0);
+    } else {
+      this.svg = d3.select(`#${this.rootId}`)
+        .select('svg');
+    }
+  }
+
+  /**
+   * Draws all Components and ComponentLinks in the parentId Element.
+   *
+   * @param {string} rootId - Id of the container where you want to draw.
+   */
+  draw(rootId) {
+    this.rootId = rootId;
+    this.createRenderingContext();
+
+    this.__unselectComponent();
+
+    this.drawComponents();
+
+    this.drawLinks();
+
+    this.setViewPortAction();
+  }
+
+  /**
+   * Handle component click event. Set selected style on it.
+   *
+   * @param {PointerEvent} event - The click event.
+   */
+  clickHandler(event) {
+    event.stopPropagation();
+    this.__selectComponent(d3.select(event.currentTarget));
+  }
+
+  /**
+   * Render components in model view.
+   */
+  drawComponents() {
+    this.shadowRoot = { children: this.pluginData.components, id: '__shadowRoot', name: '' };
+    const groupedNodes = this.buildTree();
+    const clicked = this.clickHandler.bind(this);
+    const drag = this.setupDragBehavior();
+    const node = this.svg
+      .select('.container')
+      .selectAll('g')
+      .data(groupedNodes, (data) => data)
+      .join('g')
+      .attr('id', ([data]) => data)
+      .selectAll('g')
+      .data(([, data]) => data)
+      .join('g')
+      .attr('id', ({ data }) => data.id)
+      .on('click', clicked)
+      .call(drag)
+      .attr('x', ({ x0 }) => x0)
+      .attr('y', ({ y0 }) => y0)
+      .attr('transform', ({ x0, y0 }) => `translate(${x0},${y0})`);
+
+    node
+      .filter(({ data }) => data.id !== '__shadowRoot')
+      .attr('class', ({ data }) => `component
+        component-${data.definition.model}
+        ${data.definition.type}`)
+      .html(({ data }) => nunjucks.renderString(
+        this.resources.models[data.definition.model],
+        { ...data, hasError: data.hasError() },
+      ))
+      .select('svg')
+      .attr('id', ({ data }) => `svg-${data.id}`)
+      .attr('height', (component) => this.getComponentHeight(component))
+      .attr('width', (component) => this.getComponentWidth(component));
+
+    node.select('.component-icon')
+      .html(({ data }) => this.resources.icons[data.definition.icon]);
+
+    node.select('rect')
+      .filter((d) => d.data?.definition?.isContainer)
+      .attr('height', (component) => this.getComponentHeight(component))
+      .attr('width', (component) => this.getComponentWidth(component));
+
+    node.select('.component-container')
+      .attr('height', (component) => this.getComponentHeight(component)
+        - this.minHeight - this.margin)
+      .attr('width', (component) => this.getComponentWidth(component) - 2 * this.margin)
+      .attr('x', () => this.margin)
+      .attr('y', () => this.minHeight)
+      .filter(({ children }) => children)
+      .append(({ data }) => d3.select(`#group-${data.id}`).node());
+
+    node.select('.component-container>rect').attr('data-parentId', ({ data }) => data.id);
+  }
+
+  /**
+   * Initialize component height and width then store them in its drawOptions.
+   *
+   * @param {Node} component - The component to initialize the values for.
+   */
+  initializeComponentDrawOptions(component) {
+    /*
+      component.depth and component.height are set by d3 and represent the position of the node in
+      the hierarchy:
+      - height: how many layers exist below this node
+      - depth: how deep in the tree the node is
+    */
+    const horizontalCoefficient = Math.min(
+      component.value,
+      this.getLineLengthForDepth(component.depth, component.data.definition?.childrenPerLine),
+    );
+    const verticalCoefficient = Math.ceil(this.__getVerticalCoefficient(component));
+
+    const width = (horizontalCoefficient * (this.minWidth + 2 * this.margin))
+      + (component.height * 2 * this.padding)
+      + (horizontalCoefficient - 1)
+      * (this.padding + 2 * this.margin);
+
+    const height = (verticalCoefficient * this.minHeight)
+      + (component.height * this.padding)
+      + (verticalCoefficient - 1)
+      * (this.padding + this.margin);
+
+    if (!component.data.drawOption || component.parent?.data?.definition?.preventChildrenMovement) {
+      component.data.drawOption = new ComponentDrawOption({
+        needsPositioning: true,
+        width,
+        height,
+      });
+    } else {
+      component.data.drawOption.width = width;
+      component.data.drawOption.height = height;
+    }
+  }
+
+  /**
+   * Build d3 hierarchy and treemap layout.
+   *
+   * @returns {Array} The nodes grouped by parent.
+   */
+  buildTree() {
+    const treemapLayout = d3.treemap()
+      .size([this.width, this.height])
+      .tile((data) => {
+        const newComponents = data
+          .children
+          .filter((child) => !child.data.drawOption
+            || data.data?.definition?.preventChildrenMovement);
+        const existingComponents = data
+          .children
+          .filter((child) => child.data.drawOption
+            &amp;&amp; !(data.data?.definition?.preventChildrenMovement));
+
+        newComponents.forEach((component) => this.initializeComponentDrawOptions(component));
+
+        const lines = this.__buildLines(existingComponents.concat(newComponents), data.depth);
+
+        this.setupTiles(lines.map((line) => {
+          line.items = line.items.filter((item) => item);
+
+          return line;
+        }), data.data?.definition?.displayType === 'workflow');
+        // TODO save/load coordinates
+      })
+      .round(true);
+    const rootNode = d3.hierarchy(
+      this.shadowRoot,
+      ({ id }) => this.pluginData.getChildren(id === '__shadowRoot' ? null : id),
+    );
+
+    rootNode
+      .count();
+
+    treemapLayout(rootNode);
+
+    return d3.groups(
+      rootNode,
+      ({ parent }) => (parent
+      &amp;&amp; parent.data.id !== '__shadowRoot'
+        ? `group-${parent.data.id}`
+        : 'root-components'),
+    ).filter(([data]) => data !== 'root-__shadowRoot');
+  }
+
+  /**
+   * Get the most appropriate anchor point for a link towards the given target.
+   *
+   * @param {Selection} sourceSelection - The source D3 selection object.
+   * @param {Selection} targetSelection - The target D3 selection object.
+   * @returns {number[] | null} - Tuple representing x,y coordinates,
+   * null if lacking source and/or target. Format required by d3.
+   */
+  getAnchorPoint(sourceSelection, targetSelection) {
+    if (sourceSelection.empty() || targetSelection.empty()) {
+      return null;
+    }
+
+    const sourceCoords = sourceSelection.node().getBoundingClientRect();
+    const sourceCenter = this.getSelectionCenter(sourceSelection);
+    const targetCenter = this.getSelectionCenter(targetSelection);
+
+    const angle = this.getBearing(
+      this.screenToSVG(sourceCenter.x, sourceCenter.y, this.svg.select('.container').node()),
+      this.screenToSVG(targetCenter.x, targetCenter.y, this.svg.select('.container').node()),
+    );
+
+    const topAnchor = {
+      y: sourceCoords.top,
+      x: sourceCoords.x + (sourceCoords.width / 2),
+    };
+    const bottomAnchor = {
+      y: sourceCoords.bottom,
+      x: sourceCoords.x + (sourceCoords.width / 2),
+    };
+    const leftAnchor = {
+      x: sourceCoords.left,
+      y: sourceCoords.top + (sourceCoords.height / 2),
+    };
+    const rightAnchor = {
+      x: sourceCoords.right,
+      y: sourceCoords.top + (sourceCoords.height / 2),
+    };
+    let anchorPoint;
+
+    if (angle &lt; 45 || angle >= 315) {
+      anchorPoint = bottomAnchor;
+    } else if (angle >= 45 &amp;&amp; angle &lt; 135) {
+      anchorPoint = rightAnchor;
+    } else if (angle >= 135 &amp;&amp; angle &lt; 225) {
+      anchorPoint = topAnchor;
+    } else {
+      anchorPoint = leftAnchor;
+    }
+
+    const { x, y } = this.screenToSVG(anchorPoint.x, anchorPoint.y);
+
+    return [x, y];
+  }
+
+  /**
+   * Render links in model view.
+   */
+  drawLinks() {
+    const pluginLinks = this.pluginData.getLinks();
+
+    if (!pluginLinks) {
+      return;
+    }
+
+    const links = this.svg
+      .selectAll('.link');
+
+    links.data(pluginLinks, (data) => data)
+      .join('path')
+      .filter(({ source, target }) => !d3.select(`#${source}`).empty()
+        &amp;&amp; !d3.select(`#${target}`).empty())
+      .classed('link', true)
+      .attr('d', (link) => {
+        const generator = this.getLinkGenerator(link);
+
+        return generator(link);
+      })
+      .attr('id', ({ definition, source, target }) => (
+        `link-${definition.sourceRef}-${definition.attributeRef}-${source}-${target}`
+      ))
+      .attr('fill', 'none')
+      .attr('stroke', (link) => link.definition.color)
+      .attr('stroke-width', (link) => link.definition.width)
+      .attr('stroke-dasharray', (link) => link.definition.dashStyle || 'none')
+      .attr('cursor', 'pointer')
+      .on('click', (event) => this.clickHandler(event));
+
+    links.raise();
+  }
+
+  /**
+   * Get the coordinates for a given selection's center.
+   *
+   * @param {Selection} selection - The selection to find the center for.
+   * @returns {object} Position of selection.
+   */
+  getSelectionCenter(selection) {
+    const box = selection.node().getBoundingClientRect();
+
+    return {
+      x: box.left + (box.width / 2),
+      y: box.top + (box.height / 2),
+    };
+  }
+
+  /**
+   * Get the angle (in degrees) between two points.
+   * 0 = pointB is directly below.
+   * 180 = pointB is directly above.
+   *
+   * @param {object} pointA - The point to get the bearing from.
+   * @param {object} pointB - The point to get the bearing to.
+   * @returns {number} The bearing.
+   */
+  getBearing(pointA, pointB) {
+    const distanceXBA = pointB.x - pointA.x;
+    const distanceYBA = pointB.y - pointA.y;
+    const x = distanceXBA / (Math.sqrt(distanceXBA ** 2 + distanceYBA ** 2));
+    const y = distanceYBA / (Math.sqrt(distanceXBA ** 2 + distanceYBA ** 2));
+
+    return ((Math.atan2(x, y) * (180 / Math.PI)) + 360) % 360;
+  }
+
+  /**
+   * Build a new d3 link generator for a ComponentLink
+   *
+   * @param {ComponentLink} link - The link to build the generator for.
+   * @returns {object} A d3 link generator.
+   */
+  getLinkGenerator(link) {
+    const source = d3.select(`#${link.source}`);
+    const target = d3.select(`#${link.target}`);
+
+    const sourceAnchor = this.getAnchorPoint(source, target);
+    const targetAnchor = this.getAnchorPoint(target, source);
+
+    const sourceCenter = this.getSelectionCenter(source);
+    const targetCenter = this.getSelectionCenter(target);
+
+    const angle = this.getBearing(
+      this.screenToSVG(sourceCenter.x, sourceCenter.y, this.svg.select('.container').node()),
+      this.screenToSVG(targetCenter.x, targetCenter.y, this.svg.select('.container').node()),
+    );
+
+    let curve;
+
+    if (angle &lt; 45 || angle >= 315 || (angle >= 135 &amp;&amp; angle &lt; 225)) {
+      curve = d3.curveBumpY;
+    } else {
+      curve = d3.curveBumpX;
+    }
+
+    return d3.link(curve)
+      .source(() => sourceAnchor)
+      .target(() => targetAnchor);
+  }
+
+  /**
+   * Compute the component's height then store it in its drawOptions.
+   *
+   * @param {Node} component - The component to get the height for.
+   * @returns {number} The computed height.
+   */
+  getComponentHeight(component) {
+    if (component.id === '__shadowRoot') {
+      return 0;
+    }
+
+    const containerSpacing = this.minHeight + this.padding + this.margin;
+    const childHeights = component.children
+      ? component.children.map(({ y1 }) => y1 + containerSpacing)
+      : [0];
+
+    component.data.drawOption.height = (Math.max(
+      this.minHeight + (component.data.definition.isContainer * containerSpacing),
+      ...childHeights,
+    ));
+
+    return component.data.drawOption.height;
+  }
+
+  /**
+   * Compute the component's width then store it in its drawOptions.
+   *
+   * @param {Node} component - The component to get the width for.
+   * @returns {number} The computed width.
+   */
+  getComponentWidth(component) {
+    if (component.id === '__shadowRoot') {
+      return 0;
+    }
+    const childWidths = component.children ? component.children.map(({ x1 }) => x1) : [0];
+
+    component.data.drawOption.width = Math.max(this.minWidth, ...childWidths)
+      + (!!(component.children) * (this.padding + this.margin));
+
+    return component.data.drawOption.width;
+  }
+
+  /**
+   * Compute the dimension of every component.
+   *
+   * @param {Array} lines - Rows of components.
+   * @param {boolean} [invertEven=false] - Layout even line components right to left.
+   */
+  setupTiles(lines, invertEven = false) {
+    let previousTallestItem = { x1: 0, y1: 0 };
+
+    lines
+      .forEach((line) => {
+        line.items = line.items
+          .map((item) => {
+            if (!item.data.drawOption) {
+              item.data.drawOption = new ComponentDrawOption({
+                needsPositioning: true,
+                needsResizing: true,
+              });
+            }
+
+            return item;
+          })
+          .map((item) => {
+            if (item.data.drawOption.needsResizing) {
+              this.initializeComponentDrawOptions(item);
+              item.data.drawOption.needsResizing = false;
+            }
+
+            return item;
+          })
+          .sort((itemA, itemB) => {
+            if (itemA.data.drawOption.needsPositioning &amp;&amp; !itemB.data.drawOption.needsPositioning) {
+              return 1;
+            }
+
+            if (!itemA.data.drawOption.needsPositioning
+              &amp;&amp; !itemB.data.drawOption.needsPositioning) {
+              return itemA.data.drawOption.x - itemB.data.drawOption.x;
+            }
+
+            return 0;
+          });
+        /*          .reduceRight((acc, item) => {
+            acc[invertEven &amp;&amp; lineIndex % 2 ? 'push' : 'unshift'](item);
+
+            return acc;
+          }, []) */
+      });
+    const rightClamp = Math.max(...lines.map(
+      (line) => (line.items.reduce((acc, item) => acc + item.data.drawOption.width, 0)
+        + (line.items.length + 1) * this.padding),
+    ));
+
+    lines
+      .forEach((line, lineIndex) => {
+        let prevItem = {
+          x1: 0,
+          x0: rightClamp,
+          y0: line.band + this.padding,
+        };
+
+        line.items.forEach((item) => {
+          if (item.data.drawOption.needsPositioning) {
+            item.data.drawOption.x = invertEven &amp;&amp; lineIndex % 2
+              ? prevItem.x0 - item.data.drawOption.width - this.padding
+              : prevItem.x1 + this.padding;
+            item.data.drawOption.y = previousTallestItem.y1 + this.padding;
+            item.data.drawOption.needsPositioning = false;
+          }
+
+          item.x0 = item.data.drawOption.x;
+          item.y0 = item.data.drawOption.y;
+          prevItem = item;
+
+          item.x1 = item.x0 + item.data.drawOption.width;
+          item.y1 = item.y0 + item.data.drawOption.height;
+        });
+
+        if (line.items.length > 0) {
+          const maxLineValue = Math.max(...line.items.map((item) => item.value));
+
+          previousTallestItem = line.items.find((item) => item.value === maxLineValue);
+        }
+      });
+  }
+
+  /**
+   * Build and fill the layout lines for a Node.
+   *
+   * @param {Node[]} children - The Node's children to build lines with.
+   * @param {number} depth - The Node's depth.
+   * @returns {Array} A list of lines.
+   * @private
+   */
+  __buildLines(children, depth) {
+    let lines = [];
+    let activeLineIndex = 0;
+    let activeLine = lines[activeLineIndex];
+
+    children.forEach((child) => {
+      lines = lines.sort((la, lb) => la.band - lb.band);
+
+      if (child.data.drawOption &amp;&amp; !child.data.drawOption.needsPositioning) {
+        activeLineIndex = lines.findIndex(
+          (line) => line.band === Math.floor(child.data.drawOption.y / 100) * 100,
+        );
+
+        if (activeLineIndex === -1) {
+          lines.push({
+            total: 0,
+            band: Math.floor(child.data.drawOption.y / 100) * 100,
+            items: [],
+          });
+          activeLineIndex = lines.length - 1;
+        }
+      } else {
+        activeLineIndex = 0;
+
+        while (activeLineIndex &lt; lines.length
+        &amp;&amp; lines[activeLineIndex].items.length >= this.getLineLengthForDepth(
+          depth,
+          child.parent?.data?.definition?.childrenPerLine,
+        )) {
+          activeLineIndex += 1;
+        }
+
+        if (activeLineIndex === lines.length) {
+          lines.push({
+            total: 0,
+            band: activeLineIndex > 0 ? lines[activeLineIndex - 1].band + 100 : 0,
+            items: [],
+          });
+        }
+      }
+
+      activeLine = lines[activeLineIndex];
+      activeLine.total += child.value;
+      activeLine.items.push(child);
+    });
+
+    return lines.sort((la, lb) => la.band - lb.band);
+  }
+
+  /**
+   * Set actions on viewport.
+   */
+  setViewPortAction() {
+    this.svg.on('click', () => {
+      this.__unselectComponent();
+      this.cancelLinkCreationInteraction();
+    });
+    const drawLinks = this.drawLinks.bind(this);
+
+    this.svg.call(d3
+      .zoom()
+      .on('zoom', function zoomHandler(event) {
+        d3.select(this).select('.container').attr('transform', event.transform);
+        drawLinks();
+      }));
+  }
+
+  /**
+   * Action to unselect current element.
+   * If no element is selected, does nothing.
+   *
+   * @private
+   */
+  __unselectComponent() {
+    if (this.actions.selection.current) {
+      d3.select(`#${this.rootId} .selected`)
+        .classed('selected', false)
+        .style('outline', '');
+      this.actions.selection.current = null;
+      this.hideActionMenu();
+    }
+  }
+
+  /**
+   * Unselects current selected element and selects a new one.
+   *
+   * @param {Selection} targetSelection - Component or link to select.
+   * @private
+   */
+  __selectComponent(targetSelection) {
+    const currentComponent = targetSelection.datum().__class === 'Link'
+      ? targetSelection.datum()
+      : targetSelection.datum().data;
+    const sameElementClicked = this.actions.selection.current === currentComponent;
+
+    if (this.actions.linkCreation.creating) {
+      if (targetSelection.node().classList.contains('disabled')) {
+        return;
+      }
+
+      this.actions.linkCreation.target = currentComponent;
+      this.createLink();
+    } else {
+      this.__unselectComponent();
+
+      if (sameElementClicked) {
+        return;
+      }
+
+      targetSelection
+        .classed('selected', true)
+        .style('outline', this.actions.selection.style)
+        .style('outline-offset', this.actions.selection.offset);
+      this.actions.selection.current = currentComponent;
+
+      if (this.events?.SelectEvent &amp;&amp; currentComponent.__class === 'Component') {
+        this.events.SelectEvent.next(currentComponent);
+      }
+
+      this.initializeActionMenu(targetSelection);
+    }
+  }
+
+  /**
+   * Create a link between the previously selected source and destination.
+   */
+  createLink() {
+    const { source, target } = this.actions.linkCreation;
+    const activeLinkType = this.pluginData.definitions.links
+      .find((definition) => definition.sourceRef === source.definition.type
+        &amp;&amp; definition.targetRef === target.definition.type);
+
+    const newLink = new ComponentLink({
+      source: source.id,
+      target: target.id,
+      definition: activeLinkType,
+    });
+
+    this.actions.linkCreation.source.setLinkAttribute(newLink);
+
+    this.emitUpdateEvent();
+
+    this.cancelLinkCreationInteraction();
+
+    this.drawLinks();
+  }
+
+  /**
+   * Initialize the action menu for a given target.
+   *
+   * @param {Selection} targetSelection - D3 selection of the target object.
+   */
+  initializeActionMenu(targetSelection) {
+    const actionMenu = this.svg
+      .select('.container')
+      .append('svg')
+      .attr('id', 'action-menu');
+
+    const actions = this.getMenuActions(targetSelection);
+
+    const zoomTransform = d3.zoomTransform(this.svg.select('.container').node());
+
+    actionMenu
+      .append('rect')
+      .attr('fill', 'lightgrey')
+      .attr('width', this.actionMenuButtonSize * actions.length)
+      .attr('height', this.actionMenuButtonSize)
+      .attr('rx', 5);
+
+    const { bottom, width, left } = targetSelection.node().getBoundingClientRect();
+    const { x, y } = this.screenToSVG(
+      (left + (width / 2)) - ((this.actionMenuButtonSize * actions.length) / 2) * zoomTransform.k,
+      bottom + 20,
+      this.svg.select('.container').node(),
+    );
+
+    actionMenu
+      .attr('x', x)
+      .attr('y', y);
+
+    const buttons = actionMenu
+      .selectAll('svg')
+      .data(actions)
+      .join('svg')
+      .attr('id', (data) => data.id)
+      .attr('width', this.actionMenuButtonSize)
+      .attr('height', this.actionMenuButtonSize)
+      .attr('x', (_d, index) => (this.actionMenuButtonSize * index))
+      .attr('preserveAspectRatio', 'xMinYMin meet')
+      .attr('cursor', 'pointer')
+      .on('click', (event, data) => {
+        event.stopPropagation();
+        const handler = data.handler.bind(this);
+
+        handler(event, data);
+      });
+
+    buttons
+      .append('rect')
+      .classed('bg-button', true)
+      .attr('fill', 'lightgrey')
+      .attr('rx', 5)
+      .style('width', this.actionMenuButtonSize)
+      .style('height', this.actionMenuButtonSize);
+
+    buttons
+      .on('mouseenter', function onHover() {
+        d3.select(this)
+          .select('.bg-button')
+          .attr('fill', 'grey');
+      })
+      .on('mouseleave', function onLeave() {
+        d3.select(this)
+          .select('.bg-button')
+          .attr('fill', 'lightgrey');
+      });
+
+    buttons
+      .append('g')
+      .attr('x', 0)
+      .attr('y', 0)
+      .html((d) => d.icon)
+      .select('svg')
+      .attr('width', '80%')
+      .attr('height', '80%')
+      .attr('x', '10%')
+      .attr('y', '10%');
+
+    actionMenu.selectAll('button')
+      .style('width', '30px')
+      .style('height', '30px')
+      .style('border', 'none');
+  }
+
+  /**
+   * Store new link source and apply disabled style to invalid target components.
+   */
+  startLinkCreationInteraction() {
+    if (this.actions.selection.current) {
+      const source = this.pluginData.getComponentById(this.actions.selection.current.id);
+      const allowedLinkTargets = source.definition.definedAttributes
+        .filter((a) => a.type === 'Link');
+      const forbiddenTypes = allowedLinkTargets
+        .map((linkTarget) => `:not(.${linkTarget.linkRef})`)
+        .join('');
+
+      this.actions.linkCreation.creating = true;
+      this.actions.linkCreation.source = source;
+
+      this.setDisabledStyle(`.component:not(#${source.id})${forbiddenTypes}`);
+    }
+  }
+
+  /**
+   * Get a list of actions to fill the menu for a given target.
+   *
+   * @param {object} targetSelection - The target object.
+   * @type {object}
+   * @property {string} id - Id of the action button.
+   * @property {string} icon - Icon to display in the action button
+   * @property {Function} handler - Function called on action click.
+   * @returns {Array} The list of menu actions.
+   */
+  getMenuActions(targetSelection) {
+    if (targetSelection.classed('component')) {
+      return [
+        {
+          id: 'create-link',
+          icon: actionIcons.link,
+          handler() {
+            this.startLinkCreationInteraction();
+          },
+        },
+        {
+          id: 'remove-component',
+          icon: actionIcons.trash,
+          handler() {
+            this.pluginData.removeComponentById(this.actions.selection.current.id);
+            this.emitUpdateEvent();
+            this.draw(this.rootId);
+          },
+        },
+      ];
+    }
+
+    return [
+      {
+        id: 'remove-link',
+        icon: actionIcons.trash,
+        handler() {
+          this.pluginData.removeLink(this.actions.selection.current);
+          this.emitUpdateEvent();
+          this.draw(this.rootId);
+        },
+      },
+    ];
+  }
+
+  /**
+   * Handle link creation being cancelled.
+   */
+  cancelLinkCreationInteraction() {
+    this.actions.linkCreation.creating = false;
+    this.actions.linkCreation.source = null;
+    this.actions.linkCreation.target = null;
+    this.unsetAllDisabledStyles();
+  }
+
+  /**
+   * Hide the action menu.
+   */
+  hideActionMenu() {
+    d3.select('#action-menu')
+      .remove();
+  }
+}
+export default DefaultDrawer;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

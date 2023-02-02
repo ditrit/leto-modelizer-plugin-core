@@ -1,0 +1,297 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  tracking-code-which-will-go-to-the-HEAD
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> models/ComponentAttributeDefinition.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">leto-modelizer-plugin-core</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/ditrit/leto-modelizer-plugin-core#README.md"
+                        >
+                            Github
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>models/ComponentAttributeDefinition.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Define Attributes for type.
+ */
+class ComponentAttributeDefinition {
+  /**
+   * Default constructor
+   *
+   * @param {object} [props={}] - Object that contains all properties to set.
+   * @param {string} [props.name] - Attribute name.
+   * @param {string} [props.type] - Attribute type,
+   * valid types are String/Boolean/Number/Array/Object/Link/Reference.
+   * @param {string} [props.displayName] - Attribute display name.
+   * @param {string} [props.description] - Attribute explanation.
+   * @param {string} [props.url] - URL of the documentation of the attribute.
+   * @param {string} [props.linkType] - Type of link, valid types are Default/Reverse.
+   * @param {string[]} [props.linkRef=[]] - Reference of accepted component for link.
+   * @param {string} [props.linkColor='black'] - Color of the link.
+   * @param {number} [props.linkWidth=2] - Width of the link.
+   * @param {number[]} [props.linkDashStyle] - Dash style of the link. See stroke-dasharray of svg.
+   * @param {string} [props.containerRef] - Reference of accepted component for container.
+   * @param {boolean} [props.required=false] - Attribute is required.
+   * @param {ComponentAttributeDefinition[]} [props.definedAttributes=[]] - Defined attributes for
+   * this type.
+   * @param {object} [props.rules={}] - Rules of this type of Attribute.
+   * @param {Array} [props.rules.values] - Default values of attribute.
+   * @param {number} [props.rules.min] - Minimum value of Attribute.
+   * @param {number} [props.rules.max] - Maximum value of Attribute.
+   * @param {string} [props.rules.regex] - Regular expression to constrain the format of the value.
+   */
+  constructor(props = {
+    name: null,
+    type: null,
+    displayName: null,
+    description: null,
+    url: null,
+    linkType: null,
+    linkRef: [],
+    linkColor: 'black',
+    linkWidth: 2,
+    linkDashStyle: null,
+    containerRef: null,
+    required: false,
+    definedAttributes: [],
+    rules: {
+      values: null,
+      min: null,
+      max: null,
+      regex: null,
+    },
+  }) {
+    const {
+      name,
+      type,
+      displayName,
+      description,
+      url,
+      linkType,
+      linkRef,
+      linkColor,
+      linkWidth,
+      linkDashStyle,
+      containerRef,
+      definedAttributes,
+      required,
+      rules,
+    } = props;
+
+    /**
+     * Attribute name.
+     *
+     * @type {string}
+     */
+    this.name = name || null;
+    /**
+     * Attribute type, valid types are String/Boolean/Number/Array/Object/Link/Reference.
+     *
+     * @type {string}
+     */
+    this.type = type || null;
+    /**
+     * Attribute display name.
+     *
+     * @type {string}
+     */
+    this.displayName = displayName || null;
+    /**
+     * Attribute explanation.
+     *
+     * @type {string}
+     */
+    this.description = description || null;
+    /**
+     * URL of the documentation of the attribute.
+     *
+     * @type {string}
+     */
+    this.url = url || null;
+    /**
+     * Type of link, valid types are Default/Reverse.
+     *
+     * @type {string}
+     */
+    this.linkType = linkType || null;
+    /**
+     * Define list of Component that can be linked with this.
+     *
+     * @type {string[]}
+     */
+    this.linkRef = linkRef || [];
+    /**
+     * Color of the link.
+     *
+     * @type {string}
+     */
+    this.linkColor = linkColor || 'black';
+    /**
+     * Width of the link.
+     *
+     * @type {number}
+     */
+    this.linkWidth = linkWidth || 2;
+    /**
+     * Dash style of the link. See stroke-dasharray of svg.
+     *
+     * @type {number[]}
+     */
+    this.linkDashStyle = linkDashStyle || null;
+    /**
+     * Define the reference of Component that can be the container of this component.
+     *
+     * @type {string}
+     */
+    this.containerRef = containerRef || null;
+    /**
+     * Defined attributes for this type.
+     *
+     * @type {ComponentAttributeDefinition[]}
+     */
+    this.definedAttributes = definedAttributes || [];
+    /**
+     * Attribute is required.
+     *
+     * @type {boolean}
+     */
+    this.required = required || false;
+    /**
+     * Rules of this type of Attribute.
+     *
+     * @type {object}
+     */
+    this.rules = {
+      values: null,
+      min: null,
+      max: null,
+      regex: null,
+      ...rules,
+    };
+  }
+}
+
+export default ComponentAttributeDefinition;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

@@ -1,0 +1,481 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  tracking-code-which-will-go-to-the-HEAD
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> models/DefaultData.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">leto-modelizer-plugin-core</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/ditrit/leto-modelizer-plugin-core#README.md"
+                        >
+                            Github
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>models/DefaultData.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import packageInfo from '../../package.json';
+import Component from './Component';
+import ComponentLink from './ComponentLink';
+import ComponentLinkDefinition from './ComponentLinkDefinition';
+
+const CORE_VERSION = packageInfo.version;
+
+/**
+ * Class that represents all data of a Plugin.
+ */
+class DefaultData {
+  /**
+   * Default constructor.
+   *
+   * @param {object} props - All properties.
+   * @param {string} props.name - Name of plugin.
+   * @param {string} props.version - Version of plugin.
+   * @param {Component[]} [props.components=[]] - Components array.
+   * @param {object} [props.definitions={}] - All definitions.
+   * @param {ComponentDefinition[]} [props.definitions.components=[]] - All component definitions.
+   * @param {ComponentLinkDefinition[]} [props.definitions.link=[]] - All component link
+   * definitions.
+   * @param {ParseError[]} [props.parseErrors=[]] - Parse errors array.
+   * @param {string} [props.defaultFileName] - Default file name for new components.
+   */
+  constructor(props = {
+    name: null,
+    version: null,
+    components: [],
+    definitions: {
+      components: [],
+      links: [],
+    },
+    parseErrors: [],
+    defaultFileName: null,
+  }) {
+    /**
+     * Plugin name.
+     *
+     * @type {string}
+     */
+    this.name = props.name || null;
+    /**
+     * Plugin version.
+     *
+     * @type {string}
+     */
+    this.version = props.version || null;
+    /**
+     * All plugin components.
+     *
+     * @type {Component[]}
+     */
+    this.components = props.components || [];
+    /**
+     * All plugin definitions.
+     *
+     * @type {{components: ComponentDefinition[], links: ComponentLinkDefinition[]}}
+     */
+    this.definitions = {
+      components: [],
+      links: [],
+    };
+    if (props.definitions) {
+      this.definitions.components = props.definitions.components || [];
+      this.definitions.links = props.definitions.links || [];
+    }
+    /**
+     * All parser errors.
+     *
+     * @type {ParseError[]}
+     */
+    this.parseErrors = props.parseErrors || [];
+    /**
+     * Default file name for new components.
+     *
+     * @type {string}
+     */
+    this.defaultFileName = props.defaultFileName || null;
+  }
+
+  /**
+   * Get version of plugin core.
+   *
+   * @returns {string} Version of plugin core.
+   */
+  get coreVersion() {
+    return CORE_VERSION;
+  }
+
+  /**
+   * Get component by id.
+   *
+   * @param {string} id - Component id.
+   * @returns {Component} Component or null.
+   */
+  getComponentById(id) {
+    return this.components.find((component) => component.id === id) || null;
+  }
+
+  /**
+   * Get all components corresponding to the given type.
+   *
+   * @param {string} type - Type of component to find.
+   * @returns {Component[]} Component list.
+   */
+  getComponentsByType(type) {
+    return this.components.filter(({ definition }) => definition &amp;&amp; definition.type === type);
+  }
+
+  /**
+   * Create new component.
+   *
+   * @param {ComponentDefinition} definition - Component definition.
+   * @param {string} [folder=''] - Folder path.
+   * @param {string} [fileName] - File name.
+   * @returns {string} Component id.
+   */
+  addComponent(definition, folder = '', fileName = this.defaultFileName || '') {
+    const id = this.generateComponentId(definition);
+
+    this.components.push(new Component({
+      id,
+      name: id,
+      definition,
+      path: `${folder}${fileName}`,
+    }));
+
+    return id;
+  }
+
+  /**
+   * Generate id from definition and components list.
+   *
+   * @param {ComponentDefinition} definition - Component definition.
+   * @returns {string} String that is the concatenation of the definition type and an index.
+   */
+  generateComponentId(definition) {
+    const templateId = `${definition.type}_`;
+    const ids = this.components
+      .map(({ id }) => id)
+      .filter((id) => new RegExp(`${templateId}\\d+`).test(id))
+      .map((id) => parseInt(id.substring(templateId.length), 10));
+    let index = 1;
+
+    while (ids.includes(index)) {
+      index += 1;
+    }
+
+    return `${templateId}${index}`;
+  }
+
+  /**
+   * Remove component by id and all attributes that used this component id.
+   *
+   * @param {string} id - Component id.
+   */
+  removeComponentById(id) {
+    this.getChildren(id).forEach((component) => this.removeComponentById(component.id));
+
+    this.components = this.components.filter((component) => component.id !== id);
+
+    this.components.forEach((component) => {
+      component.removeLinkAttribute(id);
+    });
+  }
+
+  /**
+   * Remove link attribute in components.
+   *
+   * @param {ComponentLink} link - Link to remove.
+   */
+  removeLink(link) {
+    const { source, target } = link;
+    const { attributeRef } = link.definition;
+
+    this.getComponentById(source).removeLinkAttribute(target, attributeRef);
+  }
+
+  /**
+   * Get all links from all component attributes.
+   *
+   * @returns {ComponentLink[]} List of links.
+   */
+  getLinks() {
+    const links = [];
+
+    this.definitions.links.forEach((definition) => {
+      const components = this.getComponentsByType(definition.sourceRef);
+
+      components.forEach((component) => {
+        const attribute = component.getAttributeByName(definition.attributeRef);
+
+        if (!attribute) {
+          return;
+        }
+
+        attribute.value.forEach((value) => links.push(new ComponentLink({
+          definition,
+          source: component.id,
+          target: value,
+        })));
+      });
+    });
+
+    return links.concat(this.getWorkflowLinks());
+  }
+
+  /**
+   * Build internal links for workflow containers.
+   *
+   * @returns {ComponentLink[]} List of links
+   */
+  getWorkflowLinks() {
+    return this.components.filter(({ definition }) => definition.displayType?.match('workflow'))
+      .reduce((links, component) => {
+        const children = this.getChildren(component.id);
+
+        if (children.length > 1) {
+          for (let childIndex = 0; childIndex &lt; children.length - 1; childIndex += 1) {
+            links.push(new ComponentLink({
+              definition: new ComponentLinkDefinition({
+                sourceRef: '__workflow',
+                attributeRef: '__next',
+              }),
+              source: children[childIndex].id,
+              target: children[childIndex + 1].id,
+            }));
+          }
+        }
+
+        return links;
+      }, []);
+  }
+
+  /**
+   * Initialize all link definitions from all component attribute definitions.
+   */
+  initLinkDefinitions() {
+    this.definitions.links = [];
+    this.definitions.components.forEach(({ type, definedAttributes }) => {
+      this.__setLinkDefinitions(type, definedAttributes);
+    });
+  }
+
+  /**
+   * Set link definition in link definitions
+   *
+   * @param {string} type - Component type to link.
+   * @param {ComponentAttributeDefinition[]} definedAttributes - Component attribute definitions.
+   * @private
+   */
+  __setLinkDefinitions(type, definedAttributes) {
+    definedAttributes.forEach((attributeDefinition) => {
+      if (attributeDefinition.type === 'Link') {
+        const linkDefinition = new ComponentLinkDefinition({
+          type: attributeDefinition.linkType,
+          attributeRef: attributeDefinition.name,
+          sourceRef: type,
+          targetRef: attributeDefinition.linkRef,
+          color: attributeDefinition.linkColor,
+          width: attributeDefinition.linkWidth,
+          dashStyle: attributeDefinition.linkDashStyle,
+        });
+
+        this.definitions.links.push(linkDefinition);
+      } else if (attributeDefinition.type === 'Object') {
+        this.__setLinkDefinitions(type, attributeDefinition.definedAttributes);
+      }
+    });
+  }
+
+  /**
+   * Get children of container component with corresponding id.
+   *
+   * @param {string} id - Component container id.
+   * @returns {Component[]} Children component array.
+   */
+  getChildren(id) {
+    return this.components.filter((component) => component.getContainerId() === id);
+  }
+
+  /**
+   * Move a component to a new position in the internal component list.
+   *
+   * @param {string} componentId - The component's id.
+   * @param {number} newIndex - The new index.
+   * @private
+   */
+  __moveComponentToIndex(componentId, newIndex) {
+    const currentIndex = this.components
+      .findIndex((cmp) => cmp.id === componentId);
+
+    if (currentIndex === newIndex) {
+      return;
+    }
+    const component = this.getComponentById(componentId);
+    let adjustedIndex = Math.max(0, newIndex);
+
+    adjustedIndex += adjustedIndex > currentIndex;
+    this.components.splice(adjustedIndex, 0, component);
+    this.components.splice(currentIndex + (adjustedIndex &lt; currentIndex), 1);
+  }
+
+  /**
+   * Insert the moved component before the target in the internal component list
+   *
+   * @param {string} movedId - The id of the component to move
+   * @param {string} targetId - The id of the component that will be immediately
+   * after the moved component
+   */
+  insertComponentBefore(movedId, targetId) {
+    const targetIndex = this.components.findIndex((component) => component.id === targetId);
+
+    if (targetIndex === -1) {
+      return;
+    }
+    this.__moveComponentToIndex(
+      movedId,
+      Math.max(0, targetIndex - 1),
+    );
+  }
+
+  /**
+   * Insert the moved component after the target in the internal component list
+   *
+   * @param {string} movedId - The id of the component to move
+   * @param {string} targetId - The id of the component that will be immediately
+   * before the moved component
+   */
+  insertComponentAfter(movedId, targetId) {
+    const movedIndex = this.components.findIndex((component) => component.id === movedId);
+    const targetIndex = this.components.findIndex((component) => component.id === targetId);
+
+    if (targetIndex === -1) {
+      return;
+    }
+    this.__moveComponentToIndex(
+      movedId,
+      Math.min(this.components.length - 1, targetIndex + (targetIndex &lt; movedIndex)),
+    );
+  }
+}
+
+export default DefaultData;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>
