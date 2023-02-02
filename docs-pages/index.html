@@ -1,60 +1,132 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+  tracking-code-which-will-go-to-the-HEAD
   <meta charset="utf-8">
-  <base data-ice="baseUrl">
-  <title data-ice="title">Home | leto-modelizer-plugin-core</title>
-  <link type="text/css" rel="stylesheet" href="css/style.css">
-  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
-  <script src="script/prettify/prettify.js"></script>
-  <script src="script/manual.js"></script>
-<meta name="description" content="Library that contains all models for modelling tools in Leto&apos;s projects."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="leto-modelizer-plugin-core"><meta property="twitter:description" content="Library that contains all models for modelling tools in Leto&apos;s projects."></head>
-<body class="layout-container" data-ice="rootContainer">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> Home</title>
 
-<header>
-  <a href="./">Home</a>
-  
-  <a href="identifiers.html">Reference</a>
-  <a href="source.html">Source</a>
-  
-  <div class="search-box">
-  <span>
-    <img src="./image/search.png">
-    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
-  </span>
-    <ul class="search-result"></ul>
-  </div>
-<a style="position:relative; top:3px;" href="https://github.com/ditrit/leto-modelizer-plugin-core"><img width="20px" src="./image/github.png"></a></header>
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
 
-<nav class="navigation" data-ice="nav"><div>
-  <ul>
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
     
-  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#assets-actions">assets/actions</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-actionIcons">actionIcons</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#draw">draw</a><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/draw/DefaultDrawer.js~DefaultDrawer.html">DefaultDrawer</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#error">error</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/error/ParseError.js~ParseError.html">ParseError</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#metadata">metadata</a><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/metadata/DefaultMetadata.js~DefaultMetadata.html">DefaultMetadata</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#models">models</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/models/Component.js~Component.html">Component</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/models/ComponentAttribute.js~ComponentAttribute.html">ComponentAttribute</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/models/ComponentAttributeDefinition.js~ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/models/ComponentDefinition.js~ComponentDefinition.html">ComponentDefinition</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/models/ComponentDrawOption.js~ComponentDrawOption.html">ComponentDrawOption</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/models/ComponentLink.js~ComponentLink.html">ComponentLink</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/models/ComponentLinkDefinition.js~ComponentLinkDefinition.html">ComponentLinkDefinition</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/models/DefaultData.js~DefaultData.html">DefaultData</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/models/DefaultPlugin.js~DefaultPlugin.html">DefaultPlugin</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/models/FileInformation.js~FileInformation.html">FileInformation</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/models/FileInput.js~FileInput.html">FileInput</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#parser">parser</a><span data-ice="kind" class="kind-interface">I</span><span data-ice="name"><span><a href="class/src/parser/DefaultParser.js~DefaultParser.html">DefaultParser</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#render">render</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/render/DefaultRender.js~DefaultRender.html">DefaultRender</a></span></span></li>
-</ul>
-</div>
-</nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="leto-modelizer-plugin-core">leto-modelizer-plugin-core</h1><p>Library that contains all models for modeling tools in Leto&apos;s projects.</p>
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">leto-modelizer-plugin-core</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/ditrit/leto-modelizer-plugin-core#README.md"
+                        >
+                            Github
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p></p>
+                    <h1>Home</h1>
+                </header>
+                
+
+
+
+    
+
+
+    <h3>leto-modelizer-plugin-core 0.12.0</h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>leto-modelizer-plugin-core</h1>
+<p>Library that contains all models for modeling tools in Leto's projects.</p>
 <p>This library is used to create your own plugin for the <a href="https://github.com/ditrit/leto-modelizer">Leto Modelizer</a> tool.</p>
-<h2 id="get-started">Get started</h2><h3 id="install">Install</h3><pre><code><code class="source-code prettyprint">npm install --save &quot;git://github.com/ditrit/leto-modelizer-plugin-core.git&quot;</code>
-</code></pre><h3 id="usage">Usage</h3><p>Here is all imports you can use in your plugin:</p>
-<pre><code class="lang-js"><code class="source-code prettyprint">import {
+<h2>Get started</h2>
+<h3>Install</h3>
+<pre class="prettyprint source"><code>npm install --save &quot;git://github.com/ditrit/leto-modelizer-plugin-core.git&quot;
+</code></pre>
+<h3>Usage</h3>
+<p>Here is all imports you can use in your plugin:</p>
+<pre class="prettyprint source lang-js"><code>import {
   Component,
   ComponentDefinition,
   ComponentAttributeDefinition,
@@ -71,11 +143,11 @@
   FileInput,
   DefaultData,
   DefaultPlugin,
-} from &quot;leto-modelizer-plugin-core&quot;;</code>
+} from &quot;leto-modelizer-plugin-core&quot;;
 </code></pre>
 <p>For more information about all imports please refer to <a href="https://ditrit.io/leto-modelizer-plugin-core/">technical documentation</a> and <a href="https://github.com/ditrit/leto-modelizer-plugin-template">project template</a>.</p>
 <p>You can use it in that way:</p>
-<pre><code class="lang-js"><code class="source-code prettyprint">import { DefaultParser } from &apos;leto-modelizer-plugin-core&apos;;
+<pre class="prettyprint source lang-js"><code>import { DefaultParser } from 'leto-modelizer-plugin-core';
 
 class FruitParser extends DefaultParser {
   parse(inputs) {
@@ -87,24 +159,27 @@ class FruitParser extends DefaultParser {
   }
 }
 
-export default FruitParser;</code>
+export default FruitParser;
 </code></pre>
 <p>To see a complete example, please refer to <a href="https://github.com/ditrit/iactor">iactor</a>.</p>
-<h2 id="how-to-create-your-plugin">How to create your plugin</h2><p>You can use <a href="https://github.com/ditrit/leto-modelizer-plugin-template">this template repository</a> to create your own plugin.</p>
+<h2>How to create your plugin</h2>
+<p>You can use <a href="https://github.com/ditrit/leto-modelizer-plugin-template">this template repository</a> to create your own plugin.</p>
 <p>The project template leto-modelizer-plugin-template provides you the default structure of a plugin and all useful scripts to generate resources and other.</p>
 <p>It is strongly recommended to use it and the following documentation will make references to it.</p>
-<p>Furthermore, in this template there are code comments to explain how to override methods/classes and usages. </p>
-<h3 id="default-plugin-structure">Default Plugin structure</h3><p>For your plugin to be used by <code>Leto Modelizer</code>, it needs to have this structure:</p>
-<pre><code class="lang-js"><code class="source-code prettyprint">// src/index.js
+<p>Furthermore, in this template there are code comments to explain how to override methods/classes and usages.</p>
+<h3>Default Plugin structure</h3>
+<p>For your plugin to be used by <code>Leto Modelizer</code>, it needs to have this structure:</p>
+<pre class="prettyprint source lang-js"><code>// src/index.js
 export default new DefaultPlugin({
   pluginData: MyPluginData,         // MyPluginData has to extend DefaultData
   pluginDrawer: MyPluginDrawer,     // MyPluginDrawer has to extend DefaultDrawer
   pluginMetadata: MyPluginMetadata, // MyPluginMetadata has to extend DefaultMetadata
   pluginParser: MyPluginParser,     // MyPluginParser has to extend DefaultParser
   pluginRenderer: MyPluginRenderer, // MyPluginRenderer has to extend DefaultRender
-});</code>
+});
 </code></pre>
-<h3 id="how-it-works">How it works</h3><table>
+<h3>How it works</h3>
+<table>
 <thead>
 <tr>
 <th style="text-align:center">Plugin lifecycle</th>
@@ -112,48 +187,69 @@ export default new DefaultPlugin({
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center"><img height="400" src="/documentations/lifecycle.svg"></td>
+<td style="text-align:center"><img height="400" src="/documentations/lifecycle.svg"/></td>
 </tr>
 </tbody>
 </table>
 <p>This is the default lifecycle of plugin usage in Leto Modelizer.</p>
-<h3 id="plugin-creation">Plugin creation</h3><p>Create you plugin project from <a href="https://github.com/ditrit/leto-modelizer-plugin-template">leto-modelizer-plugin-template</a> and follow the readme section of the template project.</p>
-<h3 id="technical-documentation">Technical documentation</h3><p>Technical documentation can be found <a href="https://ditrit.io/leto-modelizer-plugin-core/">here</a>.</p>
-<h2 id="default-commands">Default commands</h2><p>Explanation of usage of scripts in <code>package.json</code>.</p>
-<h3 id="build">build</h3><p>Build this project in <code>dist</code> folder.</p>
-<h3 id="build-docs">build:docs</h3><p>Generate documentation with esdoc.</p>
-<h3 id="demo">demo</h3><p>Start a sample integration vue dev server.</p>
-<h3 id="lint">lint</h3><p>Run eslint check on the project.</p>
-<h3 id="lint-fix">lint:fix</h3><p>Apply default fix for eslint in project.</p>
-<h3 id="lint-report">lint:report</h3><p>Generate report of lint issues for sonar.</p>
-<h3 id="lint-watch">lint:watch</h3><p>To use in development, to see current lint errors with auto-refresh.</p>
-<h3 id="test">test</h3><p>Run all the unit tests.</p>
-<h3 id="test-coverage">test:coverage</h3><p>Generate coverage report of the unit tests.</p>
-<h2 id="development">Development</h2><h3 id="directory-structure">Directory structure</h3><p>This is the default directory structure we use for this project:</p>
-<pre><code><code class="source-code prettyprint">leto-modelizer-plugin-core
-&#x251C; docs                 &#x21E8; Contains all files generated by esdoc
-&#x251C; reports              &#x21E8; Contains all the report files for sonar
-&#x251C; src                  &#x21E8; Contains all files for modeling tools
-&#x2502; &#x2514;  models            &#x21E8; Contains all the models
-&#x2514; tests                &#x21E8; Contains all files related to the tests</code>
-</code></pre><h3 id="how-to-release">How to release</h3><p>We use <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a> as guideline for the version management.</p>
+<h3>Plugin creation</h3>
+<p>Create you plugin project from <a href="https://github.com/ditrit/leto-modelizer-plugin-template">leto-modelizer-plugin-template</a> and follow the readme section of the template project.</p>
+<h3>Technical documentation</h3>
+<p>Technical documentation can be found <a href="https://ditrit.io/leto-modelizer-plugin-core/">here</a>.</p>
+<h2>Default commands</h2>
+<p>Explanation of usage of scripts in <code>package.json</code>.</p>
+<h3>build</h3>
+<p>Build this project in <code>dist</code> folder.</p>
+<h3>prepare:docs</h3>
+<p>Fix betterdocs template for jsdoc and make it work.</p>
+<h3>build:docs</h3>
+<p>Generate documentation with jsdoc.</p>
+<h3>demo</h3>
+<p>Start a sample integration vue dev server.</p>
+<h3>lint</h3>
+<p>Run eslint check on the project.</p>
+<h3>lint:fix</h3>
+<p>Apply default fix for eslint in project.</p>
+<h3>lint:report</h3>
+<p>Generate report of lint issues for sonar.</p>
+<h3>lint:watch</h3>
+<p>To use in development, to see current lint errors with auto-refresh.</p>
+<h3>test</h3>
+<p>Run all the unit tests.</p>
+<h3>test:coverage</h3>
+<p>Generate coverage report of the unit tests.</p>
+<h2>Development</h2>
+<h3>Directory structure</h3>
+<p>This is the default directory structure we use for this project:</p>
+<pre class="prettyprint source"><code>leto-modelizer-plugin-core
+├ docs                 ⇨ Contains all files generated by esdoc
+├ reports              ⇨ Contains all the report files for sonar
+├ src                  ⇨ Contains all files for modeling tools
+│ └  models            ⇨ Contains all the models
+└ tests                ⇨ Contains all files related to the tests
+</code></pre>
+<h3>How to release</h3>
+<p>We use <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a> as guideline for the version management.</p>
 <p>Steps to release:</p>
 <ul>
 <li>Checkout a branch <code>release/vX.Y.Z</code> from the latest <code>dev</code>.</li>
 <li>Improve your version number in <code>package.json</code>, <code>package-lock.json</code> and <code>changelog.md</code>.</li>
 <li>Verify the content of the <code>changelog.md</code>.</li>
 <li>Build the project</li>
-<li>Commit your modification (with the <code>dist</code> content) with this commit&apos;s name <code>Release version X.Y.Z</code>.</li>
+<li>Commit your modification (with the <code>dist</code> content) with this commit's name <code>Release version X.Y.Z</code>.</li>
 <li>Create a pull request on github to this branch in <code>dev</code>.</li>
 <li>After the previous PR is merged, create a pull request on github to <code>dev</code> in <code>main</code>.</li>
 <li>After the previous PR is merged, tag the <code>main</code> branch with <code>vX.Y.Z</code></li>
 <li>After the tag is push, make the release on the tag in GitHub</li>
 </ul>
-<h3 id="git--default-branches">Git: Default branches</h3><p>The default branch is <code>main</code>, we can&apos;t commit on it and we can only make a pull request to add some code.</p>
+<h3>Git: Default branches</h3>
+<p>The default branch is <code>main</code>, we can't commit on it and we can only make a pull request to add some code.</p>
 <p>Release tags are only on the <code>main</code> branch.</p>
-<h3 id="git--branch-naming-policy">Git: Branch naming policy</h3><p>There is the branch naming policy: <code>[BRANCH_TYPE]/[BRANCH_NAME]</code></p>
+<h3>Git: Branch naming policy</h3>
+<p>There is the branch naming policy: <code>[BRANCH_TYPE]/[BRANCH_NAME]</code></p>
 <ul>
-<li><code>BRANCH_TYPE</code> is a prefix to describe the purpose of the branch, accepted prefix are:<ul>
+<li><code>BRANCH_TYPE</code> is a prefix to describe the purpose of the branch, accepted prefix are:
+<ul>
 <li><code>feature</code>, used for feature development</li>
 <li><code>bugfix</code>, used for bug fix</li>
 <li><code>improvement</code>, used for refacto</li>
@@ -166,7 +262,7 @@ export default new DefaultPlugin({
 <li><code>BRANCH_NAME</code> is managed by this regex: <code>[a-z0-9_-]</code> (<code>_</code> is used as space character).</li>
 </ul>
 <p>Examples:</p>
-<pre><code><code class="source-code prettyprint"># BAD
+<pre class="prettyprint source"><code># BAD
 add_some_test
 # GOOD
 improvement/unit_test
@@ -174,20 +270,37 @@ improvement/unit_test
 # BAD
 feature/adding-some-feature
 # GOOD
-feature/adding_some_feature</code>
-</code></pre></div>
-</div>
+feature/adding_some_feature
+</code></pre></article>
+    </section>
 
-<footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
-</footer>
 
-<script src="script/search_index.js"></script>
-<script src="script/search.js"></script>
-<script src="script/pretty-print.js"></script>
-<script src="script/inherited-summary.js"></script>
-<script src="script/test-summary.js"></script>
-<script src="script/inner-link.js"></script>
-<script src="script/patch-for-local.js"></script>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
 </body>
 </html>

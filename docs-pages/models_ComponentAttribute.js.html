@@ -1,0 +1,286 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  tracking-code-which-will-go-to-the-HEAD
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> models/ComponentAttribute.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">leto-modelizer-plugin-core</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/ditrit/leto-modelizer-plugin-core#README.md"
+                        >
+                            Github
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>models/ComponentAttribute.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Class to add Attribute in Components
+ */
+class ComponentAttribute {
+  /**
+   * Default constructor.
+   *
+   * @param {object} [props={}] - Object that contains all properties to set.
+   * @param {string} [props.name=null] - The name of the attribute.
+   * @param {(string | boolean | number | Array | ComponentAttribute[])} [props.value=null] - The
+   * value of the attribute.
+   * @param {string} [props.type=null] - The reel type of the attribute.
+   * @param {ComponentAttributeDefinition} [props.definition=null] - The definition of the
+   * attribute.
+   */
+  constructor(props = {
+    name: null,
+    value: null,
+    type: null,
+    definition: null,
+  }) {
+    const {
+      name,
+      value,
+      type,
+      definition,
+    } = props;
+
+    /**
+     * The name of the attribute.
+     *
+     * @type {string}
+     */
+    this.name = name || null;
+    /**
+     * The value of the attribute.
+     *
+     * @type {(string | boolean | number | Array | ComponentAttribute[])}
+     */
+    this.value = value ?? null;
+    /**
+     * The type of the attribute, reel type of the attribute, to check if it's match with the
+     * ComponentAttributeDefinition.
+     *
+     * @type {string}
+     */
+    this.type = type || null;
+    /**
+     * The definition of the attribute.
+     *
+     * @type {ComponentAttributeDefinition}
+     */
+    this.definition = definition || null;
+  }
+
+  /**
+   * Check if the attribute has an error.
+   *
+   * @returns {boolean} - true if an error occurs otherwise false.
+   */
+  hasError() {
+    if (this.definition === null) {
+      if (this.value === null) {
+        return true;
+      }
+
+      if (this.type.toLowerCase() === 'array') {
+        return !Array.isArray(this.value);
+      }
+
+      // eslint-disable-next-line valid-typeof
+      return typeof this.value !== this.type.toLowerCase();
+    }
+
+    return this.__typeOfValueValidation()
+      || this.__ruleValueValidation()
+      || this.__ruleMinAndMaxValidation()
+      || this.__ruleRegexValidation();
+  }
+
+  /**
+   * Check if the attribute type matches one of the JavaScript types.
+   *
+   * @returns {boolean} - true if the type is not good otherwise false.
+   * @private
+   */
+  __typeOfValueValidation() {
+    const type = this.type.toLowerCase();
+
+    if (type === 'array') {
+      if (this.definition.type === 'Link') {
+        return !Array.isArray(this.value) || this.value.some((link) => typeof link !== 'string');
+      }
+
+      return !Array.isArray(this.value);
+    }
+
+    if (type === 'object') {
+      return Object.prototype.toString.call(this.value) !== '[object Object]';
+    }
+
+    // eslint-disable-next-line valid-typeof
+    return typeof this.value !== type;
+  }
+
+  /**
+   * Check if values rule include this attribute value.
+   *
+   * @returns {boolean} - true if values rule doesn't include this attribute value otherwise false.
+   * @private
+   */
+  __ruleValueValidation() {
+    return this.definition.rules.values
+      &amp;&amp; !this.definition.rules.values.includes(this.value);
+  }
+
+  /**
+   * Check if the value or its length follows min and max rules.
+   *
+   * @returns {boolean} - true if the value is smaller than the "min" rule
+   * or bigger than the "max" rule otherwise false.
+   * @private
+   */
+  __ruleMinAndMaxValidation() {
+    const value = typeof this.value === 'number' ? this.value : this.value.length;
+
+    if (this.definition.rules.min !== null &amp;&amp; value &lt; this.definition.rules.min) {
+      return true;
+    }
+
+    return this.definition.rules.max !== null &amp;&amp; value > this.definition.rules.max;
+  }
+
+  /**
+   * Check if the value matches the regex rule.
+   *
+   * @returns {boolean} - true if attribute's value doesn't match the regex rule otherwise false.
+   * @private
+   */
+  __ruleRegexValidation() {
+    if (this.definition.rules.regex !== null) {
+      const regex = new RegExp(this.definition.rules.regex);
+
+      return !regex.test(this.value);
+    }
+
+    return false;
+  }
+}
+export default ComponentAttribute;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

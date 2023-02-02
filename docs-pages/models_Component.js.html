@@ -1,0 +1,394 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  tracking-code-which-will-go-to-the-HEAD
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> models/Component.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">leto-modelizer-plugin-core</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/ditrit/leto-modelizer-plugin-core#README.md"
+                        >
+                            Github
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>models/Component.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import ComponentAttribute from './ComponentAttribute';
+import FileInformation from './FileInformation';
+
+/**
+ * A model for modelling tools in Leto Modelizer.
+ *
+ * @augments {FileInformation}
+ */
+class Component extends FileInformation {
+  /**
+   * Default constructor.
+   *
+   * @param {object} [props={}] - Object that contains all properties to set.
+   * @param {string} [props.id] - The id of this Component.
+   * @param {string} [props.name] - The name of this Component.
+   * @param {ComponentDefinition} [props.definition] - The Definition used to instantiate this
+   * Component.
+   * @param {ComponentDrawOption} [props.drawOption] - The options used to draw this Component.
+   * @param {ComponentAttribute[]} [props.attributes=[]] - Attributes of Component.
+   */
+  constructor(props = {
+    id: null,
+    name: null,
+    definition: null,
+    drawOption: null,
+    attributes: [],
+  }) {
+    super(props);
+    const {
+      id,
+      name,
+      definition,
+      drawOption,
+      attributes,
+    } = props;
+
+    /**
+     * Use for drawer to get the type of object.
+     *
+     * @type {string}
+     * @private
+     */
+    this.__class = 'Component';
+    /**
+     * The id of this Component.
+     *
+     * @type {string}
+     */
+    this.id = id || null;
+    /**
+     * The name of this Component.
+     *
+     * @type {string}
+     */
+    this.name = name || null;
+    /**
+     * The Definition used to instantiate this Component.
+     *
+     * @type {ComponentDefinition}
+     */
+    this.definition = definition || null;
+    /**
+     * The options used to draw this Component.
+     *
+     * @type {ComponentDrawOption}
+     */
+    this.drawOption = drawOption || null;
+    /**
+     * Attributes of Component.
+     *
+     * @type {ComponentAttribute[]}
+     */
+    this.attributes = attributes || [];
+  }
+
+  /**
+   * Set container value in attributes.
+   *
+   * @param {Component} container - Container.
+   */
+  setReferenceAttribute(container) {
+    const attributeDefinition = this.definition.definedAttributes
+      .find((definition) => definition.containerRef === container.definition.type);
+
+    if (!attributeDefinition) {
+      return;
+    }
+
+    const attributes = this.attributes
+      .filter(({ definition }) => definition?.name === attributeDefinition.name);
+
+    if (attributes.length > 0) {
+      attributes.forEach((attribute) => {
+        attribute.value = container.id;
+      });
+    } else {
+      this.attributes.push(new ComponentAttribute({
+        name: attributeDefinition.name,
+        value: container.id,
+        type: 'String',
+        definition: attributeDefinition,
+      }));
+    }
+  }
+
+  /**
+   * Remove all reference attributes, corresponding to the container if existing.
+   *
+   * @param {Component} container - Container.
+   */
+  removeAllReferenceAttributes(container) {
+    if (container) {
+      this.attributes = this.attributes
+        .filter(({
+          definition,
+          value,
+        }) => !(definition.type === 'Reference'
+          &amp;&amp; definition.containerRef === container.definition.type
+          &amp;&amp; value === container.id));
+    } else {
+      this.attributes = this.attributes.filter(({ definition }) => definition.type !== 'Reference');
+    }
+  }
+
+  /**
+   * Set the attribute of a given link
+   *
+   * @param {ComponentLink} link - The link we want to set the attribute.
+   */
+  setLinkAttribute(link) {
+    const attributeDefinition = this.definition.definedAttributes
+      .find(({ name }) => name === link.definition.attributeRef);
+    const attribute = this.attributes.find(({ definition }) => definition.type === 'Link'
+      &amp;&amp; attributeDefinition.name === definition.name);
+
+    if (attribute &amp;&amp; !attribute.value.includes(link.target)) {
+      attribute.value.push(link.target);
+    } else if (!attribute) {
+      this.attributes.push(new ComponentAttribute({
+        name: attributeDefinition.name,
+        definition: attributeDefinition,
+        type: 'Array',
+        value: [link.target],
+      }));
+    }
+  }
+
+  /**
+   * Remove id in link attribute corresponding to the given name if provided
+   * otherwise remove id in all link attributes' value.
+   * Then if value is empty remove attribute.
+   *
+   * @param {string} id - Id to remove.
+   * @param {string} [name=null] - Name of attribute to remove.
+   */
+  removeLinkAttribute(id, name = null) {
+    this.attributes = this.attributes
+      .filter((attribute) => {
+        if (name &amp;&amp; attribute.name !== name) {
+          return true;
+        }
+        if (attribute.definition &amp;&amp; attribute.definition.type === 'Link') {
+          const index = attribute.value.findIndex((value) => value === id);
+
+          if (index >= 0) {
+            attribute.value.splice(index, 1);
+          }
+
+          return attribute.value.length !== 0;
+        }
+
+        return true;
+      });
+  }
+
+  /**
+   * Get attribute corresponding to the given name.
+   *
+   * @param {string} name - Name of attribute to find.
+   * @returns {ComponentAttribute|null} Component attribute or null.
+   */
+  getAttributeByName(name) {
+    return this.__getAttributeByName(this.attributes, name);
+  }
+
+  /**
+   * Get attribute from attributes list corresponding to the given name.
+   * Search in sub-attributes of "Object" attributes also.
+   *
+   * @param {ComponentAttribute[]} attributes - Attributes list.
+   * @param {string} name - Name of attribute to find.
+   * @returns {ComponentAttribute|null} Component attribute or null.
+   * @private
+   */
+  __getAttributeByName(attributes, name) {
+    for (let index = 0; index &lt; attributes.length; index += 1) { // NOSONAR
+      if (attributes[index].name === name) {
+        return attributes[index];
+      }
+      if (attributes[index].type === 'Object') {
+        const attribute = this.__getAttributeByName(attributes[index].value, name);
+
+        if (attribute) {
+          return attribute;
+        }
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * Retrieve container id from attributes.
+   *
+   * @returns {string} Id of container or null.
+   */
+  getContainerId() {
+    const attribute = this.attributes.find(({ definition }) => definition
+      &amp;&amp; definition.type === 'Reference');
+
+    return !attribute ? null : attribute.value;
+  }
+
+  /**
+   * Check if the component has an error.
+   *
+   * @returns {boolean} - true if the component has an error otherwise false.
+   */
+  hasError() {
+    return this.checkRequiredAttributes() || this.checkAttributesErrors();
+  }
+
+  /**
+   * Check if a required attribute is absent.
+   *
+   * @returns {boolean} - true if a required attribute is absent otherwise false.
+   */
+  checkRequiredAttributes() {
+    return this.definition.definedAttributes
+      .filter((defAttribute) => defAttribute.required)
+      .some((defAttribute) => {
+        const attribute = this.getAttributeByName(defAttribute.name);
+
+        return !attribute || attribute.value === null || attribute.value.trim() === '';
+      });
+  }
+
+  /**
+   * Check if attributes has an error.
+   *
+   * @returns {boolean} - true if attributes has an error otherwise false.
+   */
+  checkAttributesErrors() {
+    return this.attributes.some((attribute) => (attribute.hasError()));
+  }
+}
+
+export default Component;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>
