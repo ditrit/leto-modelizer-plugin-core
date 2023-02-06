@@ -628,6 +628,58 @@ describe('Test class: Component', () => {
             },
           }).hasError()).toEqual(true);
         });
+
+        it('Should not fail on Object type attribute', () => {
+          const attribute = new ComponentAttribute({
+            name: 'attribute-object',
+            value: [],
+            type: 'Object',
+          });
+
+          let error = null;
+
+          try {
+            new Component({
+              attributes: [attribute],
+              definition: {
+                definedAttributes: [new ComponentAttributeDefinition({
+                  name: 'attribute-object',
+                  type: 'Object',
+                  required: true,
+                })],
+              },
+            }).hasError();
+          } catch (e) {
+            error = e;
+          }
+          expect(error).toBeNull();
+        });
+
+        it('Should not fail on Array type attribute', () => {
+          const attribute = new ComponentAttribute({
+            name: 'attribute-array',
+            value: [],
+            type: 'Array',
+          });
+
+          let error = null;
+
+          try {
+            new Component({
+              attributes: [attribute],
+              definition: {
+                definedAttributes: [new ComponentAttributeDefinition({
+                  name: 'attribute-array',
+                  type: 'Array',
+                  required: true,
+                })],
+              },
+            }).hasError();
+          } catch (e) {
+            error = e;
+          }
+          expect(error).toBeNull();
+        });
       });
 
       describe('Test String attribute', () => {

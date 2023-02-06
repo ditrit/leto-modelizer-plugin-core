@@ -241,7 +241,10 @@ class Component extends FileInformation {
       .some((defAttribute) => {
         const attribute = this.getAttributeByName(defAttribute.name);
 
-        return !attribute || attribute.value === null || attribute.value.trim() === '';
+        return !attribute || attribute.value === null || (
+          attribute.type === 'Object' || attribute.type === 'Array'
+            ? attribute.value.length === 0
+            : attribute.value.trim() === '');
       });
   }
 
