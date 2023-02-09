@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add menu to create a new linkable component from selected component.
 - Add `getDefinedAttributesByType` method in `Component.js`.
 
+### Fixed
+
+- Fix `Component.checkRequiredAttributes` method fails when required attribute is `Boolean` or `Number`.
+
 ## [0.12.1] - 2023/02/07
 
 ### Fixed
