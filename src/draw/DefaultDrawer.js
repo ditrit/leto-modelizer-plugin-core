@@ -1334,7 +1334,14 @@ class DefaultDrawer {
       .attr('y', buttonPadding)
       .attr('width', iconSize)
       .attr('height', iconSize)
-      .attr('viewBox', '0 0 32 32')
+      // eslint-disable-next-line prefer-arrow-callback
+      .attr('viewBox', function setViewbox() {
+        const icon = d3.select(this).select('svg');
+        const width = icon.attr('width').replace('px', '');
+        const height = icon.attr('height').replace('px', '');
+
+        return `0 0 ${width} ${height}`;
+      })
       .attr('background-color', 'white');
 
     buttons
