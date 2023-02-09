@@ -256,6 +256,16 @@ class Component extends FileInformation {
   checkAttributesErrors() {
     return this.attributes.some((attribute) => (attribute.hasError()));
   }
+
+  /**
+   * Get defined attributes by type.
+   *
+   * @param {string} type - Type of attributes to get.
+   * @returns {ComponentAttributeDefinition[]} - Defined attributes.
+   */
+  getDefinedAttributesByType(type) {
+    return this.definition.definedAttributes.filter((attribute) => attribute.type === type);
+  }
 }
 
 export default Component;
