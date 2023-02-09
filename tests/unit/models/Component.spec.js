@@ -632,7 +632,7 @@ describe('Test class: Component', () => {
         it('Should not fail on Object type attribute', () => {
           const attribute = new ComponentAttribute({
             name: 'attribute-object',
-            value: [],
+            value: {},
             type: 'Object',
           });
 
@@ -671,6 +671,84 @@ describe('Test class: Component', () => {
                 definedAttributes: [new ComponentAttributeDefinition({
                   name: 'attribute-array',
                   type: 'Array',
+                  required: true,
+                })],
+              },
+            }).hasError();
+          } catch (e) {
+            error = e;
+          }
+          expect(error).toBeNull();
+        });
+
+        it('Should not fail on Number type attribute', () => {
+          const attribute = new ComponentAttribute({
+            name: 'attribute-number',
+            value: 1,
+            type: 'Number',
+          });
+
+          let error = null;
+
+          try {
+            new Component({
+              attributes: [attribute],
+              definition: {
+                definedAttributes: [new ComponentAttributeDefinition({
+                  name: 'attribute-number',
+                  type: 'Number',
+                  required: true,
+                })],
+              },
+            }).hasError();
+          } catch (e) {
+            error = e;
+          }
+          expect(error).toBeNull();
+        });
+
+        it('Should not fail on Boolean type attribute', () => {
+          const attribute = new ComponentAttribute({
+            name: 'attribute-boolean',
+            value: true,
+            type: 'Boolean',
+          });
+
+          let error = null;
+
+          try {
+            new Component({
+              attributes: [attribute],
+              definition: {
+                definedAttributes: [new ComponentAttributeDefinition({
+                  name: 'attribute-boolean',
+                  type: 'Boolean',
+                  required: true,
+                })],
+              },
+            }).hasError();
+          } catch (e) {
+            error = e;
+          }
+          expect(error).toBeNull();
+        });
+
+        it('Should not fail on String type attribute', () => {
+          const attribute = new ComponentAttribute({
+            name: 'attribute-string',
+            value: '',
+            type: 'String',
+          });
+
+          let error = null;
+
+          try {
+            new Component({
+              attributes: [attribute],
+              definition: {
+                definedAttributes: [new ComponentAttributeDefinition({
+                  name: 'attribute-string',
+                  type: 'String',
                   required: true,
                 })],
               },
