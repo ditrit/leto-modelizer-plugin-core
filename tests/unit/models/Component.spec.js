@@ -1423,6 +1423,40 @@ describe('Test class: Component', () => {
           }).hasError()).toEqual(true);
         });
       });
+
+      describe('Test method: getDefinedAttributesByType', () => {
+        const attributeDefinitionLink1 = new ComponentAttributeDefinition({
+          name: 'attribute-link1',
+          type: 'Link',
+        });
+        const attributeDefinitionLink2 = new ComponentAttributeDefinition({
+          name: 'attribute-link2',
+          type: 'Link',
+        });
+        const attributeDefinitionArray = new ComponentAttributeDefinition({
+          name: 'attribute-array',
+          type: 'Array',
+        });
+        const component = new Component({
+          definition: {
+            definedAttributes: [
+              attributeDefinitionLink1,
+              attributeDefinitionLink2,
+              attributeDefinitionArray,
+            ],
+          },
+        });
+
+        it('Should return an array of defined attributes by type', () => {
+          const definitionLink = component.getDefinedAttributesByType('Link');
+          const definitionArray = component.getDefinedAttributesByType('Array');
+          const definitionString = component.getDefinedAttributesByType('String');
+
+          expect(definitionLink).toEqual([attributeDefinitionLink1, attributeDefinitionLink2]);
+          expect(definitionArray).toEqual([attributeDefinitionArray]);
+          expect(definitionString).toEqual([]);
+        });
+      });
     });
   });
 });

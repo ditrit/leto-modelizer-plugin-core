@@ -1198,6 +1198,8 @@ class DefaultDrawer {
 
     const actions = this.getMenuActions(targetSelection);
 
+    const linkableList = targetSelection.datum().data?.getDefinedAttributesByType('Link');
+
     const zoomTransform = d3.zoomTransform(this.svg.select('.container').node());
 
     actionMenu
@@ -1225,9 +1227,10 @@ class DefaultDrawer {
       .attr('id', (data) => data.id)
       .attr('width', this.actionMenuButtonSize)
       .attr('height', this.actionMenuButtonSize)
-      .attr('x', (_d, index) => (this.actionMenuButtonSize * index))
+      .attr('x', (_data, index) => (this.actionMenuButtonSize * index))
       .attr('preserveAspectRatio', 'xMinYMin meet')
-      .attr('cursor', 'pointer')
+      .attr('cursor', (d) => ((d.id === 'create-linkable-component' || d.id === 'create-link')
+        && linkableList.length === 0 ? 'not-allowed' : 'pointer'))
       .on('click', (event, data) => {
         event.stopPropagation();
         const handler = data.handler.bind(this);
@@ -1247,7 +1250,10 @@ class DefaultDrawer {
       .on('mouseenter', function onHover() {
         d3.select(this)
           .select('.bg-button')
-          .attr('fill', 'grey');
+          .attr('fill', (data) => (
+            (data.id === 'create-linkable-component' || data.id === 'create-link')
+            && linkableList.length === 0 ? 'lightgrey' : 'grey'
+          ));
       })
       .on('mouseleave', function onLeave() {
         d3.select(this)
@@ -1261,6 +1267,10 @@ class DefaultDrawer {
       .attr('y', 0)
       .html((d) => d.icon)
       .select('svg')
+      .attr('opacity', (data) => (
+        (data.id === 'create-linkable-component' || data.id === 'create-link')
+        && linkableList.length === 0 ? 0.2 : 1
+      ))
       .attr('width', '80%')
       .attr('height', '80%')
       .attr('x', '10%')
@@ -1273,7 +1283,116 @@ class DefaultDrawer {
   }
 
   /**
-   * Store new link source and apply disabled style to invalid target components.
+   * Initialize the linkable components creation menu.
+   *
+   * @param {ComponentDefinition[]} definitions - List of component definitions.
+   */
+  initializeCreateLinkableComponentMenu(definitions) {
+    d3.select('#linkable-menu')?.remove();
+
+    let maxTextWidth = 0;
+    const buttonPadding = 5;
+    const iconSize = 20;
+    const actionMenu = document.querySelector('#action-menu');
+    const menu = this.svg.select('.container')
+      .append('svg')
+      .attr('id', 'linkable-menu');
+
+    menu
+      .append('rect')
+      .attr('rx', 5)
+      .attr('fill', 'lightgrey')
+      .attr('height', '100%')
+      .attr('width', '100%');
+
+    const buttons = menu
+      .selectAll('.linkable-button')
+      .data(definitions)
+      .join('svg')
+      .classed('linkable-button', true);
+
+    buttons.attr('class', (data) => `linkable-button ${data.type}`);
+
+    buttons
+      .attr('width', '100%')
+      .attr('rx', 5)
+      .attr('width', '100%')
+      .attr('height', 30)
+      .attr('y', (_data, index) => (index * 30));
+
+    buttons
+      .append('rect')
+      .attr('rx', 5)
+      .attr('fill', 'lightgrey')
+      .attr('height', '100%')
+      .attr('width', '100%');
+
+    buttons
+      .append('svg')
+      .html((data) => this.resources.icons[data.icon])
+      .attr('x', buttonPadding)
+      .attr('y', buttonPadding)
+      .attr('width', iconSize)
+      .attr('height', iconSize)
+      .attr('viewBox', '0 0 32 32')
+      .attr('background-color', 'white');
+
+    buttons
+      .append('text')
+      .attr('x', (buttonPadding * 2) + iconSize)
+      .attr('y', 18)
+      .text((data) => data.type);
+
+    // eslint-disable-next-line prefer-arrow-callback
+    buttons.selectAll('text').each(function getTextWidth() {
+      const { width } = this.getBBox();
+
+      if (width > maxTextWidth) {
+        maxTextWidth = width;
+      }
+    });
+
+    menu
+      .attr('width', maxTextWidth + iconSize + (buttonPadding * 3))
+      .attr('height', (definitions.length * 30))
+      // eslint-disable-next-line prefer-arrow-callback
+      .attr('x', function xPos() {
+        return parseInt(actionMenu.getAttribute('x'), 10)
+          + (actionMenu.getBBox().width / 2)
+          - (parseInt(this.getAttribute('width'), 10) / 2);
+      })
+      .attr('y', (parseInt(actionMenu.getAttribute('y'), 10)
+        + (actionMenu.getBBox().height) + 10));
+
+    buttons
+      .on('mouseenter', function onHover() {
+        d3.select(this)
+          .select('rect')
+          .attr('fill', 'grey')
+          .attr('cursor', 'pointer');
+      })
+      .on('mouseleave', function onLeave() {
+        d3.select(this)
+          .select('rect')
+          .attr('fill', 'lightgrey')
+          .attr('cursor', 'default');
+      })
+      .on('click', (event, data) => {
+        this.actions.linkCreation.source = this.actions.selection.current;
+
+        const componentId = this.pluginData.addComponent(data);
+        const component = this.pluginData.getComponentById(componentId);
+
+        component.path = this.actions.linkCreation.source.path;
+
+        this.draw(this.rootId);
+        this.actions.linkCreation.target = d3.select(`#${componentId}`).datum().data;
+        this.createLink();
+      });
+  }
+
+  /**
+   * Initialize the link creation menu.
    */
   startLinkCreationInteraction() {
     if (this.actions.selection.current) {
@@ -1304,6 +1423,21 @@ class DefaultDrawer {
   getMenuActions(targetSelection) {
     if (targetSelection.classed('component')) {
       return [
+        {
+          id: 'create-linkable-component',
+          icon: actionIcons.add,
+          handler() {
+            const data = targetSelection.datum().data?.getDefinedAttributesByType('Link')
+              .map((link) => link.linkRef);
+            const definitions = this.pluginData.definitions.components.filter((definition) => (
+              data.includes(definition.type)
+            ));
+
+            if (definitions.length > 0) {
+              this.initializeCreateLinkableComponentMenu(definitions);
+            }
+          },
+        },
         {
           id: 'create-link',
           icon: actionIcons.link,
@@ -1350,8 +1484,8 @@ class DefaultDrawer {
    * Hide the action menu.
    */
   hideActionMenu() {
-    d3.select('#action-menu')
-      .remove();
+    d3.select('#action-menu').remove();
+    d3.select('#linkable-menu').remove();
   }
 }
 export default DefaultDrawer;
