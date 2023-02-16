@@ -122,6 +122,9 @@ class DefaultDrawer {
         state: false,
         target: null,
       },
+      zoom: {
+        scale: 1,
+      },
     };
 
     this.setEvents(events);
@@ -563,6 +566,8 @@ class DefaultDrawer {
         .attr('width', '100%')
         .attr('x', 0)
         .attr('y', 0);
+      this.svg.append('defs');
+      this.__initializeArrowMarker();
     } else {
       this.svg = d3.select(`#${this.rootId}`)
         .select('svg');
@@ -804,6 +809,33 @@ class DefaultDrawer {
   }
 
   /**
+   * Initialize arrow marker for links.
+   *
+   * @private
+   */
+  __initializeArrowMarker() {
+    const definitions = this.pluginData.getUsedLinkDefinitions();
+    const arrows = this.svg.select('defs').selectAll('arrow')
+      .data(
+        definitions,
+        (data) => `${data.attributeRef}-${data.sourceRef}-${data.targetRef}`,
+      )
+      .join('marker')
+      .attr('class', 'arrow');
+
+    arrows
+      .attr('id', (data) => `${data.attributeRef}-${data.sourceRef}-${data.targetRef}-arrow`)
+      .attr('refX', (data) => data.marker.refX)
+      .attr('refY', (data) => data.marker.refY)
+      .attr('markerWidth', (data) => data.marker.width)
+      .attr('markerHeight', (data) => data.marker.height)
+      .attr('orient', (data) => data.marker.orient)
+      .append('path')
+      .attr('d', (data) => data.marker.path)
+      .attr('fill', (data) => data.color);
+  }
+
+  /**
    * Render links in model view.
    */
   drawLinks() {
@@ -831,8 +863,26 @@ class DefaultDrawer {
       ))
       .attr('fill', 'none')
       .attr('stroke', (link) => link.definition.color)
-      .attr('stroke-width', (link) => link.definition.width)
-      .attr('stroke-dasharray', (link) => link.definition.dashStyle || 'none')
+      .attr('stroke-width', (link) => link.definition.width * this.actions.zoom.scale)
+      .attr('stroke-dasharray', (link) => (
+        !link.definition.dashStyle
+          ? 'none'
+          : link.definition.dashStyle.map((value) => value * this.actions.zoom.scale)
+      ))
+      .attr('marker-start', (data) => {
+        const { attributeRef, sourceRef, targetRef } = data.definition;
+
+        return data.definition.type === 'Reverse'
+          ? `url(#${attributeRef}-${sourceRef}-${targetRef}-arrow)`
+          : 'none';
+      })
+      .attr('marker-end', (data) => {
+        const { attributeRef, sourceRef, targetRef } = data.definition;
+
+        return data.definition.type !== 'Reverse'
+          ? `url(#${attributeRef}-${sourceRef}-${targetRef}-arrow)`
+          : 'none';
+      })
       .attr('cursor', 'pointer')
       .on('click', (event) => this.clickHandler(event));
 
@@ -1103,8 +1153,9 @@ class DefaultDrawer {
 
     this.svg.call(d3
       .zoom()
-      .on('zoom', function zoomHandler(event) {
-        d3.select(this).select('.container').attr('transform', event.transform);
+      .on('zoom', (event) => {
+        this.svg.select('.container').attr('transform', event.transform);
+        this.actions.zoom.scale = event.transform.k;
         drawLinks();
       }));
   }
