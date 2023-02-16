@@ -917,5 +917,88 @@ describe('Test class: DefaultData', () => {
         expect(pluginData.getWorkflowLinks()).toEqual([]);
       });
     });
+
+    describe('Test method: getUsedLinkDefinitions', () => {
+      const pluginData = new DefaultData();
+      const linkDefinition1 = new ComponentAttributeDefinition({
+        name: 'link1',
+        type: 'Link',
+        linkRef: 'server',
+      });
+      const link1 = new ComponentLinkDefinition({
+        sourceRef: 'server',
+        targetRef: 'server',
+        attributeRef: 'link1',
+      });
+      const linkDefinition2 = new ComponentAttributeDefinition({
+        name: 'link2',
+        type: 'Link',
+        linkRef: 'server',
+      });
+      const link2 = new ComponentLinkDefinition({
+        sourceRef: 'server',
+        targetRef: 'server',
+        attributeRef: 'link2',
+      });
+      const linkDefinition3 = new ComponentAttributeDefinition({
+        name: 'link3',
+        type: 'Link',
+        linkRef: 'server',
+        linkType: 'Default',
+      });
+      const serverDefinition = new ComponentDefinition({
+        type: 'server',
+        definedAttributes: [
+          linkDefinition1,
+          linkDefinition2,
+          linkDefinition3,
+        ],
+      });
+
+      pluginData.definitions.components = [serverDefinition];
+
+      pluginData.initLinkDefinitions();
+
+      pluginData.components = [
+        new Component({
+          definition: serverDefinition,
+          id: 'server1',
+          attributes: [new ComponentAttribute({
+            definition: linkDefinition1,
+            name: 'link1',
+            value: ['server2'],
+            type: 'Array',
+          })],
+        }),
+        new Component({
+          definition: serverDefinition,
+          id: 'server2',
+          attributes: [new ComponentAttribute({
+            definition: linkDefinition2,
+            name: 'link2',
+            value: ['server1'],
+            type: 'Array',
+          })],
+        }),
+        new Component({
+          definition: serverDefinition,
+          id: 'server3',
+          attributes: [new ComponentAttribute({
+            definition: linkDefinition1,
+            name: 'link1',
+            value: ['server3'],
+            type: 'Array',
+          })],
+        }),
+      ];
+
+      it('Should return the link definitions used by the components', () => {
+        const usedLinkDefinitions = pluginData.getUsedLinkDefinitions();
+
+        expect(usedLinkDefinitions.length).toEqual(2);
+        expect(usedLinkDefinitions[0]).toEqual(link1);
+        expect(usedLinkDefinitions[1]).toEqual(link2);
+      });
+    });
   });
 });
