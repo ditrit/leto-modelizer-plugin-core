@@ -628,7 +628,11 @@ class DefaultDrawer {
         ${data.definition.type}`)
       .html(({ data }) => nunjucks.renderString(
         this.resources.models[data.definition.model],
-        { ...data, hasError: data.hasError() },
+        {
+          ...data,
+          hasError: data.hasError(),
+          getAttribute: (name) => data.attributes.find((attribute) => attribute.name === name),
+        },
       ))
       .select('svg')
       .attr('id', ({ data }) => `svg-${data.id}`)
