@@ -72,6 +72,10 @@ class ComponentAttribute {
       return typeof this.value !== this.type.toLowerCase();
     }
 
+    if (this.value === null || this.value === undefined) {
+      return false;
+    }
+
     return this.__typeOfValueValidation()
       || this.__ruleValueValidation()
       || this.__ruleMinAndMaxValidation()
@@ -93,10 +97,6 @@ class ComponentAttribute {
       }
 
       return !Array.isArray(this.value);
-    }
-
-    if (type === 'object') {
-      return Object.prototype.toString.call(this.value) !== '[object Object]';
     }
 
     // eslint-disable-next-line valid-typeof
