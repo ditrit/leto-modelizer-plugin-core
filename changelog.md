@@ -9,7 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add method `getAttribute` in template to get attribute by name for a component.
+- Add method `getAttribute` to get attribute by name for a component in model template.
+- Add `getUsedLinkDefinition` in `DefaultData.js` to get the link definitions used by components.
+- Add `__initializeArrowMarker` method in `DefaultDrawer.js`.
+- Add `actions.zoom.scale` in constructor of `DefaultDrawer.js` to get the zoom scale. 
+- Add marker definition in `ComponentLinkDefinition` to define the marker of the link.
+
+### Changed
+
+- Change `drawLinks` method in `DefaultDrawer.js` to draw arrow markers on links extremities.
+
+### Fixed
+
+- Fix the links width by multiplying it by the zoom scale.
 
 ## [0.13.0] - 2023/02/09
 

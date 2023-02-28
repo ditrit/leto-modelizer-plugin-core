@@ -234,6 +234,27 @@ class DefaultData {
   }
 
   /**
+   * Uniquely get the definitions used for existing links.
+   *
+   * @returns {ComponentLinkDefinition[]} - List of link definitions.
+   */
+  getUsedLinkDefinitions() {
+    return this.getLinks()
+      .map((link) => link.definition)
+      .reduce((acc, definition) => {
+        if (!acc.some((used) => (
+          used.attributeRef === definition.attributeRef
+          && used.sourceRef === definition.sourceRef
+          && used.targetRef === definition.targetRef
+        ))) {
+          acc.push(definition);
+        }
+
+        return acc;
+      }, []);
+  }
+
+  /**
    * Initialize all link definitions from all component attribute definitions.
    */
   initLinkDefinitions() {

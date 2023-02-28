@@ -1,7 +1,6 @@
 import {
   ComponentAttributeDefinition,
   ComponentDefinition,
-  ComponentLinkDefinition,
   DefaultMetadata
 } from 'leto-modelizer-plugin-core';
 
@@ -53,6 +52,7 @@ class DemoMetadata extends DefaultMetadata {
       name: 'network_link',
       type: 'Link',
       linkRef: 'network',
+      linkType: 'Reverse',
       linkColor: '#ff0000',
       linkWidth: 5,
       linkDashStyle: [25, 5],
