@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fix the links width by multiplying it by the zoom scale.
+- Fix `hasError` in `ComponentAttribute.js` to return false when the value of attribute is empty.
 
 ## [0.13.0] - 2023/02/09
 

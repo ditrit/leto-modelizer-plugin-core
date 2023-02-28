@@ -244,8 +244,8 @@ class Component extends FileInformation {
         return !attribute
           || attribute.value === null
           || attribute.value === undefined
-          || (attribute.type === 'Array' && attribute.value.length === 0)
-          || (attribute.type === 'Object' && Object.keys(attribute.value).length === 0)
+          || ((attribute.type === 'Array' || attribute.type === 'Object')
+            && attribute.value.length === 0)
           || (attribute.type === 'String' && attribute.value.trim() === '');
       });
   }

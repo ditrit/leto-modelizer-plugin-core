@@ -591,6 +591,29 @@ describe('Test class: Component', () => {
     });
 
     describe('Test method: hasError', () => {
+      describe('Test not required attribute with no value', () => {
+        const attributeDefinition = new ComponentAttributeDefinition({
+          name: 'attribute-string',
+          type: 'String',
+        });
+
+        it('Should return false if the attribute is not required', () => {
+          const attribute = new ComponentAttribute({
+            name: 'attribute-string',
+            type: 'String',
+            definition: attributeDefinition,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinition],
+            },
+          }).hasError())
+            .toEqual(false);
+        });
+      });
+
       describe('Test required attribute', () => {
         const attributeDefinition = new ComponentAttributeDefinition({
           name: 'attribute-string',
@@ -629,11 +652,26 @@ describe('Test class: Component', () => {
           }).hasError()).toEqual(true);
         });
 
+        it('Should return true if the value is empty', () => {
+          const attribute = new ComponentAttribute({
+            name: 'attribute-string',
+            type: 'String',
+            definition: attributeDefinition,
+          });
+
+          expect(new Component({
+            attributes: [attribute],
+            definition: {
+              definedAttributes: [attributeDefinition],
+            },
+          }).hasError()).toEqual(true);
+        });
+
         it('Should not fail on Object type attribute', () => {
           const attribute = new ComponentAttribute({
             name: 'attribute-object',
             value: {},
-            type: 'Object',
+            type: 'Array',
           });
 
           let error = null;
@@ -1051,8 +1089,8 @@ describe('Test class: Component', () => {
         it('Should return false if value type is an object', () => {
           const attribute = new ComponentAttribute({
             name: 'attribute-object',
-            value: {},
-            type: 'Object',
+            value: [{}],
+            type: 'Array',
             definition: attributeDefinition,
           });
 
@@ -1068,7 +1106,7 @@ describe('Test class: Component', () => {
           const attribute = new ComponentAttribute({
             name: 'attribute-object',
             value: 'object',
-            type: 'Object',
+            type: 'Array',
             definition: attributeDefinition,
           });
 
@@ -1081,8 +1119,8 @@ describe('Test class: Component', () => {
         });
 
         it('Should return false if the "values" rule includes the attribute\'s value', () => {
-          const value1 = { test: 'test1' };
-          const value2 = { test: 'test2' };
+          const value1 = [{ test: 'test1' }];
+          const value2 = [{ test: 'test2' }];
           const attributeDefinitionValue = new ComponentAttributeDefinition({
             name: 'attribute-object',
             type: 'Object',
@@ -1092,7 +1130,7 @@ describe('Test class: Component', () => {
           const attribute = new ComponentAttribute({
             name: 'attribute-object',
             value: value2,
-            type: 'Object',
+            type: 'Array',
             definition: attributeDefinitionValue,
           });
 
@@ -1107,8 +1145,8 @@ describe('Test class: Component', () => {
         it(
           'Should return true if the "values" rule doesn\'t include the attribute\'s value',
           () => {
-            const value1 = { test: 'test1' };
-            const value2 = { test: 'test2' };
+            const value1 = [{ test: 'test1' }];
+            const value2 = [{ test: 'test2' }];
             const attributeDefinitionValue = new ComponentAttributeDefinition({
               name: 'attribute-object',
               type: 'Object',
@@ -1117,8 +1155,8 @@ describe('Test class: Component', () => {
 
             const attribute = new ComponentAttribute({
               name: 'attribute-object',
-              value: { test: 'test3' },
-              type: 'Object',
+              value: [{}, {}],
+              type: 'Array',
               definition: attributeDefinitionValue,
             });
 
