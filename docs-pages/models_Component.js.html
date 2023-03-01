@@ -345,7 +345,12 @@ class Component extends FileInformation {
       .some((defAttribute) => {
         const attribute = this.getAttributeByName(defAttribute.name);
 
-        return !attribute || attribute.value === null || attribute.value.trim() === '';
+        return !attribute
+          || attribute.value === null
+          || attribute.value === undefined
+          || ((attribute.type === 'Array' || attribute.type === 'Object')
+            &amp;&amp; attribute.value.length === 0)
+          || (attribute.type === 'String' &amp;&amp; attribute.value.trim() === '');
       });
   }
 
@@ -356,6 +361,16 @@ class Component extends FileInformation {
    */
   checkAttributesErrors() {
     return this.attributes.some((attribute) => (attribute.hasError()));
+  }
+
+  /**
+   * Get defined attributes by type.
+   *
+   * @param {string} type - Type of attributes to get.
+   * @returns {ComponentAttributeDefinition[]} - Defined attributes.
+   */
+  getDefinedAttributesByType(type) {
+    return this.definition.definedAttributes.filter((attribute) => attribute.type === type);
   }
 }
 
