@@ -12,6 +12,8 @@ class DefaultPlugin {
    * Default constructor.
    *
    * @param {object} [props={}] - Object that contains all properties to set.
+   * @param {object} [props.event=null] - Event manager.
+   * @param {Function} [props.event.next] - Function to emit event.
    * @param {DefaultData} props.pluginData - Plugin data storage.
    * @param {DefaultDrawer} props.pluginDrawer - Plugin drawer.
    * @param {DefaultMetadata} props.pluginMetadata - Plugin metadata.
@@ -19,6 +21,7 @@ class DefaultPlugin {
    * @param {DefaultRender} props.pluginRenderer - Plugin renderer.
    */
   constructor(props = {
+    event: null,
     pluginData: null,
     pluginDrawer: null,
     pluginMetadata: null,
@@ -30,7 +33,7 @@ class DefaultPlugin {
      *
      * @type {DefaultData}
      */
-    this.data = props.pluginData || new DefaultData();
+    this.data = props.pluginData || new DefaultData({}, props.event);
     /**
      * Plugin drawer.
      *
@@ -63,15 +66,8 @@ class DefaultPlugin {
 
   /**
    * Init method, to call once before all plugin usages.
-   * Set events in plugin and initialize metadata.
-   *
-   * @param {object} [events] - Events list.
-   * @param {Function} [events.SelectEvent.next] - Function to emit selection event, use by the
-   * @param {Function} [events.UpdateEvent.next] - Function to emit update event, use by the
-   * drawer.
    */
-  init(events) {
-    this.__drawer.setEvents(events);
+  init() {
     this.__metadata.parse();
     this.data.initLinkDefinitions();
   }

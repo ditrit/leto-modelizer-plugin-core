@@ -46,16 +46,12 @@ describe('Test class: DefaultPlugin', () => {
 
   describe('Test methods', () => {
     describe('Test method: init', () => {
-      it('Should set events and call validate and parse of metadata', () => {
+      it('should set events and call validate and parse of metadata', () => {
         const mockInitLinkDefinitions = jest.fn();
-        const mockSetEvents = jest.fn();
         const mockParse = jest.fn();
         const plugin = new DefaultPlugin({
           pluginData: {
             initLinkDefinitions: mockInitLinkDefinitions,
-          },
-          pluginDrawer: {
-            setEvents: mockSetEvents,
           },
           pluginMetadata: {
             parse: mockParse,
@@ -63,14 +59,33 @@ describe('Test class: DefaultPlugin', () => {
         });
 
         plugin.init();
-        expect(mockSetEvents).toBeCalled();
         expect(mockParse).toBeCalled();
         expect(mockInitLinkDefinitions).toBeCalled();
+      });
+
+      it('should create 1 success event log', () => {
+        const mockParse = jest.fn();
+        const pluginData = new DefaultData();
+        const plugin = new DefaultPlugin({
+          pluginData,
+          pluginMetadata: {
+            parse: mockParse,
+          },
+        });
+
+        pluginData.initLinkDefinitions = jest.fn();
+
+        plugin.init();
+
+        expect(plugin.data.eventLogs.length).toEqual(1);
+        expect(plugin.data.eventLogs[0].type).toEqual('Plugin');
+        expect(plugin.data.eventLogs[0].action).toEqual('init');
+        expect(plugin.data.eventLogs[0].status).toEqual('success');
       });
     });
 
     describe('Test method: initResources', () => {
-      it('Should set resources on drawer', () => {
+      it('should set resources on drawer', () => {
         const plugin = new DefaultPlugin({
           pluginDrawer: {
             resources: {},
@@ -83,7 +98,7 @@ describe('Test class: DefaultPlugin', () => {
     });
 
     describe('Test method: isParsable', () => {
-      it('Should call isParsable from parser', () => {
+      it('should call isParsable from parser', () => {
         const mockIsParsable = jest.fn();
         const plugin = new DefaultPlugin({
           pluginParser: {
@@ -97,7 +112,7 @@ describe('Test class: DefaultPlugin', () => {
     });
 
     describe('Test method: draw', () => {
-      it('Should call draw method from drawer', () => {
+      it('should call draw method from drawer', () => {
         const mockDraw = jest.fn();
         const plugin = new DefaultPlugin({
           pluginDrawer: {
@@ -111,7 +126,7 @@ describe('Test class: DefaultPlugin', () => {
     });
 
     describe('Test method: parse', () => {
-      it('Should call parse method from parser', () => {
+      it('should call parse method from parser', () => {
         const mockParse = jest.fn();
         const mockParseConfiguration = jest.fn();
         const plugin = new DefaultPlugin({
@@ -125,10 +140,45 @@ describe('Test class: DefaultPlugin', () => {
         expect(mockParseConfiguration).toBeCalled();
         expect(mockParse).toBeCalled();
       });
+
+      it('should create 2 success event logs', () => {
+        const mockParse = jest.fn();
+        const pluginData = new DefaultData();
+        const plugin = new DefaultPlugin({
+          pluginData,
+          pluginMetadata: {
+            parse: mockParse,
+          },
+        });
+
+        plugin.parse({ path: 'a' }, [{ path: 'b' }, { path: 'c' }]);
+
+        expect(plugin.data.eventLogs).toEqual([
+          expect.objectContaining({
+            type: 'Parser',
+            action: 'read',
+            status: 'success',
+            data: {
+              global: true,
+            },
+            files: ['b', 'c', 'a'],
+          }),
+          expect.objectContaining({
+            type: 'Parser',
+            action: 'read',
+            status: 'warning',
+            data: {
+              global: false,
+              code: 'no_content',
+            },
+            files: ['a'],
+          }),
+        ]);
+      });
     });
 
     describe('Test method: render', () => {
-      it('Should call render method from renderer', () => {
+      it('should call render method from renderer', () => {
         const mockRender = jest.fn(() => ['test']);
         const mockRenderConfiguration = jest.fn();
         const plugin = new DefaultPlugin({
@@ -143,6 +193,33 @@ describe('Test class: DefaultPlugin', () => {
         expect(result).toEqual(['test', 'config']);
         expect(mockRenderConfiguration).toBeCalled();
         expect(mockRender).toBeCalled();
+      });
+
+      it('should create 1 success event log', () => {
+        const mockRender = jest.fn(() => ['test']);
+        const mockRenderConfiguration = jest.fn();
+        const pluginData = new DefaultData();
+        const plugin = new DefaultPlugin({
+          pluginData,
+          pluginRenderer: {
+            render: mockRender,
+            renderConfiguration: mockRenderConfiguration,
+          },
+        });
+
+        plugin.render({ path: 'a' }, [{ path: 'b' }, { path: 'c' }]);
+
+        expect(plugin.data.eventLogs).toEqual([
+          expect.objectContaining({
+            type: 'Render',
+            action: 'write',
+            status: 'success',
+            data: {
+              global: true,
+            },
+            files: ['b', 'c', 'a'],
+          }),
+        ]);
       });
     });
   });
