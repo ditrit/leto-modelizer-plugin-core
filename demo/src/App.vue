@@ -16,19 +16,17 @@ import resources from './assets/resources';
 import DemoPlugin from '@/DemoPlugin';
 import { ComponentDrawOption, FileInput } from 'leto-modelizer-plugin-core';
 
-function onSelect({ isSelected, id }) {
-  console.log('Select event', id, isSelected);
+function next(data) {
+  console.log(data);
 }
-function onUpdate() {
-  console.log('Update event');
-}
+
 function savePosition() {
   const configuration = new FileInput({ path: 'localstorage', content: '' });
   plugin.render(configuration);
   window.localStorage.setItem('configuration', configuration.content);
 }
 
-const plugin = new DemoPlugin();
+const plugin = new DemoPlugin(next);
 const defaultConfiguration = JSON.stringify({
   demo: {
     internal1: new ComponentDrawOption({
@@ -40,10 +38,7 @@ const defaultConfiguration = JSON.stringify({
   }
 });
 
-plugin.init({
-  SelectEvent: { next: onSelect },
-  UpdateEvent: { next: onUpdate },
-});
+plugin.init();
 
 plugin.initResources(resources);
 

@@ -3,8 +3,8 @@ import DemoMetadata from './DemoMetadata';
 import DemoParser from './DemoParser';
 
 class DemoPlugin extends DefaultPlugin {
-  constructor() {
-    const data = new DefaultData({ name: 'demo' });
+  constructor(next) {
+    const data = new DefaultData({ name: 'demo' }, { next });
     super({
       pluginData: data,
       pluginMetadata: new DemoMetadata(data),
