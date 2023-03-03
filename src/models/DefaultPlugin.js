@@ -68,8 +68,16 @@ class DefaultPlugin {
    * Init method, to call once before all plugin usages.
    */
   init() {
-    this.__metadata.parse();
-    this.data.initLinkDefinitions();
+    const id = this.data.emitEvent({
+      type: 'Plugin',
+      action: 'init',
+      status: 'running',
+    });
+
+    this.__metadata.parse(id);
+    this.data.initLinkDefinitions(id);
+
+    this.data.emitEvent({ id, status: 'success' });
   }
 
   /**
@@ -97,9 +105,21 @@ class DefaultPlugin {
    * @param {FileInput} file - Configuration file of components.
    * @param {FileInput[]} [inputs=[]] - File inputs you want to parse.
    */
-  parse(file, inputs) {
-    this.__parser.parse(inputs);
-    this.__parser.parseConfiguration(file);
+  parse(file, inputs = []) {
+    const id = this.data.emitEvent({
+      type: 'Parser',
+      action: 'read',
+      status: 'running',
+      files: inputs.map(({ path }) => path).concat(file?.path),
+      data: {
+        global: true,
+      },
+    });
+
+    this.__parser.parse(inputs, id);
+    this.__parser.parseConfiguration(file, id);
+
+    this.data.emitEvent({ id, status: 'success' });
   }
 
   /**
@@ -120,10 +140,24 @@ class DefaultPlugin {
    * @param {FileInput[]} files - File inputs you want to render.
    * @returns {FileInput[]} All generated files including the configuration file.
    */
-  render(configurationFile, files) {
-    this.__renderer.renderConfiguration(configurationFile);
+  render(configurationFile, files = []) {
+    const id = this.data.emitEvent({
+      type: 'Render',
+      action: 'write',
+      status: 'running',
+      files: files.map(({ path }) => path).concat(configurationFile.path),
+      data: {
+        global: true,
+      },
+    });
 
-    return this.__renderer.render(files).concat(configurationFile);
+    this.__renderer.renderConfiguration(configurationFile, id);
+
+    const renderFiles = this.__renderer.render(files, id).concat(configurationFile);
+
+    this.data.emitEvent({ id, status: 'success' });
+
+    return renderFiles;
   }
 }
 

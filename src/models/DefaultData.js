@@ -278,12 +278,23 @@ class DefaultData {
 
   /**
    * Initialize all link definitions from all component attribute definitions.
+   *
+   * @param {string} [parentEventId] - Parent event id.
    */
-  initLinkDefinitions() {
+  initLinkDefinitions(parentEventId) {
+    const id = this.emitEvent({
+      parent: parentEventId,
+      type: 'Data',
+      action: 'init',
+      status: 'running',
+    });
+
     this.definitions.links = [];
     this.definitions.components.forEach(({ type, definedAttributes }) => {
       this.__setLinkDefinitions(type, definedAttributes);
     });
+
+    this.emitEvent({ id, status: 'success' });
   }
 
   /**

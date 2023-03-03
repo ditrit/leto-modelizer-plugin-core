@@ -52,6 +52,7 @@ describe('Test class: DefaultPlugin', () => {
         const plugin = new DefaultPlugin({
           pluginData: {
             initLinkDefinitions: mockInitLinkDefinitions,
+            emitEvent: jest.fn(),
           },
           pluginMetadata: {
             parse: mockParse,

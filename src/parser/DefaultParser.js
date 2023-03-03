@@ -22,8 +22,9 @@ class DefaultParser {
    * Convert the content of files into Components.
    *
    * @param {FileInput[]} [inputs=[]] - Data you want to parse.
+   * @param {string} [parentEventId=null] - Parent event id.
    */
-  parse(inputs = []) { /* eslint no-unused-vars: 0 */ // --> OFF
+  parse(inputs = [], parentEventId = null) { /* eslint no-unused-vars: 0 */ // --> OFF
     this.pluginData.components = [];
     this.pluginData.parseErrors = [];
   }
@@ -32,15 +33,45 @@ class DefaultParser {
    * Set configuration into Components.
    *
    * @param {FileInput} file - Configuration file of components.
+   * @param {string} [parentEventId=null] - Parent event id.
    */
-  parseConfiguration(file) {
+  parseConfiguration(file, parentEventId = null) {
+    const logId = this.pluginData.emitEvent({
+      parent: parentEventId,
+      type: 'Parser',
+      action: 'read',
+      status: 'running',
+      files: [file.path],
+      data: {
+        global: false,
+      },
+    });
+
     if (file.content == null) {
+      this.pluginData.emitEvent({
+        id: logId,
+        status: 'warning',
+        data: {
+          code: 'no_content',
+          global: false,
+        },
+      });
+
       return;
     }
 
     const config = JSON.parse(file.content);
 
     if (!config[this.pluginData.name]) {
+      this.pluginData.emitEvent({
+        id: logId,
+        status: 'warning',
+        data: {
+          code: 'no_plugin_content',
+          global: false,
+        },
+      });
+
       return;
     }
 
@@ -53,6 +84,8 @@ class DefaultParser {
 
       component.drawOption = new ComponentDrawOption(config[this.pluginData.name][id]);
     });
+
+    this.pluginData.emitEvent({ id: logId, status: 'success' });
   }
 
   /**
