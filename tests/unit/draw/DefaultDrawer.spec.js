@@ -38,14 +38,10 @@ describe('Test Class: DefaultDrawer()', () => {
       expect(drawer.padding).toEqual(30);
       expect(drawer.margin).toEqual(6);
       expect(drawer.lineLengthPerDepth).toEqual([5, 1]);
-      expect(drawer.events).toEqual({
-        SelectEvent: null,
-        UpdateEvent: null,
-      });
     });
 
     it('Test passing value in constructor', () => {
-      let drawer = new DefaultDrawer(new DefaultData(), 'resources', {}, 'rootId');
+      const drawer = new DefaultDrawer(new DefaultData(), 'resources', 'rootId');
 
       expect(drawer.pluginData).toEqual(new DefaultData());
       expect(drawer.rootId).toEqual('rootId');
@@ -57,26 +53,12 @@ describe('Test Class: DefaultDrawer()', () => {
       expect(drawer.padding).toEqual(30);
       expect(drawer.margin).toEqual(6);
       expect(drawer.lineLengthPerDepth).toEqual([5, 1]);
-      expect(drawer.events).toEqual({
-        SelectEvent: null,
-        UpdateEvent: null,
-      });
-
-      drawer = new DefaultDrawer(new DefaultData(), 'resources', {
-        SelectEvent: 1,
-        UpdateEvent: 2,
-      }, 'rootId');
-      expect(drawer.events).toEqual({
-        SelectEvent: 1,
-        UpdateEvent: 2,
-      });
     });
 
     it('Test passing options in constructor', () => {
-      let drawer = new DefaultDrawer(
+      const drawer = new DefaultDrawer(
         new DefaultData(),
         'resources',
-        {},
         'rootId',
         {
           width: 1,
@@ -99,77 +81,6 @@ describe('Test Class: DefaultDrawer()', () => {
       expect(drawer.padding).toEqual(5);
       expect(drawer.margin).toEqual(7);
       expect(drawer.lineLengthPerDepth).toEqual([1, 2]);
-      expect(drawer.events).toEqual({
-        SelectEvent: null,
-        UpdateEvent: null,
-      });
-
-      drawer = new DefaultDrawer(new DefaultData(), 'resources', {
-        SelectEvent: 1,
-        UpdateEvent: 2,
-      }, 'rootId');
-      expect(drawer.events).toEqual({
-        SelectEvent: 1,
-        UpdateEvent: 2,
-      });
-    });
-  });
-
-  describe('Test method: setEvents', () => {
-    it('Should be set with null when it is set without arguments', () => {
-      const drawer = new DefaultDrawer();
-
-      drawer.setEvents();
-
-      expect(drawer.events).toEqual({
-        SelectEvent: null,
-        UpdateEvent: null,
-      });
-    });
-
-    it('Should be set with null when it is set with an empty object', () => {
-      const drawer = new DefaultDrawer();
-
-      drawer.setEvents({});
-
-      expect(drawer.events).toEqual({
-        SelectEvent: null,
-        UpdateEvent: null,
-      });
-    });
-
-    it('Should be set with corresponding value when it is set with an object', () => {
-      const drawer = new DefaultDrawer();
-
-      drawer.setEvents({
-        SelectEvent: 1,
-        UpdateEvent: 2,
-      });
-
-      expect(drawer.events).toEqual({
-        SelectEvent: 1,
-        UpdateEvent: 2,
-      });
-    });
-  });
-
-  describe('Test method: emitUpdateEvent', () => {
-    it('Should emit event if its provide', () => {
-      const drawer = new DefaultDrawer();
-      const event = jest.fn();
-
-      drawer.emitUpdateEvent();
-      drawer.setEvents({});
-
-      drawer.emitUpdateEvent();
-      drawer.setEvents({
-        UpdateEvent: {
-          next: event,
-        },
-      });
-
-      drawer.emitUpdateEvent();
-      expect(event).toBeCalledTimes(1);
     });
   });
 
@@ -181,7 +92,6 @@ describe('Test Class: DefaultDrawer()', () => {
       drawer = new DefaultDrawer(
         new DefaultData(),
         null,
-        {},
         'root',
         { maxValuePerLine: [5, 1], padding: 10 },
       );
@@ -337,7 +247,7 @@ describe('Test Class: DefaultDrawer()', () => {
     let drawer;
 
     beforeEach(() => {
-      drawer = new DefaultDrawer(new DefaultData(), null, {}, 'root', { maxValuePerLine: [5, 1] });
+      drawer = new DefaultDrawer(new DefaultData(), null, 'root', { maxValuePerLine: [5, 1] });
     });
 
     it('Should return 0.2 for a non container at root level', () => {
@@ -504,7 +414,6 @@ describe('Test Class: DefaultDrawer()', () => {
       const drawer = new DefaultDrawer(
         new DefaultData(),
         null,
-        {},
         'root',
         { lineLengthPerDepth: [4, 3, 2, 1] },
       );
@@ -519,7 +428,6 @@ describe('Test Class: DefaultDrawer()', () => {
       const drawer = new DefaultDrawer(
         new DefaultData(),
         null,
-        {},
         'root',
         { lineLengthPerDepth: [4, 3, 2, 1] },
       );
@@ -533,7 +441,6 @@ describe('Test Class: DefaultDrawer()', () => {
       const drawer = new DefaultDrawer(
         new DefaultData(),
         null,
-        {},
         'root',
         { lineLengthPerDepth: [4] },
       );

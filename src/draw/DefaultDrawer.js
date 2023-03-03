@@ -13,9 +13,6 @@ class DefaultDrawer {
    *
    * @param {DefaultData} pluginData - Plugin data storage.
    * @param {object} [resources=null] - Object that contains resources.
-   * @param {object} [events] - Events list.
-   * @param {Function} [events.SelectEvent.next] - Function to emit selection event.
-   * @param {Function} [events.UpdateEvent.next] - Function to emit update event.
    * @param {string} [rootId="root"] - Id of HTML element where we want to draw.
    * @param {object} [options={}] - Rendering options.
    * @param {number} [options.width=1280] - Render svg viewbox width.
@@ -28,10 +25,7 @@ class DefaultDrawer {
    * per line at a given depth. Valid values: 1 - Infinity.
    * @param {number} [options.actionMenuButtonSize] - The size of each action menu button.
    */
-  constructor(pluginData, resources = null, events = {
-    SelectEvent: null,
-    UpdateEvent: null,
-  }, rootId = 'root', options = {}) {
+  constructor(pluginData, resources = null, rootId = 'root', options = {}) {
     /**
      * Plugin data storage.
      *
@@ -126,8 +120,6 @@ class DefaultDrawer {
         scale: 1,
       },
     };
-
-    this.setEvents(events);
   }
 
   /**
@@ -158,32 +150,6 @@ class DefaultDrawer {
     const pivotPoint = new DOMPoint(svgX, svgY);
 
     return pivotPoint.matrixTransform(localSvg.getScreenCTM());
-  }
-
-  /**
-   * Set events.
-   *
-   * @param {object} [events] - Events list.
-   * @param {Function} [events.SelectEvent.next] - Function to emit selection event.
-   * @param {Function} [events.UpdateEvent.next] - Function to emit update event.
-   */
-  setEvents(events = {
-    SelectEvent: null,
-    UpdateEvent: null,
-  }) {
-    this.events = {
-      SelectEvent: events.SelectEvent || null,
-      UpdateEvent: events.UpdateEvent || null,
-    };
-  }
-
-  /**
-   * Emit UpdateEvent if defined.
-   */
-  emitUpdateEvent() {
-    if (this.events?.UpdateEvent) {
-      this.events.UpdateEvent.next();
-    }
   }
 
   /**
@@ -390,7 +356,6 @@ class DefaultDrawer {
       }
     }
 
-    this.emitUpdateEvent();
     this.draw(this.rootId);
   }
 
@@ -1233,7 +1198,6 @@ class DefaultDrawer {
 
     this.actions.linkCreation.source.setLinkAttribute(newLink);
 
-    this.emitUpdateEvent();
 
     this.cancelLinkCreationInteraction();
 
@@ -1512,7 +1476,6 @@ class DefaultDrawer {
           icon: actionIcons.trash,
           handler() {
             this.pluginData.removeComponentById(this.actions.selection.current.id);
-            this.emitUpdateEvent();
             this.draw(this.rootId);
           },
         },
@@ -1525,7 +1488,6 @@ class DefaultDrawer {
         icon: actionIcons.trash,
         handler() {
           this.pluginData.removeLink(this.actions.selection.current);
-          this.emitUpdateEvent();
           this.draw(this.rootId);
         },
       },
