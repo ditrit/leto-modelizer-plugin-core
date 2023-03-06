@@ -27,8 +27,11 @@ class DefaultMetadata {
 
   /**
    * Parse all component/link definitions from metadata.
+   *
+   * @param {string} [parentEventId] - Parent event id.
    */
-  parse() {
+  // eslint-disable-next-line no-unused-vars
+  parse(parentEventId) {
     this.pluginData.definitions = {
       components: [],
       links: [],

@@ -2,6 +2,7 @@ import packageInfo from '../../package.json';
 import Component from './Component';
 import ComponentLink from './ComponentLink';
 import ComponentLinkDefinition from './ComponentLinkDefinition';
+import EventLog from './EventLog';
 
 const CORE_VERSION = packageInfo.version;
 
@@ -22,6 +23,8 @@ class DefaultData {
    * definitions.
    * @param {ParseError[]} [props.parseErrors=[]] - Parse errors array.
    * @param {string} [props.defaultFileName] - Default file name for new components.
+   * @param {object} [event] - Event manager.
+   * @param {Function} [event.next] - Function to emit event.
    */
   constructor(props = {
     name: null,
@@ -33,7 +36,7 @@ class DefaultData {
     },
     parseErrors: [],
     defaultFileName: null,
-  }) {
+  }, event = null) {
     /**
      * Plugin name.
      *
@@ -77,6 +80,25 @@ class DefaultData {
      * @type {string}
      */
     this.defaultFileName = props.defaultFileName || null;
+    /**
+     * Index of the last event log.
+     *
+     * @type {number}
+     * @private
+     */
+    this.__eventIndex = 0;
+    /**
+     * Event manager.
+     *
+     * @type {object}
+     */
+    this.eventManager = event;
+    /**
+     * All plugin event logs.
+     *
+     * @type {EventLog[]}
+     */
+    this.eventLogs = [];
   }
 
   /**
@@ -256,12 +278,23 @@ class DefaultData {
 
   /**
    * Initialize all link definitions from all component attribute definitions.
+   *
+   * @param {string} [parentEventId] - Parent event id.
    */
-  initLinkDefinitions() {
+  initLinkDefinitions(parentEventId) {
+    const id = this.emitEvent({
+      parent: parentEventId,
+      type: 'Data',
+      action: 'init',
+      status: 'running',
+    });
+
     this.definitions.links = [];
     this.definitions.components.forEach(({ type, definedAttributes }) => {
       this.__setLinkDefinitions(type, definedAttributes);
     });
+
+    this.emitEvent({ id, status: 'success' });
   }
 
   /**
@@ -360,6 +393,66 @@ class DefaultData {
       movedId,
       Math.min(this.components.length - 1, targetIndex + (targetIndex < movedIndex)),
     );
+  }
+
+  /**
+   * Get event log by id.
+   *
+   * @param {number} id - Event log id.
+   * @returns {EventLog} Event log or undefined.
+   */
+  getEventLogById(id) {
+    return this.eventLogs.findLast((eventLog) => id === eventLog.id);
+  }
+
+  /**
+   * Delete all event logs before the specified datetime.
+   *
+   * @param {number} date - Date time as timestamp.
+   */
+  deleteAllEventLogsBefore(date) {
+    this.eventLogs = this.eventLogs.filter(({ endDate }) => endDate > date);
+  }
+
+  /**
+   * Emit event with log.
+   *
+   * @param {object} props - EventLog information.
+   * @returns {number} EventLog id.
+   * @see EventLog
+   */
+  emitEvent(props = {}) {
+    let { id } = props;
+    let eventLog;
+
+    if (!id) {
+      this.__eventIndex += 1;
+
+      id = this.__eventIndex;
+      eventLog = new EventLog({ ...props, id });
+      eventLog.startDate = Date.now();
+
+      this.eventLogs.push(eventLog);
+    } else {
+      eventLog = this.getEventLogById(id);
+
+      Object.keys(props).forEach((key) => {
+        eventLog[key] = props[key];
+      });
+    }
+
+    if (['success', 'warning', 'error'].includes(eventLog.status)) {
+      eventLog.endDate = Date.now();
+    }
+
+    if (this.eventManager?.next) {
+      this.eventManager.next({
+        plugin: this.name,
+        event: { ...eventLog },
+      });
+    }
+
+    return id;
   }
 }
 

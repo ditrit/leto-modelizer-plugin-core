@@ -21,17 +21,18 @@ class DefaultRender {
   /**
    * Transform all provided components in file inputs.
    *
-   * @param {FileInput[]} files - Files managed by the plugin.
+   * @param {FileInput[]} [files=[]] - Files managed by the plugin.
+   * @param {string} [parentEventId=null] - Parent event id.
    * @returns {FileInput[]} - Generated files from components.
    */
-  render(files = []) {
+  render(files = [], parentEventId = null) {
     const rendererFiles = files.reduce((acc, file) => {
       acc[file.path] = '';
 
       return acc;
     }, {});
 
-    this.renderFiles().forEach((file) => {
+    this.renderFiles(parentEventId).forEach((file) => {
       rendererFiles[file.path] = file.content;
     });
 
@@ -42,9 +43,11 @@ class DefaultRender {
   /**
    * Transform all provided components in file inputs.
    *
+   * @param {string} [parentEventId=null] - Parent event id.
    * @returns {FileInput[]} - Generated files from components.
    */
-  renderFiles() {
+  // eslint-disable-next-line no-unused-vars
+  renderFiles(parentEventId = null) {
     return [];
   }
 
@@ -52,8 +55,19 @@ class DefaultRender {
    * Update configuration file content according to components data.
    *
    * @param {FileInput} file - Configuration file of components.
+   * @param {string} [parentEventId=null] - Parent event id.
    */
-  renderConfiguration(file) {
+  renderConfiguration(file, parentEventId = null) {
+    const id = this.pluginData.emitEvent({
+      parent: parentEventId,
+      type: 'Render',
+      action: 'write',
+      status: 'running',
+      files: [file.path],
+      data: {
+        global: false,
+      },
+    });
     const configuration = {};
 
     this.pluginData.components
@@ -67,6 +81,8 @@ class DefaultRender {
     config[this.pluginData.name] = configuration;
 
     file.content = JSON.stringify(config, (key, value) => (value === null ? undefined : value), 2);
+
+    this.pluginData.emitEvent({ id, status: 'success' });
   }
 }
 

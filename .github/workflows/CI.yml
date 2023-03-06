@@ -138,7 +138,7 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-build-cache-node-modules-${{ hashFiles('./package-lock.json') }}
       - name: Install dependencies
-        run: npm install --save-dev cypress
+        run: npx cypress install
       - name: Run build
         run: npm run build
       - name: Run demo

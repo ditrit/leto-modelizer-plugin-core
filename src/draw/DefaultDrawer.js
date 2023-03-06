@@ -13,9 +13,6 @@ class DefaultDrawer {
    *
    * @param {DefaultData} pluginData - Plugin data storage.
    * @param {object} [resources=null] - Object that contains resources.
-   * @param {object} [events] - Events list.
-   * @param {Function} [events.SelectEvent.next] - Function to emit selection event.
-   * @param {Function} [events.UpdateEvent.next] - Function to emit update event.
    * @param {string} [rootId="root"] - Id of HTML element where we want to draw.
    * @param {object} [options={}] - Rendering options.
    * @param {number} [options.width=1280] - Render svg viewbox width.
@@ -28,10 +25,7 @@ class DefaultDrawer {
    * per line at a given depth. Valid values: 1 - Infinity.
    * @param {number} [options.actionMenuButtonSize] - The size of each action menu button.
    */
-  constructor(pluginData, resources = null, events = {
-    SelectEvent: null,
-    UpdateEvent: null,
-  }, rootId = 'root', options = {}) {
+  constructor(pluginData, resources = null, rootId = 'root', options = {}) {
     /**
      * Plugin data storage.
      *
@@ -126,8 +120,6 @@ class DefaultDrawer {
         scale: 1,
       },
     };
-
-    this.setEvents(events);
   }
 
   /**
@@ -158,32 +150,6 @@ class DefaultDrawer {
     const pivotPoint = new DOMPoint(svgX, svgY);
 
     return pivotPoint.matrixTransform(localSvg.getScreenCTM());
-  }
-
-  /**
-   * Set events.
-   *
-   * @param {object} [events] - Events list.
-   * @param {Function} [events.SelectEvent.next] - Function to emit selection event.
-   * @param {Function} [events.UpdateEvent.next] - Function to emit update event.
-   */
-  setEvents(events = {
-    SelectEvent: null,
-    UpdateEvent: null,
-  }) {
-    this.events = {
-      SelectEvent: events.SelectEvent || null,
-      UpdateEvent: events.UpdateEvent || null,
-    };
-  }
-
-  /**
-   * Emit UpdateEvent if defined.
-   */
-  emitUpdateEvent() {
-    if (this.events?.UpdateEvent) {
-      this.events.UpdateEvent.next();
-    }
   }
 
   /**
@@ -377,6 +343,13 @@ class DefaultDrawer {
         width,
         height,
       });
+
+      this.pluginData.emitEvent({
+        type: 'Drawer',
+        action: 'move',
+        status: 'success',
+        components: [event.subject.data.id],
+      });
     } else {
       if (event.subject.parent) {
         this.__markAsNeedingResize(event.subject.parent);
@@ -387,10 +360,16 @@ class DefaultDrawer {
         this.changeParent(target, event);
       } else {
         event.subject.data.removeAllReferenceAttributes();
+
+        this.pluginData.emitEvent({
+          type: 'Drawer',
+          action: 'update',
+          status: 'success',
+          components: [event.subject.data.id],
+        });
       }
     }
 
-    this.emitUpdateEvent();
     this.draw(this.rootId);
   }
 
@@ -404,8 +383,9 @@ class DefaultDrawer {
     const parentId = target.attr('data-parentId');
     const newParent = this.pluginData.getComponentById(parentId);
     const newParentNode = d3.select(`#${parentId}`).datum();
+    const isValid = newParent.definition.childrenTypes.includes(event.subject.data.definition.type);
 
-    if (newParent.definition.childrenTypes.includes(event.subject.data.definition.type)) {
+    if (isValid) {
       event.subject.data.setReferenceAttribute(newParent);
       this.__markAsNeedingResize(newParentNode);
 
@@ -427,6 +407,13 @@ class DefaultDrawer {
         }
       }
     }
+
+    this.pluginData.emitEvent({
+      type: 'Drawer',
+      action: isValid ? 'update' : 'move',
+      status: 'success',
+      components: [event.subject.data.id],
+    });
   }
 
   /**
@@ -580,6 +567,15 @@ class DefaultDrawer {
    * @param {string} rootId - Id of the container where you want to draw.
    */
   draw(rootId) {
+    const id = this.pluginData.emitEvent({
+      type: 'Drawer',
+      action: 'write',
+      status: 'running',
+      data: {
+        rootId,
+      },
+    });
+
     this.rootId = rootId;
     this.createRenderingContext();
 
@@ -590,6 +586,8 @@ class DefaultDrawer {
     this.drawLinks();
 
     this.setViewPortAction();
+
+    this.pluginData.emitEvent({ id, status: 'success' });
   }
 
   /**
@@ -1199,6 +1197,16 @@ class DefaultDrawer {
       this.__unselectComponent();
 
       if (sameElementClicked) {
+        this.pluginData.emitEvent({
+          type: 'Drawer',
+          action: 'select',
+          status: 'success',
+          components: [currentComponent.id],
+          data: {
+            isSelected: false,
+          },
+        });
+
         return;
       }
 
@@ -1213,13 +1221,25 @@ class DefaultDrawer {
       }
 
       this.initializeActionMenu(targetSelection);
+
+      this.pluginData.emitEvent({
+        type: 'Drawer',
+        action: 'select',
+        status: 'success',
+        components: [currentComponent.id],
+        data: {
+          isSelected: true,
+        },
+      });
     }
   }
 
   /**
    * Create a link between the previously selected source and destination.
+   *
+   * @param {string} componentId - Component id.
    */
-  createLink() {
+  createLink(componentId) {
     const { source, target } = this.actions.linkCreation;
     const activeLinkType = this.pluginData.definitions.links
       .find((definition) => definition.sourceRef === source.definition.type
@@ -1233,7 +1253,13 @@ class DefaultDrawer {
 
     this.actions.linkCreation.source.setLinkAttribute(newLink);
 
-    this.emitUpdateEvent();
+    this.pluginData.emitEvent({
+      type: 'Drawer',
+      action: 'add',
+      status: 'success',
+      components: [componentId],
+      links: [newLink],
+    });
 
     this.cancelLinkCreationInteraction();
 
@@ -1449,7 +1475,7 @@ class DefaultDrawer {
 
         this.draw(this.rootId);
         this.actions.linkCreation.target = d3.select(`#${componentId}`).datum().data;
-        this.createLink();
+        this.createLink(componentId);
       });
   }
 
@@ -1512,7 +1538,14 @@ class DefaultDrawer {
           icon: actionIcons.trash,
           handler() {
             this.pluginData.removeComponentById(this.actions.selection.current.id);
-            this.emitUpdateEvent();
+
+            this.pluginData.emitEvent({
+              type: 'Drawer',
+              action: 'delete',
+              status: 'success',
+              components: [this.actions.selection.current.id],
+            });
+
             this.draw(this.rootId);
           },
         },
@@ -1525,7 +1558,14 @@ class DefaultDrawer {
         icon: actionIcons.trash,
         handler() {
           this.pluginData.removeLink(this.actions.selection.current);
-          this.emitUpdateEvent();
+
+          this.pluginData.emitEvent({
+            type: 'Drawer',
+            action: 'delete',
+            status: 'success',
+            components: [],
+          });
+
           this.draw(this.rootId);
         },
       },

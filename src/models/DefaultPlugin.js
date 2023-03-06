@@ -12,6 +12,8 @@ class DefaultPlugin {
    * Default constructor.
    *
    * @param {object} [props={}] - Object that contains all properties to set.
+   * @param {object} [props.event=null] - Event manager.
+   * @param {Function} [props.event.next] - Function to emit event.
    * @param {DefaultData} props.pluginData - Plugin data storage.
    * @param {DefaultDrawer} props.pluginDrawer - Plugin drawer.
    * @param {DefaultMetadata} props.pluginMetadata - Plugin metadata.
@@ -19,6 +21,7 @@ class DefaultPlugin {
    * @param {DefaultRender} props.pluginRenderer - Plugin renderer.
    */
   constructor(props = {
+    event: null,
     pluginData: null,
     pluginDrawer: null,
     pluginMetadata: null,
@@ -30,7 +33,7 @@ class DefaultPlugin {
      *
      * @type {DefaultData}
      */
-    this.data = props.pluginData || new DefaultData();
+    this.data = props.pluginData || new DefaultData({}, props.event);
     /**
      * Plugin drawer.
      *
@@ -63,17 +66,18 @@ class DefaultPlugin {
 
   /**
    * Init method, to call once before all plugin usages.
-   * Set events in plugin and initialize metadata.
-   *
-   * @param {object} [events] - Events list.
-   * @param {Function} [events.SelectEvent.next] - Function to emit selection event, use by the
-   * @param {Function} [events.UpdateEvent.next] - Function to emit update event, use by the
-   * drawer.
    */
-  init(events) {
-    this.__drawer.setEvents(events);
-    this.__metadata.parse();
-    this.data.initLinkDefinitions();
+  init() {
+    const id = this.data.emitEvent({
+      type: 'Plugin',
+      action: 'init',
+      status: 'running',
+    });
+
+    this.__metadata.parse(id);
+    this.data.initLinkDefinitions(id);
+
+    this.data.emitEvent({ id, status: 'success' });
   }
 
   /**
@@ -101,9 +105,21 @@ class DefaultPlugin {
    * @param {FileInput} file - Configuration file of components.
    * @param {FileInput[]} [inputs=[]] - File inputs you want to parse.
    */
-  parse(file, inputs) {
-    this.__parser.parse(inputs);
-    this.__parser.parseConfiguration(file);
+  parse(file, inputs = []) {
+    const id = this.data.emitEvent({
+      type: 'Parser',
+      action: 'read',
+      status: 'running',
+      files: inputs.map(({ path }) => path).concat(file?.path),
+      data: {
+        global: true,
+      },
+    });
+
+    this.__parser.parse(inputs, id);
+    this.__parser.parseConfiguration(file, id);
+
+    this.data.emitEvent({ id, status: 'success' });
   }
 
   /**
@@ -124,10 +140,24 @@ class DefaultPlugin {
    * @param {FileInput[]} files - File inputs you want to render.
    * @returns {FileInput[]} All generated files including the configuration file.
    */
-  render(configurationFile, files) {
-    this.__renderer.renderConfiguration(configurationFile);
+  render(configurationFile, files = []) {
+    const id = this.data.emitEvent({
+      type: 'Render',
+      action: 'write',
+      status: 'running',
+      files: files.map(({ path }) => path).concat(configurationFile.path),
+      data: {
+        global: true,
+      },
+    });
 
-    return this.__renderer.render(files).concat(configurationFile);
+    this.__renderer.renderConfiguration(configurationFile, id);
+
+    const renderFiles = this.__renderer.render(files, id).concat(configurationFile);
+
+    this.data.emitEvent({ id, status: 'success' });
+
+    return renderFiles;
   }
 }
 
