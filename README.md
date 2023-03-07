@@ -85,6 +85,10 @@ It is strongly recommended to use it and the following documentation will make r
 
 Furthermore, in this template there are code comments to explain how to override methods/classes and usages. 
 
+### How to create your own models
+
+You can read the [template documentation](/guides/svg/template.md) to see how to create your own models.
+
 ### Default Plugin structure
 
 For your plugin to be used by `Leto Modelizer`, it needs to have this structure:
