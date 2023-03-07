@@ -655,7 +655,6 @@ class DefaultDrawer {
         - this.minHeight - this.margin)
       .attr('width', (component) => this.getComponentWidth(component) - 2 * this.margin)
       .attr('x', () => this.margin)
-      .attr('y', () => this.minHeight)
       .filter(({ children }) => children)
       .append(({ data }) => d3.select(`#group-${data.id}`).node());
 
@@ -1166,9 +1165,19 @@ class DefaultDrawer {
    */
   __unselectComponent() {
     if (this.actions.selection.current) {
-      d3.select(`#${this.rootId} .selected`)
-        .classed('selected', false)
-        .style('outline', '');
+      const selectedComponent = d3.select(`#${this.rootId} .selected`);
+
+      if (selectedComponent.classed('component')) {
+        selectedComponent
+          .classed('selected', false)
+          .select('.template')
+          .style('outline', '');
+      } else {
+        selectedComponent
+          .classed('selected', false)
+          .style('outline', '');
+      }
+
       this.actions.selection.current = null;
       this.hideActionMenu();
     }
@@ -1211,9 +1220,19 @@ class DefaultDrawer {
       }
 
       targetSelection
-        .classed('selected', true)
-        .style('outline', this.actions.selection.style)
-        .style('outline-offset', this.actions.selection.offset);
+        .classed('selected', true);
+
+      if (targetSelection.classed('component')) {
+        targetSelection
+          .select('.template')
+          .style('outline', this.actions.selection.style)
+          .style('outline-offset', this.actions.selection.offset);
+      } else {
+        targetSelection
+          .style('outline', this.actions.selection.style)
+          .style('outline-offset', this.actions.selection.offset);
+      }
+
       this.actions.selection.current = currentComponent;
 
       if (this.events?.SelectEvent && currentComponent.__class === 'Component') {
