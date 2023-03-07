@@ -13,14 +13,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Rework on all events.
 - Store of event logs.
 - `DefaultConfiguration` in `DefaultPlugin` to store all plugin configurations.
+- Documentation to build a svg template.
 
 ### Changed
 
 - Remove old events management in `DefaultDrawer`.
+- The `y` position of the component container is now set in the model and not by the drawer.
 
 ### Fixed
 
 - Prevent auto-updating of dependencies in package-lock with `=` suffix.
+- Fix Firefox behavior of component outline property when it is selected.
+- Fix `DefaultContainer` in demo resources to have a correct behavior on Firefox.
 
 ## [0.14.0] - 2023/03/01
 
