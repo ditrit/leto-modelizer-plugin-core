@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Migration guides.
 - Rework on all events.
 - Store of event logs.
+- `DefaultConfiguration` in `DefaultPlugin` to store all plugin configurations.
 
 ### Changed
 
