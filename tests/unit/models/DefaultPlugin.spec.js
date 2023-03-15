@@ -4,12 +4,14 @@ import DefaultDrawer from 'src/draw/DefaultDrawer';
 import DefaultMetadata from 'src/metadata/DefaultMetadata';
 import DefaultParser from 'src/parser/DefaultParser';
 import DefaultRender from 'src/render/DefaultRender';
+import DefaultConfiguration from 'src/models/DefaultConfiguration';
 
 describe('Test class: DefaultPlugin', () => {
   describe('Test constructor', () => {
     it('Check variables instantiation', () => {
       const plugin = new DefaultPlugin();
 
+      expect(plugin.configuration).toEqual(new DefaultConfiguration());
       expect(plugin.data).toEqual(new DefaultData());
       expect(plugin.__drawer).toEqual(new DefaultDrawer(new DefaultData()));
       expect(plugin.__metadata).toEqual(new DefaultMetadata(new DefaultData()));
@@ -20,6 +22,7 @@ describe('Test class: DefaultPlugin', () => {
     it('Check passing undefined variables to constructor', () => {
       const plugin = new DefaultPlugin({});
 
+      expect(plugin.configuration).toEqual(new DefaultConfiguration());
       expect(plugin.data).toEqual(new DefaultData());
       expect(plugin.__drawer).toEqual(new DefaultDrawer(new DefaultData()));
       expect(plugin.__metadata).toEqual(new DefaultMetadata(new DefaultData()));
@@ -34,6 +37,7 @@ describe('Test class: DefaultPlugin', () => {
         pluginMetadata: 3,
         pluginParser: 4,
         pluginRenderer: 5,
+        configuration: 6,
       });
 
       expect(plugin.data).toEqual(1);
@@ -41,6 +45,7 @@ describe('Test class: DefaultPlugin', () => {
       expect(plugin.__metadata).toEqual(3);
       expect(plugin.__parser).toEqual(4);
       expect(plugin.__renderer).toEqual(5);
+      expect(plugin.configuration).toEqual(6);
     });
   });
 

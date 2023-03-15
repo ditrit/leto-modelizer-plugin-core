@@ -3,6 +3,7 @@ import DefaultDrawer from '../draw/DefaultDrawer';
 import DefaultMetadata from '../metadata/DefaultMetadata';
 import DefaultParser from '../parser/DefaultParser';
 import DefaultRender from '../render/DefaultRender';
+import DefaultConfiguration from './DefaultConfiguration';
 
 /**
  * Default plugin structure.
@@ -12,22 +13,30 @@ class DefaultPlugin {
    * Default constructor.
    *
    * @param {object} [props={}] - Object that contains all properties to set.
-   * @param {object} [props.event=null] - Event manager.
+   * @param {object} [props.event] - Event manager.
    * @param {Function} [props.event.next] - Function to emit event.
-   * @param {DefaultData} props.pluginData - Plugin data storage.
-   * @param {DefaultDrawer} props.pluginDrawer - Plugin drawer.
-   * @param {DefaultMetadata} props.pluginMetadata - Plugin metadata.
-   * @param {DefaultParser} props.pluginParser - Plugin parser.
-   * @param {DefaultRender} props.pluginRenderer - Plugin renderer.
+   * @param {DefaultConfiguration} [props.configuration] - Plugin configuration.
+   * @param {DefaultData} [props.pluginData] - Plugin data storage.
+   * @param {DefaultDrawer} [props.pluginDrawer] - Plugin drawer.
+   * @param {DefaultMetadata} [props.pluginMetadata] - Plugin metadata.
+   * @param {DefaultParser} [props.pluginParser] - Plugin parser.
+   * @param {DefaultRender} [props.pluginRenderer] - Plugin renderer.
    */
   constructor(props = {
     event: null,
+    configuration: null,
     pluginData: null,
     pluginDrawer: null,
     pluginMetadata: null,
     pluginParser: null,
     pluginRenderer: null,
   }) {
+    /**
+     * Plugin configuration.
+     *
+     * @type {DefaultConfiguration}
+     */
+    this.configuration = props.configuration || new DefaultConfiguration();
     /**
      * Plugin data storage.
      *
