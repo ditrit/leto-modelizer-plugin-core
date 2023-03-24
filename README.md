@@ -1,5 +1,21 @@
 # leto-modelizer-plugin-core
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ditrit_leto-modelizer-plugin-core&metric=alert_status)](https://sonarcloud.io/summary/overall?id=ditrit_leto-modelizer-plugin-core)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=ditrit_leto-modelizer-plugin-core&metric=reliability_rating)](https://sonarcloud.io/summary/overall?id=ditrit_leto-modelizer-plugin-core)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ditrit_leto-modelizer-plugin-core&metric=sqale_rating)](https://sonarcloud.io/summary/overall?id=ditrit_leto-modelizer-plugin-core)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ditrit_leto-modelizer-plugin-core&metric=security_rating)](https://sonarcloud.io/summary/overall?id=ditrit_leto-modelizer-plugin-core)
+
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ditrit_leto-modelizer-plugin-core&metric=code_smells)](https://sonarcloud.io/summary/overall?id=ditrit_leto-modelizer-plugin-core)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=ditrit_leto-modelizer-plugin-core&metric=bugs)](https://sonarcloud.io/summary/overall?id=ditrit_leto-modelizer-plugin-core)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ditrit_leto-modelizer-plugin-core&metric=vulnerabilities)](https://sonarcloud.io/summary/overall?id=ditrit_leto-modelizer-plugin-core)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=ditrit_leto-modelizer-plugin-core&metric=sqale_index)](https://sonarcloud.io/summary/overall?id=ditrit_leto-modelizer-plugin-core)
+
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=ditrit_leto-modelizer-plugin-core&metric=ncloc)](https://sonarcloud.io/summary/overall?id=ditrit_leto-modelizer-plugin-core)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ditrit_leto-modelizer-plugin-core&metric=coverage)](https://sonarcloud.io/summary/overall?id=ditrit_leto-modelizer-plugin-core)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=ditrit_leto-modelizer-plugin-core&metric=duplicated_lines_density)](https://sonarcloud.io/summary/overall?id=ditrit_leto-modelizer-plugin-core)
+
+[![](https://dcbadge.vercel.app/api/server/zkKfj9gj2C?style=flat&theme=default-inverted)](https://discord.gg/zkKfj9gj2C)
+
 Library that contains all models for modeling tools in Leto's projects.
 
 This library is used to create your own plugin for the [Leto Modelizer](https://github.com/ditrit/leto-modelizer) tool.
