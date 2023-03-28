@@ -30,6 +30,16 @@ class DefaultParser {
   }
 
   /**
+   * Get the list of model paths from all parsable files.
+   *
+   * @param {FileInformation[]} [files=[]] - List of parsable files.
+   * @returns {string[]} List of folder and file paths that represent a model.
+   */
+  getModels(files = []) {
+    return files.map(({ path }) => path);
+  }
+
+  /**
    * Set configuration into Components.
    *
    * @param {FileInput} file - Configuration file of components.

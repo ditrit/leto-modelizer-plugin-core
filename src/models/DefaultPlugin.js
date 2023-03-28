@@ -142,6 +142,18 @@ class DefaultPlugin {
   }
 
   /**
+   * Get models from all project files.
+   *
+   * @param {FileInformation[]} [files=[]] - Projects files.
+   * @returns {string[]} List of folder and file paths that represent a model.
+   */
+  getModels(files = []) {
+    return this.__parser.getModels(
+      files.filter((file) => this.isParsable(file)),
+    );
+  }
+
+  /**
    * Return all generated files from plugin data.
    * Configuration file is used for saving the components' configuration.
    *
