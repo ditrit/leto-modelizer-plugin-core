@@ -118,6 +118,10 @@ class DefaultDrawer {
       },
       zoom: {
         scale: 1,
+        translate: {
+          x: 0,
+          y: 0,
+        },
       },
     };
   }
@@ -1153,6 +1157,9 @@ class DefaultDrawer {
       .on('zoom', (event) => {
         this.svg.select('.container').attr('transform', event.transform);
         this.actions.zoom.scale = event.transform.k;
+        this.actions.zoom.translate.x = event.transform.x;
+        this.actions.zoom.translate.y = event.transform.y;
+
         drawLinks();
       }));
   }
