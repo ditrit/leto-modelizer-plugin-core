@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Store of event logs.
 - `DefaultConfiguration` in `DefaultPlugin` to store all plugin configurations.
 - Documentation to build a svg template.
+- Add `translate.x` and `translate.y` properties in `DefaultDrawer` to get the position of the root container.
 
 ### Changed
 
