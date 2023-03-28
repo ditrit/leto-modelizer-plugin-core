@@ -37,7 +37,7 @@ export default {
         <circle class="anchor" r="0" cx="50%" cy="100%" anchor="bottom"></circle>
         <circle class="anchor" r="0" cx="100%" cy="50%" anchor="right"></circle>
         <circle class="anchor" r="0" cx="0%" cy="50%" anchor="left"></circle>
-        <svg id="icon-{{id}}" class="component-icon" x="9" y="9"></svg>
+        <svg id="icon-{{id}}" class="component-icon" x="9" y="9" width="32" height="32"></svg>
       </svg>
     `,
     DefaultContainer: `
@@ -58,14 +58,15 @@ export default {
             </svg>
         </g>
         {% endif %}
-        <svg class="component-container" x="1"
-            overflow="visible"
-            y="50"
-            fill="#9691B1">
-          <rect class="container-background"
-                width="100%" height="100%"
-                rx="4" ry="4"></rect>
-        </svg>
+        <g transform="translate(0,50)">
+          <svg class="component-container"
+              overflow="visible"
+              fill="#9691B1">
+            <rect class="container-background"
+                  width="100%" height="100%"
+                  rx="4" ry="4"></rect>
+          </svg>
+        </g>
         <g fill="white" style="font-family: Calibri, Arial">
           <rect width="38" height="38"
                 x="6" y="6"
@@ -83,7 +84,7 @@ export default {
         <circle class="anchor" cx="100%" cy="50%" anchor="right" r="0"></circle>
         <circle class="anchor" cx="0%" cy="50%" anchor="left" r="0"></circle>
   
-        <svg id="icon-{{id}}" class="component-icon" x="9" y="9"></svg>
+        <svg id="icon-{{id}}" class="component-icon" x="9" y="9" width="32" height="32"></svg>
       </svg>
     `,
   },

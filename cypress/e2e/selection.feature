@@ -13,7 +13,7 @@ Feature: Test component/link selection
 
     Examples:
       | type      | selector                                   |
-      | component | #external1                                 |
+      | component | #external1 .template                       |
       | link      | #link-server-laptop_link-server1-external1 |
 
   Scenario Outline: Clicking again on a <type> should deselect it
@@ -24,7 +24,7 @@ Feature: Test component/link selection
 
     Examples:
       | type      | selector                                   |
-      | component | #external1                                 |
+      | component | #external1 .template                       |
       | link      | #link-server-laptop_link-server1-external1 |
 
   Scenario Outline: Clicking away from a selected <type> should deselect it
@@ -35,7 +35,7 @@ Feature: Test component/link selection
 
     Examples:
       | type      | selector                                   |
-      | component | #external1                                 |
+      | component | #external1 .template                       |
       | link      | #link-server-laptop_link-server1-external1 |
 
   Scenario Outline: Clicking on a different <type> should select it and deselect the previous one
@@ -49,16 +49,16 @@ Feature: Test component/link selection
 
     Examples:
       | type      | selector1                                  | selector2                                    |
-      | component | #external1                                 | #internal1                                   |
-      | component | #external1                                 | #link-laptop-network_link-internal1-network1 |
+      | component | #external1 .template                       | #internal1 .template                         |
+      | component | #external1 .template                       | #link-laptop-network_link-internal1-network1 |
       | link      | #link-server-laptop_link-server1-external1 | #link-laptop-network_link-internal1-network1 |
-      | link      | #link-server-laptop_link-server1-external1 | #external1                                   |
+      | link      | #link-server-laptop_link-server1-external1 | #external1 .template                         |
 
   Scenario: Clicking on a component should select it and make action menu appear
     When I click on "#root #external1"
-    Then I expect component "#root #external1" to have style "outlineColor" set to "rgb(0, 149, 255)"
-    And I expect component "#root #external1" to have style "outlineStyle" set to "solid"
-    And I expect component "#root #external1" to have style "outlineWidth" set to "2px"
+    Then I expect component "#root #external1 .template" to have style "outlineColor" set to "rgb(0, 149, 255)"
+    And I expect component "#root #external1 .template" to have style "outlineStyle" set to "solid"
+    And I expect component "#root #external1 .template" to have style "outlineWidth" set to "2px"
     And I expect "#action-menu" is visible
     And I expect "#create-link" is visible
     And I expect "#remove-component" is visible
