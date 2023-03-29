@@ -71,4 +71,9 @@ onMounted(() => {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+#root {
+  width: 80vw;
+  height: 60vh;
+}
 </style>

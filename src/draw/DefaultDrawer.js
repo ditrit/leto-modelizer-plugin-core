@@ -15,8 +15,6 @@ class DefaultDrawer {
    * @param {object} [resources=null] - Object that contains resources.
    * @param {string} [rootId="root"] - Id of HTML element where we want to draw.
    * @param {object} [options={}] - Rendering options.
-   * @param {number} [options.width=1280] - Render svg viewbox width.
-   * @param {number} [options.height=1280] - Render svg viewbox height.
    * @param {number} [options.minWidth=230] - Minimum width of a component.
    * @param {number} [options.minHeight=50] - Minimum height of a component.
    * @param {number} [options.padding=30] - Padding around a component.
@@ -44,18 +42,6 @@ class DefaultDrawer {
      * @type {object}
      */
     this.resources = resources;
-    /**
-     * Render svg viewbox width.
-     *
-     * @type {number}
-     */
-    this.width = options.width !== undefined ? options.width : 1280;
-    /**
-     * Render svg viewbox height.
-     *
-     * @type {number}
-     */
-    this.height = options.height !== undefined ? options.height : 1280;
     /**
      * Minimum width of a component.
      *
@@ -548,15 +534,12 @@ class DefaultDrawer {
     if (!contextIsPresent) {
       this.svg = d3.select(`#${this.rootId}`)
         .append('svg')
-        .attr('viewBox', [0, 0, this.width, this.height])
         .attr('preserveAspectRatio', 'xMinYMin meet')
-        .style('font', '10px sans-serif');
-      this.svg.append('g')
-        .attr('class', 'container')
+        .style('font', '10px sans-serif')
         .attr('height', '100%')
-        .attr('width', '100%')
-        .attr('x', 0)
-        .attr('y', 0);
+        .attr('width', '100%');
+      this.svg.append('g')
+        .attr('class', 'container');
       this.svg.append('defs');
       this.__initializeArrowMarker();
     } else {
