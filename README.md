@@ -22,6 +22,11 @@ This library is used to create your own plugin for the [Leto Modelizer](https://
 
 ## Get started
 
+### Requirements
+
+* node - [v18.4](https://nodejs.org/en/blog/release/v18.4.0)
+* npm - [v8.19.3](https://www.npmjs.com/package/npm/v/8.19.3)
+
 ### Install
 
 ```
