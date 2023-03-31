@@ -31,8 +31,6 @@ describe('Test Class: DefaultDrawer()', () => {
       expect(drawer.pluginData).toEqual(new DefaultData());
       expect(drawer.rootId).toEqual('root');
       expect(drawer.resources).toBeNull();
-      expect(drawer.width).toEqual(1280);
-      expect(drawer.height).toEqual(1280);
       expect(drawer.minWidth).toEqual(230);
       expect(drawer.minHeight).toEqual(50);
       expect(drawer.padding).toEqual(30);
@@ -46,8 +44,6 @@ describe('Test Class: DefaultDrawer()', () => {
       expect(drawer.pluginData).toEqual(new DefaultData());
       expect(drawer.rootId).toEqual('rootId');
       expect(drawer.resources).toEqual('resources');
-      expect(drawer.width).toEqual(1280);
-      expect(drawer.height).toEqual(1280);
       expect(drawer.minWidth).toEqual(230);
       expect(drawer.minHeight).toEqual(50);
       expect(drawer.padding).toEqual(30);
@@ -74,8 +70,6 @@ describe('Test Class: DefaultDrawer()', () => {
       expect(drawer.pluginData).toEqual(new DefaultData());
       expect(drawer.rootId).toEqual('rootId');
       expect(drawer.resources).toEqual('resources');
-      expect(drawer.width).toEqual(1);
-      expect(drawer.height).toEqual(2);
       expect(drawer.minWidth).toEqual(3);
       expect(drawer.minHeight).toEqual(4);
       expect(drawer.padding).toEqual(5);

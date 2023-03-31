@@ -21,12 +21,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Remove old events management in `DefaultDrawer`.
 - The `y` position of the component container is now set in the model and not by the drawer.
+- The width and height of `#root svg` is now equal of `#root` width and height. 
 
 ### Fixed
 
 - Prevent auto-updating of dependencies in package-lock with `=` suffix.
 - Fix Firefox behavior of component outline property when it is selected.
 - Fix `DefaultContainer` in demo resources to have a correct behavior on Firefox.
+
+### Removed
+
+- Remove `width` and `height` from `DefaultDrawer` class and constructor `options`.
+- Remove viewBox initialization from `DefaultDrawer`.
 
 ## [0.14.0] - 2023/03/01
 
