@@ -5,7 +5,7 @@
   tracking-code-which-will-go-to-the-HEAD
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> ComponentAttributeDefinition</title>
+  <title> EventLog</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -91,7 +91,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Class</p>
-                    <h1>ComponentAttributeDefinition</h1>
+                    <h1>EventLog</h1>
                 </header>
                 
 
@@ -102,9 +102,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>ComponentAttributeDefinition<span class="signature">(props<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>EventLog<span class="signature">(props<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">Define Attributes for type.</div>
+            <div class="class-description">Event log.</div>
         
     
 </header>
@@ -123,12 +123,12 @@
 
 
     
-    <h4 class="name" id="ComponentAttributeDefinition">
-        <a class="href-link" href="#ComponentAttributeDefinition">#</a>
+    <h4 class="name" id="EventLog">
+        <a class="href-link" href="#EventLog">#</a>
         
         <span class="code-name">
             
-                new ComponentAttributeDefinition<span class="signature">(props<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
+                new EventLog<span class="signature">(props<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -137,7 +137,7 @@
     
     
     <div class="description">
-        Default constructor
+        Default constructor.
     </div>
     
 
@@ -219,7 +219,7 @@
     
 <tr class="deep-level-1">
   
-      <td class="name"><code>name</code></td>
+      <td class="name"><code>id</code></td>
   
 
   <td class="type">
@@ -249,7 +249,156 @@
       </td>
   
 
-  <td class="description last">Attribute name.</td>
+  <td class="description last">EventLog id.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>parentId</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+      <td class="default">
+      
+      </td>
+  
+
+  <td class="description last">Parent id, to attach this log to another, like a
+sub-process.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>files</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">Array.&lt;string></code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+      <td class="default">
+      
+      </td>
+  
+
+  <td class="description last">Path of updated files.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>components</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">Array.&lt;string></code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+      <td class="default">
+      
+      </td>
+  
+
+  <td class="description last">Id of updated components.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>links</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">Array.&lt;string></code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+      <td class="default">
+      
+      </td>
+  
+
+  <td class="description last">Id of updated links.</td>
 </tr>
 
   
@@ -286,15 +435,15 @@
       </td>
   
 
-  <td class="description last">Attribute type,
-valid types are String/Boolean/Number/Array/Object/Link/Reference.</td>
+  <td class="description last">Type of log. Can be 'Plugin', 'Render', 'Metadata',
+'Drawer', 'Parser' or 'Data'.</td>
 </tr>
 
   
     
 <tr class="deep-level-1">
   
-      <td class="name"><code>displayName</code></td>
+      <td class="name"><code>action</code></td>
   
 
   <td class="type">
@@ -324,14 +473,15 @@ valid types are String/Boolean/Number/Array/Object/Link/Reference.</td>
       </td>
   
 
-  <td class="description last">Attribute display name.</td>
+  <td class="description last">Action of log. Can be 'init', 'read', 'write', 'add',
+'update', 'move', 'select' or 'delete'.</td>
 </tr>
 
   
     
 <tr class="deep-level-1">
   
-      <td class="name"><code>description</code></td>
+      <td class="name"><code>status</code></td>
   
 
   <td class="type">
@@ -361,363 +511,29 @@ valid types are String/Boolean/Number/Array/Object/Link/Reference.</td>
       </td>
   
 
-  <td class="description last">Attribute explanation.</td>
+  <td class="description last">Status of log. Can be 'running', 'success', 'warning'
+or 'error'.</td>
 </tr>
 
   
     
 <tr class="deep-level-1">
   
-      <td class="name"><code>url</code></td>
+      <td class="name"><code>data</code></td>
   
 
   <td class="type">
   
       
 <code class="param-type">string</code>
+|
 
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-      </td>
-  
-
-  <td class="description last">URL of the documentation of the attribute.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>linkType</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-      </td>
-  
-
-  <td class="description last">Type of link, valid types are Default/Reverse.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>linkRef</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">Array.&lt;string></code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-          []
-      
-      </td>
-  
-
-  <td class="description last">Reference of accepted component for link.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>linkColor</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-          'black'
-      
-      </td>
-  
-
-  <td class="description last">Color of the link.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>linkWidth</code></td>
-  
-
-  <td class="type">
-  
-      
 <code class="param-type">number</code>
+|
 
+<code class="param-type">Array</code>
+|
 
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-          2
-      
-      </td>
-  
-
-  <td class="description last">Width of the link.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>linkDashStyle</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">Array.&lt;number></code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-      </td>
-  
-
-  <td class="description last">Dash style of the link. See stroke-dasharray of svg.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>containerRef</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-      </td>
-  
-
-  <td class="description last">Reference of accepted component for container.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>required</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">boolean</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-          false
-      
-      </td>
-  
-
-  <td class="description last">Attribute is required.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>definedAttributes</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">Array.&lt;<a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a>></code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-          []
-      
-      </td>
-  
-
-  <td class="description last">Defined attributes for
-this type.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>rules</code></td>
-  
-
-  <td class="type">
-  
-      
 <code class="param-type">object</code>
 
 
@@ -739,160 +555,10 @@ this type.</td>
   
       <td class="default">
       
-          {}
-      
       </td>
   
 
-  <td class="description last">Rules of this type of Attribute.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>rules.values</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">Array</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-      </td>
-  
-
-  <td class="description last">Default values of attribute.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>rules.min</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-      </td>
-  
-
-  <td class="description last">Minimum value of Attribute.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>rules.max</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-      </td>
-  
-
-  <td class="description last">Maximum value of Attribute.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>rules.regex</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-      </td>
-  
-
-  <td class="description last">Regular expression to constrain the format of the value.</td>
+  <td class="description last">Extra data of log.</td>
 </tr>
 
   
@@ -940,9 +606,9 @@ this type.</td>
 
     
         <p class="tag-source">
-            <a href="models_ComponentAttributeDefinition.js.html" class="button">View Source</a>
+            <a href="models_EventLog.js.html" class="button">View Source</a>
             <span>
-                <a href="models_ComponentAttributeDefinition.js.html">models/ComponentAttributeDefinition.js</a>, <a href="models_ComponentAttributeDefinition.js.html#line4">line 4</a>
+                <a href="models_EventLog.js.html">models/EventLog.js</a>, <a href="models_EventLog.js.html#line4">line 4</a>
             </span>
         </p>
     
@@ -1003,11 +669,11 @@ this type.</td>
 
     </span>
 
-<h4 class="name" id="containerRef">
-    <a class="href-link" href="#containerRef">#</a>
+<h4 class="name" id="action">
+    <a class="href-link" href="#action">#</a>
     
     <span class="code-name">
-        containerRef
+        action
     </span>
     
 </h4>
@@ -1016,7 +682,7 @@ this type.</td>
 
 
 <div class="description">
-    Define the reference of Component that can be the container of this component.
+    Action of log. Can be 'init', 'read', 'write', 'add', 'update', 'move', 'select' or 'delete'.
 </div>
 
 
@@ -1056,394 +722,9 @@ this type.</td>
 
     
         <p class="tag-source">
-            <a href="models_ComponentAttributeDefinition.js.html" class="button">View Source</a>
+            <a href="models_EventLog.js.html" class="button">View Source</a>
             <span>
-                <a href="models_ComponentAttributeDefinition.js.html">models/ComponentAttributeDefinition.js</a>, <a href="models_ComponentAttributeDefinition.js.html#line133">line 133</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-    <span class="method-parameter is-pulled-right">
-        <label>Type:</label>
-        
-<code class="param-type">Array.&lt;<a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a>></code>
-
-
-    </span>
-
-<h4 class="name" id="definedAttributes">
-    <a class="href-link" href="#definedAttributes">#</a>
-    
-    <span class="code-name">
-        definedAttributes
-    </span>
-    
-</h4>
-
-
-
-
-<div class="description">
-    Defined attributes for this type.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="models_ComponentAttributeDefinition.js.html" class="button">View Source</a>
-            <span>
-                <a href="models_ComponentAttributeDefinition.js.html">models/ComponentAttributeDefinition.js</a>, <a href="models_ComponentAttributeDefinition.js.html#line139">line 139</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-    <span class="method-parameter is-pulled-right">
-        <label>Type:</label>
-        
-<code class="param-type">string</code>
-
-
-    </span>
-
-<h4 class="name" id="description">
-    <a class="href-link" href="#description">#</a>
-    
-    <span class="code-name">
-        description
-    </span>
-    
-</h4>
-
-
-
-
-<div class="description">
-    Attribute explanation.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="models_ComponentAttributeDefinition.js.html" class="button">View Source</a>
-            <span>
-                <a href="models_ComponentAttributeDefinition.js.html">models/ComponentAttributeDefinition.js</a>, <a href="models_ComponentAttributeDefinition.js.html#line91">line 91</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-    <span class="method-parameter is-pulled-right">
-        <label>Type:</label>
-        
-<code class="param-type">string</code>
-
-
-    </span>
-
-<h4 class="name" id="displayName">
-    <a class="href-link" href="#displayName">#</a>
-    
-    <span class="code-name">
-        displayName
-    </span>
-    
-</h4>
-
-
-
-
-<div class="description">
-    Attribute display name.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="models_ComponentAttributeDefinition.js.html" class="button">View Source</a>
-            <span>
-                <a href="models_ComponentAttributeDefinition.js.html">models/ComponentAttributeDefinition.js</a>, <a href="models_ComponentAttributeDefinition.js.html#line85">line 85</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-    <span class="method-parameter is-pulled-right">
-        <label>Type:</label>
-        
-<code class="param-type">string</code>
-
-
-    </span>
-
-<h4 class="name" id="linkColor">
-    <a class="href-link" href="#linkColor">#</a>
-    
-    <span class="code-name">
-        linkColor
-    </span>
-    
-</h4>
-
-
-
-
-<div class="description">
-    Color of the link.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="models_ComponentAttributeDefinition.js.html" class="button">View Source</a>
-            <span>
-                <a href="models_ComponentAttributeDefinition.js.html">models/ComponentAttributeDefinition.js</a>, <a href="models_ComponentAttributeDefinition.js.html#line115">line 115</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-    <span class="method-parameter is-pulled-right">
-        <label>Type:</label>
-        
-<code class="param-type">Array.&lt;number></code>
-
-
-    </span>
-
-<h4 class="name" id="linkDashStyle">
-    <a class="href-link" href="#linkDashStyle">#</a>
-    
-    <span class="code-name">
-        linkDashStyle
-    </span>
-    
-</h4>
-
-
-
-
-<div class="description">
-    Dash style of the link. See stroke-dasharray of svg.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="models_ComponentAttributeDefinition.js.html" class="button">View Source</a>
-            <span>
-                <a href="models_ComponentAttributeDefinition.js.html">models/ComponentAttributeDefinition.js</a>, <a href="models_ComponentAttributeDefinition.js.html#line127">line 127</a>
+                <a href="models_EventLog.js.html">models/EventLog.js</a>, <a href="models_EventLog.js.html#line99">line 99</a>
             </span>
         </p>
     
@@ -1465,11 +746,11 @@ this type.</td>
 
     </span>
 
-<h4 class="name" id="linkRef">
-    <a class="href-link" href="#linkRef">#</a>
+<h4 class="name" id="components">
+    <a class="href-link" href="#components">#</a>
     
     <span class="code-name">
-        linkRef
+        components
     </span>
     
 </h4>
@@ -1478,7 +759,7 @@ this type.</td>
 
 
 <div class="description">
-    Define list of Component that can be linked with this.
+    Id of updated components.
 </div>
 
 
@@ -1518,9 +799,9 @@ this type.</td>
 
     
         <p class="tag-source">
-            <a href="models_ComponentAttributeDefinition.js.html" class="button">View Source</a>
+            <a href="models_EventLog.js.html" class="button">View Source</a>
             <span>
-                <a href="models_ComponentAttributeDefinition.js.html">models/ComponentAttributeDefinition.js</a>, <a href="models_ComponentAttributeDefinition.js.html#line109">line 109</a>
+                <a href="models_EventLog.js.html">models/EventLog.js</a>, <a href="models_EventLog.js.html#line81">line 81</a>
             </span>
         </p>
     
@@ -1538,15 +819,24 @@ this type.</td>
         <label>Type:</label>
         
 <code class="param-type">string</code>
+|
+
+<code class="param-type">number</code>
+|
+
+<code class="param-type">Array</code>
+|
+
+<code class="param-type">object</code>
 
 
     </span>
 
-<h4 class="name" id="linkType">
-    <a class="href-link" href="#linkType">#</a>
+<h4 class="name" id="data">
+    <a class="href-link" href="#data">#</a>
     
     <span class="code-name">
-        linkType
+        data
     </span>
     
 </h4>
@@ -1555,7 +845,7 @@ this type.</td>
 
 
 <div class="description">
-    Type of link, valid types are Default/Reverse.
+    Extra data of log.
 </div>
 
 
@@ -1595,9 +885,9 @@ this type.</td>
 
     
         <p class="tag-source">
-            <a href="models_ComponentAttributeDefinition.js.html" class="button">View Source</a>
+            <a href="models_EventLog.js.html" class="button">View Source</a>
             <span>
-                <a href="models_ComponentAttributeDefinition.js.html">models/ComponentAttributeDefinition.js</a>, <a href="models_ComponentAttributeDefinition.js.html#line103">line 103</a>
+                <a href="models_EventLog.js.html">models/EventLog.js</a>, <a href="models_EventLog.js.html#line111">line 111</a>
             </span>
         </p>
     
@@ -1619,11 +909,11 @@ this type.</td>
 
     </span>
 
-<h4 class="name" id="linkWidth">
-    <a class="href-link" href="#linkWidth">#</a>
+<h4 class="name" id="endDate">
+    <a class="href-link" href="#endDate">#</a>
     
     <span class="code-name">
-        linkWidth
+        endDate
     </span>
     
 </h4>
@@ -1632,7 +922,7 @@ this type.</td>
 
 
 <div class="description">
-    Width of the link.
+    Date time of event end, as timestamp.
 </div>
 
 
@@ -1672,9 +962,86 @@ this type.</td>
 
     
         <p class="tag-source">
-            <a href="models_ComponentAttributeDefinition.js.html" class="button">View Source</a>
+            <a href="models_EventLog.js.html" class="button">View Source</a>
             <span>
-                <a href="models_ComponentAttributeDefinition.js.html">models/ComponentAttributeDefinition.js</a>, <a href="models_ComponentAttributeDefinition.js.html#line121">line 121</a>
+                <a href="models_EventLog.js.html">models/EventLog.js</a>, <a href="models_EventLog.js.html#line69">line 69</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">Array.&lt;string></code>
+
+
+    </span>
+
+<h4 class="name" id="files">
+    <a class="href-link" href="#files">#</a>
+    
+    <span class="code-name">
+        files
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Path of updated files.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_EventLog.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_EventLog.js.html">models/EventLog.js</a>, <a href="models_EventLog.js.html#line75">line 75</a>
             </span>
         </p>
     
@@ -1696,11 +1063,11 @@ this type.</td>
 
     </span>
 
-<h4 class="name" id="name">
-    <a class="href-link" href="#name">#</a>
+<h4 class="name" id="id">
+    <a class="href-link" href="#id">#</a>
     
     <span class="code-name">
-        name
+        id
     </span>
     
 </h4>
@@ -1709,7 +1076,7 @@ this type.</td>
 
 
 <div class="description">
-    Attribute name.
+    EventLog id.
 </div>
 
 
@@ -1749,9 +1116,9 @@ this type.</td>
 
     
         <p class="tag-source">
-            <a href="models_ComponentAttributeDefinition.js.html" class="button">View Source</a>
+            <a href="models_EventLog.js.html" class="button">View Source</a>
             <span>
-                <a href="models_ComponentAttributeDefinition.js.html">models/ComponentAttributeDefinition.js</a>, <a href="models_ComponentAttributeDefinition.js.html#line73">line 73</a>
+                <a href="models_EventLog.js.html">models/EventLog.js</a>, <a href="models_EventLog.js.html#line51">line 51</a>
             </span>
         </p>
     
@@ -1768,16 +1135,16 @@ this type.</td>
     <span class="method-parameter is-pulled-right">
         <label>Type:</label>
         
-<code class="param-type">boolean</code>
+<code class="param-type">Array.&lt;string></code>
 
 
     </span>
 
-<h4 class="name" id="required">
-    <a class="href-link" href="#required">#</a>
+<h4 class="name" id="links">
+    <a class="href-link" href="#links">#</a>
     
     <span class="code-name">
-        required
+        links
     </span>
     
 </h4>
@@ -1786,7 +1153,7 @@ this type.</td>
 
 
 <div class="description">
-    Attribute is required.
+    Id of updated links.
 </div>
 
 
@@ -1826,9 +1193,9 @@ this type.</td>
 
     
         <p class="tag-source">
-            <a href="models_ComponentAttributeDefinition.js.html" class="button">View Source</a>
+            <a href="models_EventLog.js.html" class="button">View Source</a>
             <span>
-                <a href="models_ComponentAttributeDefinition.js.html">models/ComponentAttributeDefinition.js</a>, <a href="models_ComponentAttributeDefinition.js.html#line145">line 145</a>
+                <a href="models_EventLog.js.html">models/EventLog.js</a>, <a href="models_EventLog.js.html#line87">line 87</a>
             </span>
         </p>
     
@@ -1845,16 +1212,16 @@ this type.</td>
     <span class="method-parameter is-pulled-right">
         <label>Type:</label>
         
-<code class="param-type">object</code>
+<code class="param-type">string</code>
 
 
     </span>
 
-<h4 class="name" id="rules">
-    <a class="href-link" href="#rules">#</a>
+<h4 class="name" id="parentId">
+    <a class="href-link" href="#parentId">#</a>
     
     <span class="code-name">
-        rules
+        parentId
     </span>
     
 </h4>
@@ -1863,7 +1230,7 @@ this type.</td>
 
 
 <div class="description">
-    Rules of this type of Attribute.
+    Parent id, to attach this log to another, like a sub-process.
 </div>
 
 
@@ -1903,9 +1270,163 @@ this type.</td>
 
     
         <p class="tag-source">
-            <a href="models_ComponentAttributeDefinition.js.html" class="button">View Source</a>
+            <a href="models_EventLog.js.html" class="button">View Source</a>
             <span>
-                <a href="models_ComponentAttributeDefinition.js.html">models/ComponentAttributeDefinition.js</a>, <a href="models_ComponentAttributeDefinition.js.html#line151">line 151</a>
+                <a href="models_EventLog.js.html">models/EventLog.js</a>, <a href="models_EventLog.js.html#line57">line 57</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">number</code>
+
+
+    </span>
+
+<h4 class="name" id="startDate">
+    <a class="href-link" href="#startDate">#</a>
+    
+    <span class="code-name">
+        startDate
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Date time of event creation, as timestamp.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_EventLog.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_EventLog.js.html">models/EventLog.js</a>, <a href="models_EventLog.js.html#line63">line 63</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">string</code>
+
+
+    </span>
+
+<h4 class="name" id="status">
+    <a class="href-link" href="#status">#</a>
+    
+    <span class="code-name">
+        status
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Status of log. Can be 'running', 'success', 'warning' or 'error'.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_EventLog.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_EventLog.js.html">models/EventLog.js</a>, <a href="models_EventLog.js.html#line105">line 105</a>
             </span>
         </p>
     
@@ -1940,7 +1461,7 @@ this type.</td>
 
 
 <div class="description">
-    Attribute type, valid types are String/Boolean/Number/Array/Object/Link/Reference.
+    Type of log. Can be 'Plugin', 'Render', 'Metadata', 'Drawer', 'Parser' or 'Data'.
 </div>
 
 
@@ -1980,86 +1501,9 @@ this type.</td>
 
     
         <p class="tag-source">
-            <a href="models_ComponentAttributeDefinition.js.html" class="button">View Source</a>
+            <a href="models_EventLog.js.html" class="button">View Source</a>
             <span>
-                <a href="models_ComponentAttributeDefinition.js.html">models/ComponentAttributeDefinition.js</a>, <a href="models_ComponentAttributeDefinition.js.html#line79">line 79</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-    <span class="method-parameter is-pulled-right">
-        <label>Type:</label>
-        
-<code class="param-type">string</code>
-
-
-    </span>
-
-<h4 class="name" id="url">
-    <a class="href-link" href="#url">#</a>
-    
-    <span class="code-name">
-        url
-    </span>
-    
-</h4>
-
-
-
-
-<div class="description">
-    URL of the documentation of the attribute.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="models_ComponentAttributeDefinition.js.html" class="button">View Source</a>
-            <span>
-                <a href="models_ComponentAttributeDefinition.js.html">models/ComponentAttributeDefinition.js</a>, <a href="models_ComponentAttributeDefinition.js.html#line97">line 97</a>
+                <a href="models_EventLog.js.html">models/EventLog.js</a>, <a href="models_EventLog.js.html#line93">line 93</a>
             </span>
         </p>
     
