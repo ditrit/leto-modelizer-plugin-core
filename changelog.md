@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-## [Unreleased]
+## [0.15.0] - 2023/03/31
 
 ### Added
 
@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Remove old events management in `DefaultDrawer`.
 - The `y` position of the component container is now set in the model and not by the drawer.
-- The width and height of `#root svg` is now equal of `#root` width and height. 
+- The width and height of `#root svg` is now equal of `#root` width and height.
 
 ### Fixed
 
@@ -41,7 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add method `getAttribute` to get attribute by name for a component in model template.
 - Add `getUsedLinkDefinition` in `DefaultData.js` to get the link definitions used by components.
 - Add `__initializeArrowMarker` method in `DefaultDrawer.js`.
-- Add `actions.zoom.scale` in constructor of `DefaultDrawer.js` to get the zoom scale. 
+- Add `actions.zoom.scale` in constructor of `DefaultDrawer.js` to get the zoom scale.
 - Add marker definition in `ComponentLinkDefinition` to define the marker of the link.
 
 ### Changed
@@ -84,7 +84,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `hasError` method to `Component.js` to check if a component has an error
 - Add methods checking error for all types to `ComponentAttribute.js`
 - Add error icon on component SVGs.
-- Add `defaultFileName` attribute to manage the default file name of the new components. 
+- Add `defaultFileName` attribute to manage the default file name of the new components.
 - Add method `generateComponentId` in `DefaultData.js` to generate id from definition type.
 - Add helper properties for component and attribute: `displayName`, `description` and `url`.
 
@@ -344,6 +344,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add new classes LetoObjectNode, LetoTypeNode, LetoAttribute, LetoLink.
 - Add function renderString for SVG template.
 
+[0.15.0]: https://github.com/ditrit/leto-modelizer-plugin-core/blob/0.15.0/changelog.md
 [0.14.0]: https://github.com/ditrit/leto-modelizer-plugin-core/blob/0.14.0/changelog.md
 [0.13.0]: https://github.com/ditrit/leto-modelizer-plugin-core/blob/0.13.0/changelog.md
 [0.12.1]: https://github.com/ditrit/leto-modelizer-plugin-core/blob/0.12.1/changelog.md
