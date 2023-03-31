@@ -1,13 +1,13 @@
 <template>
-  <div>
+  <main>
     <div>
       <h1>Demo of default drawing in leto-modelizer</h1>
     </div>
     <div>
       <button @click="savePosition">Save position</button>
     </div>
-    <div id='root' style="border: 1px solid black;"></div>
-  </div>
+    <div id='root'></div>
+  </main>
 </template>
 
 <script setup>
@@ -52,13 +52,31 @@ onMounted(() => {
 </script>
 
 <style>
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+
+  overflow: hidden;
+}
 #app {
+  color: #2c3e50;
+  text-align: center;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+
+main {
+  height: 100vh;
+
+  display: grid;
+  grid-template-rows: 2.5em 1.5em 1fr;
 }
 
 #viewport {
@@ -67,13 +85,16 @@ onMounted(() => {
   -ms-user-select: none;
   user-select: none;
 }
+
 .disabled{
   opacity: 0.5;
   cursor: not-allowed;
 }
 
 #root {
-  width: 80vw;
-  height: 60vh;
+  width: 100%;
+  height: 100%;
+
+  border: 1px solid black;
 }
 </style>
