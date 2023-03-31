@@ -83,7 +83,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li></ul></div>
                 
             </nav>
         </div>
@@ -219,6 +219,117 @@
     
 <tr class="deep-level-1">
   
+      <td class="name"><code>event</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">object</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+      <td class="default">
+      
+      </td>
+  
+
+  <td class="description last">Event manager.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>event.next</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">function</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+      <td class="default">
+      
+      </td>
+  
+
+  <td class="description last">Function to emit event.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>configuration</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type"><a href="DefaultConfiguration.html">DefaultConfiguration</a></code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+      <td class="default">
+      
+      </td>
+  
+
+  <td class="description last">Plugin configuration.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
       <td class="name"><code>pluginData</code></td>
   
 
@@ -233,6 +344,8 @@
 
   
       <td class="attributes">
+      
+          &lt;optional><br>
       
 
       
@@ -269,6 +382,8 @@
   
       <td class="attributes">
       
+          &lt;optional><br>
+      
 
       
 
@@ -303,6 +418,8 @@
 
   
       <td class="attributes">
+      
+          &lt;optional><br>
       
 
       
@@ -339,6 +456,8 @@
   
       <td class="attributes">
       
+          &lt;optional><br>
+      
 
       
 
@@ -373,6 +492,8 @@
 
   
       <td class="attributes">
+      
+          &lt;optional><br>
       
 
       
@@ -437,7 +558,7 @@
         <p class="tag-source">
             <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line10">line 10</a>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line11">line 11</a>
             </span>
         </p>
     
@@ -487,6 +608,83 @@
         <div class='vertical-section'>
             <h1>Members</h1>
             <div class="members">
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type"><a href="DefaultConfiguration.html">DefaultConfiguration</a></code>
+
+
+    </span>
+
+<h4 class="name" id="configuration">
+    <a class="href-link" href="#configuration">#</a>
+    
+    <span class="code-name">
+        configuration
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Plugin configuration.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line39">line 39</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
             
                 <div class="member">
 
@@ -553,7 +751,7 @@
         <p class="tag-source">
             <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line33">line 33</a>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line45">line 45</a>
             </span>
         </p>
     
@@ -694,7 +892,7 @@
         <p class="tag-source">
             <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line93">line 93</a>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line106">line 106</a>
             </span>
         </p>
     
@@ -726,12 +924,12 @@
 
 
     
-    <h4 class="name" id="init">
-        <a class="href-link" href="#init">#</a>
+    <h4 class="name" id="getModels">
+        <a class="href-link" href="#getModels">#</a>
         
         <span class="code-name">
             
-                init<span class="signature">(events<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
+                getModels<span class="signature">(files<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array.&lt;string>}</span>
             
         </span>
     </h4>
@@ -740,8 +938,7 @@
     
     
     <div class="description">
-        Init method, to call once before all plugin usages.
-Set events in plugin and initialize metadata.
+        Get models from all project files.
     </div>
     
 
@@ -770,6 +967,8 @@ Set events in plugin and initialize metadata.
             
 
             
+            <th>Default</th>
+            
 
             <th class="last">Description</th>
         </tr>
@@ -781,13 +980,13 @@ Set events in plugin and initialize metadata.
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>events</code></td>
+      <td class="name"><code>files</code></td>
   
 
   <td class="type">
   
       
-<code class="param-type">object</code>
+<code class="param-type">Array.&lt;<a href="FileInformation.html">FileInformation</a>></code>
 
 
   
@@ -806,79 +1005,15 @@ Set events in plugin and initialize metadata.
   
 
   
-
-  <td class="description last">Events list.</td>
-</tr>
-
-  
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>SelectEvent.next</code></td>
-  
-
-  <td class="type">
-  
+      <td class="default">
       
-<code class="param-type">function</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
+          []
       
       </td>
   
 
-  
-
-  <td class="description last">Function to emit selection event, use by the</td>
+  <td class="description last">Projects files.</td>
 </tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>UpdateEvent.next</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">function</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">Function to emit update event, use by the
-drawer.</td>
-</tr>
-
-  
 
 
         
@@ -925,7 +1060,129 @@ drawer.</td>
         <p class="tag-source">
             <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line73">line 73</a>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line150">line 150</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>List of folder and file paths that represent a model.</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">Array.&lt;string></code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="init">
+        <a class="href-link" href="#init">#</a>
+        
+        <span class="code-name">
+            
+                init<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Init method, to call once before all plugin usages.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line79">line 79</a>
             </span>
         </p>
     
@@ -1093,7 +1350,7 @@ drawer.</td>
         <p class="tag-source">
             <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line84">line 84</a>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line97">line 97</a>
             </span>
         </p>
     
@@ -1241,7 +1498,7 @@ drawer.</td>
         <p class="tag-source">
             <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line115">line 115</a>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line140">line 140</a>
             </span>
         </p>
     
@@ -1472,7 +1729,7 @@ Configuration file is used for setting up the components' configuration.
         <p class="tag-source">
             <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line104">line 104</a>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line117">line 117</a>
             </span>
         </p>
     
@@ -1646,7 +1903,7 @@ Configuration file is used for saving the components' configuration.
         <p class="tag-source">
             <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line127">line 127</a>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line164">line 164</a>
             </span>
         </p>
     

@@ -7,7 +7,7 @@
   tracking-code-which-will-go-to-the-HEAD
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> models/FileInformation.js</title>
+  <title> models/DefaultConfiguration.js</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -93,7 +93,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Source</p>
-                    <h1>models/FileInformation.js</h1>
+                    <h1>models/DefaultConfiguration.js</h1>
                 </header>
                 
 
@@ -103,39 +103,35 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Object to store all file information.
+ * Default plugin configuration.
  */
-class FileInformation {
+class DefaultConfiguration {
   /**
    * Default constructor.
    *
    * @param {object} [props={}] - Object that contains all properties to set.
-   * @param {string} [props.path=null] - File path.
+   * @param {object} [props.editor={}] - Object that contains all properties of editor
+   * configuration.
+   * @param {object} [props.editor.syntax] - Syntax configuration.
    */
-  constructor(props = { path: null }) {
-    const {
-      path,
-    } = props;
-
+  constructor(props = {
+    editor: {
+      syntax: null,
+    },
+  }) {
     /**
-     * Path of the file.
+     * Object that contains all properties of editor configuration.
      *
-     * @type {string}
+     * @type {object}
      */
-    this.path = path || null;
-  }
-
-  /**
-   * Get file name.
-   *
-   * @returns {string} File name
-   */
-  get fileName() {
-    return this.path ? this.path.replace(/^.*[\\/]/, '') : null;
+    this.editor = {
+      syntax: null,
+      ...props.editor,
+    };
   }
 }
 
-export default FileInformation;
+export default DefaultConfiguration;
 </code></pre>
         </article>
     </section>

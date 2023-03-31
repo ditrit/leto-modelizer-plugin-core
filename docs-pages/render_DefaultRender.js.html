@@ -85,7 +85,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li></ul></div>
                 
             </nav>
         </div>
@@ -125,17 +125,18 @@ class DefaultRender {
   /**
    * Transform all provided components in file inputs.
    *
-   * @param {FileInput[]} files - Files managed by the plugin.
+   * @param {FileInput[]} [files=[]] - Files managed by the plugin.
+   * @param {string} [parentEventId=null] - Parent event id.
    * @returns {FileInput[]} - Generated files from components.
    */
-  render(files = []) {
+  render(files = [], parentEventId = null) {
     const rendererFiles = files.reduce((acc, file) => {
       acc[file.path] = '';
 
       return acc;
     }, {});
 
-    this.renderFiles().forEach((file) => {
+    this.renderFiles(parentEventId).forEach((file) => {
       rendererFiles[file.path] = file.content;
     });
 
@@ -146,9 +147,11 @@ class DefaultRender {
   /**
    * Transform all provided components in file inputs.
    *
+   * @param {string} [parentEventId=null] - Parent event id.
    * @returns {FileInput[]} - Generated files from components.
    */
-  renderFiles() {
+  // eslint-disable-next-line no-unused-vars
+  renderFiles(parentEventId = null) {
     return [];
   }
 
@@ -156,8 +159,19 @@ class DefaultRender {
    * Update configuration file content according to components data.
    *
    * @param {FileInput} file - Configuration file of components.
+   * @param {string} [parentEventId=null] - Parent event id.
    */
-  renderConfiguration(file) {
+  renderConfiguration(file, parentEventId = null) {
+    const id = this.pluginData.emitEvent({
+      parent: parentEventId,
+      type: 'Render',
+      action: 'write',
+      status: 'running',
+      files: [file.path],
+      data: {
+        global: false,
+      },
+    });
     const configuration = {};
 
     this.pluginData.components
@@ -171,6 +185,8 @@ class DefaultRender {
     config[this.pluginData.name] = configuration;
 
     file.content = JSON.stringify(config, (key, value) => (value === null ? undefined : value), 2);
+
+    this.pluginData.emitEvent({ id, status: 'success' });
   }
 }
 

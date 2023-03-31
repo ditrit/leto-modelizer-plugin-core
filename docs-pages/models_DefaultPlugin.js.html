@@ -85,7 +85,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li></ul></div>
                 
             </nav>
         </div>
@@ -107,6 +107,7 @@ import DefaultDrawer from '../draw/DefaultDrawer';
 import DefaultMetadata from '../metadata/DefaultMetadata';
 import DefaultParser from '../parser/DefaultParser';
 import DefaultRender from '../render/DefaultRender';
+import DefaultConfiguration from './DefaultConfiguration';
 
 /**
  * Default plugin structure.
@@ -116,13 +117,18 @@ class DefaultPlugin {
    * Default constructor.
    *
    * @param {object} [props={}] - Object that contains all properties to set.
-   * @param {DefaultData} props.pluginData - Plugin data storage.
-   * @param {DefaultDrawer} props.pluginDrawer - Plugin drawer.
-   * @param {DefaultMetadata} props.pluginMetadata - Plugin metadata.
-   * @param {DefaultParser} props.pluginParser - Plugin parser.
-   * @param {DefaultRender} props.pluginRenderer - Plugin renderer.
+   * @param {object} [props.event] - Event manager.
+   * @param {Function} [props.event.next] - Function to emit event.
+   * @param {DefaultConfiguration} [props.configuration] - Plugin configuration.
+   * @param {DefaultData} [props.pluginData] - Plugin data storage.
+   * @param {DefaultDrawer} [props.pluginDrawer] - Plugin drawer.
+   * @param {DefaultMetadata} [props.pluginMetadata] - Plugin metadata.
+   * @param {DefaultParser} [props.pluginParser] - Plugin parser.
+   * @param {DefaultRender} [props.pluginRenderer] - Plugin renderer.
    */
   constructor(props = {
+    event: null,
+    configuration: null,
     pluginData: null,
     pluginDrawer: null,
     pluginMetadata: null,
@@ -130,11 +136,17 @@ class DefaultPlugin {
     pluginRenderer: null,
   }) {
     /**
+     * Plugin configuration.
+     *
+     * @type {DefaultConfiguration}
+     */
+    this.configuration = props.configuration || new DefaultConfiguration();
+    /**
      * Plugin data storage.
      *
      * @type {DefaultData}
      */
-    this.data = props.pluginData || new DefaultData();
+    this.data = props.pluginData || new DefaultData({}, props.event);
     /**
      * Plugin drawer.
      *
@@ -167,17 +179,18 @@ class DefaultPlugin {
 
   /**
    * Init method, to call once before all plugin usages.
-   * Set events in plugin and initialize metadata.
-   *
-   * @param {object} [events] - Events list.
-   * @param {Function} [events.SelectEvent.next] - Function to emit selection event, use by the
-   * @param {Function} [events.UpdateEvent.next] - Function to emit update event, use by the
-   * drawer.
    */
-  init(events) {
-    this.__drawer.setEvents(events);
-    this.__metadata.parse();
-    this.data.initLinkDefinitions();
+  init() {
+    const id = this.data.emitEvent({
+      type: 'Plugin',
+      action: 'init',
+      status: 'running',
+    });
+
+    this.__metadata.parse(id);
+    this.data.initLinkDefinitions(id);
+
+    this.data.emitEvent({ id, status: 'success' });
   }
 
   /**
@@ -205,9 +218,21 @@ class DefaultPlugin {
    * @param {FileInput} file - Configuration file of components.
    * @param {FileInput[]} [inputs=[]] - File inputs you want to parse.
    */
-  parse(file, inputs) {
-    this.__parser.parse(inputs);
-    this.__parser.parseConfiguration(file);
+  parse(file, inputs = []) {
+    const id = this.data.emitEvent({
+      type: 'Parser',
+      action: 'read',
+      status: 'running',
+      files: inputs.map(({ path }) => path).concat(file?.path),
+      data: {
+        global: true,
+      },
+    });
+
+    this.__parser.parse(inputs, id);
+    this.__parser.parseConfiguration(file, id);
+
+    this.data.emitEvent({ id, status: 'success' });
   }
 
   /**
@@ -221,6 +246,18 @@ class DefaultPlugin {
   }
 
   /**
+   * Get models from all project files.
+   *
+   * @param {FileInformation[]} [files=[]] - Projects files.
+   * @returns {string[]} List of folder and file paths that represent a model.
+   */
+  getModels(files = []) {
+    return this.__parser.getModels(
+      files.filter((file) => this.isParsable(file)),
+    );
+  }
+
+  /**
    * Return all generated files from plugin data.
    * Configuration file is used for saving the components' configuration.
    *
@@ -228,10 +265,24 @@ class DefaultPlugin {
    * @param {FileInput[]} files - File inputs you want to render.
    * @returns {FileInput[]} All generated files including the configuration file.
    */
-  render(configurationFile, files) {
-    this.__renderer.renderConfiguration(configurationFile);
+  render(configurationFile, files = []) {
+    const id = this.data.emitEvent({
+      type: 'Render',
+      action: 'write',
+      status: 'running',
+      files: files.map(({ path }) => path).concat(configurationFile.path),
+      data: {
+        global: true,
+      },
+    });
 
-    return this.__renderer.render(files).concat(configurationFile);
+    this.__renderer.renderConfiguration(configurationFile, id);
+
+    const renderFiles = this.__renderer.render(files, id).concat(configurationFile);
+
+    this.data.emitEvent({ id, status: 'success' });
+
+    return renderFiles;
   }
 }
 

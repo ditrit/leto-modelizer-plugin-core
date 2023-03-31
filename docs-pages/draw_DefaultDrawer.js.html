@@ -85,7 +85,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li></ul></div>
                 
             </nav>
         </div>
@@ -117,13 +117,8 @@ class DefaultDrawer {
    *
    * @param {DefaultData} pluginData - Plugin data storage.
    * @param {object} [resources=null] - Object that contains resources.
-   * @param {object} [events] - Events list.
-   * @param {Function} [events.SelectEvent.next] - Function to emit selection event.
-   * @param {Function} [events.UpdateEvent.next] - Function to emit update event.
    * @param {string} [rootId="root"] - Id of HTML element where we want to draw.
    * @param {object} [options={}] - Rendering options.
-   * @param {number} [options.width=1280] - Render svg viewbox width.
-   * @param {number} [options.height=1280] - Render svg viewbox height.
    * @param {number} [options.minWidth=230] - Minimum width of a component.
    * @param {number} [options.minHeight=50] - Minimum height of a component.
    * @param {number} [options.padding=30] - Padding around a component.
@@ -132,10 +127,7 @@ class DefaultDrawer {
    * per line at a given depth. Valid values: 1 - Infinity.
    * @param {number} [options.actionMenuButtonSize] - The size of each action menu button.
    */
-  constructor(pluginData, resources = null, events = {
-    SelectEvent: null,
-    UpdateEvent: null,
-  }, rootId = 'root', options = {}) {
+  constructor(pluginData, resources = null, rootId = 'root', options = {}) {
     /**
      * Plugin data storage.
      *
@@ -154,18 +146,6 @@ class DefaultDrawer {
      * @type {object}
      */
     this.resources = resources;
-    /**
-     * Render svg viewbox width.
-     *
-     * @type {number}
-     */
-    this.width = options.width !== undefined ? options.width : 1280;
-    /**
-     * Render svg viewbox height.
-     *
-     * @type {number}
-     */
-    this.height = options.height !== undefined ? options.height : 1280;
     /**
      * Minimum width of a component.
      *
@@ -228,10 +208,12 @@ class DefaultDrawer {
       },
       zoom: {
         scale: 1,
+        translate: {
+          x: 0,
+          y: 0,
+        },
       },
     };
-
-    this.setEvents(events);
   }
 
   /**
@@ -262,32 +244,6 @@ class DefaultDrawer {
     const pivotPoint = new DOMPoint(svgX, svgY);
 
     return pivotPoint.matrixTransform(localSvg.getScreenCTM());
-  }
-
-  /**
-   * Set events.
-   *
-   * @param {object} [events] - Events list.
-   * @param {Function} [events.SelectEvent.next] - Function to emit selection event.
-   * @param {Function} [events.UpdateEvent.next] - Function to emit update event.
-   */
-  setEvents(events = {
-    SelectEvent: null,
-    UpdateEvent: null,
-  }) {
-    this.events = {
-      SelectEvent: events.SelectEvent || null,
-      UpdateEvent: events.UpdateEvent || null,
-    };
-  }
-
-  /**
-   * Emit UpdateEvent if defined.
-   */
-  emitUpdateEvent() {
-    if (this.events?.UpdateEvent) {
-      this.events.UpdateEvent.next();
-    }
   }
 
   /**
@@ -481,6 +437,13 @@ class DefaultDrawer {
         width,
         height,
       });
+
+      this.pluginData.emitEvent({
+        type: 'Drawer',
+        action: 'move',
+        status: 'success',
+        components: [event.subject.data.id],
+      });
     } else {
       if (event.subject.parent) {
         this.__markAsNeedingResize(event.subject.parent);
@@ -491,10 +454,16 @@ class DefaultDrawer {
         this.changeParent(target, event);
       } else {
         event.subject.data.removeAllReferenceAttributes();
+
+        this.pluginData.emitEvent({
+          type: 'Drawer',
+          action: 'update',
+          status: 'success',
+          components: [event.subject.data.id],
+        });
       }
     }
 
-    this.emitUpdateEvent();
     this.draw(this.rootId);
   }
 
@@ -508,8 +477,9 @@ class DefaultDrawer {
     const parentId = target.attr('data-parentId');
     const newParent = this.pluginData.getComponentById(parentId);
     const newParentNode = d3.select(`#${parentId}`).datum();
+    const isValid = newParent.definition.childrenTypes.includes(event.subject.data.definition.type);
 
-    if (newParent.definition.childrenTypes.includes(event.subject.data.definition.type)) {
+    if (isValid) {
       event.subject.data.setReferenceAttribute(newParent);
       this.__markAsNeedingResize(newParentNode);
 
@@ -531,6 +501,13 @@ class DefaultDrawer {
         }
       }
     }
+
+    this.pluginData.emitEvent({
+      type: 'Drawer',
+      action: isValid ? 'update' : 'move',
+      status: 'success',
+      components: [event.subject.data.id],
+    });
   }
 
   /**
@@ -661,15 +638,12 @@ class DefaultDrawer {
     if (!contextIsPresent) {
       this.svg = d3.select(`#${this.rootId}`)
         .append('svg')
-        .attr('viewBox', [0, 0, this.width, this.height])
         .attr('preserveAspectRatio', 'xMinYMin meet')
-        .style('font', '10px sans-serif');
-      this.svg.append('g')
-        .attr('class', 'container')
+        .style('font', '10px sans-serif')
         .attr('height', '100%')
-        .attr('width', '100%')
-        .attr('x', 0)
-        .attr('y', 0);
+        .attr('width', '100%');
+      this.svg.append('g')
+        .attr('class', 'container');
       this.svg.append('defs');
       this.__initializeArrowMarker();
     } else {
@@ -684,6 +658,15 @@ class DefaultDrawer {
    * @param {string} rootId - Id of the container where you want to draw.
    */
   draw(rootId) {
+    const id = this.pluginData.emitEvent({
+      type: 'Drawer',
+      action: 'write',
+      status: 'running',
+      data: {
+        rootId,
+      },
+    });
+
     this.rootId = rootId;
     this.createRenderingContext();
 
@@ -694,6 +677,8 @@ class DefaultDrawer {
     this.drawLinks();
 
     this.setViewPortAction();
+
+    this.pluginData.emitEvent({ id, status: 'success' });
   }
 
   /**
@@ -761,7 +746,6 @@ class DefaultDrawer {
         - this.minHeight - this.margin)
       .attr('width', (component) => this.getComponentWidth(component) - 2 * this.margin)
       .attr('x', () => this.margin)
-      .attr('y', () => this.minHeight)
       .filter(({ children }) => children)
       .append(({ data }) => d3.select(`#group-${data.id}`).node());
 
@@ -1260,6 +1244,9 @@ class DefaultDrawer {
       .on('zoom', (event) => {
         this.svg.select('.container').attr('transform', event.transform);
         this.actions.zoom.scale = event.transform.k;
+        this.actions.zoom.translate.x = event.transform.x;
+        this.actions.zoom.translate.y = event.transform.y;
+
         drawLinks();
       }));
   }
@@ -1272,9 +1259,19 @@ class DefaultDrawer {
    */
   __unselectComponent() {
     if (this.actions.selection.current) {
-      d3.select(`#${this.rootId} .selected`)
-        .classed('selected', false)
-        .style('outline', '');
+      const selectedComponent = d3.select(`#${this.rootId} .selected`);
+
+      if (selectedComponent.classed('component')) {
+        selectedComponent
+          .classed('selected', false)
+          .select('.template')
+          .style('outline', '');
+      } else {
+        selectedComponent
+          .classed('selected', false)
+          .style('outline', '');
+      }
+
       this.actions.selection.current = null;
       this.hideActionMenu();
     }
@@ -1303,13 +1300,33 @@ class DefaultDrawer {
       this.__unselectComponent();
 
       if (sameElementClicked) {
+        this.pluginData.emitEvent({
+          type: 'Drawer',
+          action: 'select',
+          status: 'success',
+          components: [currentComponent.id],
+          data: {
+            isSelected: false,
+          },
+        });
+
         return;
       }
 
       targetSelection
-        .classed('selected', true)
-        .style('outline', this.actions.selection.style)
-        .style('outline-offset', this.actions.selection.offset);
+        .classed('selected', true);
+
+      if (targetSelection.classed('component')) {
+        targetSelection
+          .select('.template')
+          .style('outline', this.actions.selection.style)
+          .style('outline-offset', this.actions.selection.offset);
+      } else {
+        targetSelection
+          .style('outline', this.actions.selection.style)
+          .style('outline-offset', this.actions.selection.offset);
+      }
+
       this.actions.selection.current = currentComponent;
 
       if (this.events?.SelectEvent &amp;&amp; currentComponent.__class === 'Component') {
@@ -1317,13 +1334,25 @@ class DefaultDrawer {
       }
 
       this.initializeActionMenu(targetSelection);
+
+      this.pluginData.emitEvent({
+        type: 'Drawer',
+        action: 'select',
+        status: 'success',
+        components: [currentComponent.id],
+        data: {
+          isSelected: true,
+        },
+      });
     }
   }
 
   /**
    * Create a link between the previously selected source and destination.
+   *
+   * @param {string} componentId - Component id.
    */
-  createLink() {
+  createLink(componentId) {
     const { source, target } = this.actions.linkCreation;
     const activeLinkType = this.pluginData.definitions.links
       .find((definition) => definition.sourceRef === source.definition.type
@@ -1337,7 +1366,13 @@ class DefaultDrawer {
 
     this.actions.linkCreation.source.setLinkAttribute(newLink);
 
-    this.emitUpdateEvent();
+    this.pluginData.emitEvent({
+      type: 'Drawer',
+      action: 'add',
+      status: 'success',
+      components: [componentId],
+      links: [newLink],
+    });
 
     this.cancelLinkCreationInteraction();
 
@@ -1553,7 +1588,7 @@ class DefaultDrawer {
 
         this.draw(this.rootId);
         this.actions.linkCreation.target = d3.select(`#${componentId}`).datum().data;
-        this.createLink();
+        this.createLink(componentId);
       });
   }
 
@@ -1616,7 +1651,14 @@ class DefaultDrawer {
           icon: actionIcons.trash,
           handler() {
             this.pluginData.removeComponentById(this.actions.selection.current.id);
-            this.emitUpdateEvent();
+
+            this.pluginData.emitEvent({
+              type: 'Drawer',
+              action: 'delete',
+              status: 'success',
+              components: [this.actions.selection.current.id],
+            });
+
             this.draw(this.rootId);
           },
         },
@@ -1629,7 +1671,14 @@ class DefaultDrawer {
         icon: actionIcons.trash,
         handler() {
           this.pluginData.removeLink(this.actions.selection.current);
-          this.emitUpdateEvent();
+
+          this.pluginData.emitEvent({
+            type: 'Drawer',
+            action: 'delete',
+            status: 'success',
+            components: [],
+          });
+
           this.draw(this.rootId);
         },
       },
