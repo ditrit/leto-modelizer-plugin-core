@@ -1,9 +1,8 @@
 Feature: Test component/link selection
-
   Background:
     Given I clear localstorage
+    And I set viewport size to "1920" px for width and "1080" px for height
     And I visit the "/"
-
 
   Scenario Outline: Clicking on a <type> should select it
     When I click on "<selector>"

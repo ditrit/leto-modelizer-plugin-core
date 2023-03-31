@@ -1,7 +1,7 @@
 Feature: Test plugin renderer
-
   Background:
     Given I clear localstorage
+    And I set viewport size to "1920" px for width and "1080" px for height
     And I visit the "/"
 
   Scenario: The renderer should be present
