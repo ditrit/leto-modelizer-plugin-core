@@ -8,7 +8,7 @@ class ComponentAttribute {
    * @param {string} [props.name] - The name of the attribute.
    * @param {(string | boolean | number | Array | ComponentAttribute[])} [props.value] - The
    * value of the attribute.
-   * @param {string} [props.type] - The reel type of the attribute.
+   * @param {string} [props.type] - The real type of the attribute.
    * @param {ComponentAttributeDefinition} [props.definition] - The definition of the
    * attribute.
    */
@@ -36,7 +36,7 @@ class ComponentAttribute {
      */
     this.value = value ?? null;
     /**
-     * The type of the attribute, reel type of the attribute, to check if it's match with the
+     * The type of the attribute, real type of the attribute, to check if it matches with the
      * ComponentAttributeDefinition.
      * @type {string}
      */
@@ -46,6 +46,14 @@ class ComponentAttribute {
      * @type {ComponentAttributeDefinition}
      */
     this.definition = definition || null;
+  }
+
+  /**
+   * Check if the attribute is a variable.
+   * @returns {boolean} - true if the attribute is a variable otherwise false.
+   */
+  get isVariable() {
+    return false;
   }
 
   /**

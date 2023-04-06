@@ -35,6 +35,14 @@ describe('Test class: ComponentAttribute', () => {
     });
   });
 
+  describe('Test getters', () => {
+    describe('Test getter: isVariable', () => {
+      it('should return false', () => {
+        expect(new ComponentAttribute().isVariable).toBeFalsy();
+      });
+    });
+  });
+
   describe('Test methods', () => {
     describe('Test method: checkByType', () => {
       it('Check if definition is null', () => {
