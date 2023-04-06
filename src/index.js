@@ -16,6 +16,7 @@ import DefaultData from './models/DefaultData';
 import DefaultPlugin from './models/DefaultPlugin';
 import DefaultConfiguration from './models/DefaultConfiguration';
 import Tag from './models/Tag';
+import Variable from './models/Variable';
 
 export {
   Component,
@@ -36,4 +37,5 @@ export {
   DefaultPlugin,
   DefaultConfiguration,
   Tag,
+  Variable,
 };
