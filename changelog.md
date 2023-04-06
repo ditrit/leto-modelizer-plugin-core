@@ -59,12 +59,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Documentation to build a svg template.
 - Add `translate.x` and `translate.y` properties in `DefaultDrawer` to get the position of the root container.
 - Add method `getModels` in `DefaultParser` and `DefaultPlugin`.
+- Add class `Variable` for variable handling.
+- Add properties `name`, `type`, `value` and `category` in `Variable`.
+- Add `isVariable` getter in `ComponentAttribute` to check if the attribute is a variable.
+- Add methods in `DefaultData`:
+  - `getAttributeValue` used to get the value of an attribute.
+  - `getLinkedComponentsIds` used to get the ID of the linked component.
+  - `getVariableValue` used to get the value of a variable.
+  - `setVariableValue` used to set the value of a variable.
+  - `getComponentIdFromValue` used to get the ID of a linked resource.
 
 ### Changed
 
 - Remove old events management in `DefaultDrawer`.
 - The `y` position of the component container is now set in the model and not by the drawer.
 - The width and height of `#root svg` is now equal of `#root` width and height.
+- Change `getLinks` method in `DefaultData`
 
 ### Fixed
 
