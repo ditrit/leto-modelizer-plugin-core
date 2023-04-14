@@ -89,11 +89,9 @@ Feature: Test link creation
     And I expect "#link-laptop-network_link-internal1-network1" is visible
     And I expect "#link-server-laptop_link-server2-internal1" is visible
     And I expect "#link-server-network_link-server2-network2" is visible
-        And I expect "#link-__workflow-__next-wfstep1-wfstep2" is visible
+    And I expect "#link-__workflow-__next-wfstep1-wfstep2" is visible
     And I expect "#link-__workflow-__next-wfstep2-wfstep3" is visible
     And I expect "#link-__workflow-__next-wfstep3-wfstep4" is visible
     And I expect "#link-__workflow-__next-wfstep5-wfstep6" is visible
     And I expect "#link-__workflow-__next-wfstep6-wfstep7" is visible
     And I expect "#link-__workflow-__next-wfstep7-wfstep8" is visible
-
-
