@@ -15,7 +15,7 @@ jest.mock('d3', () => {
     'each', 'enter', 'exit', 'getBBox', 'on', 'linkHorizontal',
     'remove', 'select', 'selectAll', 'style', 'select',
     'text', 'node', 'html', 'transition', 'duration', 'datum',
-    'source', 'target', 'join',
+    'source', 'target', 'join', 'empty',
   ].forEach((method) => {
     mockD3[method] = jest.fn(() => mockD3);
   });
@@ -587,19 +587,37 @@ describe('Test Class: DefaultDrawer()', () => {
 
     describe('Test action: __unselectComponent', () => {
       it('On no selected component Should do nothing', () => {
+        d3.empty.mockReturnValue(false);
         drawer.actions.selection.current = null;
         drawer.__unselectComponent();
 
         expect(drawer.actions.selection.current).toBeNull();
+        expect(d3.empty).not.toBeCalled();
+        expect(d3.classed).not.toBeCalled();
         expect(d3.select).not.toBeCalled();
         expect(d3.style).not.toBeCalled();
       });
 
-      it('On selected component Should unselect it', () => {
-        drawer.actions.selection.current = 'id1';
+      it('On selected component is [null]', () => {
+        d3.empty.mockReturnValue(true);
+        drawer.actions.selection.current = new Component({});
         drawer.__unselectComponent();
 
         expect(drawer.actions.selection.current).toBeNull();
+        expect(d3.empty).toBeCalledTimes(1);
+        expect(d3.classed).not.toBeCalled();
+        expect(d3.select).toBeCalledTimes(1);
+        expect(d3.style).not.toBeCalled();
+      });
+
+      it('On selected component Should unselect it', () => {
+        d3.empty.mockReturnValue(false);
+        drawer.actions.selection.current = new Component({});
+        drawer.__unselectComponent();
+
+        expect(drawer.actions.selection.current).toBeNull();
+        expect(d3.empty).toBeCalledTimes(2);
+        expect(d3.classed).toBeCalledTimes(2);
         expect(d3.select).toBeCalled();
         expect(d3.style).toBeCalled();
       });

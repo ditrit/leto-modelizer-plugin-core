@@ -1157,6 +1157,12 @@ class DefaultDrawer {
     if (this.actions.selection.current) {
       const selectedComponent = d3.select(`#${this.rootId} .selected`);
 
+      if (selectedComponent.empty()) {
+        this.actions.selection.current = null;
+
+        return;
+      }
+
       if (selectedComponent.classed('component')) {
         selectedComponent
           .classed('selected', false)

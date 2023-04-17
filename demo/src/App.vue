@@ -5,6 +5,7 @@
     </div>
     <div>
       <button @click="savePosition">Save position</button>
+      <button class="reset-btn" @click="reset">Reset UI</button>
     </div>
     <div id='root'></div>
   </main>
@@ -14,7 +15,7 @@
 import { onMounted } from 'vue';
 import resources from './assets/resources';
 import DemoPlugin from '@/DemoPlugin';
-import { ComponentDrawOption, FileInput } from 'leto-modelizer-plugin-core';
+import { Component, ComponentDrawOption, FileInput } from 'leto-modelizer-plugin-core';
 
 function next(data) {
   console.log(data);
@@ -24,6 +25,11 @@ function savePosition() {
   const configuration = new FileInput({ path: 'localstorage', content: '' });
   plugin.render(configuration);
   window.localStorage.setItem('configuration', configuration.content);
+}
+
+function reset() {
+  document.querySelector('#root').innerHTML = '';
+  plugin.draw('root');
 }
 
 const plugin = new DemoPlugin(next);
