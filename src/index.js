@@ -14,6 +14,7 @@ import DefaultRender from './render/DefaultRender';
 import ParseError from './error/ParseError';
 import DefaultData from './models/DefaultData';
 import DefaultPlugin from './models/DefaultPlugin';
+import DefaultConfiguration from './models/DefaultConfiguration';
 
 export {
   Component,
@@ -32,4 +33,5 @@ export {
   FileInput,
   DefaultData,
   DefaultPlugin,
+  DefaultConfiguration,
 };
