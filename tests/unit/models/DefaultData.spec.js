@@ -13,8 +13,8 @@ describe('Test class: DefaultData', () => {
     it('Check variables instantiation', () => {
       const pluginData = new DefaultData(new DefaultConfiguration());
 
+      expect(pluginData.configuration).toEqual(new DefaultConfiguration());
       expect(pluginData.name).toBeNull();
-      expect(pluginData.defaultFileName).toBeNull();
       expect(pluginData.version).toBeNull();
       expect(pluginData.components).toEqual([]);
       expect(pluginData.parseErrors).toEqual([]);
@@ -25,8 +25,8 @@ describe('Test class: DefaultData', () => {
     it('Check passing undefined variables to constructor', () => {
       let pluginData = new DefaultData(new DefaultConfiguration(), {});
 
+      expect(pluginData.configuration).toEqual(new DefaultConfiguration());
       expect(pluginData.name).toBeNull();
-      expect(pluginData.defaultFileName).toBeNull();
       expect(pluginData.version).toBeNull();
       expect(pluginData.components).toEqual([]);
       expect(pluginData.parseErrors).toEqual([]);
@@ -40,7 +40,6 @@ describe('Test class: DefaultData', () => {
     it('Check passing all variables to constructor', () => {
       const pluginData = new DefaultData(new DefaultConfiguration(), {
         name: 'name',
-        defaultFileName: 'default',
         version: 'version',
         components: [0],
         parseErrors: [2],
@@ -50,8 +49,8 @@ describe('Test class: DefaultData', () => {
         },
       }, {});
 
+      expect(pluginData.configuration).toEqual(new DefaultConfiguration());
       expect(pluginData.name).toEqual('name');
-      expect(pluginData.defaultFileName).toEqual('default');
       expect(pluginData.version).toEqual('version');
       expect(pluginData.components).toEqual([0]);
       expect(pluginData.parseErrors).toEqual([2]);
@@ -139,10 +138,7 @@ describe('Test class: DefaultData', () => {
     });
 
     it('Should create new component and set correct path without folder', () => {
-      const pluginData = new DefaultData(
-        new DefaultConfiguration(),
-        { defaultFileName: 'test.tf' },
-      );
+      const pluginData = new DefaultData(new DefaultConfiguration({ defaultFileName: 'test.tf' }));
 
       expect(pluginData.components).toEqual([]);
 
@@ -160,10 +156,7 @@ describe('Test class: DefaultData', () => {
     });
 
     it('Should create new component and set correct path with folder', () => {
-      const pluginData = new DefaultData(
-        new DefaultConfiguration(),
-        { defaultFileName: 'test.tf' },
-      );
+      const pluginData = new DefaultData(new DefaultConfiguration({ defaultFileName: 'test.tf' }));
 
       expect(pluginData.components).toEqual([]);
 

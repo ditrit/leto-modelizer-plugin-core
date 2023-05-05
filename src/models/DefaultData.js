@@ -23,7 +23,6 @@ class DefaultData {
    * @param {ComponentLinkDefinition[]} [props.definitions.link=[]] - All component link
    * definitions.
    * @param {ParseError[]} [props.parseErrors=[]] - Parse errors array.
-   * @param {string} [props.defaultFileName] - Default file name for new components.
    * @param {object} [event] - Event manager.
    * @param {Function} [event.next] - Function to emit event.
    */
@@ -36,7 +35,6 @@ class DefaultData {
       links: [],
     },
     parseErrors: [],
-    defaultFileName: null,
   }, event = null) {
     /**
      * Plugin name.
@@ -75,12 +73,6 @@ class DefaultData {
      * @type {ParseError[]}
      */
     this.parseErrors = props.parseErrors || [];
-    /**
-     * Default file name for new components.
-     *
-     * @type {string}
-     */
-    this.defaultFileName = props.defaultFileName || null;
     /**
      * Index of the last event log.
      *
@@ -145,7 +137,7 @@ class DefaultData {
    * @param {string} [fileName] - File name.
    * @returns {string} Component id.
    */
-  addComponent(definition, folder = '', fileName = this.defaultFileName || '') {
+  addComponent(definition, folder = '', fileName = this.configuration.defaultFileName || '') {
     const id = this.generateComponentId(definition);
 
     this.components.push(new Component({

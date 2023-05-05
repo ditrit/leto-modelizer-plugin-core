@@ -6,6 +6,7 @@ describe('Test class: DefaultConfiguration', () => {
       const config = new DefaultConfiguration();
 
       expect(config.editor).toEqual({ syntax: null });
+      expect(config.defaultFileName).toBeNull();
     });
 
     it('Check passing undefined variables to constructor', () => {
@@ -19,9 +20,11 @@ describe('Test class: DefaultConfiguration', () => {
         editor: {
           syntax: true,
         },
+        defaultFileName: 'test',
       });
 
       expect(config.editor).toEqual({ syntax: true });
+      expect(config.defaultFileName).toEqual('test');
     });
   });
 });
