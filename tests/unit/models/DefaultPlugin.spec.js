@@ -11,24 +11,26 @@ describe('Test class: DefaultPlugin', () => {
   describe('Test constructor', () => {
     it('Check variables instantiation', () => {
       const plugin = new DefaultPlugin();
+      const data = new DefaultData(new DefaultConfiguration());
 
       expect(plugin.configuration).toEqual(new DefaultConfiguration());
-      expect(plugin.data).toEqual(new DefaultData());
-      expect(plugin.__drawer).toEqual(new DefaultDrawer(new DefaultData()));
-      expect(plugin.__metadata).toEqual(new DefaultMetadata(new DefaultData()));
-      expect(plugin.__parser).toEqual(new DefaultParser(new DefaultData()));
-      expect(plugin.__renderer).toEqual(new DefaultRender(new DefaultData()));
+      expect(plugin.data).toEqual(data);
+      expect(plugin.__drawer).toEqual(new DefaultDrawer(data));
+      expect(plugin.__metadata).toEqual(new DefaultMetadata(data));
+      expect(plugin.__parser).toEqual(new DefaultParser(data));
+      expect(plugin.__renderer).toEqual(new DefaultRender(data));
     });
 
     it('Check passing undefined variables to constructor', () => {
       const plugin = new DefaultPlugin({});
+      const data = new DefaultData(new DefaultConfiguration());
 
       expect(plugin.configuration).toEqual(new DefaultConfiguration());
-      expect(plugin.data).toEqual(new DefaultData());
-      expect(plugin.__drawer).toEqual(new DefaultDrawer(new DefaultData()));
-      expect(plugin.__metadata).toEqual(new DefaultMetadata(new DefaultData()));
-      expect(plugin.__parser).toEqual(new DefaultParser(new DefaultData()));
-      expect(plugin.__renderer).toEqual(new DefaultRender(new DefaultData()));
+      expect(plugin.data).toEqual(data);
+      expect(plugin.__drawer).toEqual(new DefaultDrawer(data));
+      expect(plugin.__metadata).toEqual(new DefaultMetadata(data));
+      expect(plugin.__parser).toEqual(new DefaultParser(data));
+      expect(plugin.__renderer).toEqual(new DefaultRender(data));
     });
 
     it('Check passing all variables to constructor', () => {

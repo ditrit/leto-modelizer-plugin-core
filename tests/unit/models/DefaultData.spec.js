@@ -1,4 +1,5 @@
 import DefaultData from 'src/models/DefaultData';
+import DefaultConfiguration from 'src/models/DefaultConfiguration';
 import { version as CORE_VERSION } from 'package.json';
 import ComponentDefinition from 'src/models/ComponentDefinition';
 import Component from 'src/models/Component';
@@ -10,7 +11,7 @@ import ComponentLinkDefinition from 'src/models/ComponentLinkDefinition';
 describe('Test class: DefaultData', () => {
   describe('Test constructor', () => {
     it('Check variables instantiation', () => {
-      const pluginData = new DefaultData();
+      const pluginData = new DefaultData(new DefaultConfiguration());
 
       expect(pluginData.name).toBeNull();
       expect(pluginData.defaultFileName).toBeNull();
@@ -22,7 +23,7 @@ describe('Test class: DefaultData', () => {
     });
 
     it('Check passing undefined variables to constructor', () => {
-      let pluginData = new DefaultData({});
+      let pluginData = new DefaultData(new DefaultConfiguration(), {});
 
       expect(pluginData.name).toBeNull();
       expect(pluginData.defaultFileName).toBeNull();
@@ -32,12 +33,12 @@ describe('Test class: DefaultData', () => {
       expect(pluginData.definitions).toEqual({ components: [], links: [] });
       expect(pluginData.eventManager).toEqual(null);
 
-      pluginData = new DefaultData({ definitions: {} });
+      pluginData = new DefaultData(new DefaultConfiguration(), { definitions: {} });
       expect(pluginData.definitions).toEqual({ components: [], links: [] });
     });
 
     it('Check passing all variables to constructor', () => {
-      const pluginData = new DefaultData({
+      const pluginData = new DefaultData(new DefaultConfiguration(), {
         name: 'name',
         defaultFileName: 'default',
         version: 'version',
@@ -63,14 +64,14 @@ describe('Test class: DefaultData', () => {
     describe('Test getter: coreVersion', () => {
       it('should be equal to the version in package.json', () => {
         expect(CORE_VERSION).not.toBeNull();
-        expect(new DefaultData().coreVersion).toEqual(CORE_VERSION);
+        expect(new DefaultData(new DefaultConfiguration()).coreVersion).toEqual(CORE_VERSION);
       });
     });
   });
 
   describe('Test method: removeLink', () => {
     it('Should remove default link', () => {
-      const pluginData = new DefaultData();
+      const pluginData = new DefaultData(new DefaultConfiguration());
 
       pluginData.components.push(new Component({
         id: 'test',
@@ -94,7 +95,7 @@ describe('Test class: DefaultData', () => {
     });
 
     it('Should remove reverse link', () => {
-      const pluginData = new DefaultData();
+      const pluginData = new DefaultData(new DefaultConfiguration());
 
       pluginData.components.push(new Component({
         id: 'test',
@@ -120,7 +121,7 @@ describe('Test class: DefaultData', () => {
 
   describe('Test method: addComponent', () => {
     it('Should create new component and add it to the components list', () => {
-      const pluginData = new DefaultData();
+      const pluginData = new DefaultData(new DefaultConfiguration());
 
       expect(pluginData.components).toEqual([]);
 
@@ -138,7 +139,10 @@ describe('Test class: DefaultData', () => {
     });
 
     it('Should create new component and set correct path without folder', () => {
-      const pluginData = new DefaultData({ defaultFileName: 'test.tf' });
+      const pluginData = new DefaultData(
+        new DefaultConfiguration(),
+        { defaultFileName: 'test.tf' },
+      );
 
       expect(pluginData.components).toEqual([]);
 
@@ -156,7 +160,10 @@ describe('Test class: DefaultData', () => {
     });
 
     it('Should create new component and set correct path with folder', () => {
-      const pluginData = new DefaultData({ defaultFileName: 'test.tf' });
+      const pluginData = new DefaultData(
+        new DefaultConfiguration(),
+        { defaultFileName: 'test.tf' },
+      );
 
       expect(pluginData.components).toEqual([]);
 
@@ -176,7 +183,7 @@ describe('Test class: DefaultData', () => {
 
   describe('Test method: initLinkDefinitions', () => {
     it('Should init link definitions', () => {
-      const pluginData = new DefaultData();
+      const pluginData = new DefaultData(new DefaultConfiguration());
 
       pluginData.definitions.components = [
         new ComponentDefinition({
@@ -241,7 +248,7 @@ describe('Test class: DefaultData', () => {
 
   describe('Test method: getLinks', () => {
     it('Should return all links', () => {
-      const pluginData = new DefaultData();
+      const pluginData = new DefaultData(new DefaultConfiguration());
       const linkDefinition1 = new ComponentAttributeDefinition({
         name: 'link1',
         type: 'Link',
@@ -343,7 +350,7 @@ describe('Test class: DefaultData', () => {
 
   describe('Test method: getComponentsByType', () => {
     it('Should return empty array on unknown type', () => {
-      const pluginData = new DefaultData();
+      const pluginData = new DefaultData(new DefaultConfiguration());
 
       pluginData.components = [new Component({
         definition: new ComponentDefinition({ type: 'test' }),
@@ -352,7 +359,7 @@ describe('Test class: DefaultData', () => {
     });
 
     it('Should return wanted components', () => {
-      const pluginData = new DefaultData();
+      const pluginData = new DefaultData(new DefaultConfiguration());
       const notTest = new Component({
         definition: new ComponentDefinition({ type: 'notTest' }),
         id: 'notTest',
@@ -373,14 +380,14 @@ describe('Test class: DefaultData', () => {
 
   describe('Test method: getComponentById', () => {
     it('Should return null on unknown id', () => {
-      const pluginData = new DefaultData();
+      const pluginData = new DefaultData(new DefaultConfiguration());
 
       expect(pluginData.getComponentById('bad')).toBeNull();
     });
 
     it('Should return the component corresponding to the given id', () => {
       const definition = new ComponentDefinition();
-      const pluginData = new DefaultData();
+      const pluginData = new DefaultData(new DefaultConfiguration());
       const id = pluginData.addComponent(definition);
 
       pluginData.addComponent(definition);
@@ -396,7 +403,7 @@ describe('Test class: DefaultData', () => {
   describe('Test method: removeComponentById', () => {
     it('Should remove the component corresponding to the given id', () => {
       const definition = new ComponentDefinition();
-      const pluginData = new DefaultData();
+      const pluginData = new DefaultData(new DefaultConfiguration());
       const id1 = pluginData.addComponent(definition);
       const id2 = pluginData.addComponent(definition);
 
@@ -415,7 +422,7 @@ describe('Test class: DefaultData', () => {
 
     it('Should do nothing on unknown id', () => {
       const definition = new ComponentDefinition();
-      const pluginData = new DefaultData();
+      const pluginData = new DefaultData(new DefaultConfiguration());
       const id1 = pluginData.addComponent(definition);
       const id2 = pluginData.addComponent(definition);
 
@@ -445,7 +452,7 @@ describe('Test class: DefaultData', () => {
         type: 'server',
         definedAttributes: [attributeDefinition],
       });
-      const pluginData = new DefaultData();
+      const pluginData = new DefaultData(new DefaultConfiguration());
       const rootId = pluginData.addComponent(definition);
       const childId = pluginData.addComponent(definition);
       const subChildId = pluginData.addComponent(definition);
@@ -487,7 +494,7 @@ describe('Test class: DefaultData', () => {
 
     it('Should remove Link attribute of component', () => {
       const definition = new ComponentDefinition();
-      const pluginData = new DefaultData();
+      const pluginData = new DefaultData(new DefaultConfiguration());
       const rootId = pluginData.addComponent(definition);
       const childId = pluginData.addComponent(definition);
       const subChildId = pluginData.addComponent(definition);
@@ -560,7 +567,7 @@ describe('Test class: DefaultData', () => {
 
     it('Should remove all child components on removing container component', () => {
       const definition = new ComponentDefinition();
-      const pluginData = new DefaultData();
+      const pluginData = new DefaultData(new DefaultConfiguration());
       const rootId = pluginData.addComponent(definition);
       const childId = pluginData.addComponent(definition);
 
@@ -586,7 +593,7 @@ describe('Test class: DefaultData', () => {
     let pluginData;
 
     beforeEach(() => {
-      pluginData = new DefaultData();
+      pluginData = new DefaultData(new DefaultConfiguration());
       pluginData.components = [
         { id: '1' },
         { id: '2' },
@@ -661,7 +668,7 @@ describe('Test class: DefaultData', () => {
     let pluginData;
 
     beforeEach(() => {
-      pluginData = new DefaultData();
+      pluginData = new DefaultData(new DefaultConfiguration());
       pluginData.components = [
         { id: '1' },
         { id: '2' },
@@ -721,7 +728,7 @@ describe('Test class: DefaultData', () => {
     let pluginData;
 
     beforeEach(() => {
-      pluginData = new DefaultData();
+      pluginData = new DefaultData(new DefaultConfiguration());
       pluginData.components = [
         { id: '1' },
         { id: '2' },
@@ -782,7 +789,7 @@ describe('Test class: DefaultData', () => {
     let pluginData;
 
     beforeEach(() => {
-      pluginData = new DefaultData({
+      pluginData = new DefaultData(new DefaultConfiguration(), {
         components: [
           new Component({
             id: 'workflow1',
@@ -921,7 +928,7 @@ describe('Test class: DefaultData', () => {
   });
 
   describe('Test method: getUsedLinkDefinitions', () => {
-    const pluginData = new DefaultData();
+    const pluginData = new DefaultData(new DefaultConfiguration());
     const linkDefinition1 = new ComponentAttributeDefinition({
       name: 'link1',
       type: 'Link',
@@ -1009,7 +1016,7 @@ describe('Test class: DefaultData', () => {
       const next = jest.fn((d) => {
         data = d;
       });
-      const pluginData = new DefaultData({}, {
+      const pluginData = new DefaultData(new DefaultConfiguration(), {}, {
         next,
       });
 
@@ -1022,7 +1029,7 @@ describe('Test class: DefaultData', () => {
     });
 
     it('should increment event index on event without id', () => {
-      const pluginData = new DefaultData({}, {
+      const pluginData = new DefaultData(new DefaultConfiguration(), {}, {
         next: jest.fn(),
       });
 
@@ -1035,7 +1042,7 @@ describe('Test class: DefaultData', () => {
 
   describe('Test method: getEventLogById', () => {
     it('should return nothing without event log', () => {
-      const pluginData = new DefaultData({}, {
+      const pluginData = new DefaultData(new DefaultConfiguration(), {}, {
         next: jest.fn(),
       });
 
@@ -1043,7 +1050,7 @@ describe('Test class: DefaultData', () => {
     });
 
     it('should return correct event', () => {
-      const pluginData = new DefaultData({}, {
+      const pluginData = new DefaultData(new DefaultConfiguration(), {}, {
         next: jest.fn(),
       });
 
@@ -1057,7 +1064,7 @@ describe('Test class: DefaultData', () => {
 
   describe('Test method: deleteAllEventsBefore', () => {
     it('Should delete selected event', () => {
-      const pluginData = new DefaultData({}, {
+      const pluginData = new DefaultData(new DefaultConfiguration(), {}, {
         next: jest.fn(),
       });
 

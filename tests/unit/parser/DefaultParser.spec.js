@@ -1,5 +1,6 @@
 import DefaultParser from 'src/parser/DefaultParser';
 import DefaultData from 'src/models/DefaultData';
+import DefaultConfiguration from 'src/models/DefaultConfiguration';
 import Component from 'src/models/Component';
 import FileInput from 'src/models/FileInput';
 import ComponentDrawOption from 'src/models/ComponentDrawOption';
@@ -135,7 +136,7 @@ describe('Test Class: DefaultParser()', () => {
     });
 
     it('should update components', () => {
-      const pluginData = new DefaultData({ name: 'test' });
+      const pluginData = new DefaultData(new DefaultConfiguration(), { name: 'test' });
       const defaultParser = new DefaultParser(pluginData);
       const configFile = new FileInput({
         path: 'test.json',

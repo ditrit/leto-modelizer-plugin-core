@@ -13,6 +13,7 @@ class DefaultData {
   /**
    * Default constructor.
    *
+   * @param {DefaultConfiguration} pluginConfiguration - Plugin configuration storage.
    * @param {object} props - All properties.
    * @param {string} props.name - Name of plugin.
    * @param {string} props.version - Version of plugin.
@@ -26,7 +27,7 @@ class DefaultData {
    * @param {object} [event] - Event manager.
    * @param {Function} [event.next] - Function to emit event.
    */
-  constructor(props = {
+  constructor(pluginConfiguration, props = {
     name: null,
     version: null,
     components: [],
@@ -99,6 +100,12 @@ class DefaultData {
      * @type {EventLog[]}
      */
     this.eventLogs = [];
+    /**
+     * Plugin configuration storage.
+     *
+     * @type {DefaultConfiguration}
+     */
+    this.configuration = pluginConfiguration;
   }
 
   /**

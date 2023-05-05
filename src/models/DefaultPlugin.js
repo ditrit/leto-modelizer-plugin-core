@@ -42,7 +42,7 @@ class DefaultPlugin {
      *
      * @type {DefaultData}
      */
-    this.data = props.pluginData || new DefaultData({}, props.event);
+    this.data = props.pluginData || new DefaultData(this.configuration, {}, props.event);
     /**
      * Plugin drawer.
      *
