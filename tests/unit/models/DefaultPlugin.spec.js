@@ -119,11 +119,35 @@ describe('Test class: DefaultPlugin', () => {
     });
   });
 
-  describe('Test method: getModels', () => {
-    it('should return an empty array if there are no files', () => {
+  describe('Test method: getModelFolders', () => {
+    it('should return an empty array if there are no folders', () => {
       const plugin = new DefaultPlugin({
         pluginParser: {
-          isParsable: ({ path }) => path === 'model',
+          getModelFolders: (files) => files || [],
+        },
+      });
+
+      expect(plugin.getModelFolders()).toEqual([]);
+      expect(plugin.getModelFolders([])).toEqual([]);
+    });
+
+    it('should return all folders', () => {
+      const plugin = new DefaultPlugin({
+        pluginParser: {
+          getModelFolders: (files) => files.map(({ path }) => path),
+        },
+      });
+
+      expect(plugin.getModelFolders([
+        new FileInformation({ path: 'folder' }),
+      ])).toEqual(['folder']);
+    });
+  });
+
+  describe('Test method: getModels', () => {
+    it('should return an empty array if there are no folders', () => {
+      const plugin = new DefaultPlugin({
+        pluginParser: {
           getModels: (files) => files,
         },
       });
@@ -132,7 +156,7 @@ describe('Test class: DefaultPlugin', () => {
       expect(plugin.getModels([])).toEqual([]);
     });
 
-    it('should return all parsable models', () => {
+    it('should return all folders', () => {
       const plugin = new DefaultPlugin({
         pluginParser: {
           isParsable: ({ path }) => path === 'model',

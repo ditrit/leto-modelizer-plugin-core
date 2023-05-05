@@ -154,6 +154,16 @@ class DefaultPlugin {
   }
 
   /**
+   * Get all possible folders for a model from a folder list.
+   *
+   * @param {FileInformation[]} folders - Folder list.
+   * @returns {string[]} All possible folder list.
+   */
+  getModelFolders(folders) {
+    return this.__parser.getModelFolders(folders);
+  }
+
+  /**
    * Return all generated files from plugin data.
    * Configuration file is used for saving the components' configuration.
    *
