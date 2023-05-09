@@ -4,7 +4,6 @@
 class ComponentLinkDefinition {
   /**
    * Default constructor.
-   *
    * @param {object} [props={}] - Object that contains all properties to set.
    * @param {string} [props.attributeRef] - Reference of attribute can be the link.
    * @param {string} [props.sourceRef] - Reference of component can be the source in a link.
@@ -53,43 +52,36 @@ class ComponentLinkDefinition {
 
     /**
      * Reference of attribute can be the link.
-     *
      * @type {string}
      */
     this.attributeRef = attributeRef || null;
     /**
      * Reference of component can be the source in a link.
-     *
      * @type {string}
      */
     this.sourceRef = sourceRef || null;
     /**
      * Reference of component can be the target of the link.
-     *
      * @type {string}
      */
     this.targetRef = targetRef || null;
     /**
      * Representation of the link.
-     *
      * @type {string}
      */
     this.type = type || null;
     /**
      * Color of the link.
-     *
      * @type {string}
      */
     this.color = color || 'black';
     /**
      * Color of the link.
-     *
      * @type {number}
      */
     this.width = width || 2;
     /**
      * Dash style of the link. See stroke-dasharray of svg.
-     *
      * @type {number[]}
      */
     this.dashStyle = dashStyle || null;

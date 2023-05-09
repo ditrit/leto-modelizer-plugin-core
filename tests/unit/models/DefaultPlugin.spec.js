@@ -11,24 +11,26 @@ describe('Test class: DefaultPlugin', () => {
   describe('Test constructor', () => {
     it('Check variables instantiation', () => {
       const plugin = new DefaultPlugin();
+      const data = new DefaultData(new DefaultConfiguration());
 
       expect(plugin.configuration).toEqual(new DefaultConfiguration());
-      expect(plugin.data).toEqual(new DefaultData());
-      expect(plugin.__drawer).toEqual(new DefaultDrawer(new DefaultData()));
-      expect(plugin.__metadata).toEqual(new DefaultMetadata(new DefaultData()));
-      expect(plugin.__parser).toEqual(new DefaultParser(new DefaultData()));
-      expect(plugin.__renderer).toEqual(new DefaultRender(new DefaultData()));
+      expect(plugin.data).toEqual(data);
+      expect(plugin.__drawer).toEqual(new DefaultDrawer(data));
+      expect(plugin.__metadata).toEqual(new DefaultMetadata(data));
+      expect(plugin.__parser).toEqual(new DefaultParser(data));
+      expect(plugin.__renderer).toEqual(new DefaultRender(data));
     });
 
     it('Check passing undefined variables to constructor', () => {
       const plugin = new DefaultPlugin({});
+      const data = new DefaultData(new DefaultConfiguration());
 
       expect(plugin.configuration).toEqual(new DefaultConfiguration());
-      expect(plugin.data).toEqual(new DefaultData());
-      expect(plugin.__drawer).toEqual(new DefaultDrawer(new DefaultData()));
-      expect(plugin.__metadata).toEqual(new DefaultMetadata(new DefaultData()));
-      expect(plugin.__parser).toEqual(new DefaultParser(new DefaultData()));
-      expect(plugin.__renderer).toEqual(new DefaultRender(new DefaultData()));
+      expect(plugin.data).toEqual(data);
+      expect(plugin.__drawer).toEqual(new DefaultDrawer(data));
+      expect(plugin.__metadata).toEqual(new DefaultMetadata(data));
+      expect(plugin.__parser).toEqual(new DefaultParser(data));
+      expect(plugin.__renderer).toEqual(new DefaultRender(data));
     });
 
     it('Check passing all variables to constructor', () => {
@@ -117,11 +119,35 @@ describe('Test class: DefaultPlugin', () => {
     });
   });
 
-  describe('Test method: getModels', () => {
-    it('should return an empty array if there are no files', () => {
+  describe('Test method: getModelFolders', () => {
+    it('should return an empty array if there are no folders', () => {
       const plugin = new DefaultPlugin({
         pluginParser: {
-          isParsable: ({ path }) => path === 'model',
+          getModelFolders: (files) => files || [],
+        },
+      });
+
+      expect(plugin.getModelFolders()).toEqual([]);
+      expect(plugin.getModelFolders([])).toEqual([]);
+    });
+
+    it('should return all folders', () => {
+      const plugin = new DefaultPlugin({
+        pluginParser: {
+          getModelFolders: (files) => files.map(({ path }) => path),
+        },
+      });
+
+      expect(plugin.getModelFolders([
+        new FileInformation({ path: 'folder' }),
+      ])).toEqual(['folder']);
+    });
+  });
+
+  describe('Test method: getModels', () => {
+    it('should return an empty array if there are no folders', () => {
+      const plugin = new DefaultPlugin({
+        pluginParser: {
           getModels: (files) => files,
         },
       });
@@ -130,7 +156,7 @@ describe('Test class: DefaultPlugin', () => {
       expect(plugin.getModels([])).toEqual([]);
     });
 
-    it('should return all parsable models', () => {
+    it('should return all folders', () => {
       const plugin = new DefaultPlugin({
         pluginParser: {
           isParsable: ({ path }) => path === 'model',

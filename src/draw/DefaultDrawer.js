@@ -10,7 +10,6 @@ import ComponentLink from '../models/ComponentLink';
 class DefaultDrawer {
   /**
    * Default constructor
-   *
    * @param {DefaultData} pluginData - Plugin data storage.
    * @param {object} [resources=null] - Object that contains resources.
    * @param {string} [rootId="root"] - Id of HTML element where we want to draw.
@@ -26,49 +25,41 @@ class DefaultDrawer {
   constructor(pluginData, resources = null, rootId = 'root', options = {}) {
     /**
      * Plugin data storage.
-     *
      * @type {DefaultData}
      */
     this.pluginData = pluginData;
     /**
      * Id of HTML element where we want to draw.
-     *
      * @type {string}
      */
     this.rootId = rootId;
     /**
      * Object that contains resources.
-     *
      * @type {object}
      */
     this.resources = resources;
     /**
      * Minimum width of a component.
-     *
      * @type {number}
      */
     this.minWidth = options.minWidth !== undefined ? options.minWidth : 230;
     /**
      * Minimum height of a component.
-     *
      * @type {number}
      */
     this.minHeight = options.minHeight !== undefined ? options.minHeight : 50;
     /**
      * Padding around components.
-     *
      * @type {number}
      */
     this.padding = options.padding !== undefined ? options.padding : 30;
     /**
      * Component margin thickness.
-     *
      * @type {number}
      */
     this.margin = options.margin !== undefined ? options.margin : 6;
     /**
      * Number of components per line at a given depth. Valid values: 1 - Infinity.
-     *
      * @type {number[]}
      */
     this.lineLengthPerDepth = options.lineLengthPerDepth !== undefined
@@ -76,13 +67,11 @@ class DefaultDrawer {
 
     /**
      * The size of each action menu button.
-     *
      * @type {number}
      */
     this.actionMenuButtonSize = options.actionMenuButtonSize || 24;
     /**
      * Store for actions, used to set specific actions values when making actions.
-     *
      * @type {object}
      */
     this.actions = {
@@ -114,7 +103,6 @@ class DefaultDrawer {
 
   /**
    * Convert screen coordinates into a given svg referential.
-   *
    * @param {number} screenX - Screen x coordinate.
    * @param {number} screenY - Screen y coordinate.
    * @param {SVGSVGElement} [svg=null] - SVG referential.
@@ -129,7 +117,6 @@ class DefaultDrawer {
 
   /**
    * Convert svg coordinates into screen coordinates.
-   *
    * @param {number} svgX - SVG x coordinate.
    * @param {number} svgY - SVG y coordinate.
    * @param {SVGSVGElement} [svg=null] - SVG referential.
@@ -144,7 +131,6 @@ class DefaultDrawer {
 
   /**
    * Compute a coefficient representing how tall a component will be based on its children's layout.
-   *
    * @param {Node} item - The component to check.
    * @returns {number} The coefficient.
    * @private
@@ -181,7 +167,6 @@ class DefaultDrawer {
 
   /**
    * Get the maximum line length for a given depth.
-   *
    * @param {number} depth - The depth to check.
    * @param {boolean} [lineLengthOverride=false] - Override if parent is tagged as a workflow
    * @returns {number} The maximum length at that depth.
@@ -193,7 +178,6 @@ class DefaultDrawer {
 
   /**
    * Apply the disabled style to all elements matching the selector.
-   *
    * @param {string} [selector='.component'] - CSS selector string.
    */
   setDisabledStyle(selector = '.component') {
@@ -213,7 +197,6 @@ class DefaultDrawer {
 
   /**
    * Handles dragging a component across the screen and return the element it will be dropped on.
-   *
    * @param {Element} draggedElement - The DOM element being dragged.
    * @param {DragEvent} event - The emitted drag event.
    * @returns {Element} The element to drop the dragged element onto.
@@ -263,7 +246,6 @@ class DefaultDrawer {
 
   /**
    * Create and return d3 drag behaviour.
-   *
    * @returns {Function} D3 drag behaviour.
    */
   setupDragBehavior() {
@@ -297,7 +279,6 @@ class DefaultDrawer {
 
   /**
    * Starting from a given node, recursively mark all parent nodes as needing a resize.
-   *
    * @param {Node} node - The node to start from.
    * @private
    */
@@ -312,7 +293,6 @@ class DefaultDrawer {
 
   /**
    * Update component hierarchy and re-render.
-   *
    * @param {DragEvent} event - D3's drag event.
    * @param {Element} dropTarget - The element on which the dragged component was dropped.
    */
@@ -365,7 +345,6 @@ class DefaultDrawer {
 
   /**
    * Change the event subject's parent to the target component.
-   *
    * @param {Selection} target - Where the dragged element was dropped.
    * @param {DragEvent} event - D3's drag event.
    */
@@ -408,7 +387,6 @@ class DefaultDrawer {
 
   /**
    * Find after which component the dragged component should be placed in a container.
-   *
    * @param {Node} parentNode - The destination container.
    * @param {DragEvent} event - The drag event.
    * @returns {Component} - The component that will be directly before the dropped component.
@@ -474,7 +452,6 @@ class DefaultDrawer {
 
   /**
    * Fill left bracket if missing due to vertical layout.
-   *
    * @param {Node} parentNode - The parent node
    * @param {object} bracketingComponents - the components we want to drop the subject between.
    * @param {Node} subject - The component being dropped.
@@ -500,7 +477,6 @@ class DefaultDrawer {
 
   /**
    * Check if two components are being rendered right to left.
-   *
    * @param {Node} parentNode - The parent component
    * @param {Node} componentLeft - The left hand component
    * @param {Node} componentRight - the right hand component
@@ -550,7 +526,6 @@ class DefaultDrawer {
 
   /**
    * Draws all Components and ComponentLinks in the parentId Element.
-   *
    * @param {string} rootId - Id of the container where you want to draw.
    */
   draw(rootId) {
@@ -579,7 +554,6 @@ class DefaultDrawer {
 
   /**
    * Handle component click event. Set selected style on it.
-   *
    * @param {PointerEvent} event - The click event.
    */
   clickHandler(event) {
@@ -650,7 +624,6 @@ class DefaultDrawer {
 
   /**
    * Initialize component height and width then store them in its drawOptions.
-   *
    * @param {Node} component - The component to initialize the values for.
    */
   initializeComponentDrawOptions(component) {
@@ -690,7 +663,6 @@ class DefaultDrawer {
 
   /**
    * Build d3 hierarchy and treemap layout.
-   *
    * @returns {Array} The nodes grouped by parent.
    */
   buildTree() {
@@ -739,7 +711,6 @@ class DefaultDrawer {
 
   /**
    * Get the most appropriate anchor point for a link towards the given target.
-   *
    * @param {Selection} sourceSelection - The source D3 selection object.
    * @param {Selection} targetSelection - The target D3 selection object.
    * @returns {number[] | null} - Tuple representing x,y coordinates,
@@ -794,7 +765,6 @@ class DefaultDrawer {
 
   /**
    * Initialize arrow marker for links.
-   *
    * @private
    */
   __initializeArrowMarker() {
@@ -875,7 +845,6 @@ class DefaultDrawer {
 
   /**
    * Get the coordinates for a given selection's center.
-   *
    * @param {Selection} selection - The selection to find the center for.
    * @returns {object} Position of selection.
    */
@@ -892,7 +861,6 @@ class DefaultDrawer {
    * Get the angle (in degrees) between two points.
    * 0 = pointB is directly below.
    * 180 = pointB is directly above.
-   *
    * @param {object} pointA - The point to get the bearing from.
    * @param {object} pointB - The point to get the bearing to.
    * @returns {number} The bearing.
@@ -908,7 +876,6 @@ class DefaultDrawer {
 
   /**
    * Build a new d3 link generator for a ComponentLink
-   *
    * @param {ComponentLink} link - The link to build the generator for.
    * @returns {object} A d3 link generator.
    */
@@ -942,7 +909,6 @@ class DefaultDrawer {
 
   /**
    * Compute the component's height then store it in its drawOptions.
-   *
    * @param {Node} component - The component to get the height for.
    * @returns {number} The computed height.
    */
@@ -966,7 +932,6 @@ class DefaultDrawer {
 
   /**
    * Compute the component's width then store it in its drawOptions.
-   *
    * @param {Node} component - The component to get the width for.
    * @returns {number} The computed width.
    */
@@ -984,7 +949,6 @@ class DefaultDrawer {
 
   /**
    * Compute the dimension of every component.
-   *
    * @param {Array} lines - Rows of components.
    * @param {boolean} [invertEven=false] - Layout even line components right to left.
    */
@@ -1070,7 +1034,6 @@ class DefaultDrawer {
 
   /**
    * Build and fill the layout lines for a Node.
-   *
    * @param {Node[]} children - The Node's children to build lines with.
    * @param {number} depth - The Node's depth.
    * @returns {Array} A list of lines.
@@ -1150,7 +1113,6 @@ class DefaultDrawer {
   /**
    * Action to unselect current element.
    * If no element is selected, does nothing.
-   *
    * @private
    */
   __unselectComponent() {
@@ -1181,7 +1143,6 @@ class DefaultDrawer {
 
   /**
    * Unselects current selected element and selects a new one.
-   *
    * @param {Selection} targetSelection - Component or link to select.
    * @private
    */
@@ -1251,7 +1212,6 @@ class DefaultDrawer {
 
   /**
    * Create a link between the previously selected source and destination.
-   *
    * @param {string} componentId - Component id.
    */
   createLink(componentId) {
@@ -1283,7 +1243,6 @@ class DefaultDrawer {
 
   /**
    * Initialize the action menu for a given target.
-   *
    * @param {Selection} targetSelection - D3 selection of the target object.
    */
   initializeActionMenu(targetSelection) {
@@ -1380,7 +1339,6 @@ class DefaultDrawer {
 
   /**
    * Initialize the linkable components creation menu.
-   *
    * @param {ComponentDefinition[]} definitions - List of component definitions.
    */
   initializeCreateLinkableComponentMenu(definitions) {
@@ -1515,7 +1473,6 @@ class DefaultDrawer {
 
   /**
    * Get a list of actions to fill the menu for a given target.
-   *
    * @param {object} targetSelection - The target object.
    * @type {object}
    * @property {string} id - Id of the action button.

@@ -4,7 +4,6 @@
 class FileInformation {
   /**
    * Default constructor.
-   *
    * @param {object} [props={}] - Object that contains all properties to set.
    * @param {string} [props.path=null] - File path.
    */
@@ -15,7 +14,6 @@ class FileInformation {
 
     /**
      * Path of the file.
-     *
      * @type {string}
      */
     this.path = path || null;
@@ -23,7 +21,6 @@ class FileInformation {
 
   /**
    * Get file name.
-   *
    * @returns {string} File name
    */
   get fileName() {

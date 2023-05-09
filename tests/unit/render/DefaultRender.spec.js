@@ -1,5 +1,6 @@
 import DefaultRender from 'src/render/DefaultRender';
 import DefaultData from 'src/models/DefaultData';
+import DefaultConfiguration from 'src/models/DefaultConfiguration';
 import FileInput from 'src/models/FileInput';
 import Component from 'src/models/Component';
 import ComponentDrawOption from 'src/models/ComponentDrawOption';
@@ -63,7 +64,7 @@ describe('Test Class: DefaultRender()', () => {
 
     describe('Test method: renderConfiguration', () => {
       it('Should render configuration with empty plugin', () => {
-        const pluginData = new DefaultData({ name: 'test' });
+        const pluginData = new DefaultData(new DefaultConfiguration(), { name: 'test' });
         const render = new DefaultRender(pluginData);
 
         const configFile = new FileInput({
@@ -80,7 +81,7 @@ describe('Test Class: DefaultRender()', () => {
       });
 
       it('Should update file content on empty configuration file', () => {
-        const pluginData = new DefaultData({ name: 'test' });
+        const pluginData = new DefaultData(new DefaultConfiguration(), { name: 'test' });
         const render = new DefaultRender(pluginData);
 
         pluginData.components.push(new Component({
@@ -108,7 +109,7 @@ describe('Test Class: DefaultRender()', () => {
       });
 
       it('Should update file content without removing other plugins configuration', () => {
-        const pluginData = new DefaultData({ name: 'test' });
+        const pluginData = new DefaultData(new DefaultConfiguration(), { name: 'test' });
         const render = new DefaultRender(pluginData);
 
         pluginData.components.push(new Component({

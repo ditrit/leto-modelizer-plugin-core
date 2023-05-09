@@ -4,7 +4,6 @@
 class ComponentAttributeDefinition {
   /**
    * Default constructor
-   *
    * @param {object} [props={}] - Object that contains all properties to set.
    * @param {string} [props.name] - Attribute name.
    * @param {string} [props.type] - Attribute type,
@@ -67,85 +66,71 @@ class ComponentAttributeDefinition {
 
     /**
      * Attribute name.
-     *
      * @type {string}
      */
     this.name = name || null;
     /**
      * Attribute type, valid types are String/Boolean/Number/Array/Object/Link/Reference.
-     *
      * @type {string}
      */
     this.type = type || null;
     /**
      * Attribute display name.
-     *
      * @type {string}
      */
     this.displayName = displayName || null;
     /**
      * Attribute explanation.
-     *
      * @type {string}
      */
     this.description = description || null;
     /**
      * URL of the documentation of the attribute.
-     *
      * @type {string}
      */
     this.url = url || null;
     /**
      * Type of link, valid types are Default/Reverse.
-     *
      * @type {string}
      */
     this.linkType = linkType || null;
     /**
      * Define list of Component that can be linked with this.
-     *
      * @type {string[]}
      */
     this.linkRef = linkRef || [];
     /**
      * Color of the link.
-     *
      * @type {string}
      */
     this.linkColor = linkColor || 'black';
     /**
      * Width of the link.
-     *
      * @type {number}
      */
     this.linkWidth = linkWidth || 2;
     /**
      * Dash style of the link. See stroke-dasharray of svg.
-     *
      * @type {number[]}
      */
     this.linkDashStyle = linkDashStyle || null;
     /**
      * Define the reference of Component that can be the container of this component.
-     *
      * @type {string}
      */
     this.containerRef = containerRef || null;
     /**
      * Defined attributes for this type.
-     *
      * @type {ComponentAttributeDefinition[]}
      */
     this.definedAttributes = definedAttributes || [];
     /**
      * Attribute is required.
-     *
      * @type {boolean}
      */
     this.required = required || false;
     /**
      * Rules of this type of Attribute.
-     *
      * @type {object}
      */
     this.rules = {

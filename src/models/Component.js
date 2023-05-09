@@ -3,13 +3,11 @@ import FileInformation from './FileInformation';
 
 /**
  * A model for modelling tools in Leto Modelizer.
- *
  * @augments {FileInformation}
  */
 class Component extends FileInformation {
   /**
    * Default constructor.
-   *
    * @param {object} [props={}] - Object that contains all properties to set.
    * @param {string} [props.id] - The id of this Component.
    * @param {string} [props.name] - The name of this Component.
@@ -36,38 +34,32 @@ class Component extends FileInformation {
 
     /**
      * Use for drawer to get the type of object.
-     *
      * @type {string}
      * @private
      */
     this.__class = 'Component';
     /**
      * The id of this Component.
-     *
      * @type {string}
      */
     this.id = id || null;
     /**
      * The name of this Component.
-     *
      * @type {string}
      */
     this.name = name || null;
     /**
      * The Definition used to instantiate this Component.
-     *
      * @type {ComponentDefinition}
      */
     this.definition = definition || null;
     /**
      * The options used to draw this Component.
-     *
      * @type {ComponentDrawOption}
      */
     this.drawOption = drawOption || null;
     /**
      * Attributes of Component.
-     *
      * @type {ComponentAttribute[]}
      */
     this.attributes = attributes || [];
@@ -75,7 +67,6 @@ class Component extends FileInformation {
 
   /**
    * Set container value in attributes.
-   *
    * @param {Component} container - Container.
    */
   setReferenceAttribute(container) {
@@ -105,7 +96,6 @@ class Component extends FileInformation {
 
   /**
    * Remove all reference attributes, corresponding to the container if existing.
-   *
    * @param {Component} container - Container.
    */
   removeAllReferenceAttributes(container) {
@@ -124,7 +114,6 @@ class Component extends FileInformation {
 
   /**
    * Set the attribute of a given link
-   *
    * @param {ComponentLink} link - The link we want to set the attribute.
    */
   setLinkAttribute(link) {
@@ -149,7 +138,6 @@ class Component extends FileInformation {
    * Remove id in link attribute corresponding to the given name if provided
    * otherwise remove id in all link attributes' value.
    * Then if value is empty remove attribute.
-   *
    * @param {string} id - Id to remove.
    * @param {string} [name=null] - Name of attribute to remove.
    */
@@ -175,7 +163,6 @@ class Component extends FileInformation {
 
   /**
    * Get attribute corresponding to the given name.
-   *
    * @param {string} name - Name of attribute to find.
    * @returns {ComponentAttribute|null} Component attribute or null.
    */
@@ -186,7 +173,6 @@ class Component extends FileInformation {
   /**
    * Get attribute from attributes list corresponding to the given name.
    * Search in sub-attributes of "Object" attributes also.
-   *
    * @param {ComponentAttribute[]} attributes - Attributes list.
    * @param {string} name - Name of attribute to find.
    * @returns {ComponentAttribute|null} Component attribute or null.
@@ -211,7 +197,6 @@ class Component extends FileInformation {
 
   /**
    * Retrieve container id from attributes.
-   *
    * @returns {string} Id of container or null.
    */
   getContainerId() {
@@ -223,7 +208,6 @@ class Component extends FileInformation {
 
   /**
    * Check if the component has an error.
-   *
    * @returns {boolean} - true if the component has an error otherwise false.
    */
   hasError() {
@@ -232,7 +216,6 @@ class Component extends FileInformation {
 
   /**
    * Check if a required attribute is absent.
-   *
    * @returns {boolean} - true if a required attribute is absent otherwise false.
    */
   checkRequiredAttributes() {
@@ -252,7 +235,6 @@ class Component extends FileInformation {
 
   /**
    * Check if attributes has an error.
-   *
    * @returns {boolean} - true if attributes has an error otherwise false.
    */
   checkAttributesErrors() {
@@ -261,7 +243,6 @@ class Component extends FileInformation {
 
   /**
    * Get defined attributes by type.
-   *
    * @param {string} type - Type of attributes to get.
    * @returns {ComponentAttributeDefinition[]} - Defined attributes.
    */

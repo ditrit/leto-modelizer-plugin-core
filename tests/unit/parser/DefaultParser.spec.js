@@ -1,5 +1,6 @@
 import DefaultParser from 'src/parser/DefaultParser';
 import DefaultData from 'src/models/DefaultData';
+import DefaultConfiguration from 'src/models/DefaultConfiguration';
 import Component from 'src/models/Component';
 import FileInput from 'src/models/FileInput';
 import ComponentDrawOption from 'src/models/ComponentDrawOption';
@@ -61,6 +62,23 @@ describe('Test Class: DefaultParser()', () => {
 
       expect(defaultParser.getModels([])).toEqual([]);
       expect(defaultParser.getModels([
+        new FileInformation({ path: 'a' }),
+      ])).toEqual(['a']);
+    });
+  });
+
+  describe('Test method: getModelFolders', () => {
+    it('should return empty array without folders', () => {
+      const defaultParser = new DefaultParser();
+
+      expect(defaultParser.getModelFolders()).toEqual([]);
+    });
+
+    it('should provided folders array', () => {
+      const defaultParser = new DefaultParser();
+
+      expect(defaultParser.getModelFolders([])).toEqual([]);
+      expect(defaultParser.getModelFolders([
         new FileInformation({ path: 'a' }),
       ])).toEqual(['a']);
     });
@@ -135,7 +153,7 @@ describe('Test Class: DefaultParser()', () => {
     });
 
     it('should update components', () => {
-      const pluginData = new DefaultData({ name: 'test' });
+      const pluginData = new DefaultData(new DefaultConfiguration(), { name: 'test' });
       const defaultParser = new DefaultParser(pluginData);
       const configFile = new FileInput({
         path: 'test.json',
