@@ -4,7 +4,6 @@
 class DefaultConfiguration {
   /**
    * Default constructor.
-   *
    * @param {object} [props={}] - Object that contains all properties to set.
    * @param {object} [props.editor={}] - Object that contains all properties of editor
    * configuration.
@@ -21,7 +20,6 @@ class DefaultConfiguration {
   }) {
     /**
      * Object that contains all properties of editor configuration.
-     *
      * @type {object}
      */
     this.editor = {
@@ -30,13 +28,11 @@ class DefaultConfiguration {
     };
     /**
      * Default file name for new components.
-     *
      * @type {string}
      */
     this.defaultFileName = props.defaultFileName || null;
     /**
      * Default file extension for components.
-     *
      * @type {string}
      */
     this.defaultFileExtension = props.defaultFileExtension || null;

@@ -4,7 +4,6 @@
 class ComponentDefinition {
   /**
    * Default constructor.
-   *
    * @param {object} [props={}] - Object that contains all properties to set.
    * @param {string} [props.type] - The type of the associated component.
    * @param {string} [props.icon] - The icon's name of this type of component.
@@ -57,79 +56,66 @@ class ComponentDefinition {
 
     /**
      * The type of the associated component.
-     *
      * @type {string}
      */
     this.type = type || null;
     /**
      * The icon's name of this type of component.
-     *
      * @type {string}
      */
     this.icon = icon || null;
     /**
      * Name of SVG model to render this type of component.
-     *
      * @type {string}
      */
     this.model = model || null;
     /**
      * Display name of the component.
-     *
      * @type {string}
      */
     this.displayName = displayName || null;
     /**
      * Explanation of the component.
-     *
      * @type {string}
      */
     this.description = description || null;
     /**
      * URL of the documentation of the component.
-     *
      * @type {string}
      */
     this.url = url || null;
     /**
      * The list of types that can be the parent.
-     *
      * @type {string[]}
      */
     this.parentTypes = parentTypes || [];
     /**
      * The list of types that can be the children.
-     *
      * @type {string[]}
      */
     this.childrenTypes = childrenTypes || [];
     /**
      * Defined attributes for this type.
-     *
      * @type {ComponentAttributeDefinition[]}
      */
     this.definedAttributes = definedAttributes || [];
     /**
      * Boolean means if this type can be a parent.
-     *
      * @type {boolean}
      */
     this.isContainer = isContainer === undefined ? false : isContainer;
     /**
      * Name of a specific display behavior.
-     *
      * @type {string}
      */
     this.displayType = displayType || null;
     /**
      * Flag to always force children layout re-computing.
-     *
      * @type {boolean}
      */
     this.preventChildrenMovement = preventChildrenMovement ?? false;
     /**
      * Override the container's children layout line length.
-     *
      * @type {number}
      */
     this.childrenPerLine = childrenPerLine ?? null;

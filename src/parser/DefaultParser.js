@@ -6,13 +6,11 @@ import ComponentDrawOption from '../models/ComponentDrawOption';
 class DefaultParser {
   /**
    * Default constructor.
-   *
    * @param {DefaultData} pluginData - Plugin data storage.
    */
   constructor(pluginData) {
     /**
      * Plugin data storage.
-     *
      * @type {DefaultData}
      */
     this.pluginData = pluginData || null;
@@ -20,7 +18,6 @@ class DefaultParser {
 
   /**
    * Convert the content of files into Components.
-   *
    * @param {FileInput[]} [inputs=[]] - Data you want to parse.
    * @param {string} [parentEventId=null] - Parent event id.
    */
@@ -31,7 +28,6 @@ class DefaultParser {
 
   /**
    * Get the list of model paths from all parsable files.
-   *
    * @param {FileInformation[]} [files=[]] - List of parsable files.
    * @returns {string[]} List of folder and file paths that represent a model.
    */
@@ -41,7 +37,6 @@ class DefaultParser {
 
   /**
    * Get all possible folders for a model from a folder list.
-   *
    * @param {FileInformation[]} [folders=[]] - Folder list.
    * @returns {string[]} All possible folder list.
    */
@@ -51,7 +46,6 @@ class DefaultParser {
 
   /**
    * Set configuration into Components.
-   *
    * @param {FileInput} file - Configuration file of components.
    * @param {string} [parentEventId=null] - Parent event id.
    */
@@ -110,7 +104,6 @@ class DefaultParser {
 
   /**
    * Indicate if this parser can parse this file.
-   *
    * @param {FileInformation} fileInformation - File information.
    * @returns {boolean} - Boolean that indicates if this file can be parsed or not.
    */

@@ -6,13 +6,11 @@ import FileInput from '../models/FileInput';
 class DefaultRender {
   /**
    * Default constructor.
-   *
    * @param {DefaultData} pluginData - Plugin data storage.
    */
   constructor(pluginData) {
     /**
      * Plugin data storage.
-     *
      * @type {DefaultData}
      */
     this.pluginData = pluginData || null;
@@ -20,7 +18,6 @@ class DefaultRender {
 
   /**
    * Transform all provided components in file inputs.
-   *
    * @param {FileInput[]} [files=[]] - Files managed by the plugin.
    * @param {string} [parentEventId=null] - Parent event id.
    * @returns {FileInput[]} - Generated files from components.
@@ -42,7 +39,6 @@ class DefaultRender {
 
   /**
    * Transform all provided components in file inputs.
-   *
    * @param {string} [parentEventId=null] - Parent event id.
    * @returns {FileInput[]} - Generated files from components.
    */
@@ -53,7 +49,6 @@ class DefaultRender {
 
   /**
    * Update configuration file content according to components data.
-   *
    * @param {FileInput} file - Configuration file of components.
    * @param {string} [parentEventId=null] - Parent event id.
    */

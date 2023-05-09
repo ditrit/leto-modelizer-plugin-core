@@ -4,7 +4,6 @@
 class ComponentAttribute {
   /**
    * Default constructor.
-   *
    * @param {object} [props={}] - Object that contains all properties to set.
    * @param {string} [props.name=null] - The name of the attribute.
    * @param {(string | boolean | number | Array | ComponentAttribute[])} [props.value=null] - The
@@ -28,26 +27,22 @@ class ComponentAttribute {
 
     /**
      * The name of the attribute.
-     *
      * @type {string}
      */
     this.name = name || null;
     /**
      * The value of the attribute.
-     *
      * @type {(string | boolean | number | Array | ComponentAttribute[])}
      */
     this.value = value ?? null;
     /**
      * The type of the attribute, reel type of the attribute, to check if it's match with the
      * ComponentAttributeDefinition.
-     *
      * @type {string}
      */
     this.type = type || null;
     /**
      * The definition of the attribute.
-     *
      * @type {ComponentAttributeDefinition}
      */
     this.definition = definition || null;
@@ -55,7 +50,6 @@ class ComponentAttribute {
 
   /**
    * Check if the attribute has an error.
-   *
    * @returns {boolean} - true if an error occurs otherwise false.
    */
   hasError() {
@@ -84,7 +78,6 @@ class ComponentAttribute {
 
   /**
    * Check if the attribute type matches one of the JavaScript types.
-   *
    * @returns {boolean} - true if the type is not good otherwise false.
    * @private
    */
@@ -105,7 +98,6 @@ class ComponentAttribute {
 
   /**
    * Check if values rule include this attribute value.
-   *
    * @returns {boolean} - true if values rule doesn't include this attribute value otherwise false.
    * @private
    */
@@ -116,7 +108,6 @@ class ComponentAttribute {
 
   /**
    * Check if the value or its length follows min and max rules.
-   *
    * @returns {boolean} - true if the value is smaller than the "min" rule
    * or bigger than the "max" rule otherwise false.
    * @private
@@ -133,7 +124,6 @@ class ComponentAttribute {
 
   /**
    * Check if the value matches the regex rule.
-   *
    * @returns {boolean} - true if attribute's value doesn't match the regex rule otherwise false.
    * @private
    */

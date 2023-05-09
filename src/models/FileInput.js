@@ -2,13 +2,11 @@ import FileInformation from './FileInformation';
 
 /**
  * Object to store the file content.
- *
  * @augments {FileInformation}
  */
 class FileInput extends FileInformation {
   /**
    * Default constructor.
-   *
    * @param {object} [props={}] - Object that contains all properties to set.
    * @param {string} [props.path=null] - File path.
    * @param {string} [props.name=null] - File name.
@@ -22,7 +20,6 @@ class FileInput extends FileInformation {
 
     /**
      * Content of the file.
-     *
      * @type {string}
      */
     this.content = content || null;

@@ -11,7 +11,6 @@ import DefaultConfiguration from './DefaultConfiguration';
 class DefaultPlugin {
   /**
    * Default constructor.
-   *
    * @param {object} [props={}] - Object that contains all properties to set.
    * @param {object} [props.event] - Event manager.
    * @param {Function} [props.event.next] - Function to emit event.
@@ -33,40 +32,34 @@ class DefaultPlugin {
   }) {
     /**
      * Plugin configuration.
-     *
      * @type {DefaultConfiguration}
      */
     this.configuration = props.configuration || new DefaultConfiguration();
     /**
      * Plugin data storage.
-     *
      * @type {DefaultData}
      */
     this.data = props.pluginData || new DefaultData(this.configuration, {}, props.event);
     /**
      * Plugin drawer.
-     *
      * @type {DefaultDrawer}
      * @private
      */
     this.__drawer = props.pluginDrawer || new DefaultDrawer(this.data);
     /**
      * Plugin metadata.
-     *
      * @type {DefaultMetadata}
      * @private
      */
     this.__metadata = props.pluginMetadata || new DefaultMetadata(this.data);
     /**
      * Plugin parser.
-     *
      * @type {DefaultParser}
      * @private
      */
     this.__parser = props.pluginParser || new DefaultParser(this.data);
     /**
      * Plugin renderer.
-     *
      * @type {DefaultRender}
      * @private
      */
@@ -91,7 +84,6 @@ class DefaultPlugin {
 
   /**
    * Set resources in plugin.
-   *
    * @param {object} [resources=null] - Object that contains resources.
    */
   initResources(resources) {
@@ -100,7 +92,6 @@ class DefaultPlugin {
 
   /**
    * Draws all data in the html element defined by the id.
-   *
    * @param {string} id - Html id, without '#'.
    */
   draw(id) {
@@ -110,7 +101,6 @@ class DefaultPlugin {
   /**
    * Convert the content of files into plugin data.
    * Configuration file is used for setting up the components' configuration.
-   *
    * @param {FileInput} file - Configuration file of components.
    * @param {FileInput[]} [inputs=[]] - File inputs you want to parse.
    */
@@ -133,7 +123,6 @@ class DefaultPlugin {
 
   /**
    * Indicate if this parser can parse this file.
-   *
    * @param {FileInformation} fileInformation - File information.
    * @returns {boolean} - Boolean that indicates if this file can be parsed or not.
    */
@@ -143,7 +132,6 @@ class DefaultPlugin {
 
   /**
    * Get models from all project files.
-   *
    * @param {FileInformation[]} [files=[]] - Projects files.
    * @returns {string[]} List of folder and file paths that represent a model.
    */
@@ -155,7 +143,6 @@ class DefaultPlugin {
 
   /**
    * Get all possible folders for a model from a folder list.
-   *
    * @param {FileInformation[]} folders - Folder list.
    * @returns {string[]} All possible folder list.
    */
@@ -166,7 +153,6 @@ class DefaultPlugin {
   /**
    * Return all generated files from plugin data.
    * Configuration file is used for saving the components' configuration.
-   *
    * @param {FileInput} configurationFile - Configuration file of components.
    * @param {FileInput[]} files - File inputs you want to render.
    * @returns {FileInput[]} All generated files including the configuration file.

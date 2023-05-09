@@ -4,13 +4,11 @@
 class DefaultMetadata {
   /**
    * Default constructor.
-   *
    * @param {DefaultData} pluginData - Plugin data storage.
    */
   constructor(pluginData) {
     /**
      * Plugin data storage.
-     *
      * @type {DefaultData}
      */
     this.pluginData = pluginData || null;
@@ -18,7 +16,6 @@ class DefaultMetadata {
 
   /**
    * Validate the provided metadata with a schemas.
-   *
    * @returns {boolean} - True if metadata is valid.
    */
   validate() {
@@ -27,7 +24,6 @@ class DefaultMetadata {
 
   /**
    * Parse all component/link definitions from metadata.
-   *
    * @param {string} [parentEventId] - Parent event id.
    */
   // eslint-disable-next-line no-unused-vars

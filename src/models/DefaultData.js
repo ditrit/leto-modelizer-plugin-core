@@ -12,7 +12,6 @@ const CORE_VERSION = packageInfo.version;
 class DefaultData {
   /**
    * Default constructor.
-   *
    * @param {DefaultConfiguration} pluginConfiguration - Plugin configuration storage.
    * @param {object} props - All properties.
    * @param {string} props.name - Name of plugin.
@@ -38,25 +37,21 @@ class DefaultData {
   }, event = null) {
     /**
      * Plugin name.
-     *
      * @type {string}
      */
     this.name = props.name || null;
     /**
      * Plugin version.
-     *
      * @type {string}
      */
     this.version = props.version || null;
     /**
      * All plugin components.
-     *
      * @type {Component[]}
      */
     this.components = props.components || [];
     /**
      * All plugin definitions.
-     *
      * @type {{components: ComponentDefinition[], links: ComponentLinkDefinition[]}}
      */
     this.definitions = {
@@ -69,32 +64,27 @@ class DefaultData {
     }
     /**
      * All parser errors.
-     *
      * @type {ParseError[]}
      */
     this.parseErrors = props.parseErrors || [];
     /**
      * Index of the last event log.
-     *
      * @type {number}
      * @private
      */
     this.__eventIndex = 0;
     /**
      * Event manager.
-     *
      * @type {object}
      */
     this.eventManager = event;
     /**
      * All plugin event logs.
-     *
      * @type {EventLog[]}
      */
     this.eventLogs = [];
     /**
      * Plugin configuration storage.
-     *
      * @type {DefaultConfiguration}
      */
     this.configuration = pluginConfiguration;
@@ -102,7 +92,6 @@ class DefaultData {
 
   /**
    * Get version of plugin core.
-   *
    * @returns {string} Version of plugin core.
    */
   get coreVersion() {
@@ -111,7 +100,6 @@ class DefaultData {
 
   /**
    * Get component by id.
-   *
    * @param {string} id - Component id.
    * @returns {Component} Component or null.
    */
@@ -121,7 +109,6 @@ class DefaultData {
 
   /**
    * Get all components corresponding to the given type.
-   *
    * @param {string} type - Type of component to find.
    * @returns {Component[]} Component list.
    */
@@ -131,7 +118,6 @@ class DefaultData {
 
   /**
    * Create new component.
-   *
    * @param {ComponentDefinition} definition - Component definition.
    * @param {string} [folder=''] - Folder path.
    * @param {string} [fileName] - File name.
@@ -152,7 +138,6 @@ class DefaultData {
 
   /**
    * Generate id from definition and components list.
-   *
    * @param {ComponentDefinition} definition - Component definition.
    * @returns {string} String that is the concatenation of the definition type and an index.
    */
@@ -173,7 +158,6 @@ class DefaultData {
 
   /**
    * Remove component by id and all attributes that used this component id.
-   *
    * @param {string} id - Component id.
    */
   removeComponentById(id) {
@@ -188,7 +172,6 @@ class DefaultData {
 
   /**
    * Remove link attribute in components.
-   *
    * @param {ComponentLink} link - Link to remove.
    */
   removeLink(link) {
@@ -200,7 +183,6 @@ class DefaultData {
 
   /**
    * Get all links from all component attributes.
-   *
    * @returns {ComponentLink[]} List of links.
    */
   getLinks() {
@@ -229,7 +211,6 @@ class DefaultData {
 
   /**
    * Build internal links for workflow containers.
-   *
    * @returns {ComponentLink[]} List of links
    */
   getWorkflowLinks() {
@@ -256,7 +237,6 @@ class DefaultData {
 
   /**
    * Uniquely get the definitions used for existing links.
-   *
    * @returns {ComponentLinkDefinition[]} - List of link definitions.
    */
   getUsedLinkDefinitions() {
@@ -277,7 +257,6 @@ class DefaultData {
 
   /**
    * Initialize all link definitions from all component attribute definitions.
-   *
    * @param {string} [parentEventId] - Parent event id.
    */
   initLinkDefinitions(parentEventId) {
@@ -298,7 +277,6 @@ class DefaultData {
 
   /**
    * Set link definition in link definitions
-   *
    * @param {string} type - Component type to link.
    * @param {ComponentAttributeDefinition[]} definedAttributes - Component attribute definitions.
    * @private
@@ -325,7 +303,6 @@ class DefaultData {
 
   /**
    * Get children of container component with corresponding id.
-   *
    * @param {string} id - Component container id.
    * @returns {Component[]} Children component array.
    */
@@ -335,7 +312,6 @@ class DefaultData {
 
   /**
    * Move a component to a new position in the internal component list.
-   *
    * @param {string} componentId - The component's id.
    * @param {number} newIndex - The new index.
    * @private
@@ -357,7 +333,6 @@ class DefaultData {
 
   /**
    * Insert the moved component before the target in the internal component list
-   *
    * @param {string} movedId - The id of the component to move
    * @param {string} targetId - The id of the component that will be immediately
    * after the moved component
@@ -376,7 +351,6 @@ class DefaultData {
 
   /**
    * Insert the moved component after the target in the internal component list
-   *
    * @param {string} movedId - The id of the component to move
    * @param {string} targetId - The id of the component that will be immediately
    * before the moved component
@@ -396,7 +370,6 @@ class DefaultData {
 
   /**
    * Get event log by id.
-   *
    * @param {number} id - Event log id.
    * @returns {EventLog} Event log or undefined.
    */
@@ -406,7 +379,6 @@ class DefaultData {
 
   /**
    * Delete all event logs before the specified datetime.
-   *
    * @param {number} date - Date time as timestamp.
    */
   deleteAllEventLogsBefore(date) {
@@ -415,7 +387,6 @@ class DefaultData {
 
   /**
    * Emit event with log.
-   *
    * @param {object} props - EventLog information.
    * @returns {number} EventLog id.
    * @see EventLog
