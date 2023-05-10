@@ -23,3 +23,7 @@ When('I drag {string} of {int},{int}', (templateSelector, x, y) => {
 
   cy.drag(selector, { x, y });
 });
+
+When('I press on {string} key', (key) => {
+  cy.get('body').type(`{${key}}`);
+});
