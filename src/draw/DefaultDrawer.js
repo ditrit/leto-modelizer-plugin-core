@@ -550,6 +550,19 @@ class DefaultDrawer {
     this.setViewPortAction();
 
     this.pluginData.emitEvent({ id, status: 'success' });
+
+    d3.select('body')
+      .on('keyup', (event) => {
+        const currentSelection = this.actions.selection.current;
+
+        if (event.key === 'Delete' && currentSelection) {
+          if (currentSelection.__class === 'Component') {
+            this.removeComponentHandler();
+          } else if (currentSelection.__class === 'Link') {
+            this.removeLinkHandler();
+          }
+        }
+      });
   }
 
   /**
@@ -1472,6 +1485,40 @@ class DefaultDrawer {
   }
 
   /**
+   * Handler for component removal.
+   * Remove component, emit an event accordingly then draw again.
+   */
+  removeComponentHandler() {
+    this.pluginData.removeComponentById(this.actions.selection.current.id);
+
+    this.pluginData.emitEvent({
+      type: 'Drawer',
+      action: 'delete',
+      status: 'success',
+      components: [this.actions.selection.current.id],
+    });
+
+    this.draw(this.rootId);
+  }
+
+  /**
+   * Handler for link removal.
+   * Remove link, emit an event accordingly then draw again.
+   */
+  removeLinkHandler() {
+    this.pluginData.removeLink(this.actions.selection.current);
+
+    this.pluginData.emitEvent({
+      type: 'Drawer',
+      action: 'delete',
+      status: 'success',
+      components: [],
+    });
+
+    this.draw(this.rootId);
+  }
+
+  /**
    * Get a list of actions to fill the menu for a given target.
    * @param {object} targetSelection - The target object.
    * @type {object}
@@ -1508,18 +1555,7 @@ class DefaultDrawer {
         {
           id: 'remove-component',
           icon: actionIcons.trash,
-          handler() {
-            this.pluginData.removeComponentById(this.actions.selection.current.id);
-
-            this.pluginData.emitEvent({
-              type: 'Drawer',
-              action: 'delete',
-              status: 'success',
-              components: [this.actions.selection.current.id],
-            });
-
-            this.draw(this.rootId);
-          },
+          handler: this.removeComponentHandler.bind(this),
         },
       ];
     }
@@ -1528,18 +1564,7 @@ class DefaultDrawer {
       {
         id: 'remove-link',
         icon: actionIcons.trash,
-        handler() {
-          this.pluginData.removeLink(this.actions.selection.current);
-
-          this.pluginData.emitEvent({
-            type: 'Drawer',
-            action: 'delete',
-            status: 'success',
-            components: [],
-          });
-
-          this.draw(this.rootId);
-        },
+        handler: this.removeLinkHandler.bind(this),
       },
     ];
   }

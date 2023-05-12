@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Move `defaultFileName` from `DefaultData` to `DefaultConfiguration`.
 - Make `DefaultData` have `DefaultConfiguration` in constructor.
 - Add method `getModelFolders` in `DefaultParser`.
+- Add delete shortcut to remove components or links.
 
 ## [0.15.2] - 2023/04/18
 

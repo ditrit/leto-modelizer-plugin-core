@@ -288,3 +288,13 @@ Feature: Test component/link deletion
     And I expect "#link-__workflow-__next-wfstep5-wfstep6" is visible
     And I expect "#link-__workflow-__next-wfstep6-wfstep7" is visible
     And I expect "#link-__workflow-__next-wfstep7-wfstep8" is visible
+
+  Scenario: Delete selected component on press delete key
+    When I click on "#external1"
+    And  I press on "del" key
+    Then I expect "#external1" to not exist
+
+  Scenario: Delete selected link on press delete key
+    When I click on "#link-server-laptop_link-server1-external1"
+    And  I press on "del" key
+    Then I expect "#link-server-laptop_link-server1-external1" to not exist
