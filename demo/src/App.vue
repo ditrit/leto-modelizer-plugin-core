@@ -6,16 +6,25 @@
     <div>
       <button @click="savePosition">Save position</button>
       <button class="reset-btn" @click="reset">Reset UI</button>
+      <label for="read-only-checkbox">Read-only ?</label>
+      <input
+        id="read-only-checkbox"
+        type="checkbox"
+        v-model="readOnly"
+        @change="reset"
+      />
     </div>
     <div id='root'></div>
   </main>
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import resources from './assets/resources';
 import DemoPlugin from '@/DemoPlugin';
 import { Component, ComponentDrawOption, FileInput } from 'leto-modelizer-plugin-core';
+
+const readOnly = ref(false);
 
 function next(data) {
   console.log(data);
@@ -29,7 +38,7 @@ function savePosition() {
 
 function reset() {
   document.querySelector('#root').innerHTML = '';
-  plugin.draw('root');
+  plugin.draw('root', readOnly.value);
 }
 
 const plugin = new DemoPlugin(next);
