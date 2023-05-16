@@ -527,8 +527,9 @@ class DefaultDrawer {
   /**
    * Draws all Components and ComponentLinks in the parentId Element.
    * @param {string} rootId - Id of the container where you want to draw.
+   * @param {boolean} readOnly - Make the draw read-only.
    */
-  draw(rootId) {
+  draw(rootId, readOnly) {
     const id = this.pluginData.emitEvent({
       type: 'Drawer',
       action: 'write',
@@ -543,13 +544,11 @@ class DefaultDrawer {
 
     this.__unselectComponent();
 
-    this.drawComponents();
+    this.drawComponents(readOnly);
 
-    this.drawLinks();
+    this.drawLinks(readOnly);
 
-    this.setViewPortAction();
-
-    this.pluginData.emitEvent({ id, status: 'success' });
+    this.setViewPortAction(readOnly);
 
     d3.select('body')
       .on('keyup', (event) => {
@@ -563,6 +562,8 @@ class DefaultDrawer {
           }
         }
       });
+
+    this.pluginData.emitEvent({ id, status: 'success' });
   }
 
   /**
@@ -576,8 +577,9 @@ class DefaultDrawer {
 
   /**
    * Render components in model view.
+   * @param {boolean} readOnly - Draw read-only components.
    */
-  drawComponents() {
+  drawComponents(readOnly) {
     this.shadowRoot = { children: this.pluginData.components, id: '__shadowRoot', name: '' };
     const groupedNodes = this.buildTree();
     const clicked = this.clickHandler.bind(this);
@@ -592,8 +594,8 @@ class DefaultDrawer {
       .data(([, data]) => data)
       .join('g')
       .attr('id', ({ data }) => data.id)
-      .on('click', clicked)
-      .call(drag)
+      .on('click', readOnly ? null : clicked)
+      .call(readOnly ? () => {} : drag)
       .attr('x', ({ x0 }) => x0)
       .attr('y', ({ y0 }) => y0)
       .attr('transform', ({ x0, y0 }) => `translate(${x0},${y0})`);
@@ -804,8 +806,9 @@ class DefaultDrawer {
 
   /**
    * Render links in model view.
+   * @param {boolean} readOnly - Draw read-only links.
    */
-  drawLinks() {
+  drawLinks(readOnly) {
     const pluginLinks = this.pluginData.getLinks();
 
     if (!pluginLinks) {
@@ -850,8 +853,8 @@ class DefaultDrawer {
           ? `url(#${attributeRef}-${sourceRef}-${targetRef}-arrow)`
           : 'none';
       })
-      .attr('cursor', 'pointer')
-      .on('click', (event) => this.clickHandler(event));
+      .attr('cursor', readOnly ? 'default' : 'pointer')
+      .on('click', (event) => (readOnly ? null : this.clickHandler(event)));
 
     links.raise();
   }
@@ -1103,12 +1106,18 @@ class DefaultDrawer {
 
   /**
    * Set actions on viewport.
+   * @param {boolean} readOnly - Disable viewport action.
    */
-  setViewPortAction() {
+  setViewPortAction(readOnly) {
     this.svg.on('click', () => {
       this.__unselectComponent();
       this.cancelLinkCreationInteraction();
     });
+
+    if (readOnly) {
+      return;
+    }
+
     const drawLinks = this.drawLinks.bind(this);
 
     this.svg.call(d3
