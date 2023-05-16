@@ -69,3 +69,13 @@ Feature: Test component/link selection
     And I expect component "#link-server-laptop_link-server1-external1" to have style "outlineWidth" set to "2px"
     And I expect "#action-menu" is visible
     And I expect "#remove-link" is visible
+
+  Scenario: Clicking on a component on read-only should not select it
+    When I click on "#read-only-checkbox"
+    And  I click on "#root #external1"
+    Then I expect "#action-menu" to not exist
+
+  Scenario: Clicking on a link on read-only should not select it
+    When I click on "#read-only-checkbox"
+    And  I click on "#link-server-laptop_link-server1-external1"
+    Then I expect "#action-menu" to not exist
