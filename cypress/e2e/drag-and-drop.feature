@@ -4,6 +4,21 @@ Feature: Test container drag and drop
     And I set viewport size to "1920" px for width and "1080" px for height
     And I visit the "/"
 
+  Scenario: Components should be draggable
+    Then I expect "#root #svg-external1" to be at position 919,95
+
+    When I drag "#root #svg-external1" of 25,25
+    Then I expect "#root #svg-external1" is visible
+    And  I expect "#root #svg-external1" to be at position 944,122
+
+  Scenario: Components should not be draggable when read-only
+    Then I expect "#root #svg-external1" to be at position 919,95
+
+    When I click on "#read-only-checkbox"
+    And  I drag "#root #svg-external1" of 25,25
+    Then I expect "#root #svg-external1" is visible
+    And  I expect "#root #svg-external1" to be at position 919,95
+
   Scenario: drag one component into another one, check it has valid parent
     When I drag "#network2" onto "#network1 .component-container"
     Then I expect "#network2" to have "#network1" as parent

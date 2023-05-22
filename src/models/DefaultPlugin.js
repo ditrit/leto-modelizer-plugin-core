@@ -93,9 +93,10 @@ class DefaultPlugin {
   /**
    * Draws all data in the html element defined by the id.
    * @param {string} id - Html id, without '#'.
+   * @param {boolean} readOnly - Make the draw read-only.
    */
-  draw(id) {
-    this.__drawer.draw(id);
+  draw(id, readOnly) {
+    this.__drawer.draw(id, readOnly);
   }
 
   /**
