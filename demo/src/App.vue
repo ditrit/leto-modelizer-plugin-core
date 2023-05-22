@@ -13,8 +13,18 @@
         v-model="readOnly"
         @change="reset"
       />
+      <div v-if="readOnly" id="read-only-size">
+        <div>
+          <label>Width:</label>
+          <input type="number" v-model="width" />
+        </div>
+        <div>
+          <label>Height:</label>
+          <input type="number" v-model="height" />
+        </div>
+      </div>
     </div>
-    <div id='root'></div>
+    <div id='root' :style="readOnly ? { width: `${width}px`, height: `${height}px` } : {}"></div>
   </main>
 </template>
 
@@ -25,6 +35,8 @@ import DemoPlugin from '@/DemoPlugin';
 import { Component, ComponentDrawOption, FileInput } from 'leto-modelizer-plugin-core';
 
 const readOnly = ref(false);
+const width = ref(400);
+const height = ref(400);
 
 function next(data) {
   console.log(data);
@@ -89,9 +101,9 @@ body {
 
 main {
   height: 100vh;
-
-  display: grid;
-  grid-template-rows: 2.5em 1.5em 1fr;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #viewport {
@@ -111,5 +123,12 @@ main {
   height: 100%;
 
   border: 1px solid black;
+}
+
+#read-only-size label {
+  display: inline-block;
+  width: 75px;
+  margin-right: 15px;
+  text-align: left;
 }
 </style>
