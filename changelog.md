@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add method `getModelFolders` in `DefaultParser`.
 - Add delete shortcut to remove components or links.
 - Add read-only option to draw function.
+- Add resizing on draw function when read-only is activated.
 
 ## [0.15.2] - 2023/04/18
 
