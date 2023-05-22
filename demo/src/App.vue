@@ -125,6 +125,11 @@ main {
   border: 1px solid black;
 }
 
+
+button, label {
+  margin-right: 10px;
+}
+
 #read-only-size label {
   display: inline-block;
   width: 75px;
