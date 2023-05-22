@@ -563,6 +563,17 @@ class DefaultDrawer {
         }
       });
 
+    if (readOnly) {
+      const {
+        width,
+        height,
+        x,
+        y,
+      } = document.querySelector(`#${this.rootId} svg`).getBBox();
+
+      d3.select(`#${this.rootId} svg`).attr('viewBox', `${x} ${y} ${width} ${height}`);
+    }
+
     this.pluginData.emitEvent({ id, status: 'success' });
   }
 
