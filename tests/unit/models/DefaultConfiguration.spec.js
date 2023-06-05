@@ -8,6 +8,7 @@ describe('Test class: DefaultConfiguration', () => {
       expect(config.editor).toEqual({ syntax: null });
       expect(config.defaultFileName).toBeNull();
       expect(config.defaultFileExtension).toBeNull();
+      expect(config.tags).toEqual([]);
     });
 
     it('Check passing undefined variables to constructor', () => {
@@ -16,6 +17,7 @@ describe('Test class: DefaultConfiguration', () => {
       expect(config.editor).toEqual({ syntax: null });
       expect(config.defaultFileName).toBeNull();
       expect(config.defaultFileExtension).toBeNull();
+      expect(config.tags).toEqual([]);
     });
 
     it('Check passing all variables to constructor', () => {
@@ -25,11 +27,13 @@ describe('Test class: DefaultConfiguration', () => {
         },
         defaultFileName: 'test',
         defaultFileExtension: '.test',
+        tags: ['test'],
       });
 
       expect(config.editor).toEqual({ syntax: true });
       expect(config.defaultFileName).toEqual('test');
       expect(config.defaultFileExtension).toEqual('.test');
+      expect(config.tags).toEqual(['test']);
     });
   });
 });
