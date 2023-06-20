@@ -4,8 +4,8 @@
 class DefaultConfiguration {
   /**
    * Default constructor.
-   * @param {object} [props={}] - Object that contains all properties to set.
-   * @param {object} [props.editor={}] - Object that contains all properties of editor
+   * @param {object} [props] - Object that contains all properties to set.
+   * @param {object} [props.editor] - Object that contains all properties of editor
    * configuration.
    * @param {object} [props.editor.syntax] - Syntax configuration.
    * @param {string} [props.defaultFileName] - Default file name for new components.

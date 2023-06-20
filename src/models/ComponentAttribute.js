@@ -4,12 +4,12 @@
 class ComponentAttribute {
   /**
    * Default constructor.
-   * @param {object} [props={}] - Object that contains all properties to set.
-   * @param {string} [props.name=null] - The name of the attribute.
-   * @param {(string | boolean | number | Array | ComponentAttribute[])} [props.value=null] - The
+   * @param {object} [props] - Object that contains all properties to set.
+   * @param {string} [props.name] - The name of the attribute.
+   * @param {(string | boolean | number | Array | ComponentAttribute[])} [props.value] - The
    * value of the attribute.
-   * @param {string} [props.type=null] - The reel type of the attribute.
-   * @param {ComponentAttributeDefinition} [props.definition=null] - The definition of the
+   * @param {string} [props.type] - The reel type of the attribute.
+   * @param {ComponentAttributeDefinition} [props.definition] - The definition of the
    * attribute.
    */
   constructor(props = {

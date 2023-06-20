@@ -11,14 +11,14 @@ class DefaultDrawer {
   /**
    * Default constructor
    * @param {DefaultData} pluginData - Plugin data storage.
-   * @param {object} [resources=null] - Object that contains resources.
-   * @param {string} [rootId="root"] - Id of HTML element where we want to draw.
-   * @param {object} [options={}] - Rendering options.
-   * @param {number} [options.minWidth=230] - Minimum width of a component.
-   * @param {number} [options.minHeight=50] - Minimum height of a component.
-   * @param {number} [options.padding=30] - Padding around a component.
-   * @param {number} [options.margin=6] - Component margin thickness.
-   * @param {number[]} [options.lineLengthPerDepth=[5,1]] - Number of components
+   * @param {object} [resources] - Object that contains resources.
+   * @param {string} [rootId] - Id of HTML element where we want to draw.
+   * @param {object} [options] - Rendering options.
+   * @param {number} [options.minWidth] - Minimum width of a component.
+   * @param {number} [options.minHeight] - Minimum height of a component.
+   * @param {number} [options.padding] - Padding around a component.
+   * @param {number} [options.margin] - Component margin thickness.
+   * @param {number[]} [options.lineLengthPerDepth] - Number of components
    * per line at a given depth. Valid values: 1 - Infinity.
    * @param {number} [options.actionMenuButtonSize] - The size of each action menu button.
    */
@@ -31,8 +31,9 @@ class DefaultDrawer {
     /**
      * Id of HTML element where we want to draw.
      * @type {string}
+     * @default 'root'
      */
-    this.rootId = rootId;
+    this.rootId = rootId || 'root';
     /**
      * Object that contains resources.
      * @type {object}
@@ -41,33 +42,38 @@ class DefaultDrawer {
     /**
      * Minimum width of a component.
      * @type {number}
+     * @default 230
      */
     this.minWidth = options.minWidth !== undefined ? options.minWidth : 230;
     /**
      * Minimum height of a component.
      * @type {number}
+     * @default 50
      */
     this.minHeight = options.minHeight !== undefined ? options.minHeight : 50;
     /**
      * Padding around components.
      * @type {number}
+     * @default 30
      */
     this.padding = options.padding !== undefined ? options.padding : 30;
     /**
      * Component margin thickness.
      * @type {number}
+     * @default 6
      */
     this.margin = options.margin !== undefined ? options.margin : 6;
     /**
      * Number of components per line at a given depth. Valid values: 1 - Infinity.
      * @type {number[]}
+     * @default [5, 1]
      */
     this.lineLengthPerDepth = options.lineLengthPerDepth !== undefined
       ? options.lineLengthPerDepth : [5, 1];
-
     /**
      * The size of each action menu button.
      * @type {number}
+     * @default 24
      */
     this.actionMenuButtonSize = options.actionMenuButtonSize || 24;
     /**
@@ -105,7 +111,7 @@ class DefaultDrawer {
    * Convert screen coordinates into a given svg referential.
    * @param {number} screenX - Screen x coordinate.
    * @param {number} screenY - Screen y coordinate.
-   * @param {SVGSVGElement} [svg=null] - SVG referential.
+   * @param {SVGSVGElement} [svg] - SVG referential.
    * @returns {DOMPoint} The transformed coordinates.
    */
   screenToSVG(screenX, screenY, svg = null) {
@@ -119,7 +125,7 @@ class DefaultDrawer {
    * Convert svg coordinates into screen coordinates.
    * @param {number} svgX - SVG x coordinate.
    * @param {number} svgY - SVG y coordinate.
-   * @param {SVGSVGElement} [svg=null] - SVG referential.
+   * @param {SVGSVGElement} [svg] - SVG referential.
    * @returns {DOMPoint} The transformed coordinates.
    */
   SVGToScreen(svgX, svgY, svg = null) {
@@ -168,7 +174,7 @@ class DefaultDrawer {
   /**
    * Get the maximum line length for a given depth.
    * @param {number} depth - The depth to check.
-   * @param {boolean} [lineLengthOverride=false] - Override if parent is tagged as a workflow
+   * @param {boolean} [lineLengthOverride] - Override if parent is tagged as a workflow
    * @returns {number} The maximum length at that depth.
    */
   getLineLengthForDepth(depth, lineLengthOverride = null) {
@@ -178,7 +184,7 @@ class DefaultDrawer {
 
   /**
    * Apply the disabled style to all elements matching the selector.
-   * @param {string} [selector='.component'] - CSS selector string.
+   * @param {string} [selector] - CSS selector string.
    */
   setDisabledStyle(selector = '.component') {
     const localSelector = `#${this.rootId} ${selector || '.component'}`;
@@ -977,7 +983,7 @@ class DefaultDrawer {
   /**
    * Compute the dimension of every component.
    * @param {Array} lines - Rows of components.
-   * @param {boolean} [invertEven=false] - Layout even line components right to left.
+   * @param {boolean} [invertEven] - Layout even line components right to left.
    */
   setupTiles(lines, invertEven = false) {
     let previousTallestItem = { x1: 0, y1: 0 };

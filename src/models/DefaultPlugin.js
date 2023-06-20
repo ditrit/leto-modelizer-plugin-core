@@ -11,7 +11,7 @@ import DefaultConfiguration from './DefaultConfiguration';
 class DefaultPlugin {
   /**
    * Default constructor.
-   * @param {object} [props={}] - Object that contains all properties to set.
+   * @param {object} [props] - Object that contains all properties to set.
    * @param {object} [props.event] - Event manager.
    * @param {Function} [props.event.next] - Function to emit event.
    * @param {DefaultConfiguration} [props.configuration] - Plugin configuration.
@@ -84,7 +84,7 @@ class DefaultPlugin {
 
   /**
    * Set resources in plugin.
-   * @param {object} [resources=null] - Object that contains resources.
+   * @param {object} [resources] - Object that contains resources.
    */
   initResources(resources) {
     this.__drawer.resources = resources;
@@ -103,7 +103,7 @@ class DefaultPlugin {
    * Convert the content of files into plugin data.
    * Configuration file is used for setting up the components' configuration.
    * @param {FileInput} file - Configuration file of components.
-   * @param {FileInput[]} [inputs=[]] - File inputs you want to parse.
+   * @param {FileInput[]} [inputs] - File inputs you want to parse.
    */
   parse(file, inputs = []) {
     const id = this.data.emitEvent({
@@ -133,7 +133,7 @@ class DefaultPlugin {
 
   /**
    * Get models from all project files.
-   * @param {FileInformation[]} [files=[]] - Projects files.
+   * @param {FileInformation[]} [files] - Projects files.
    * @returns {string[]} List of folder and file paths that represent a model.
    */
   getModels(files = []) {

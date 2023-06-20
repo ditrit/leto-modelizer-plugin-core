@@ -6,12 +6,12 @@
 class ParseError extends Error {
   /**
    * Default constructor.
-   * @param {string} [message="Error happened when trying to parse."] - Message of the error.
-   * @param {number} [startLine=0] - Start Line of the error.
-   * @param {number} [startColumn=0] - Start Column of the error.
-   * @param {number} [endLine=0] - End Line of the error.
-   * @param {number} [endColumn=0] - End Column of the error.
-   * @param {string} [severity="Error"] - Severity of the error: 'Warning' or 'Error'.
+   * @param {string} [message] - Message of the error.
+   * @param {number} [startLine] - Start Line of the error.
+   * @param {number} [startColumn] - Start Column of the error.
+   * @param {number} [endLine] - End Line of the error.
+   * @param {number} [endColumn] - End Column of the error.
+   * @param {string} [severity] - Severity of the error: 'Warning' or 'Error'.
    */
   constructor(
     message = 'Error happened when trying to parse.',
@@ -21,7 +21,7 @@ class ParseError extends Error {
     endColumn = 0,
     severity = 'Error',
   ) {
-    super(message);
+    super(message || 'Error happened when trying to parse.');
     /**
      * Name of the error.
      * @type {string}
@@ -30,28 +30,33 @@ class ParseError extends Error {
     /**
      * Start Line of the error.
      * @type {number}
+     * @default 0
      */
-    this.startLine = startLine;
+    this.startLine = startLine || 0;
     /**
      * Start Column of the error.
      * @type {number}
+     * @default 0
      */
-    this.startColumn = startColumn;
+    this.startColumn = startColumn || 0;
     /**
      * End Line of the error.
      * @type {number}
+     * @default 0
      */
-    this.endLine = endLine;
+    this.endLine = endLine || 0;
     /**
      * End Column of the error.
      * @type {number}
+     * @default 0
      */
-    this.endColumn = endColumn;
+    this.endColumn = endColumn || 0;
     /**
      * Severity of the error: 'Warning' or 'Error'.
      * @type {string}
+     * @default 'Error'
      */
-    this.severity = severity;
+    this.severity = severity || 'Error';
   }
 }
 

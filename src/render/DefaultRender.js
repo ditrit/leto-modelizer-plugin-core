@@ -18,8 +18,8 @@ class DefaultRender {
 
   /**
    * Transform all provided components in file inputs.
-   * @param {FileInput[]} [files=[]] - Files managed by the plugin.
-   * @param {string} [parentEventId=null] - Parent event id.
+   * @param {FileInput[]} [files] - Files managed by the plugin.
+   * @param {string} [parentEventId] - Parent event id.
    * @returns {FileInput[]} - Generated files from components.
    */
   render(files = [], parentEventId = null) {
@@ -39,7 +39,7 @@ class DefaultRender {
 
   /**
    * Transform all provided components in file inputs.
-   * @param {string} [parentEventId=null] - Parent event id.
+   * @param {string} [parentEventId] - Parent event id.
    * @returns {FileInput[]} - Generated files from components.
    */
   // eslint-disable-next-line no-unused-vars
@@ -50,7 +50,7 @@ class DefaultRender {
   /**
    * Update configuration file content according to components data.
    * @param {FileInput} file - Configuration file of components.
-   * @param {string} [parentEventId=null] - Parent event id.
+   * @param {string} [parentEventId] - Parent event id.
    */
   renderConfiguration(file, parentEventId = null) {
     const id = this.pluginData.emitEvent({

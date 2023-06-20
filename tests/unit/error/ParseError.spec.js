@@ -25,6 +25,17 @@ describe('Test class: ParseError', () => {
       expect(parseError.endColumn).toEqual(4);
       expect(parseError.severity).toEqual('Warning');
     });
+
+    it('Check passing null variable to constructor', () => {
+      const parseError = new ParseError(null, 1, 2, 3, 4, null);
+
+      expect(parseError.message).toEqual('Error happened when trying to parse.');
+      expect(parseError.startLine).toEqual(1);
+      expect(parseError.startColumn).toEqual(2);
+      expect(parseError.endLine).toEqual(3);
+      expect(parseError.endColumn).toEqual(4);
+      expect(parseError.severity).toEqual('Error');
+    });
   });
   describe('Test throw', () => {
     try {

@@ -8,13 +8,13 @@ import FileInformation from './FileInformation';
 class Component extends FileInformation {
   /**
    * Default constructor.
-   * @param {object} [props={}] - Object that contains all properties to set.
+   * @param {object} [props] - Object that contains all properties to set.
    * @param {string} [props.id] - The id of this Component.
    * @param {string} [props.name] - The name of this Component.
    * @param {ComponentDefinition} [props.definition] - The Definition used to instantiate this
    * Component.
    * @param {ComponentDrawOption} [props.drawOption] - The options used to draw this Component.
-   * @param {ComponentAttribute[]} [props.attributes=[]] - Attributes of Component.
+   * @param {ComponentAttribute[]} [props.attributes] - Attributes of Component.
    */
   constructor(props = {
     id: null,
@@ -61,6 +61,7 @@ class Component extends FileInformation {
     /**
      * Attributes of Component.
      * @type {ComponentAttribute[]}
+     * @default []
      */
     this.attributes = attributes || [];
   }
@@ -139,7 +140,7 @@ class Component extends FileInformation {
    * otherwise remove id in all link attributes' value.
    * Then if value is empty remove attribute.
    * @param {string} id - Id to remove.
-   * @param {string} [name=null] - Name of attribute to remove.
+   * @param {string} [name] - Name of attribute to remove.
    */
   removeLinkAttribute(id, name = null) {
     this.attributes = this.attributes

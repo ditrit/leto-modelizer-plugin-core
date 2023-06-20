@@ -39,10 +39,10 @@ describe('Test Class: DefaultDrawer()', () => {
     });
 
     it('Test passing value in constructor', () => {
-      const drawer = new DefaultDrawer(new DefaultData(), 'resources', 'rootId');
+      const drawer = new DefaultDrawer(new DefaultData(), 'resources', null);
 
       expect(drawer.pluginData).toEqual(new DefaultData());
-      expect(drawer.rootId).toEqual('rootId');
+      expect(drawer.rootId).toEqual('root');
       expect(drawer.resources).toEqual('resources');
       expect(drawer.minWidth).toEqual(230);
       expect(drawer.minHeight).toEqual(50);
