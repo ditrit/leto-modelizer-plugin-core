@@ -16,12 +16,12 @@ class DefaultData {
    * @param {object} props - All properties.
    * @param {string} props.name - Name of plugin.
    * @param {string} props.version - Version of plugin.
-   * @param {Component[]} [props.components=[]] - Components array.
-   * @param {object} [props.definitions={}] - All definitions.
-   * @param {ComponentDefinition[]} [props.definitions.components=[]] - All component definitions.
-   * @param {ComponentLinkDefinition[]} [props.definitions.link=[]] - All component link
+   * @param {Component[]} [props.components] - Components array.
+   * @param {object} [props.definitions] - All definitions.
+   * @param {ComponentDefinition[]} [props.definitions.components] - All component definitions.
+   * @param {ComponentLinkDefinition[]} [props.definitions.link] - All component link
    * definitions.
-   * @param {ParseError[]} [props.parseErrors=[]] - Parse errors array.
+   * @param {ParseError[]} [props.parseErrors] - Parse errors array.
    * @param {object} [event] - Event manager.
    * @param {Function} [event.next] - Function to emit event.
    */
@@ -48,6 +48,7 @@ class DefaultData {
     /**
      * All plugin components.
      * @type {Component[]}
+     * @default []
      */
     this.components = props.components || [];
     /**
@@ -65,11 +66,13 @@ class DefaultData {
     /**
      * All parser errors.
      * @type {ParseError[]}
+     * @default []
      */
     this.parseErrors = props.parseErrors || [];
     /**
      * Index of the last event log.
      * @type {number}
+     * @default 0
      * @private
      */
     this.__eventIndex = 0;
@@ -119,7 +122,7 @@ class DefaultData {
   /**
    * Create new component.
    * @param {ComponentDefinition} definition - Component definition.
-   * @param {string} [folder=''] - Folder path.
+   * @param {string} [folder] - Folder path.
    * @param {string} [fileName] - File name.
    * @returns {string} Component id.
    */

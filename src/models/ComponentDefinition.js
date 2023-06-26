@@ -4,22 +4,22 @@
 class ComponentDefinition {
   /**
    * Default constructor.
-   * @param {object} [props={}] - Object that contains all properties to set.
+   * @param {object} [props] - Object that contains all properties to set.
    * @param {string} [props.type] - The type of the associated component.
    * @param {string} [props.icon] - The icon's name of this type of component.
    * @param {string} [props.model] - Name of SVG template to render this type of component.
    * @param {string} [props.displayName] - Display name of the component.
    * @param {string} [props.description] - Explanation of the component.
    * @param {string} [props.url] - URL of the documentation of the component.
-   * @param {string[]} [props.parentTypes=[]] - The list of types that can be the parent.
-   * @param {string[]} [props.childrenTypes=[]] - The list of types that can be the children.
-   * @param {ComponentAttributeDefinition[]} [props.definedAttributes=[]] - Defined attributes for
+   * @param {string[]} [props.parentTypes] - The list of types that can be the parent.
+   * @param {string[]} [props.childrenTypes] - The list of types that can be the children.
+   * @param {ComponentAttributeDefinition[]} [props.definedAttributes] - Defined attributes for
    * this type.
-   * @param {boolean} [props.isContainer=false] - Boolean means if this type can be a parent.
+   * @param {boolean} [props.isContainer] - Boolean means if this type can be a parent.
    * instantiated components.
    * @param {string} [props.displayType] - Use the given displayType to override
    * the component's rendering. Allowed values: workflow|null
-   * @param {boolean} [props.preventChildrenMovement=false] - Prevent user from arbitrarily moving
+   * @param {boolean} [props.preventChildrenMovement] - Prevent user from arbitrarily moving
    * child components.
    * @param {number} [props.childrenPerLine] - Override the line layout
    */
@@ -87,21 +87,25 @@ class ComponentDefinition {
     /**
      * The list of types that can be the parent.
      * @type {string[]}
+     * @default []
      */
     this.parentTypes = parentTypes || [];
     /**
      * The list of types that can be the children.
      * @type {string[]}
+     * @default []
      */
     this.childrenTypes = childrenTypes || [];
     /**
      * Defined attributes for this type.
      * @type {ComponentAttributeDefinition[]}
+     * @default []
      */
     this.definedAttributes = definedAttributes || [];
     /**
      * Boolean means if this type can be a parent.
      * @type {boolean}
+     * @default false
      */
     this.isContainer = isContainer === undefined ? false : isContainer;
     /**
@@ -112,6 +116,7 @@ class ComponentDefinition {
     /**
      * Flag to always force children layout re-computing.
      * @type {boolean}
+     * @default false
      */
     this.preventChildrenMovement = preventChildrenMovement ?? false;
     /**

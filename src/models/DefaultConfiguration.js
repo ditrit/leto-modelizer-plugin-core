@@ -4,13 +4,13 @@
 class DefaultConfiguration {
   /**
    * Default constructor.
-   * @param {object} [props={}] - Object that contains all properties to set.
-   * @param {object} [props.editor={}] - Object that contains all properties of editor
+   * @param {object} [props] - Object that contains all properties to set.
+   * @param {object} [props.editor] - Object that contains all properties of editor
    * configuration.
    * @param {object} [props.editor.syntax] - Syntax configuration.
    * @param {string} [props.defaultFileName] - Default file name for new components.
    * @param {string} [props.defaultFileExtension] - Default file extension for components.
-   * @param {string[]} [props.tags=[]] - All plugin tags.
+   * @param {Tag[]} [props.tags] - All plugin tags.
    */
   constructor(props = {
     editor: {
@@ -40,7 +40,8 @@ class DefaultConfiguration {
     this.defaultFileExtension = props.defaultFileExtension || null;
     /**
      * All plugin tags.
-     * @type {string[]}
+     * @type {Tag[]}
+     * @default []
      */
     this.tags = props.tags || [];
   }

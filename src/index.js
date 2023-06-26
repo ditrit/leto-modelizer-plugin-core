@@ -15,6 +15,7 @@ import ParseError from './error/ParseError';
 import DefaultData from './models/DefaultData';
 import DefaultPlugin from './models/DefaultPlugin';
 import DefaultConfiguration from './models/DefaultConfiguration';
+import Tag from './models/Tag';
 
 export {
   Component,
@@ -34,4 +35,5 @@ export {
   DefaultData,
   DefaultPlugin,
   DefaultConfiguration,
+  Tag,
 };

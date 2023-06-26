@@ -4,7 +4,7 @@
 class EventLog {
   /**
    * Default constructor.
-   * @param {object} [props={}] - Object that contains all properties to set.
+   * @param {object} [props] - Object that contains all properties to set.
    * @param {string} [props.id] - EventLog id.
    * @param {string} [props.parentId] - Parent id, to attach this log to another, like a
    * sub-process.

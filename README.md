@@ -88,7 +88,7 @@ The project template leto-modelizer-plugin-template provides you the default str
 
 It is strongly recommended to use it and the following documentation will make references to it.
 
-Furthermore, in this template there are code comments to explain how to override methods/classes and usages. 
+Furthermore, in this template there are code comments to explain how to override methods/classes and usages.
 
 ### How to create your own models
 
@@ -120,6 +120,23 @@ This is the default lifecycle of plugin usage in Leto Modelizer.
 ### Plugin creation
 
 Create you plugin project from [leto-modelizer-plugin-template](https://github.com/ditrit/leto-modelizer-plugin-template) and follow the readme section of the template project.
+
+### Tag your plugin
+
+To help users understand the usage of your plugin, you can tag it using two types of tags:
+- `language`: This tag indicates the programming language used in your plugin.
+- `category`: This tag assigns an appropriate category to your plugin, such as CI, CD, Workflow, and more.
+
+All tags should be registered in the `DefaultConfiguration`:
+
+```js
+new DefaultConfiguration({
+  tags: [
+    new Tag({ type: 'category', value: 'Infrastructure' }),
+    new Tag({ type: 'language', value: 'Terraform' }),
+  ],
+});
+```
 
 ### Events
 

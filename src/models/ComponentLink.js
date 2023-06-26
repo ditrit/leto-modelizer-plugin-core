@@ -7,7 +7,7 @@ import FileInformation from './FileInformation';
 class ComponentLink extends FileInformation {
   /**
    * Default constructor.
-   * @param {object} [props={}] - Object that contains all properties to set.
+   * @param {object} [props] - Object that contains all properties to set.
    * @param {string} [props.source] - Id of component can be the source in a link.
    * @param {string} [props.target] - Id of component can be the target of the link.
    * @param {ComponentLinkDefinition} [props.definition] - The definition of the link.

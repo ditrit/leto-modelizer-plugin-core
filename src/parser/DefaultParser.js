@@ -18,8 +18,8 @@ class DefaultParser {
 
   /**
    * Convert the content of files into Components.
-   * @param {FileInput[]} [inputs=[]] - Data you want to parse.
-   * @param {string} [parentEventId=null] - Parent event id.
+   * @param {FileInput[]} [inputs] - Data you want to parse.
+   * @param {string} [parentEventId] - Parent event id.
    */
   parse(inputs = [], parentEventId = null) { /* eslint no-unused-vars: 0 */ // --> OFF
     this.pluginData.components = [];
@@ -28,7 +28,7 @@ class DefaultParser {
 
   /**
    * Get the list of model paths from all parsable files.
-   * @param {FileInformation[]} [files=[]] - List of parsable files.
+   * @param {FileInformation[]} [files] - List of parsable files.
    * @returns {string[]} List of folder and file paths that represent a model.
    */
   getModels(files = []) {
@@ -37,7 +37,7 @@ class DefaultParser {
 
   /**
    * Get all possible folders for a model from a folder list.
-   * @param {FileInformation[]} [folders=[]] - Folder list.
+   * @param {FileInformation[]} [folders] - Folder list.
    * @returns {string[]} All possible folder list.
    */
   getModelFolders(folders = []) {
@@ -47,7 +47,7 @@ class DefaultParser {
   /**
    * Set configuration into Components.
    * @param {FileInput} file - Configuration file of components.
-   * @param {string} [parentEventId=null] - Parent event id.
+   * @param {string} [parentEventId] - Parent event id.
    */
   parseConfiguration(file, parentEventId = null) {
     const logId = this.pluginData.emitEvent({

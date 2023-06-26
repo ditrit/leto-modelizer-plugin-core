@@ -4,8 +4,8 @@
 class FileInformation {
   /**
    * Default constructor.
-   * @param {object} [props={}] - Object that contains all properties to set.
-   * @param {string} [props.path=null] - File path.
+   * @param {object} [props] - Object that contains all properties to set.
+   * @param {string} [props.path] - File path.
    */
   constructor(props = { path: null }) {
     const {
@@ -15,6 +15,7 @@ class FileInformation {
     /**
      * Path of the file.
      * @type {string}
+     * @default null
      */
     this.path = path || null;
   }

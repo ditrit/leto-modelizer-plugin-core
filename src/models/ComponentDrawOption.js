@@ -4,7 +4,7 @@
 class ComponentDrawOption {
   /**
    * Default constructor
-   * @param {object} [props={}] - Object that contains all properties to set.
+   * @param {object} [props] - Object that contains all properties to set.
    * @param {number} [props.x] - X Position of Component.
    * @param {number} [props.y] - Y Position of Component.
    * @param {number} [props.width] - Width of Component in pixel.
