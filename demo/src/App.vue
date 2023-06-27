@@ -32,7 +32,7 @@
 import { onMounted, ref } from 'vue';
 import resources from './assets/resources';
 import DemoPlugin from '@/DemoPlugin';
-import { Component, ComponentDrawOption, FileInput } from 'leto-modelizer-plugin-core';
+import { ComponentDrawOption, FileInput, FileInformation } from 'leto-modelizer-plugin-core';
 
 const readOnly = ref(false);
 const width = ref(400);
@@ -44,7 +44,7 @@ function next(data) {
 
 function savePosition() {
   const configuration = new FileInput({ path: 'localstorage', content: '' });
-  plugin.render(configuration);
+  plugin.render(new FileInformation({ path: 'diagram' }), configuration);
   window.localStorage.setItem('configuration', configuration.content);
 }
 
@@ -55,14 +55,16 @@ function reset() {
 
 const plugin = new DemoPlugin(next);
 const defaultConfiguration = JSON.stringify({
-  demo: {
-    internal1: new ComponentDrawOption({
-      x: 42,
-      y: 666,
-      width: 242,
-      height: 50,
-    }),
-  }
+  diagram: {
+    demo: {
+      internal1: new ComponentDrawOption({
+        x: 42,
+        y: 666,
+        width: 242,
+        height: 50,
+      }),
+    },
+  },
 });
 
 plugin.init();
@@ -70,7 +72,7 @@ plugin.init();
 plugin.initResources(resources);
 
 onMounted(() => {
-  plugin.parse(new FileInput({
+  plugin.parse(new FileInformation({ path: 'diagram' }), new FileInput({
     path: 'localstorage',
     content: window.localStorage.getItem('configuration') || defaultConfiguration,
   }));
