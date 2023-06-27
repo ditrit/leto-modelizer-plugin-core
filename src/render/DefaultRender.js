@@ -1,8 +1,8 @@
+import FileInput from '../models/FileInput';
+
 /**
  * Class that compile a Component to data.
  */
-import FileInput from '../models/FileInput';
-
 class DefaultRender {
   /**
    * Default constructor.
@@ -49,10 +49,11 @@ class DefaultRender {
 
   /**
    * Update configuration file content according to components data.
+   * @param {FileInformation} diagram - Diagram file information.
    * @param {FileInput} file - Configuration file of components.
    * @param {string} [parentEventId] - Parent event id.
    */
-  renderConfiguration(file, parentEventId = null) {
+  renderConfiguration(diagram, file, parentEventId = null) {
     const id = this.pluginData.emitEvent({
       parent: parentEventId,
       type: 'Render',
@@ -63,19 +64,25 @@ class DefaultRender {
         global: false,
       },
     });
-    const configuration = {};
+    const configuration = JSON.parse(file.content) || {};
+
+    if (!configuration[diagram.path]) {
+      configuration[diagram.path] = {};
+    }
+
+    configuration[diagram.path][this.pluginData.name] = {};
 
     this.pluginData.components
       .filter((component) => component.drawOption)
       .forEach((component) => {
-        configuration[component.id] = component.drawOption;
+        configuration[diagram.path][this.pluginData.name][component.id] = component.drawOption;
       });
 
-    const config = JSON.parse(file.content) || {};
-
-    config[this.pluginData.name] = configuration;
-
-    file.content = JSON.stringify(config, (key, value) => (value === null ? undefined : value), 2);
+    file.content = JSON.stringify(
+      configuration,
+      (key, value) => (value === null ? undefined : value),
+      2,
+    );
 
     this.pluginData.emitEvent({ id, status: 'success' });
   }
