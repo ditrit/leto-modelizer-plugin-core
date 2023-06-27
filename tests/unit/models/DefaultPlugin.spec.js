@@ -211,7 +211,7 @@ describe('Test class: DefaultPlugin', () => {
         },
       });
 
-      plugin.parse({ path: 'a' }, [{ path: 'b' }, { path: 'c' }]);
+      plugin.parse({ path: 'diagram' }, { path: 'a' }, [{ path: 'b' }, { path: 'c' }]);
 
       expect(plugin.data.eventLogs).toEqual([
         expect.objectContaining({
@@ -239,7 +239,7 @@ describe('Test class: DefaultPlugin', () => {
 
   describe('Test method: render', () => {
     it('should call render method from renderer', () => {
-      const mockRender = jest.fn(() => ['test']);
+      const mockRender = jest.fn(() => [{ path: 'test' }]);
       const mockRenderConfiguration = jest.fn();
       const plugin = new DefaultPlugin({
         pluginRenderer: {
@@ -248,9 +248,9 @@ describe('Test class: DefaultPlugin', () => {
         },
       });
 
-      const result = plugin.render('config');
+      const result = plugin.render({ path: 'diagram' }, { path: 'config' });
 
-      expect(result).toEqual(['test', 'config']);
+      expect(result).toEqual([{ path: 'test' }, { path: 'config' }]);
       expect(mockRenderConfiguration).toBeCalled();
       expect(mockRender).toBeCalled();
     });
@@ -267,7 +267,7 @@ describe('Test class: DefaultPlugin', () => {
         },
       });
 
-      plugin.render({ path: 'a' }, [{ path: 'b' }, { path: 'c' }]);
+      plugin.render({ path: 'diagram' }, { path: 'a' }, [{ path: 'b' }, { path: 'c' }]);
 
       expect(plugin.data.eventLogs).toEqual([
         expect.objectContaining({
