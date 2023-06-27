@@ -9,7 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add `Tag` class with `type` and `value` for tag. 
+- Add `Tag` class with `type` and `value` for tag.
+- Add diagram file information in:
+  - `parse` method of `DefaultParser`.
+  - `parseConfiguration` method of `DefaultParser`.
+  - `renderConfiguration` method of `DefaultRender`.
+  - `parse` method of `DefaultPlugin`.
+  - `render` method of `DefaultPlugin`.
 
 ## [0.16.0] - 2023/06/06
 
