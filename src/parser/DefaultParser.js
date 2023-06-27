@@ -18,10 +18,11 @@ class DefaultParser {
 
   /**
    * Convert the content of files into Components.
+   * @param {FileInformation} diagram - Diagram file information.
    * @param {FileInput[]} [inputs] - Data you want to parse.
    * @param {string} [parentEventId] - Parent event id.
    */
-  parse(inputs = [], parentEventId = null) { /* eslint no-unused-vars: 0 */ // --> OFF
+  parse(diagram, inputs = [], parentEventId = null) { /* eslint no-unused-vars: 0 */ // --> OFF
     this.pluginData.components = [];
     this.pluginData.parseErrors = [];
   }
@@ -46,10 +47,11 @@ class DefaultParser {
 
   /**
    * Set configuration into Components.
+   * @param {FileInformation} diagram - Diagram file information.
    * @param {FileInput} file - Configuration file of components.
    * @param {string} [parentEventId] - Parent event id.
    */
-  parseConfiguration(file, parentEventId = null) {
+  parseConfiguration(diagram, file, parentEventId = null) {
     const logId = this.pluginData.emitEvent({
       parent: parentEventId,
       type: 'Parser',
@@ -76,7 +78,20 @@ class DefaultParser {
 
     const config = JSON.parse(file.content);
 
-    if (!config[this.pluginData.name]) {
+    if (!config[diagram.path]) {
+      this.pluginData.emitEvent({
+        id: logId,
+        status: 'warning',
+        data: {
+          code: 'no_diagram_content',
+          global: false,
+        },
+      });
+
+      return;
+    }
+
+    if (!config[diagram.path][this.pluginData.name]) {
       this.pluginData.emitEvent({
         id: logId,
         status: 'warning',
@@ -89,14 +104,16 @@ class DefaultParser {
       return;
     }
 
-    Object.keys(config[this.pluginData.name]).forEach((id) => {
+    Object.keys(config[diagram.path][this.pluginData.name]).forEach((id) => {
       const component = this.pluginData.getComponentById(id);
 
-      if (!component || !config[this.pluginData.name][id]) {
+      if (!component || !config[diagram.path][this.pluginData.name][id]) {
         return;
       }
 
-      component.drawOption = new ComponentDrawOption(config[this.pluginData.name][id]);
+      component.drawOption = new ComponentDrawOption(
+        config[diagram.path][this.pluginData.name][id],
+      );
     });
 
     this.pluginData.emitEvent({ id: logId, status: 'success' });
