@@ -1,6 +1,7 @@
 import DefaultRender from 'src/render/DefaultRender';
 import DefaultData from 'src/models/DefaultData';
 import DefaultConfiguration from 'src/models/DefaultConfiguration';
+import FileInformation from 'src/models/FileInformation';
 import FileInput from 'src/models/FileInput';
 import Component from 'src/models/Component';
 import ComponentDrawOption from 'src/models/ComponentDrawOption';
@@ -64,7 +65,7 @@ describe('Test Class: DefaultRender()', () => {
 
     describe('Test method: renderConfiguration', () => {
       it('Should render configuration with empty plugin', () => {
-        const pluginData = new DefaultData(new DefaultConfiguration(), { name: 'test' });
+        const pluginData = new DefaultData(new DefaultConfiguration(), { name: 'plugin' });
         const render = new DefaultRender(pluginData);
 
         const configFile = new FileInput({
@@ -72,16 +73,18 @@ describe('Test Class: DefaultRender()', () => {
           content: '',
         });
 
-        render.renderConfiguration(configFile);
+        render.renderConfiguration(new FileInformation({ path: 'test' }), configFile);
 
         expect(configFile.path).toEqual('test.json');
         expect(configFile.content).toEqual(JSON.stringify({
-          test: {},
+          test: {
+            plugin: {},
+          },
         }, null, 2));
       });
 
       it('Should update file content on empty configuration file', () => {
-        const pluginData = new DefaultData(new DefaultConfiguration(), { name: 'test' });
+        const pluginData = new DefaultData(new DefaultConfiguration(), { name: 'plugin' });
         const render = new DefaultRender(pluginData);
 
         pluginData.components.push(new Component({
@@ -94,22 +97,24 @@ describe('Test Class: DefaultRender()', () => {
           content: '',
         });
 
-        render.renderConfiguration(configFile);
+        render.renderConfiguration(new FileInformation({ path: 'test' }), configFile);
 
         expect(configFile.path).toEqual('test.json');
         expect(configFile.content).toEqual(JSON.stringify({
           test: {
-            c1: {
-              x: 1,
-              needsResizing: false,
-              needsPositioning: false,
+            plugin: {
+              c1: {
+                x: 1,
+                needsResizing: false,
+                needsPositioning: false,
+              },
             },
           },
         }, null, 2));
       });
 
       it('Should update file content without removing other plugins configuration', () => {
-        const pluginData = new DefaultData(new DefaultConfiguration(), { name: 'test' });
+        const pluginData = new DefaultData(new DefaultConfiguration(), { name: 'plugin' });
         const render = new DefaultRender(pluginData);
 
         pluginData.components.push(new Component({
@@ -121,24 +126,32 @@ describe('Test Class: DefaultRender()', () => {
           path: 'test.json',
           content: JSON.stringify({
             other: {
-              test: 1,
+              otherPlugin: {
+                test: 1,
+              },
             },
             test: {
-              c1: 2,
-              c2: 3,
+              plugin: {
+                c1: 2,
+                c2: 3,
+              },
             },
           }),
         });
 
-        render.renderConfiguration(configFile);
+        render.renderConfiguration(new FileInformation({ path: 'test' }), configFile);
 
         expect(configFile.path).toEqual('test.json');
         expect(configFile.content).toEqual(JSON.stringify({
           other: {
-            test: 1,
+            otherPlugin: {
+              test: 1,
+            },
           },
           test: {
-            c1: 1,
+            plugin: {
+              c1: 1,
+            },
           },
         }, null, 2));
       });

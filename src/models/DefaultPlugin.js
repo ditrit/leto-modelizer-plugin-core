@@ -102,10 +102,11 @@ class DefaultPlugin {
   /**
    * Convert the content of files into plugin data.
    * Configuration file is used for setting up the components' configuration.
+   * @param {FileInformation} diagram - Diagram file information.
    * @param {FileInput} file - Configuration file of components.
    * @param {FileInput[]} [inputs] - File inputs you want to parse.
    */
-  parse(file, inputs = []) {
+  parse(diagram, file, inputs = []) {
     const id = this.data.emitEvent({
       type: 'Parser',
       action: 'read',
@@ -116,8 +117,8 @@ class DefaultPlugin {
       },
     });
 
-    this.__parser.parse(inputs, id);
-    this.__parser.parseConfiguration(file, id);
+    this.__parser.parse(diagram, inputs, id);
+    this.__parser.parseConfiguration(diagram, file, id);
 
     this.data.emitEvent({ id, status: 'success' });
   }
@@ -154,11 +155,12 @@ class DefaultPlugin {
   /**
    * Return all generated files from plugin data.
    * Configuration file is used for saving the components' configuration.
+   * @param {FileInformation} diagram - Diagram file information.
    * @param {FileInput} configurationFile - Configuration file of components.
    * @param {FileInput[]} files - File inputs you want to render.
    * @returns {FileInput[]} All generated files including the configuration file.
    */
-  render(configurationFile, files = []) {
+  render(diagram, configurationFile, files = []) {
     const id = this.data.emitEvent({
       type: 'Render',
       action: 'write',
@@ -169,7 +171,7 @@ class DefaultPlugin {
       },
     });
 
-    this.__renderer.renderConfiguration(configurationFile, id);
+    this.__renderer.renderConfiguration(diagram, configurationFile, id);
 
     const renderFiles = this.__renderer.render(files, id).concat(configurationFile);
 
