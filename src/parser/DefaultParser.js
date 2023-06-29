@@ -37,15 +37,6 @@ class DefaultParser {
   }
 
   /**
-   * Get all possible folders for a model from a folder list.
-   * @param {FileInformation[]} [folders] - Folder list.
-   * @returns {string[]} All possible folder list.
-   */
-  getModelFolders(folders = []) {
-    return folders.map(({ path }) => path);
-  }
-
-  /**
    * Set configuration into Components.
    * @param {FileInformation} diagram - Diagram file information.
    * @param {FileInput} file - Configuration file of components.
