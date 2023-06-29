@@ -67,23 +67,6 @@ describe('Test Class: DefaultParser()', () => {
     });
   });
 
-  describe('Test method: getModelFolders', () => {
-    it('should return empty array without folders', () => {
-      const defaultParser = new DefaultParser();
-
-      expect(defaultParser.getModelFolders()).toEqual([]);
-    });
-
-    it('should provided folders array', () => {
-      const defaultParser = new DefaultParser();
-
-      expect(defaultParser.getModelFolders([])).toEqual([]);
-      expect(defaultParser.getModelFolders([
-        new FileInformation({ path: 'a' }),
-      ])).toEqual(['a']);
-    });
-  });
-
   it('should save configuration even if the file content is null', () => {
     const pluginData = new DefaultData({ name: 'test' });
     const defaultParser = new DefaultParser(pluginData);

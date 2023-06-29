@@ -16,6 +16,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `renderConfiguration` method of `DefaultRender`.
   - `parse` method of `DefaultPlugin`.
   - `render` method of `DefaultPlugin`.
+- Add `restrictiveFolder` in `DefaultConfiguration`.
+
+### Removed
+
+- Method `getModelFolders` from `DefaultPlugin` and `DefautParser`.
 
 ## [0.16.0] - 2023/06/06
 

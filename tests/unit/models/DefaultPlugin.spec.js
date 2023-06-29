@@ -119,31 +119,6 @@ describe('Test class: DefaultPlugin', () => {
     });
   });
 
-  describe('Test method: getModelFolders', () => {
-    it('should return an empty array if there are no folders', () => {
-      const plugin = new DefaultPlugin({
-        pluginParser: {
-          getModelFolders: (files) => files || [],
-        },
-      });
-
-      expect(plugin.getModelFolders()).toEqual([]);
-      expect(plugin.getModelFolders([])).toEqual([]);
-    });
-
-    it('should return all folders', () => {
-      const plugin = new DefaultPlugin({
-        pluginParser: {
-          getModelFolders: (files) => files.map(({ path }) => path),
-        },
-      });
-
-      expect(plugin.getModelFolders([
-        new FileInformation({ path: 'folder' }),
-      ])).toEqual(['folder']);
-    });
-  });
-
   describe('Test method: getModels', () => {
     it('should return an empty array if there are no folders', () => {
       const plugin = new DefaultPlugin({

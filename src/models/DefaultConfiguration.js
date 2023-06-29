@@ -8,6 +8,7 @@ class DefaultConfiguration {
    * @param {object} [props.editor] - Object that contains all properties of editor
    * configuration.
    * @param {object} [props.editor.syntax] - Syntax configuration.
+   * @param {string} [props.restrictiveFolder] - Restrictive folder for new component if provided.
    * @param {string} [props.defaultFileName] - Default file name for new components.
    * @param {string} [props.defaultFileExtension] - Default file extension for components.
    * @param {Tag[]} [props.tags] - All plugin tags.
@@ -16,6 +17,7 @@ class DefaultConfiguration {
     editor: {
       syntax: null,
     },
+    restrictiveFolder: null,
     defaultFileName: null,
     defaultFileExtension: null,
     tags: [],
@@ -28,6 +30,11 @@ class DefaultConfiguration {
       syntax: null,
       ...props.editor,
     };
+    /**
+     * Restrictive folder for new component if provided.
+     * @type {string}
+     */
+    this.restrictiveFolder = props.restrictiveFolder || null;
     /**
      * Default file name for new components.
      * @type {string}
