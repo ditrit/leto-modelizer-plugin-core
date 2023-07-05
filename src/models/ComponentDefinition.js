@@ -59,66 +59,78 @@ class ComponentDefinition {
      * @type {string}
      */
     this.type = type || null;
+
     /**
      * The icon's name of this type of component.
      * @type {string}
      */
     this.icon = icon || null;
+
     /**
      * Name of SVG model to render this type of component.
      * @type {string}
      */
     this.model = model || null;
+
     /**
      * Display name of the component.
      * @type {string}
      */
     this.displayName = displayName || null;
+
     /**
      * Explanation of the component.
      * @type {string}
      */
     this.description = description || null;
+
     /**
      * URL of the documentation of the component.
      * @type {string}
      */
     this.url = url || null;
+
     /**
      * The list of types that can be the parent.
      * @type {string[]}
      * @default []
      */
     this.parentTypes = parentTypes || [];
+
     /**
      * The list of types that can be the children.
      * @type {string[]}
      * @default []
      */
     this.childrenTypes = childrenTypes || [];
+
     /**
      * Defined attributes for this type.
      * @type {ComponentAttributeDefinition[]}
      * @default []
      */
     this.definedAttributes = definedAttributes || [];
+
     /**
      * Boolean means if this type can be a parent.
      * @type {boolean}
      * @default false
      */
     this.isContainer = isContainer === undefined ? false : isContainer;
+
     /**
      * Name of a specific display behavior.
      * @type {string}
      */
     this.displayType = displayType || null;
+
     /**
      * Flag to always force children layout re-computing.
      * @type {boolean}
      * @default false
      */
     this.preventChildrenMovement = preventChildrenMovement ?? false;
+
     /**
      * Override the container's children layout line length.
      * @type {number}
