@@ -85,7 +85,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="Tag.html">Tag</a></li></ul></div>
                 
             </nav>
         </div>
@@ -108,7 +108,7 @@
 class ComponentDrawOption {
   /**
    * Default constructor
-   * @param {object} [props={}] - Object that contains all properties to set.
+   * @param {object} [props] - Object that contains all properties to set.
    * @param {number} [props.x] - X Position of Component.
    * @param {number} [props.y] - Y Position of Component.
    * @param {number} [props.width] - Width of Component in pixel.
@@ -117,6 +117,8 @@ class ComponentDrawOption {
    * the Component's width and height need re-computing.
    * @param {boolean} [props.needsPositioning] - Flag to indicate if
    * the Component's position needs re-computing.
+   * @param {boolean} [props.manuallyResized] - Flag to indicate if the Component was resized
+   * manually.
    */
   constructor(props = {
     x: null,
@@ -125,6 +127,7 @@ class ComponentDrawOption {
     height: null,
     needsResizing: false,
     needsPositioning: false,
+    manuallyResized: false,
   }) {
     const {
       x,
@@ -133,6 +136,7 @@ class ComponentDrawOption {
       height,
       needsResizing,
       needsPositioning,
+      manuallyResized,
     } = props;
 
     /**
@@ -140,23 +144,42 @@ class ComponentDrawOption {
      * @type {number}
      */
     this.x = x || null;
+
     /**
      * Y Position of Component.
      * @type {number}
      */
     this.y = y || null;
+
     /**
      * Width of Component in pixel.
      * @type {number}
      */
     this.width = width || null;
+
     /**
      * Height of Component in pixel.
      * @type {number}
      */
     this.height = height || null;
+
+    /**
+     * True if the component needs to be resized
+     * @type {boolean}
+     */
     this.needsResizing = needsResizing || false;
+
+    /**
+     * True if the component should be positioned automatically.
+     * @type {boolean}
+     */
     this.needsPositioning = needsPositioning || false;
+
+    /**
+     * True if the component was manually resized.
+     * @type {boolean}
+     */
+    this.manuallyResized = manuallyResized || false;
   }
 }
 
