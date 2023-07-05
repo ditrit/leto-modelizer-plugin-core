@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `parse` method of `DefaultPlugin`.
   - `render` method of `DefaultPlugin`.
 - Add `restrictiveFolder` in `DefaultConfiguration`.
+- Add manual resizing feature for container components.
 
 ### Removed
 
