@@ -85,7 +85,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="Tag.html">Tag</a></li></ul></div>
                 
             </nav>
         </div>
@@ -122,17 +122,18 @@ class DefaultParser {
 
   /**
    * Convert the content of files into Components.
-   * @param {FileInput[]} [inputs=[]] - Data you want to parse.
-   * @param {string} [parentEventId=null] - Parent event id.
+   * @param {FileInformation} diagram - Diagram file information.
+   * @param {FileInput[]} [inputs] - Data you want to parse.
+   * @param {string} [parentEventId] - Parent event id.
    */
-  parse(inputs = [], parentEventId = null) { /* eslint no-unused-vars: 0 */ // --> OFF
+  parse(diagram, inputs = [], parentEventId = null) { /* eslint no-unused-vars: 0 */ // --> OFF
     this.pluginData.components = [];
     this.pluginData.parseErrors = [];
   }
 
   /**
    * Get the list of model paths from all parsable files.
-   * @param {FileInformation[]} [files=[]] - List of parsable files.
+   * @param {FileInformation[]} [files] - List of parsable files.
    * @returns {string[]} List of folder and file paths that represent a model.
    */
   getModels(files = []) {
@@ -140,20 +141,12 @@ class DefaultParser {
   }
 
   /**
-   * Get all possible folders for a model from a folder list.
-   * @param {FileInformation[]} [folders=[]] - Folder list.
-   * @returns {string[]} All possible folder list.
-   */
-  getModelFolders(folders = []) {
-    return folders.map(({ path }) => path);
-  }
-
-  /**
    * Set configuration into Components.
+   * @param {FileInformation} diagram - Diagram file information.
    * @param {FileInput} file - Configuration file of components.
-   * @param {string} [parentEventId=null] - Parent event id.
+   * @param {string} [parentEventId] - Parent event id.
    */
-  parseConfiguration(file, parentEventId = null) {
+  parseConfiguration(diagram, file, parentEventId = null) {
     const logId = this.pluginData.emitEvent({
       parent: parentEventId,
       type: 'Parser',
@@ -180,7 +173,20 @@ class DefaultParser {
 
     const config = JSON.parse(file.content);
 
-    if (!config[this.pluginData.name]) {
+    if (!config[diagram.path]) {
+      this.pluginData.emitEvent({
+        id: logId,
+        status: 'warning',
+        data: {
+          code: 'no_diagram_content',
+          global: false,
+        },
+      });
+
+      return;
+    }
+
+    if (!config[diagram.path][this.pluginData.name]) {
       this.pluginData.emitEvent({
         id: logId,
         status: 'warning',
@@ -193,14 +199,16 @@ class DefaultParser {
       return;
     }
 
-    Object.keys(config[this.pluginData.name]).forEach((id) => {
+    Object.keys(config[diagram.path][this.pluginData.name]).forEach((id) => {
       const component = this.pluginData.getComponentById(id);
 
-      if (!component || !config[this.pluginData.name][id]) {
+      if (!component || !config[diagram.path][this.pluginData.name][id]) {
         return;
       }
 
-      component.drawOption = new ComponentDrawOption(config[this.pluginData.name][id]);
+      component.drawOption = new ComponentDrawOption(
+        config[diagram.path][this.pluginData.name][id],
+      );
     });
 
     this.pluginData.emitEvent({ id: logId, status: 'success' });

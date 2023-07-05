@@ -83,7 +83,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="Tag.html">Tag</a></li></ul></div>
                 
             </nav>
         </div>
@@ -166,8 +166,6 @@
             
 
             
-            <th>Default</th>
-            
 
             <th class="last">Description</th>
         </tr>
@@ -204,12 +202,6 @@
   
 
   
-      <td class="default">
-      
-          {}
-      
-      </td>
-  
 
   <td class="description last">Object that contains all properties to set.</td>
 </tr>
@@ -243,12 +235,6 @@
       </td>
   
 
-  
-      <td class="default">
-      
-          {}
-      
-      </td>
   
 
   <td class="description last">Object that contains all properties of editor
@@ -284,12 +270,41 @@ configuration.</td>
   
 
   
-      <td class="default">
+
+  <td class="description last">Syntax configuration.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>restrictiveFolder</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
       
       </td>
   
 
-  <td class="description last">Syntax configuration.</td>
+  
+
+  <td class="description last">Restrictive folder for new component if provided.</td>
 </tr>
 
   
@@ -320,10 +335,6 @@ configuration.</td>
       </td>
   
 
-  
-      <td class="default">
-      
-      </td>
   
 
   <td class="description last">Default file name for new components.</td>
@@ -358,10 +369,6 @@ configuration.</td>
   
 
   
-      <td class="default">
-      
-      </td>
-  
 
   <td class="description last">Default file extension for components.</td>
 </tr>
@@ -376,7 +383,7 @@ configuration.</td>
   <td class="type">
   
       
-<code class="param-type">Array.&lt;string></code>
+<code class="param-type">Array.&lt;<a href="Tag.html">Tag</a>></code>
 
 
   
@@ -394,12 +401,6 @@ configuration.</td>
       </td>
   
 
-  
-      <td class="default">
-      
-          []
-      
-      </td>
   
 
   <td class="description last">All plugin tags.</td>
@@ -568,7 +569,7 @@ configuration.</td>
         <p class="tag-source">
             <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line40">line 40</a>
+                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line47">line 47</a>
             </span>
         </p>
     
@@ -645,7 +646,7 @@ configuration.</td>
         <p class="tag-source">
             <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line35">line 35</a>
+                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line42">line 42</a>
             </span>
         </p>
     
@@ -722,7 +723,7 @@ configuration.</td>
         <p class="tag-source">
             <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line27">line 27</a>
+                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line29">line 29</a>
             </span>
         </p>
     
@@ -739,7 +740,84 @@ configuration.</td>
     <span class="method-parameter is-pulled-right">
         <label>Type:</label>
         
-<code class="param-type">Array.&lt;string></code>
+<code class="param-type">string</code>
+
+
+    </span>
+
+<h4 class="name" id="restrictiveFolder">
+    <a class="href-link" href="#restrictiveFolder">#</a>
+    
+    <span class="code-name">
+        restrictiveFolder
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Restrictive folder for new component if provided.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line37">line 37</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">Array.&lt;<a href="Tag.html">Tag</a>></code>
 
 
     </span>
@@ -789,6 +867,11 @@ configuration.</td>
     
 
     
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li>[]</li>
+        </ul></dd>
+    
     
 
     
@@ -799,7 +882,7 @@ configuration.</td>
         <p class="tag-source">
             <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line45">line 45</a>
+                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line53">line 53</a>
             </span>
         </p>
     

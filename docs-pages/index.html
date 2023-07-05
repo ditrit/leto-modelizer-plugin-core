@@ -83,7 +83,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="Tag.html">Tag</a></li></ul></div>
                 
             </nav>
         </div>
@@ -100,7 +100,7 @@
     
 
 
-    <h3>leto-modelizer-plugin-core 0.16.0</h3>
+    <h3>leto-modelizer-plugin-core 0.17.0</h3>
 
 
 
@@ -213,6 +213,20 @@ export default new DefaultPlugin({
 <p>This is the default lifecycle of plugin usage in Leto Modelizer.</p>
 <h3>Plugin creation</h3>
 <p>Create you plugin project from <a href="https://github.com/ditrit/leto-modelizer-plugin-template">leto-modelizer-plugin-template</a> and follow the readme section of the template project.</p>
+<h3>Tag your plugin</h3>
+<p>To help users understand the usage of your plugin, you can tag it using two types of tags:</p>
+<ul>
+<li><code>language</code>: This tag indicates the programming language used in your plugin.</li>
+<li><code>category</code>: This tag assigns an appropriate category to your plugin, such as CI, CD, Workflow, and more.</li>
+</ul>
+<p>All tags should be registered in the <code>DefaultConfiguration</code>:</p>
+<pre class="prettyprint source lang-js"><code>new DefaultConfiguration({
+  tags: [
+    new Tag({ type: 'category', value: 'Infrastructure' }),
+    new Tag({ type: 'language', value: 'Terraform' }),
+  ],
+});
+</code></pre>
 <h3>Events</h3>
 <p>By default, plugin sends event if you provide a <code>next()</code> function in DefaultData, like:</p>
 <pre class="prettyprint source lang-js"><code>new DefaultPlugin({

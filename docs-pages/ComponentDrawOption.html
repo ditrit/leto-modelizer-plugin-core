@@ -83,7 +83,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="Tag.html">Tag</a></li></ul></div>
                 
             </nav>
         </div>
@@ -166,8 +166,6 @@
             
 
             
-            <th>Default</th>
-            
 
             <th class="last">Description</th>
         </tr>
@@ -204,12 +202,6 @@
   
 
   
-      <td class="default">
-      
-          {}
-      
-      </td>
-  
 
   <td class="description last">Object that contains all properties to set.</td>
 </tr>
@@ -244,10 +236,6 @@
   
 
   
-      <td class="default">
-      
-      </td>
-  
 
   <td class="description last">X Position of Component.</td>
 </tr>
@@ -280,10 +268,6 @@
       </td>
   
 
-  
-      <td class="default">
-      
-      </td>
   
 
   <td class="description last">Y Position of Component.</td>
@@ -318,10 +302,6 @@
   
 
   
-      <td class="default">
-      
-      </td>
-  
 
   <td class="description last">Width of Component in pixel.</td>
 </tr>
@@ -355,10 +335,6 @@
   
 
   
-      <td class="default">
-      
-      </td>
-  
 
   <td class="description last">Height of Component in pixel.</td>
 </tr>
@@ -391,10 +367,6 @@
       </td>
   
 
-  
-      <td class="default">
-      
-      </td>
   
 
   <td class="description last">Flag to indicate if
@@ -430,13 +402,43 @@ the Component's width and height need re-computing.</td>
   
 
   
-      <td class="default">
+
+  <td class="description last">Flag to indicate if
+the Component's position needs re-computing.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>manuallyResized</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">boolean</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
       
       </td>
   
 
-  <td class="description last">Flag to indicate if
-the Component's position needs re-computing.</td>
+  
+
+  <td class="description last">Flag to indicate if the Component was resized
+manually.</td>
 </tr>
 
   
@@ -602,7 +604,238 @@ the Component's position needs re-computing.</td>
         <p class="tag-source">
             <a href="models_ComponentDrawOption.js.html" class="button">View Source</a>
             <span>
-                <a href="models_ComponentDrawOption.js.html">models/ComponentDrawOption.js</a>, <a href="models_ComponentDrawOption.js.html#line53">line 53</a>
+                <a href="models_ComponentDrawOption.js.html">models/ComponentDrawOption.js</a>, <a href="models_ComponentDrawOption.js.html#line60">line 60</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">boolean</code>
+
+
+    </span>
+
+<h4 class="name" id="manuallyResized">
+    <a class="href-link" href="#manuallyResized">#</a>
+    
+    <span class="code-name">
+        manuallyResized
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    True if the component was manually resized.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_ComponentDrawOption.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_ComponentDrawOption.js.html">models/ComponentDrawOption.js</a>, <a href="models_ComponentDrawOption.js.html#line78">line 78</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">boolean</code>
+
+
+    </span>
+
+<h4 class="name" id="needsPositioning">
+    <a class="href-link" href="#needsPositioning">#</a>
+    
+    <span class="code-name">
+        needsPositioning
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    True if the component should be positioned automatically.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_ComponentDrawOption.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_ComponentDrawOption.js.html">models/ComponentDrawOption.js</a>, <a href="models_ComponentDrawOption.js.html#line72">line 72</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">boolean</code>
+
+
+    </span>
+
+<h4 class="name" id="needsResizing">
+    <a class="href-link" href="#needsResizing">#</a>
+    
+    <span class="code-name">
+        needsResizing
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    True if the component needs to be resized
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_ComponentDrawOption.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_ComponentDrawOption.js.html">models/ComponentDrawOption.js</a>, <a href="models_ComponentDrawOption.js.html#line66">line 66</a>
             </span>
         </p>
     
@@ -679,7 +912,7 @@ the Component's position needs re-computing.</td>
         <p class="tag-source">
             <a href="models_ComponentDrawOption.js.html" class="button">View Source</a>
             <span>
-                <a href="models_ComponentDrawOption.js.html">models/ComponentDrawOption.js</a>, <a href="models_ComponentDrawOption.js.html#line48">line 48</a>
+                <a href="models_ComponentDrawOption.js.html">models/ComponentDrawOption.js</a>, <a href="models_ComponentDrawOption.js.html#line54">line 54</a>
             </span>
         </p>
     
@@ -756,7 +989,7 @@ the Component's position needs re-computing.</td>
         <p class="tag-source">
             <a href="models_ComponentDrawOption.js.html" class="button">View Source</a>
             <span>
-                <a href="models_ComponentDrawOption.js.html">models/ComponentDrawOption.js</a>, <a href="models_ComponentDrawOption.js.html#line38">line 38</a>
+                <a href="models_ComponentDrawOption.js.html">models/ComponentDrawOption.js</a>, <a href="models_ComponentDrawOption.js.html#line42">line 42</a>
             </span>
         </p>
     
@@ -833,7 +1066,7 @@ the Component's position needs re-computing.</td>
         <p class="tag-source">
             <a href="models_ComponentDrawOption.js.html" class="button">View Source</a>
             <span>
-                <a href="models_ComponentDrawOption.js.html">models/ComponentDrawOption.js</a>, <a href="models_ComponentDrawOption.js.html#line43">line 43</a>
+                <a href="models_ComponentDrawOption.js.html">models/ComponentDrawOption.js</a>, <a href="models_ComponentDrawOption.js.html#line48">line 48</a>
             </span>
         </p>
     

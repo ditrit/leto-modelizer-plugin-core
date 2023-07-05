@@ -85,7 +85,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="Tag.html">Tag</a></li></ul></div>
                 
             </nav>
         </div>
@@ -115,14 +115,14 @@ class DefaultDrawer {
   /**
    * Default constructor
    * @param {DefaultData} pluginData - Plugin data storage.
-   * @param {object} [resources=null] - Object that contains resources.
-   * @param {string} [rootId="root"] - Id of HTML element where we want to draw.
-   * @param {object} [options={}] - Rendering options.
-   * @param {number} [options.minWidth=230] - Minimum width of a component.
-   * @param {number} [options.minHeight=50] - Minimum height of a component.
-   * @param {number} [options.padding=30] - Padding around a component.
-   * @param {number} [options.margin=6] - Component margin thickness.
-   * @param {number[]} [options.lineLengthPerDepth=[5,1]] - Number of components
+   * @param {object} [resources] - Object that contains resources.
+   * @param {string} [rootId] - Id of HTML element where we want to draw.
+   * @param {object} [options] - Rendering options.
+   * @param {number} [options.minWidth] - Minimum width of a component.
+   * @param {number} [options.minHeight] - Minimum height of a component.
+   * @param {number} [options.padding] - Padding around a component.
+   * @param {number} [options.margin] - Component margin thickness.
+   * @param {number[]} [options.lineLengthPerDepth] - Number of components
    * per line at a given depth. Valid values: 1 - Infinity.
    * @param {number} [options.actionMenuButtonSize] - The size of each action menu button.
    */
@@ -135,8 +135,9 @@ class DefaultDrawer {
     /**
      * Id of HTML element where we want to draw.
      * @type {string}
+     * @default 'root'
      */
-    this.rootId = rootId;
+    this.rootId = rootId || 'root';
     /**
      * Object that contains resources.
      * @type {object}
@@ -145,33 +146,38 @@ class DefaultDrawer {
     /**
      * Minimum width of a component.
      * @type {number}
+     * @default 230
      */
     this.minWidth = options.minWidth !== undefined ? options.minWidth : 230;
     /**
      * Minimum height of a component.
      * @type {number}
+     * @default 50
      */
     this.minHeight = options.minHeight !== undefined ? options.minHeight : 50;
     /**
      * Padding around components.
      * @type {number}
+     * @default 30
      */
     this.padding = options.padding !== undefined ? options.padding : 30;
     /**
      * Component margin thickness.
      * @type {number}
+     * @default 6
      */
     this.margin = options.margin !== undefined ? options.margin : 6;
     /**
      * Number of components per line at a given depth. Valid values: 1 - Infinity.
      * @type {number[]}
+     * @default [5, 1]
      */
     this.lineLengthPerDepth = options.lineLengthPerDepth !== undefined
       ? options.lineLengthPerDepth : [5, 1];
-
     /**
      * The size of each action menu button.
      * @type {number}
+     * @default 24
      */
     this.actionMenuButtonSize = options.actionMenuButtonSize || 24;
     /**
@@ -209,7 +215,7 @@ class DefaultDrawer {
    * Convert screen coordinates into a given svg referential.
    * @param {number} screenX - Screen x coordinate.
    * @param {number} screenY - Screen y coordinate.
-   * @param {SVGSVGElement} [svg=null] - SVG referential.
+   * @param {SVGSVGElement} [svg] - SVG referential.
    * @returns {DOMPoint} The transformed coordinates.
    */
   screenToSVG(screenX, screenY, svg = null) {
@@ -223,7 +229,7 @@ class DefaultDrawer {
    * Convert svg coordinates into screen coordinates.
    * @param {number} svgX - SVG x coordinate.
    * @param {number} svgY - SVG y coordinate.
-   * @param {SVGSVGElement} [svg=null] - SVG referential.
+   * @param {SVGSVGElement} [svg] - SVG referential.
    * @returns {DOMPoint} The transformed coordinates.
    */
   SVGToScreen(svgX, svgY, svg = null) {
@@ -272,7 +278,7 @@ class DefaultDrawer {
   /**
    * Get the maximum line length for a given depth.
    * @param {number} depth - The depth to check.
-   * @param {boolean} [lineLengthOverride=false] - Override if parent is tagged as a workflow
+   * @param {boolean} [lineLengthOverride] - Override if parent is tagged as a workflow
    * @returns {number} The maximum length at that depth.
    */
   getLineLengthForDepth(depth, lineLengthOverride = null) {
@@ -282,7 +288,7 @@ class DefaultDrawer {
 
   /**
    * Apply the disabled style to all elements matching the selector.
-   * @param {string} [selector='.component'] - CSS selector string.
+   * @param {string} [selector] - CSS selector string.
    */
   setDisabledStyle(selector = '.component') {
     const localSelector = `#${this.rootId} ${selector || '.component'}`;
@@ -387,7 +393,7 @@ class DefaultDrawer {
    * @private
    */
   __markAsNeedingResize(node) {
-    if (node.data.drawOption) {
+    if (node?.data.drawOption) {
       node.data.drawOption.needsResizing = true;
     }
     if (node.parent) {
@@ -408,15 +414,9 @@ class DefaultDrawer {
       || (origParent?.id === target?.datum().data?.id
         &amp;&amp; !origParent?.definition?.preventChildrenMovement)) {
       const { x, y } = event;
-      const width = event.subject.x1 - event.subject.x0;
-      const height = event.subject.y1 - event.subject.y0;
 
-      event.subject.data.drawOption = new ComponentDrawOption({
-        x: x - this.actions.drag.offsetX,
-        y: y - this.actions.drag.offsetY,
-        width,
-        height,
-      });
+      event.subject.data.drawOption.x = x - this.actions.drag.offsetX;
+      event.subject.data.drawOption.y = y - this.actions.drag.offsetY;
 
       this.pluginData.emitEvent({
         type: 'Drawer',
@@ -730,21 +730,45 @@ class DefaultDrawer {
       ))
       .select('svg')
       .attr('id', ({ data }) => `svg-${data.id}`)
-      .attr('height', (component) => this.getComponentHeight(component))
-      .attr('width', (component) => this.getComponentWidth(component));
+      .attr('height', (component) => {
+        const { manuallyResized, height } = component.data.drawOption;
+
+        return manuallyResized ? height : this.getComponentHeight(component);
+      })
+      .attr('width', (component) => {
+        const { manuallyResized, width } = component.data.drawOption;
+
+        return manuallyResized ? width : this.getComponentWidth(component);
+      });
 
     node.select('.component-icon')
       .html(({ data }) => this.resources.icons[data.definition.icon]);
 
     node.select('rect')
       .filter((d) => d.data?.definition?.isContainer)
-      .attr('height', (component) => this.getComponentHeight(component))
-      .attr('width', (component) => this.getComponentWidth(component));
+      .attr('height', (component) => {
+        const { manuallyResized, height } = component.data.drawOption;
+
+        return manuallyResized ? height : this.getComponentHeight(component);
+      })
+      .attr('width', (component) => {
+        const { manuallyResized, width } = component.data.drawOption;
+
+        return manuallyResized ? width : this.getComponentWidth(component);
+      });
 
     node.select('.component-container')
-      .attr('height', (component) => this.getComponentHeight(component)
-        - this.minHeight - this.margin)
-      .attr('width', (component) => this.getComponentWidth(component) - 2 * this.margin)
+      .attr('height', (component) => {
+        const { manuallyResized, height } = component.data.drawOption;
+
+        return (manuallyResized ? height : this.getComponentHeight(component))
+          - this.minHeight - this.margin;
+      })
+      .attr('width', (component) => {
+        const { manuallyResized, width } = component.data.drawOption;
+
+        return (manuallyResized ? width : this.getComponentWidth(component)) - 2 * this.margin;
+      })
       .attr('x', () => this.margin)
       .filter(({ children }) => children)
       .append(({ data }) => d3.select(`#group-${data.id}`).node());
@@ -785,7 +809,7 @@ class DefaultDrawer {
         width,
         height,
       });
-    } else {
+    } else if (!component.data.drawOption.manuallyResized) {
       component.data.drawOption.width = width;
       component.data.drawOption.height = height;
     }
@@ -1070,6 +1094,7 @@ class DefaultDrawer {
     if (component.id === '__shadowRoot') {
       return 0;
     }
+
     const childWidths = component.children ? component.children.map(({ x1 }) => x1) : [0];
 
     component.data.drawOption.width = Math.max(this.minWidth, ...childWidths)
@@ -1081,7 +1106,7 @@ class DefaultDrawer {
   /**
    * Compute the dimension of every component.
    * @param {Array} lines - Rows of components.
-   * @param {boolean} [invertEven=false] - Layout even line components right to left.
+   * @param {boolean} [invertEven] - Layout even line components right to left.
    */
   setupTiles(lines, invertEven = false) {
     let previousTallestItem = { x1: 0, y1: 0 };
@@ -1275,6 +1300,7 @@ class DefaultDrawer {
 
       this.actions.selection.current = null;
       this.hideActionMenu();
+      this.hideResizer();
     }
   }
 
@@ -1334,6 +1360,10 @@ class DefaultDrawer {
       }
 
       this.initializeActionMenu(targetSelection);
+
+      if (targetSelection.datum().data &amp;&amp; targetSelection.datum()?.data.definition.isContainer) {
+        this.initializeResizer(targetSelection);
+      }
 
       this.pluginData.emitEvent({
         type: 'Drawer',
@@ -1472,6 +1502,86 @@ class DefaultDrawer {
       .style('width', '30px')
       .style('height', '30px')
       .style('border', 'none');
+  }
+
+  /**
+   * Initialize resizer button when container component is selected.
+   * @param {Selection} targetSelection - D3 selection of the target object.
+   */
+  initializeResizer(targetSelection) {
+    const {
+      top, left, width, height,
+    } = targetSelection.node().getBoundingClientRect();
+    const { x: x1, y: y1 } = this.screenToSVG(
+      left + width,
+      top + height,
+      this.svg.select('.container').node(),
+    );
+
+    const hitSize = 10;
+
+    const resizer = this.svg.select('.container')
+      .append('g')
+      .attr('id', 'resizer')
+      .attr('fill', '#B5B5B5');
+
+    resizer.append('circle')
+      .classed('resize-hit', true)
+      .attr('cursor', 'nwse-resize')
+      .attr('cx', x1)
+      .attr('cy', y1)
+      .attr('r', hitSize)
+      .call(d3.drag()
+        .on('drag', (event) => {
+          this.hideActionMenu();
+
+          const component = d3.select(`#svg-${this.actions.selection.current.id}`);
+          const componentContainer = component.select('.component-container');
+          const componentW = parseInt(component.attr('width'), 10);
+          const componentH = parseInt(component.attr('height'), 10);
+          const containerW = parseInt(componentContainer.attr('width'), 10);
+          const containerH = parseInt(componentContainer.attr('height'), 10);
+
+          const hit = d3.select('.resize-hit');
+          const hitX = parseInt(hit.attr('cx'), 10);
+          const hitY = parseInt(hit.attr('cy'), 10);
+
+          hit.attr('cx', hitX + event.dx);
+          hit.attr('cy', hitY + event.dy);
+
+          component
+            .attr('width', componentW + event.dx)
+            .attr('height', componentH + event.dy);
+
+          component
+            .select('.component-hitbox')
+            .attr('width', componentW + event.dx)
+            .attr('height', componentH + event.dy);
+
+          component
+            .select('.component-container')
+            .attr('width', containerW + event.dx)
+            .attr('height', containerH + event.dy);
+        })
+        .on('end', () => {
+          const component = this.actions.selection.current;
+          const componentSvg = d3.select(`#svg-${component.id}`);
+          const componentW = parseInt(componentSvg.attr('width'), 10);
+          const componentH = parseInt(componentSvg.attr('height'), 10);
+
+          component.drawOption.width = componentW;
+          component.drawOption.height = componentH;
+          component.drawOption.manuallyResized = true;
+
+          this.draw(this.rootId);
+
+          this.pluginData.emitEvent({
+            type: 'Drawer',
+            action: 'resize',
+            status: 'success',
+            components: [component.id],
+          });
+        }));
   }
 
   /**
@@ -1709,6 +1819,13 @@ class DefaultDrawer {
   hideActionMenu() {
     d3.select('#action-menu').remove();
     d3.select('#linkable-menu').remove();
+  }
+
+  /**
+   * Hide the resizer.
+   */
+  hideResizer() {
+    d3.select('#resizer').remove();
   }
 }
 export default DefaultDrawer;

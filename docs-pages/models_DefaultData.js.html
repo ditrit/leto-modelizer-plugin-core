@@ -85,7 +85,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="Tag.html">Tag</a></li></ul></div>
                 
             </nav>
         </div>
@@ -120,12 +120,12 @@ class DefaultData {
    * @param {object} props - All properties.
    * @param {string} props.name - Name of plugin.
    * @param {string} props.version - Version of plugin.
-   * @param {Component[]} [props.components=[]] - Components array.
-   * @param {object} [props.definitions={}] - All definitions.
-   * @param {ComponentDefinition[]} [props.definitions.components=[]] - All component definitions.
-   * @param {ComponentLinkDefinition[]} [props.definitions.link=[]] - All component link
+   * @param {Component[]} [props.components] - Components array.
+   * @param {object} [props.definitions] - All definitions.
+   * @param {ComponentDefinition[]} [props.definitions.components] - All component definitions.
+   * @param {ComponentLinkDefinition[]} [props.definitions.link] - All component link
    * definitions.
-   * @param {ParseError[]} [props.parseErrors=[]] - Parse errors array.
+   * @param {ParseError[]} [props.parseErrors] - Parse errors array.
    * @param {object} [event] - Event manager.
    * @param {Function} [event.next] - Function to emit event.
    */
@@ -152,6 +152,7 @@ class DefaultData {
     /**
      * All plugin components.
      * @type {Component[]}
+     * @default []
      */
     this.components = props.components || [];
     /**
@@ -169,11 +170,13 @@ class DefaultData {
     /**
      * All parser errors.
      * @type {ParseError[]}
+     * @default []
      */
     this.parseErrors = props.parseErrors || [];
     /**
      * Index of the last event log.
      * @type {number}
+     * @default 0
      * @private
      */
     this.__eventIndex = 0;
@@ -223,7 +226,7 @@ class DefaultData {
   /**
    * Create new component.
    * @param {ComponentDefinition} definition - Component definition.
-   * @param {string} [folder=''] - Folder path.
+   * @param {string} [folder] - Folder path.
    * @param {string} [fileName] - File name.
    * @returns {string} Component id.
    */
