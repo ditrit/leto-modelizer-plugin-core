@@ -13,6 +13,8 @@ class ComponentDrawOption {
    * the Component's width and height need re-computing.
    * @param {boolean} [props.needsPositioning] - Flag to indicate if
    * the Component's position needs re-computing.
+   * @param {boolean} [props.manuallyResized] - Flag to indicate if the Component was resized
+   * manually.
    */
   constructor(props = {
     x: null,
@@ -21,6 +23,7 @@ class ComponentDrawOption {
     height: null,
     needsResizing: false,
     needsPositioning: false,
+    manuallyResized: false,
   }) {
     const {
       x,
@@ -29,6 +32,7 @@ class ComponentDrawOption {
       height,
       needsResizing,
       needsPositioning,
+      manuallyResized,
     } = props;
 
     /**
@@ -36,23 +40,42 @@ class ComponentDrawOption {
      * @type {number}
      */
     this.x = x || null;
+
     /**
      * Y Position of Component.
      * @type {number}
      */
     this.y = y || null;
+
     /**
      * Width of Component in pixel.
      * @type {number}
      */
     this.width = width || null;
+
     /**
      * Height of Component in pixel.
      * @type {number}
      */
     this.height = height || null;
+
+    /**
+     * True if the component needs to be resized
+     * @type {boolean}
+     */
     this.needsResizing = needsResizing || false;
+
+    /**
+     * True if the component should be positioned automatically.
+     * @type {boolean}
+     */
     this.needsPositioning = needsPositioning || false;
+
+    /**
+     * True if the component was manually resized.
+     * @type {boolean}
+     */
+    this.manuallyResized = manuallyResized || false;
   }
 }
 

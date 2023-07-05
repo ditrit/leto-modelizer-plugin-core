@@ -289,7 +289,7 @@ class DefaultDrawer {
    * @private
    */
   __markAsNeedingResize(node) {
-    if (node.data.drawOption) {
+    if (node?.data.drawOption) {
       node.data.drawOption.needsResizing = true;
     }
     if (node.parent) {
@@ -310,15 +310,9 @@ class DefaultDrawer {
       || (origParent?.id === target?.datum().data?.id
         && !origParent?.definition?.preventChildrenMovement)) {
       const { x, y } = event;
-      const width = event.subject.x1 - event.subject.x0;
-      const height = event.subject.y1 - event.subject.y0;
 
-      event.subject.data.drawOption = new ComponentDrawOption({
-        x: x - this.actions.drag.offsetX,
-        y: y - this.actions.drag.offsetY,
-        width,
-        height,
-      });
+      event.subject.data.drawOption.x = x - this.actions.drag.offsetX;
+      event.subject.data.drawOption.y = y - this.actions.drag.offsetY;
 
       this.pluginData.emitEvent({
         type: 'Drawer',
@@ -632,21 +626,45 @@ class DefaultDrawer {
       ))
       .select('svg')
       .attr('id', ({ data }) => `svg-${data.id}`)
-      .attr('height', (component) => this.getComponentHeight(component))
-      .attr('width', (component) => this.getComponentWidth(component));
+      .attr('height', (component) => {
+        const { manuallyResized, height } = component.data.drawOption;
+
+        return manuallyResized ? height : this.getComponentHeight(component);
+      })
+      .attr('width', (component) => {
+        const { manuallyResized, width } = component.data.drawOption;
+
+        return manuallyResized ? width : this.getComponentWidth(component);
+      });
 
     node.select('.component-icon')
       .html(({ data }) => this.resources.icons[data.definition.icon]);
 
     node.select('rect')
       .filter((d) => d.data?.definition?.isContainer)
-      .attr('height', (component) => this.getComponentHeight(component))
-      .attr('width', (component) => this.getComponentWidth(component));
+      .attr('height', (component) => {
+        const { manuallyResized, height } = component.data.drawOption;
+
+        return manuallyResized ? height : this.getComponentHeight(component);
+      })
+      .attr('width', (component) => {
+        const { manuallyResized, width } = component.data.drawOption;
+
+        return manuallyResized ? width : this.getComponentWidth(component);
+      });
 
     node.select('.component-container')
-      .attr('height', (component) => this.getComponentHeight(component)
-        - this.minHeight - this.margin)
-      .attr('width', (component) => this.getComponentWidth(component) - 2 * this.margin)
+      .attr('height', (component) => {
+        const { manuallyResized, height } = component.data.drawOption;
+
+        return (manuallyResized ? height : this.getComponentHeight(component))
+          - this.minHeight - this.margin;
+      })
+      .attr('width', (component) => {
+        const { manuallyResized, width } = component.data.drawOption;
+
+        return (manuallyResized ? width : this.getComponentWidth(component)) - 2 * this.margin;
+      })
       .attr('x', () => this.margin)
       .filter(({ children }) => children)
       .append(({ data }) => d3.select(`#group-${data.id}`).node());
@@ -687,7 +705,7 @@ class DefaultDrawer {
         width,
         height,
       });
-    } else {
+    } else if (!component.data.drawOption.manuallyResized) {
       component.data.drawOption.width = width;
       component.data.drawOption.height = height;
     }
@@ -972,6 +990,7 @@ class DefaultDrawer {
     if (component.id === '__shadowRoot') {
       return 0;
     }
+
     const childWidths = component.children ? component.children.map(({ x1 }) => x1) : [0];
 
     component.data.drawOption.width = Math.max(this.minWidth, ...childWidths)
@@ -1177,6 +1196,7 @@ class DefaultDrawer {
 
       this.actions.selection.current = null;
       this.hideActionMenu();
+      this.hideResizer();
     }
   }
 
@@ -1236,6 +1256,10 @@ class DefaultDrawer {
       }
 
       this.initializeActionMenu(targetSelection);
+
+      if (targetSelection.datum().data && targetSelection.datum()?.data.definition.isContainer) {
+        this.initializeResizer(targetSelection);
+      }
 
       this.pluginData.emitEvent({
         type: 'Drawer',
@@ -1374,6 +1398,86 @@ class DefaultDrawer {
       .style('width', '30px')
       .style('height', '30px')
       .style('border', 'none');
+  }
+
+  /**
+   * Initialize resizer button when container component is selected.
+   * @param {Selection} targetSelection - D3 selection of the target object.
+   */
+  initializeResizer(targetSelection) {
+    const {
+      top, left, width, height,
+    } = targetSelection.node().getBoundingClientRect();
+    const { x: x1, y: y1 } = this.screenToSVG(
+      left + width,
+      top + height,
+      this.svg.select('.container').node(),
+    );
+
+    const hitSize = 10;
+
+    const resizer = this.svg.select('.container')
+      .append('g')
+      .attr('id', 'resizer')
+      .attr('fill', '#B5B5B5');
+
+    resizer.append('circle')
+      .classed('resize-hit', true)
+      .attr('cursor', 'nwse-resize')
+      .attr('cx', x1)
+      .attr('cy', y1)
+      .attr('r', hitSize)
+      .call(d3.drag()
+        .on('drag', (event) => {
+          this.hideActionMenu();
+
+          const component = d3.select(`#svg-${this.actions.selection.current.id}`);
+          const componentContainer = component.select('.component-container');
+          const componentW = parseInt(component.attr('width'), 10);
+          const componentH = parseInt(component.attr('height'), 10);
+          const containerW = parseInt(componentContainer.attr('width'), 10);
+          const containerH = parseInt(componentContainer.attr('height'), 10);
+
+          const hit = d3.select('.resize-hit');
+          const hitX = parseInt(hit.attr('cx'), 10);
+          const hitY = parseInt(hit.attr('cy'), 10);
+
+          hit.attr('cx', hitX + event.dx);
+          hit.attr('cy', hitY + event.dy);
+
+          component
+            .attr('width', componentW + event.dx)
+            .attr('height', componentH + event.dy);
+
+          component
+            .select('.component-hitbox')
+            .attr('width', componentW + event.dx)
+            .attr('height', componentH + event.dy);
+
+          component
+            .select('.component-container')
+            .attr('width', containerW + event.dx)
+            .attr('height', containerH + event.dy);
+        })
+        .on('end', () => {
+          const component = this.actions.selection.current;
+          const componentSvg = d3.select(`#svg-${component.id}`);
+          const componentW = parseInt(componentSvg.attr('width'), 10);
+          const componentH = parseInt(componentSvg.attr('height'), 10);
+
+          component.drawOption.width = componentW;
+          component.drawOption.height = componentH;
+          component.drawOption.manuallyResized = true;
+
+          this.draw(this.rootId);
+
+          this.pluginData.emitEvent({
+            type: 'Drawer',
+            action: 'resize',
+            status: 'success',
+            components: [component.id],
+          });
+        }));
   }
 
   /**
@@ -1611,6 +1715,13 @@ class DefaultDrawer {
   hideActionMenu() {
     d3.select('#action-menu').remove();
     d3.select('#linkable-menu').remove();
+  }
+
+  /**
+   * Hide the resizer.
+   */
+  hideResizer() {
+    d3.select('#resizer').remove();
   }
 }
 export default DefaultDrawer;

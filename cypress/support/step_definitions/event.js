@@ -11,6 +11,12 @@ When('I click on {string} of {string}', (position, selector) => cy.get(selector)
   position
 }));
 
+When('I click on {string} at {int},{int}', (selector, x, y) => cy.get(selector).realClick({
+  button: 'left',
+  x: x,
+  y: y
+}))
+
 When('I drag {string} onto {string}', (templateOriginSelector, templateDestinationSelector) => {
   const originSelector = nunjucks.renderString(templateOriginSelector, cy.context);
   const destinationSelector = nunjucks.renderString(templateDestinationSelector, cy.context);
