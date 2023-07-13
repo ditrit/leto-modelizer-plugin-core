@@ -7,6 +7,7 @@ import ComponentAttribute from 'src/models/ComponentAttribute';
 import ComponentAttributeDefinition from 'src/models/ComponentAttributeDefinition';
 import ComponentLink from 'src/models/ComponentLink';
 import ComponentLinkDefinition from 'src/models/ComponentLinkDefinition';
+import Variable from 'src/models/Variable';
 
 describe('Test class: DefaultData', () => {
   describe('Test constructor', () => {
@@ -17,6 +18,7 @@ describe('Test class: DefaultData', () => {
       expect(pluginData.name).toBeNull();
       expect(pluginData.version).toBeNull();
       expect(pluginData.components).toEqual([]);
+      expect(pluginData.variables).toEqual([]);
       expect(pluginData.parseErrors).toEqual([]);
       expect(pluginData.definitions).toEqual({ components: [], links: [] });
       expect(pluginData.eventManager).toEqual(null);
@@ -29,6 +31,7 @@ describe('Test class: DefaultData', () => {
       expect(pluginData.name).toBeNull();
       expect(pluginData.version).toBeNull();
       expect(pluginData.components).toEqual([]);
+      expect(pluginData.variables).toEqual([]);
       expect(pluginData.parseErrors).toEqual([]);
       expect(pluginData.definitions).toEqual({ components: [], links: [] });
       expect(pluginData.eventManager).toEqual(null);
@@ -42,6 +45,7 @@ describe('Test class: DefaultData', () => {
         name: 'name',
         version: 'version',
         components: [0],
+        variables: [1],
         parseErrors: [2],
         definitions: {
           components: [3],
@@ -53,6 +57,7 @@ describe('Test class: DefaultData', () => {
       expect(pluginData.name).toEqual('name');
       expect(pluginData.version).toEqual('version');
       expect(pluginData.components).toEqual([0]);
+      expect(pluginData.variables).toEqual([1]);
       expect(pluginData.parseErrors).toEqual([2]);
       expect(pluginData.definitions).toEqual({ components: [3], links: [4] });
       expect(pluginData.eventManager).toEqual({});
@@ -1081,6 +1086,200 @@ describe('Test class: DefaultData', () => {
       expect(pluginData.getEventLogById(id1)).toBeUndefined();
       expect(pluginData.getEventLogById(id2)).toBeUndefined();
       expect(pluginData.getEventLogById(id3)).not.toBeUndefined();
+    });
+  });
+
+  describe('Test method: getAttributeValue', () => {
+    it('Should get the value of a variable attribute', () => {
+      const pluginData = new DefaultData();
+      const attribute = new ComponentAttribute({
+        name: 'test_attribute',
+        value: 'test_variable',
+      });
+
+      pluginData.variables.push(new Variable({
+        name: 'test_variable',
+        value: 'test',
+      }));
+
+      Object.defineProperty(attribute, 'isVariable', {
+        value: () => true,
+      });
+
+      expect(pluginData.getAttributeValue(attribute)).toEqual('test');
+    });
+
+    it('Should get the value of a non-variable attribute', () => {
+      const pluginData = new DefaultData();
+      const component = new Component({
+        id: 'component1',
+        definition: new ComponentDefinition(),
+        attributes: [
+          new ComponentAttribute({
+            name: 'test_attribute',
+            value: 'test',
+          }),
+        ],
+      });
+
+      pluginData.components = [component];
+
+      expect(pluginData.getAttributeValue(component.attributes[0])).toEqual('test');
+    });
+  });
+
+  describe('Test method: getLinkedComponentsIds', () => {
+    it('Should get the ID of a single string linked component', () => {
+      const pluginData = new DefaultData();
+      const component = new Component({
+        id: 'test_component',
+        definition: new ComponentDefinition(),
+        attributes: [
+          new ComponentAttribute({
+            name: 'test_attribute',
+            value: 'test',
+          }),
+        ],
+      });
+
+      pluginData.components = [component];
+
+      expect(pluginData.getLinkedComponentsIds(component.attributes[0])).toEqual(['test']);
+    });
+
+    it('Should get the ID of a single-element array linked component', () => {
+      const pluginData = new DefaultData();
+      const component = new Component({
+        id: 'test_component',
+        definition: new ComponentDefinition(),
+        attributes: [
+          new ComponentAttribute({
+            name: 'test_attribute',
+            value: ['test'],
+          }),
+        ],
+      });
+
+      pluginData.components = [component];
+
+      expect(pluginData.getLinkedComponentsIds(component.attributes[0])).toEqual(['test']);
+    });
+
+    it('Should get the ID of a multiple-elements array linked component', () => {
+      const pluginData = new DefaultData();
+      const component = new Component({
+        id: 'test_component',
+        definition: new ComponentDefinition(),
+        attributes: [
+          new ComponentAttribute({
+            name: 'test_attribute',
+            value: ['test1', 'test2'],
+          }),
+        ],
+      });
+
+      pluginData.components = [component];
+
+      expect(pluginData.getLinkedComponentsIds(component.attributes[0]))
+        .toEqual(['test1', 'test2']);
+    });
+
+    it('Should get the ID of null value linked component', () => {
+      const pluginData = new DefaultData();
+      const component = new Component({
+        id: 'test_component',
+        definition: new ComponentDefinition(),
+        attributes: [
+          new ComponentAttribute({
+            name: 'test_attribute',
+            value: null,
+          }),
+        ],
+      });
+
+      pluginData.components = [component];
+
+      expect(pluginData.getLinkedComponentsIds(component.attributes[0])).toEqual([]);
+    });
+  });
+
+  describe('Test method: getVariableValue', () => {
+    it('Should get the value of a variable', () => {
+      const pluginData = new DefaultData();
+      const variable = new Variable({
+        name: 'test_variable',
+        value: 'test',
+      });
+
+      pluginData.variables = [variable];
+
+      expect(pluginData.getVariableValue(variable.name)).toEqual('test');
+    });
+
+    it('Should get null when getting a non-existent variable value', () => {
+      const pluginData = new DefaultData();
+      const variable = new Variable({
+        id: 'test_variable',
+        value: 'test',
+      });
+
+      pluginData.variables = [variable];
+
+      expect(pluginData.getVariableValue('non-variable')).toBeNull();
+    });
+  });
+
+  describe('Test method: setVariableValue', () => {
+    it('Should set the value of a variable', () => {
+      const pluginData = new DefaultData();
+      const variable = new Variable({
+        name: 'test_variable',
+        value: 'test',
+      });
+
+      pluginData.variables = [variable];
+
+      expect(pluginData.variables[0].value).toEqual('test');
+
+      pluginData.setVariableValue(variable.name, 'test2');
+
+      expect(pluginData.variables[0].value).toEqual('test2');
+    });
+
+    it('Should not set the the value of a non-existent variable', () => {
+      const pluginData = new DefaultData();
+      const variable = new Variable({
+        name: 'test_variable',
+        value: 'test',
+      });
+
+      pluginData.variables = [variable];
+
+      expect(pluginData.variables[0].value).toEqual('test');
+
+      pluginData.setVariableValue('non-variable', 'test2');
+
+      expect(pluginData.variables[0].value).toEqual('test');
+    });
+  });
+
+  describe('Test method: getComponentIdFromValue', () => {
+    it('Should get the ID of a single string linked component', () => {
+      const pluginData = new DefaultData();
+      const component = new Component({
+        id: 'test_component',
+        definition: new ComponentDefinition(),
+        attributes: [
+          new ComponentAttribute({
+            name: 'test_attribute',
+            value: 'test',
+          }),
+        ],
+      });
+
+      pluginData.components = [component];
+
+      expect(pluginData.getComponentIdFromValue(component.attributes[0].value)).toEqual('test');
     });
   });
 });

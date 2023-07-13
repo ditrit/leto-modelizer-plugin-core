@@ -55,6 +55,7 @@ import {
   FileInput,
   DefaultData,
   DefaultPlugin,
+  Variable,
 } from "leto-modelizer-plugin-core";
 ```
 
