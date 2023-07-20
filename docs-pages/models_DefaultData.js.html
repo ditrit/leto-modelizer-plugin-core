@@ -85,7 +85,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="Tag.html">Tag</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="Tag.html">Tag</a></li><li><a href="Variable.html">Variable</a></li></ul></div>
                 
             </nav>
         </div>
@@ -121,6 +121,7 @@ class DefaultData {
    * @param {string} props.name - Name of plugin.
    * @param {string} props.version - Version of plugin.
    * @param {Component[]} [props.components] - Components array.
+   * @param {Variable[]} [props.variables] - Variables array.
    * @param {object} [props.definitions] - All definitions.
    * @param {ComponentDefinition[]} [props.definitions.components] - All component definitions.
    * @param {ComponentLinkDefinition[]} [props.definitions.link] - All component link
@@ -133,6 +134,7 @@ class DefaultData {
     name: null,
     version: null,
     components: [],
+    variables: [],
     definitions: {
       components: [],
       links: [],
@@ -155,6 +157,12 @@ class DefaultData {
      * @default []
      */
     this.components = props.components || [];
+
+    /**
+     * All plugin variables.
+     * @type {Variables[]}
+     */
+    this.variables = props.variables || [];
     /**
      * All plugin definitions.
      * @type {{components: ComponentDefinition[], links: ComponentLinkDefinition[]}}
@@ -305,7 +313,7 @@ class DefaultData {
           return;
         }
 
-        attribute.value.forEach((value) => links.push(new ComponentLink({
+        this.getLinkedComponentsIds(attribute).forEach((value) => links.push(new ComponentLink({
           definition,
           source: component.id,
           target: value,
@@ -314,6 +322,70 @@ class DefaultData {
     });
 
     return links.concat(this.getWorkflowLinks());
+  }
+
+  /**
+   * Get the value of an attribute.
+   * @param {ComponentAttribute} attribute - Attribute to get value.
+   * @returns {string | string[]} Value of attribute.
+   */
+
+  getAttributeValue(attribute) {
+    if (attribute.isVariable) {
+      return this.getVariableValue(attribute.value);
+    }
+
+    return attribute.value;
+  }
+
+  /**
+   * Get the ID of the linked component.
+   * @param {ComponentAttribute} attribute - Link to get value.
+   * @returns {string[]} ID of the linked component.
+   */
+  getLinkedComponentsIds(attribute) {
+    const value = this.getAttributeValue(attribute);
+
+    if (value === null) {
+      return [];
+    }
+    if (Array.isArray(value)) {
+      return this.getComponentIdFromValue(value);
+    }
+
+    return [this.getComponentIdFromValue(value)];
+  }
+
+  /**
+   * Get the value of a variable.
+   * @param {string} name - Name of the variable.
+   * @returns {string | string[]} - Value of the variable.
+   */
+  getVariableValue(name) {
+    return this.variables.find((variable) => variable.name === name)?.value || null;
+  }
+
+  /**
+   * Set the value of a variable.
+   * @param {string} name - Name of the variable.
+   * @param {string} value - New value of the variable.
+   * @returns {void}
+   */
+  setVariableValue(name, value) {
+    const variable = this.variables.find((v) => v.name === name);
+
+    if (variable) {
+      variable.value = value;
+    }
+  }
+
+  /**
+   * Get the ID of a linked resource.
+   * @param {string} value - Value of the link.
+   * @returns {string} ID of the linked resource.
+   */
+  getComponentIdFromValue(value) {
+    return value;
   }
 
   /**
