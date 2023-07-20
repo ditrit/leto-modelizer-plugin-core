@@ -5,7 +5,7 @@
   tracking-code-which-will-go-to-the-HEAD
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> FileInput</title>
+  <title> Variable</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -91,7 +91,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Class</p>
-                    <h1>FileInput</h1>
+                    <h1>Variable</h1>
                 </header>
                 
 
@@ -102,9 +102,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>FileInput<span class="signature">(props<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>Variable<span class="signature">(props<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">Object to store the file content.</div>
+            <div class="class-description">Class that represents a variable in a file of a model.</div>
         
     
 </header>
@@ -123,12 +123,12 @@
 
 
     
-    <h4 class="name" id="FileInput">
-        <a class="href-link" href="#FileInput">#</a>
+    <h4 class="name" id="Variable">
+        <a class="href-link" href="#Variable">#</a>
         
         <span class="code-name">
             
-                new FileInput<span class="signature">(props<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
+                new Variable<span class="signature">(props<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -211,39 +211,6 @@
     
 <tr class="deep-level-1">
   
-      <td class="name"><code>path</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">File path.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
       <td class="name"><code>name</code></td>
   
 
@@ -270,14 +237,14 @@
 
   
 
-  <td class="description last">File name.</td>
+  <td class="description last">The name of this Variable.</td>
 </tr>
 
   
     
 <tr class="deep-level-1">
   
-      <td class="name"><code>content</code></td>
+      <td class="name"><code>type</code></td>
   
 
   <td class="type">
@@ -303,7 +270,82 @@
 
   
 
-  <td class="description last">File content.</td>
+  <td class="description last">The data type of the Variable value.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>value</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+|
+
+<code class="param-type">boolean</code>
+|
+
+<code class="param-type">number</code>
+|
+
+<code class="param-type">Array</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">The value of this Variable.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>category</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">The kind of the entire Variable block.</td>
 </tr>
 
   
@@ -351,9 +393,9 @@
 
     
         <p class="tag-source">
-            <a href="models_FileInput.js.html" class="button">View Source</a>
+            <a href="models_Variable.js.html" class="button">View Source</a>
             <span>
-                <a href="models_FileInput.js.html">models/FileInput.js</a>, <a href="models_FileInput.js.html#line7">line 7</a>
+                <a href="models_Variable.js.html">models/Variable.js</a>, <a href="models_Variable.js.html#line7">line 7</a>
             </span>
         </p>
     
@@ -420,16 +462,16 @@
     <span class="method-parameter is-pulled-right">
         <label>Type:</label>
         
-<code class="param-type">string</code>
+<code class="param-type">boolean</code>
 
 
     </span>
 
-<h4 class="name" id="content">
-    <a class="href-link" href="#content">#</a>
+<h4 class="name" id="category">
+    <a class="href-link" href="#category">#</a>
     
     <span class="code-name">
-        content
+        category
     </span>
     
 </h4>
@@ -438,7 +480,7 @@
 
 
 <div class="description">
-    Content of the file.
+    The variable block type.
 </div>
 
 
@@ -470,11 +512,6 @@
     
 
     
-    <dt class="tag-default">Default Value:</dt>
-    <dd class="tag-default"><ul class="dummy">
-            <li>null</li>
-        </ul></dd>
-    
     
 
     
@@ -483,9 +520,9 @@
 
     
         <p class="tag-source">
-            <a href="models_FileInput.js.html" class="button">View Source</a>
+            <a href="models_Variable.js.html" class="button">View Source</a>
             <span>
-                <a href="models_FileInput.js.html">models/FileInput.js</a>, <a href="models_FileInput.js.html#line26">line 26</a>
+                <a href="models_Variable.js.html">models/Variable.js</a>, <a href="models_Variable.js.html#line55">line 55</a>
             </span>
         </p>
     
@@ -581,6 +618,83 @@
 
     </span>
 
+<h4 class="name" id="name">
+    <a class="href-link" href="#name">#</a>
+    
+    <span class="code-name">
+        name
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    The name of this Variable.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_Variable.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_Variable.js.html">models/Variable.js</a>, <a href="models_Variable.js.html#line40">line 40</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">string</code>
+
+
+    </span>
+
 <h4 class="name" id="path">
     <a class="href-link" href="#path">#</a>
     
@@ -647,6 +761,169 @@
             <a href="models_FileInformation.js.html" class="button">View Source</a>
             <span>
                 <a href="models_FileInformation.js.html">models/FileInformation.js</a>, <a href="models_FileInformation.js.html#line20">line 20</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">string</code>
+
+
+    </span>
+
+<h4 class="name" id="type">
+    <a class="href-link" href="#type">#</a>
+    
+    <span class="code-name">
+        type
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    The type of this Variable.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_Variable.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_Variable.js.html">models/Variable.js</a>, <a href="models_Variable.js.html#line45">line 45</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">string</code>
+|
+
+<code class="param-type">boolean</code>
+|
+
+<code class="param-type">number</code>
+|
+
+<code class="param-type">Array</code>
+
+
+    </span>
+
+<h4 class="name" id="value">
+    <a class="href-link" href="#value">#</a>
+    
+    <span class="code-name">
+        value
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    The value of this Variable.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_Variable.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_Variable.js.html">models/Variable.js</a>, <a href="models_Variable.js.html#line50">line 50</a>
             </span>
         </p>
     

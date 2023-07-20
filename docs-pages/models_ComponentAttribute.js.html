@@ -85,7 +85,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="Tag.html">Tag</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="Tag.html">Tag</a></li><li><a href="Variable.html">Variable</a></li></ul></div>
                 
             </nav>
         </div>
@@ -112,7 +112,7 @@ class ComponentAttribute {
    * @param {string} [props.name] - The name of the attribute.
    * @param {(string | boolean | number | Array | ComponentAttribute[])} [props.value] - The
    * value of the attribute.
-   * @param {string} [props.type] - The reel type of the attribute.
+   * @param {string} [props.type] - The real type of the attribute.
    * @param {ComponentAttributeDefinition} [props.definition] - The definition of the
    * attribute.
    */
@@ -140,7 +140,7 @@ class ComponentAttribute {
      */
     this.value = value ?? null;
     /**
-     * The type of the attribute, reel type of the attribute, to check if it's match with the
+     * The type of the attribute, real type of the attribute, to check if it matches with the
      * ComponentAttributeDefinition.
      * @type {string}
      */
@@ -150,6 +150,14 @@ class ComponentAttribute {
      * @type {ComponentAttributeDefinition}
      */
     this.definition = definition || null;
+  }
+
+  /**
+   * Check if the attribute is a variable.
+   * @returns {boolean} - true if the attribute is a variable otherwise false.
+   */
+  get isVariable() {
+    return false;
   }
 
   /**

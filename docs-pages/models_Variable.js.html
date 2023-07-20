@@ -7,7 +7,7 @@
   tracking-code-which-will-go-to-the-HEAD
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> models/FileInput.js</title>
+  <title> models/Variable.js</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -93,7 +93,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Source</p>
-                    <h1>models/FileInput.js</h1>
+                    <h1>models/Variable.js</h1>
                 </header>
                 
 
@@ -105,33 +105,62 @@
             <pre class="prettyprint source linenums"><code>import FileInformation from './FileInformation';
 
 /**
- * Object to store the file content.
+ * Class that represents a variable in a file of a model.
  * @augments {FileInformation}
  */
-class FileInput extends FileInformation {
+class Variable extends FileInformation {
   /**
    * Default constructor.
    * @param {object} [props] - Object that contains all properties to set.
-   * @param {string} [props.path] - File path.
-   * @param {string} [props.name] - File name.
-   * @param {string} [props.content] - File content.
+   * @param {string} [props.name] - The name of this Variable.
+   * @param {string} [props.type] - The data type of the Variable value.
+   * @param {(string | boolean | number | Array)} [props.value] - The value of this Variable.
+   * @param {string} [props.category] - The kind of the entire Variable block.
    */
-  constructor(props = { path: null, name: null, content: null }) {
+  constructor(props = {
+    name: null,
+    type: null,
+    value: null,
+    category: null,
+  }) {
     super(props);
     const {
-      content,
+      name,
+      type,
+      value,
+      category,
     } = props;
 
     /**
-     * Content of the file.
+     * Use for drawer to get the type of object.
      * @type {string}
-     * @default null
+     * @private
      */
-    this.content = content || null;
+    this.__class = 'Variable';
+    /**
+     * The name of this Variable.
+     * @type {string}
+     */
+    this.name = name || null;
+    /**
+     * The type of this Variable.
+     * @type {string}
+     */
+    this.type = type || null;
+    /**
+     * The value of this Variable.
+     * @type {(string | boolean | number | Array)}
+     */
+    this.value = value || null;
+    /**
+     * The variable block type.
+     * @type {boolean}
+     */
+    this.category = category || null;
   }
 }
 
-export default FileInput;
+export default Variable;
 </code></pre>
         </article>
     </section>
