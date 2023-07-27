@@ -24,6 +24,29 @@
         </div>
       </div>
     </div>
+    <fieldset>
+      <legend>Rename a component ID</legend>
+      <label>Choose an ID:</label>
+      <select
+        v-model="selectedId"
+        name="ids"
+        id="component-id"
+      >
+        <option value="">--select an id--</option>
+        <option
+          v-for="id in componentsIds"
+          :key="id"
+          :value="id"
+        >
+          {{ id }}
+        </option>
+      </select>
+      <div>
+        <label>New ID</label>
+        <input id="rename-input" type="text" v-model="renamedId" />
+      </div>
+      <button id="rename-component" @click="renameComponent" :disabled="!(selectedId && renamedId)">Save</button>
+    </fieldset>
     <div id='root' :style="readOnly ? { width: `${width}px`, height: `${height}px` } : {}"></div>
   </main>
 </template>
@@ -37,9 +60,17 @@ import { ComponentDrawOption, FileInput, FileInformation } from 'leto-modelizer-
 const readOnly = ref(false);
 const width = ref(400);
 const height = ref(400);
+const componentsIds = ref([]);
+const selectedId = ref('');
+const renamedId = ref('');
+
+const watchEvents = ['delete', 'add'];
 
 function next(data) {
   console.log(data);
+  if (watchEvents.includes(data.event.action)) {
+    updateComponentsIds();
+  }
 }
 
 function savePosition() {
@@ -51,6 +82,18 @@ function savePosition() {
 function reset() {
   document.querySelector('#root').innerHTML = '';
   plugin.draw('root', readOnly.value);
+}
+
+function renameComponent() {
+  plugin.data.renameComponentId(selectedId.value, renamedId.value);
+  plugin.draw('root', readOnly.value);
+  updateComponentsIds();
+  selectedId.value = '';
+  renamedId.value = '';
+}
+
+function updateComponentsIds() {
+  componentsIds.value = plugin.data.components.map(({ id }) => id);
 }
 
 const plugin = new DemoPlugin(next);
@@ -77,6 +120,7 @@ onMounted(() => {
     content: window.localStorage.getItem('configuration') || defaultConfiguration,
   }));
   plugin.draw('root');
+  updateComponentsIds();
 });
 </script>
 
