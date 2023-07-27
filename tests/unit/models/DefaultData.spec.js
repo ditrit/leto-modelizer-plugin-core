@@ -398,6 +398,77 @@ describe('Test class: DefaultData', () => {
     });
   });
 
+  describe('Test method: renameComponentId', () => {
+    it('Should rename the component id and update all its occurrences in links/references', () => {
+      const definition = new ComponentDefinition();
+      const pluginData = new DefaultData(new DefaultConfiguration());
+
+      pluginData.components = [
+        new Component({
+          id: 'server1',
+          name: 'server1',
+          definition,
+        }),
+        new Component({
+          id: 'gateway1',
+          attributes: [new ComponentAttribute({
+            name: 'link1',
+            value: ['server1'],
+            type: 'Array',
+            definition: new ComponentDefinition({
+              type: 'Link',
+            }),
+          })],
+        }),
+        new Component({
+          id: 'subnet1',
+          name: 'subnet1',
+          attributes: [new ComponentAttribute({
+            name: 'reference1',
+            value: 'server1',
+            type: 'Reference',
+            definition: new ComponentDefinition({
+              type: 'Reference',
+            }),
+          })],
+        }),
+      ];
+
+      pluginData.renameComponentId('server1', 'server2');
+
+      expect(pluginData.components).toEqual([
+        new Component({
+          id: 'server2',
+          name: 'server1',
+          definition,
+        }),
+        new Component({
+          id: 'gateway1',
+          attributes: [new ComponentAttribute({
+            name: 'link1',
+            value: ['server2'],
+            type: 'Array',
+            definition: new ComponentDefinition({
+              type: 'Link',
+            }),
+          })],
+        }),
+        new Component({
+          id: 'subnet1',
+          name: 'subnet1',
+          attributes: [new ComponentAttribute({
+            name: 'reference1',
+            value: 'server2',
+            type: 'Reference',
+            definition: new ComponentDefinition({
+              type: 'Reference',
+            }),
+          })],
+        }),
+      ]);
+    });
+  });
+
   describe('Test method: removeComponentById', () => {
     it('Should remove the component corresponding to the given id', () => {
       const definition = new ComponentDefinition();
