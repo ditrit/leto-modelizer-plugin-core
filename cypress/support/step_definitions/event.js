@@ -33,3 +33,8 @@ When('I drag {string} of {int},{int}', (templateSelector, x, y) => {
 When('I press on {string} key', (key) => {
   cy.get('body').type(`{${key}}`);
 });
+
+When('I select {string} in {string}', (option, templateSelector) => {
+  const selector = nunjucks.renderString(templateSelector, cy.context);
+  cy.get(selector).select(option)
+});
