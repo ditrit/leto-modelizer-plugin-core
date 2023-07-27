@@ -101,6 +101,108 @@ describe('Test class: ComponentAttribute', () => {
       });
     });
 
+    describe('Test method: getReferenceValue', () => {
+      it('should return the component attribute value', () => {
+        const componentAttribute = new ComponentAttribute({
+          value: 'value',
+        });
+
+        expect(componentAttribute.getReferenceValue()).toEqual('value');
+      });
+    });
+
+    describe('Test method: setReferenceValue', () => {
+      it('should set the new reference value', () => {
+        const componentAttribute = new ComponentAttribute({
+          value: 'value',
+        });
+
+        expect(componentAttribute.value).toEqual('value');
+
+        componentAttribute.setReferenceValue('newValue');
+
+        expect(componentAttribute.value).toEqual('newValue');
+      });
+    });
+
+    describe('Test method: replaceLink', () => {
+      it('should update the component attribute value', () => {
+        const componentAttribute = new ComponentAttribute({
+          name: 'name',
+          value: ['oldId'],
+          type: 'Array',
+          definition: {
+            type: 'Link',
+            rules: {
+              values: null,
+              min: 1,
+              max: 5,
+            },
+          },
+        });
+
+        componentAttribute.replaceLink('oldId', 'newId');
+
+        expect(componentAttribute.value).toEqual(['newId']);
+      });
+
+      it('should do nothing if id to replace is not found', () => {
+        const componentAttribute = new ComponentAttribute({
+          name: 'name',
+          value: ['oldId'],
+          type: 'Array',
+          definition: {
+            type: 'Link',
+            rules: {
+              values: null,
+              min: 1,
+              max: 5,
+            },
+          },
+        });
+
+        componentAttribute.replaceLink('wrongId', 'newId');
+
+        expect(componentAttribute.value).toEqual(['oldId']);
+      });
+    });
+
+    describe('Test method: getLinkValue', () => {
+      it('should return the component attribute link value', () => {
+        const componentAttribute = new ComponentAttribute({
+          value: ['value'],
+        });
+
+        expect(componentAttribute.getLinkValue()).toEqual(['value']);
+      });
+    });
+
+    describe('Test method: addLink', () => {
+      it('should push the id inside the value array', () => {
+        const componentAttribute = new ComponentAttribute({
+          value: ['value'],
+        });
+
+        expect(componentAttribute.value).toEqual(['value']);
+
+        componentAttribute.addLink('newValue');
+
+        expect(componentAttribute.value).toEqual(['value', 'newValue']);
+      });
+
+      it('should do nothing if id already exists inside the value array', () => {
+        const componentAttribute = new ComponentAttribute({
+          value: ['value'],
+        });
+
+        expect(componentAttribute.value).toEqual(['value']);
+
+        componentAttribute.addLink('value');
+
+        expect(componentAttribute.value).toEqual(['value']);
+      });
+    });
+
     describe('Test type: String', () => {
       const componentAttribute = new ComponentAttribute({
         name: 'name',
@@ -325,7 +427,7 @@ describe('Test class: ComponentAttribute', () => {
 
       it('Check if value is not in values', () => {
         componentAttribute.value = ['test'];
-        componentAttribute.definition.rules.values = [[1, 2, 3]];
+        componentAttribute.definition.rules.values = [1, 2, 3];
         expect(componentAttribute.hasError()).toBeTruthy();
 
         componentAttribute.definition.rules.values = null;
@@ -335,7 +437,7 @@ describe('Test class: ComponentAttribute', () => {
         const array = [1, 2, 3];
 
         componentAttribute.value = array;
-        componentAttribute.definition.rules.values = [array];
+        componentAttribute.definition.rules.values = array;
         expect(componentAttribute.hasError()).toBeFalsy();
 
         componentAttribute.definition.rules.values = null;
@@ -417,7 +519,7 @@ describe('Test class: ComponentAttribute', () => {
 
       it('Check if value is not in values', () => {
         componentAttribute.value = ['link1'];
-        componentAttribute.definition.rules.values = [['link2'], ['link3']];
+        componentAttribute.definition.rules.values = ['link2', 'link3'];
         expect(componentAttribute.hasError()).toBeTruthy();
 
         componentAttribute.definition.rules.values = null;
@@ -427,7 +529,7 @@ describe('Test class: ComponentAttribute', () => {
         const links = ['link2'];
 
         componentAttribute.value = links;
-        componentAttribute.definition.rules.values = [['link1'], links, ['link3']];
+        componentAttribute.definition.rules.values = ['link1', ...links, 'link3'];
         expect(componentAttribute.hasError()).toBeFalsy();
 
         componentAttribute.definition.rules.values = null;
