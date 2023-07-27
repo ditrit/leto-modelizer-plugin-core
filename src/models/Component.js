@@ -67,6 +67,14 @@ class Component extends FileInformation {
   }
 
   /**
+   * Set the id of this Component with value parameter.
+   * @param {string} value - New id value.
+   */
+  setId(value) {
+    this.id = value;
+  }
+
+  /**
    * Set container value in attributes.
    * @param {Component} container - Container.
    */
@@ -83,10 +91,10 @@ class Component extends FileInformation {
 
     if (attributes.length > 0) {
       attributes.forEach((attribute) => {
-        attribute.value = container.id;
+        attribute.setReferenceValue(container.id);
       });
     } else {
-      this.attributes.push(new ComponentAttribute({
+      this.attributes.push(this.createAttribute({
         name: attributeDefinition.name,
         value: container.id,
         type: 'String',
@@ -96,18 +104,24 @@ class Component extends FileInformation {
   }
 
   /**
+   * Create a new instance of ComponentAttribute with the provided properties.
+   * @param {object} props - Properties to initialize the ComponentAttribute with.
+   * @returns {ComponentAttribute} A new ComponentAttribute instance.
+   */
+  createAttribute(props) {
+    return new ComponentAttribute(props);
+  }
+
+  /**
    * Remove all reference attributes, corresponding to the container if existing.
    * @param {Component} container - Container.
    */
   removeAllReferenceAttributes(container) {
     if (container) {
       this.attributes = this.attributes
-        .filter(({
-          definition,
-          value,
-        }) => !(definition.type === 'Reference'
-          && definition.containerRef === container.definition.type
-          && value === container.id));
+        .filter((attribute) => !(attribute.definition.type === 'Reference'
+          && attribute.definition.containerRef === container.definition.type
+          && attribute.getReferenceValue() === container.id));
     } else {
       this.attributes = this.attributes.filter(({ definition }) => definition.type !== 'Reference');
     }
@@ -124,9 +138,9 @@ class Component extends FileInformation {
       && attributeDefinition.name === definition.name);
 
     if (attribute && !attribute.value.includes(link.target)) {
-      attribute.value.push(link.target);
+      attribute.addLink(link.target);
     } else if (!attribute) {
-      this.attributes.push(new ComponentAttribute({
+      this.attributes.push(this.createAttribute({
         name: attributeDefinition.name,
         definition: attributeDefinition,
         type: 'Array',
@@ -149,13 +163,7 @@ class Component extends FileInformation {
           return true;
         }
         if (attribute.definition && attribute.definition.type === 'Link') {
-          const index = attribute.value.findIndex((value) => value === id);
-
-          if (index >= 0) {
-            attribute.value.splice(index, 1);
-          }
-
-          return attribute.value.length !== 0;
+          return attribute.removeLink(id);
         }
 
         return true;
@@ -197,6 +205,39 @@ class Component extends FileInformation {
   }
 
   /**
+   * Get attributes corresponding to the given type.
+   * @param {...string} types - Type of attribute to find.
+   * @returns {ComponentAttribute[]} Component attributes array.
+   */
+  getAttributesByType(...types) {
+    const result = [];
+
+    this.__setAttributesByType(this.attributes, result, types);
+
+    return result;
+  }
+
+  /**
+   * Set attributes corresponding to the given type in the provided array.
+   * Search in sub-attributes of "Object" attributes also.
+   * @param {ComponentAttribute[]} attributes - Attributes list.
+   * @param {ComponentAttribute[]} result - The array to store the found attributes.
+   * @param {...string} types - One or more attribute types to search for.
+   * @private
+   */
+  __setAttributesByType(attributes, result, types) {
+    attributes.forEach((attribute) => {
+      if (attribute?.type === 'Object') {
+        this.__setAttributesByType(attribute.value, result, types);
+      }
+
+      if (types.includes(attribute?.definition.type)) {
+        result.push(attribute);
+      }
+    });
+  }
+
+  /**
    * Retrieve container id from attributes.
    * @returns {string} Id of container or null.
    */
@@ -204,7 +245,7 @@ class Component extends FileInformation {
     const attribute = this.attributes.find(({ definition }) => definition
       && definition.type === 'Reference');
 
-    return !attribute ? null : attribute.value;
+    return !attribute ? null : attribute.getReferenceValue();
   }
 
   /**
