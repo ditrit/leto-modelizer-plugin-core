@@ -6,6 +6,7 @@
     <div>
       <button @click="savePosition">Save position</button>
       <button class="reset-btn" @click="reset">Reset UI</button>
+      <button @click="automaticLayout" id="automatic-layout-button">Automatic layout</button>
       <label for="read-only-checkbox">Read-only ?</label>
       <input
         id="read-only-checkbox"
@@ -77,6 +78,11 @@ function savePosition() {
   const configuration = new FileInput({ path: 'localstorage', content: '' });
   plugin.render(new FileInformation({ path: 'diagram' }), configuration);
   window.localStorage.setItem('configuration', configuration.content);
+}
+
+async function automaticLayout() {
+  await plugin.arrangeComponentsPosition();
+  plugin.draw('root', readOnly.value);
 }
 
 function reset() {
