@@ -103,6 +103,7 @@ Then('I expect {string} to be at position {int},{int}', (templateSelector, x, y)
     expect(Math.trunc(parseInt(element.attr('x')))).eq(x);
     expect(Math.trunc(parseInt(element.attr('y')))).eq(y);
   });
+
 });
 
 Then('I expect {string} width is {int}', (templateSelector, width) => {
@@ -124,4 +125,12 @@ Then('I expect {string} height is {int}', (templateSelector, height) => {
 Then('I expect {string} appear {int} time(s) on screen', (templateSelector, count) => {
   const selector = nunjucks.renderString(templateSelector, cy.context);
   cy.get(selector).should('have.length', count);
+});
+
+Then('I expect {string} attribute {string} to be {string}', (templateSelector, attribute, value) => {
+  const selector = nunjucks.renderString(templateSelector, cy.context);
+
+  cy.get(selector).should((element) => {
+    expect(element.attr(attribute)).eq(value);
+  });
 });
