@@ -170,6 +170,16 @@ class DefaultPlugin {
 
     return renderFiles;
   }
+
+  /**
+   * Reorganize nodes layout algorithmically.
+   * This method does not refresh the view.
+   * You have to await it and trigger a redraw
+   * @returns {Promise<void>} Promise with nothing on success otherwise an error.
+   */
+  async arrangeComponentsPosition() {
+    await this.__drawer.arrangeComponentsPosition();
+  }
 }
 
 export default DefaultPlugin;
