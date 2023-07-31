@@ -6,6 +6,7 @@ import Component from 'src/models/Component';
 import ComponentDefinition from 'src/models/ComponentDefinition';
 import ComponentAttributeDefinition from 'src/models/ComponentAttributeDefinition';
 import ComponentDrawOption from 'src/models/ComponentDrawOption';
+import { expect, beforeEach } from '@jest/globals';
 
 jest.mock('d3', () => {
   const mockD3 = {};
@@ -1080,6 +1081,24 @@ describe('Test Class: DefaultDrawer()', () => {
         componentLeft: null,
         componentRight: { data: { id: '1' } },
       });
+    });
+  });
+
+  describe('Test method: arrangeComponentsPosition', () => {
+    const drawer = new DefaultDrawer(
+      new DefaultData(),
+      null,
+      'root',
+    );
+
+    it('propagates arrangeComponentsPosition call to this.layout', async () => {
+      const spyLayout = jest
+        .spyOn(drawer.layout, 'arrangeComponentsPosition')
+        .mockImplementation(async () => Promise.resolve());
+
+      await drawer.arrangeComponentsPosition();
+
+      expect(spyLayout).toHaveBeenCalled();
     });
   });
 });
