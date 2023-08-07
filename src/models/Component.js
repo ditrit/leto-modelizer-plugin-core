@@ -104,6 +104,37 @@ class Component extends FileInformation {
   }
 
   /**
+   * Create all parents attributes from definitions.
+   * @param {ComponentAttributeDefinition[]} definitions - All parents attributes order from
+   * greatest to least depth.
+   * @returns {ComponentAttribute[]} - Deeply created parent.
+   * @private
+   */
+  __createNestedAttributes(definitions) {
+    let currentAttributes = this.attributes;
+
+    // TODO: Change `.slice().reverse()` when `toReversed` is available in Array.
+    definitions.slice().reverse().forEach((parent) => {
+      let attribute = currentAttributes.find(({ definition }) => definition.name === parent.name);
+
+      if (attribute) {
+        currentAttributes = attribute.value;
+      } else {
+        attribute = this.createAttribute({
+          name: parent.name,
+          definition: parent,
+          type: 'Object',
+          value: [],
+        });
+        currentAttributes.push(attribute);
+        currentAttributes = attribute.value;
+      }
+    });
+
+    return currentAttributes;
+  }
+
+  /**
    * Create a new instance of ComponentAttribute with the provided properties.
    * @param {object} props - Properties to initialize the ComponentAttribute with.
    * @returns {ComponentAttribute} A new ComponentAttribute instance.
@@ -132,21 +163,58 @@ class Component extends FileInformation {
    * @param {ComponentLink} link - The link we want to set the attribute.
    */
   setLinkAttribute(link) {
-    const attributeDefinition = this.definition.definedAttributes
-      .find(({ name }) => name === link.definition.attributeRef);
-    const attribute = this.attributes.find(({ definition }) => definition.type === 'Link'
-      && attributeDefinition.name === definition.name);
+    const parents = [];
+    const attributeDefinition = this.__getLinkAttribute(
+      parents,
+      this.definition.definedAttributes,
+      link,
+    );
+    const currentAttributes = this.__createNestedAttributes(parents);
 
-    if (attribute && !attribute.value.includes(link.target)) {
-      attribute.addLink(link.target);
-    } else if (!attribute) {
-      this.attributes.push(this.createAttribute({
+    let attribute = currentAttributes
+      .find(({ definition }) => definition.name === attributeDefinition.name);
+
+    if (!attribute) {
+      attribute = this.createAttribute({
         name: attributeDefinition.name,
         definition: attributeDefinition,
         type: 'Array',
-        value: [link.target],
-      }));
+        value: [],
+      });
+      currentAttributes.push(attribute);
     }
+
+    attribute.addLink(link.target);
+  }
+
+  /**
+   * Retrieve attribute definition of the wanted link from attributes and set all parents
+   * definitions of the link attributes.
+   * @param {ComponentAttributeDefinition[]} parents -  Parents to set.
+   * @param {ComponentAttributeDefinition[]} attributes - Attributes to search attribute link.
+   * @param {ComponentLink} link - Component link
+   * @returns {ComponentAttributeDefinition} Component attribute definition of the link.
+   * @private
+   */
+  __getLinkAttribute(parents, attributes, link) {
+    for (let index = 0; index < attributes.length; index += 1) { // NOSONAR
+      if (attributes[index].type === 'Object') {
+        const result = this.__getLinkAttribute(parents, attributes[index].definedAttributes, link);
+
+        if (result) {
+          parents.push(attributes[index]);
+
+          return result;
+        }
+      }
+
+      if (attributes[index].type === 'Link'
+        && attributes[index].name === link.definition.attributeRef) {
+        return attributes[index];
+      }
+    }
+
+    return null;
   }
 
   /**
@@ -157,17 +225,27 @@ class Component extends FileInformation {
    * @param {string} [name] - Name of attribute to remove.
    */
   removeLinkAttribute(id, name = null) {
-    this.attributes = this.attributes
-      .filter((attribute) => {
-        if (name && attribute.name !== name) {
-          return true;
-        }
-        if (attribute.definition && attribute.definition.type === 'Link') {
-          return attribute.removeLink(id);
-        }
+    this.__removeLinkAttribute(this.attributes, id, name);
+  }
 
-        return true;
-      });
+  /**
+   * Remove all attributes related to the specified link.
+   * @param {ComponentAttribute[]} attributes - Attributes to find attribute link and delete link
+   * reference.
+   * @param {string} id - Id of the target link.
+   * @param {string} name - Attribute name that stores link ids.
+   * @private
+   */
+  __removeLinkAttribute(attributes, id, name) {
+    attributes.forEach((attribute) => {
+      if (attribute.type === 'Object') {
+        this.__removeLinkAttribute(attribute.value, id, name);
+      }
+
+      if (attribute.definition?.type === 'Link' && (!name || attribute.name === name)) {
+        attribute.removeLink(id);
+      }
+    });
   }
 
   /**
@@ -205,6 +283,44 @@ class Component extends FileInformation {
   }
 
   /**
+   * Set attributes corresponding to the given attribute field in the provided array.
+   * Set in sub-attributes of "Object" attributes too.
+   * @param {ComponentAttribute[]} result - The array to store the found attributes.
+   * @param {ComponentAttribute[]} attributes - Attributes list.
+   * @param {string} field - Attribute field to check.
+   * @param {...string} values - Field values to compare.
+   * @private
+   */
+  __setAttributesByField(result, attributes, field, ...values) {
+    attributes.forEach((attribute) => {
+      if (attribute?.type === 'Object') {
+        this.__setAttributesByField(result, attribute.value, field, ...values);
+      }
+
+      if (this.__compareAttributeField(attribute, field, ...values)) {
+        result.push(attribute);
+      }
+    });
+  }
+
+  /**
+   * Compare attribute field to given value and indicate if the value contains that attribute
+   * or not.
+   * @param {ComponentAttribute} attribute - Attribute to check.
+   * @param {string} field - Name of attribute field.
+   * @param {...string} values - Valid field value to search in attribute field.
+   * @returns {boolean} True if the value of the field is contained in the provided values.
+   * @private
+   */
+  __compareAttributeField(attribute, field, ...values) {
+    if (field === 'definitionType') {
+      return values.includes(attribute.definition?.type);
+    }
+
+    return values.includes(attribute[field]);
+  }
+
+  /**
    * Get attributes corresponding to the given type.
    * @param {...string} types - Type of attribute to find.
    * @returns {ComponentAttribute[]} Component attributes array.
@@ -212,29 +328,22 @@ class Component extends FileInformation {
   getAttributesByType(...types) {
     const result = [];
 
-    this.__setAttributesByType(this.attributes, result, types);
+    this.__setAttributesByField(result, this.attributes, 'type', ...types);
 
     return result;
   }
 
   /**
-   * Set attributes corresponding to the given type in the provided array.
-   * Search in sub-attributes of "Object" attributes also.
-   * @param {ComponentAttribute[]} attributes - Attributes list.
-   * @param {ComponentAttribute[]} result - The array to store the found attributes.
-   * @param {...string} types - One or more attribute types to search for.
-   * @private
+   * Get attributes corresponding to the given definition type.
+   * @param {...string} types - Type of attribute to find.
+   * @returns {ComponentAttribute[]} Component attributes array.
    */
-  __setAttributesByType(attributes, result, types) {
-    attributes.forEach((attribute) => {
-      if (attribute?.type === 'Object') {
-        this.__setAttributesByType(attribute.value, result, types);
-      }
+  getAttributesByDefinitionType(...types) {
+    const result = [];
 
-      if (types.includes(attribute?.definition.type)) {
-        result.push(attribute);
-      }
-    });
+    this.__setAttributesByField(result, this.attributes, 'definitionType', ...types);
+
+    return result;
   }
 
   /**
@@ -289,7 +398,30 @@ class Component extends FileInformation {
    * @returns {ComponentAttributeDefinition[]} - Defined attributes.
    */
   getDefinedAttributesByType(type) {
-    return this.definition.definedAttributes.filter((attribute) => attribute.type === type);
+    const result = [];
+
+    this.__setDefinedAttributesByType(result, this.definition.definedAttributes, type);
+
+    return result;
+  }
+
+  /**
+   * Set all wanted definition attributes in the provided array.
+   * @param {ComponentAttributeDefinition[]} result - Wanted definition attributes.
+   * @param {ComponentAttributeDefinition[]} attributes - Definition attributes to check.
+   * @param {string} type - Type to compare.
+   * @private
+   */
+  __setDefinedAttributesByType(result, attributes, type) {
+    attributes.forEach((attribute) => {
+      if (attribute.type === 'Object') {
+        this.__setDefinedAttributesByType(result, attribute.definedAttributes, type);
+      }
+
+      if (attribute.type === type) {
+        result.push(attribute);
+      }
+    });
   }
 }
 

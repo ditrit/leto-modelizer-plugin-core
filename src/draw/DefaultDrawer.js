@@ -1609,8 +1609,7 @@ class DefaultDrawer {
   startLinkCreationInteraction() {
     if (this.actions.selection.current) {
       const source = this.pluginData.getComponentById(this.actions.selection.current.id);
-      const allowedLinkTargets = source.definition.definedAttributes
-        .filter((a) => a.type === 'Link');
+      const allowedLinkTargets = source.getDefinedAttributesByType('Link');
       const forbiddenTypes = allowedLinkTargets
         .map((linkTarget) => `:not(.${linkTarget.linkRef})`)
         .join('');

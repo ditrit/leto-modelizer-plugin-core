@@ -3,6 +3,7 @@ import ComponentAttribute from 'src/models/ComponentAttribute';
 import ComponentDefinition from 'src/models/ComponentDefinition';
 import ComponentAttributeDefinition from 'src/models/ComponentAttributeDefinition';
 import ComponentLink from 'src/models/ComponentLink';
+import ComponentLinkDefinition from 'src/models/ComponentLinkDefinition';
 
 describe('Test class: Component', () => {
   describe('Test constructor', () => {
@@ -333,6 +334,128 @@ describe('Test class: Component', () => {
       });
     });
 
+    describe('Test method: __createNestedAttributes', () => {
+      it('Should do nothing without any definition', () => {
+        const component = new Component({
+          definition: new ComponentDefinition({
+            name: 'Component',
+          }),
+        });
+
+        const currentAttributes = component.__createNestedAttributes([]);
+
+        expect(component.attributes).toEqual([]);
+        expect(currentAttributes).toEqual([]);
+      });
+
+      it('Should create root attribute if it doesn\'t exists', () => {
+        const rootAttributeDefinition = new ComponentAttributeDefinition({
+          name: 'root',
+          type: 'Object',
+        });
+        const component = new Component({
+          definition: new ComponentDefinition({
+            name: 'Component',
+            definedAttributes: [rootAttributeDefinition],
+          }),
+        });
+        const expectedAttribute = new ComponentAttribute({
+          name: 'root',
+          type: 'Object',
+          value: [],
+          definition: rootAttributeDefinition,
+        });
+
+        const currentAttributes = component.__createNestedAttributes([rootAttributeDefinition]);
+
+        expect(component.attributes).toEqual([expectedAttribute]);
+        expect(currentAttributes).toEqual([]);
+      });
+
+      it('Should create root and sub attribute if there is none', () => {
+        const subRootAttributeDefinition = new ComponentAttributeDefinition({
+          name: 'sub-root',
+          type: 'Object',
+        });
+        const rootAttributeDefinition = new ComponentAttributeDefinition({
+          name: 'root',
+          type: 'Object',
+          definedAttributes: [subRootAttributeDefinition],
+        });
+        const component = new Component({
+          definition: new ComponentDefinition({
+            name: 'Component',
+            definedAttributes: [rootAttributeDefinition],
+          }),
+        });
+        const expectedSubRootAttribute = new ComponentAttribute({
+          name: 'sub-root',
+          type: 'Object',
+          value: [],
+          definition: subRootAttributeDefinition,
+        });
+        const expectedRootAttribute = new ComponentAttribute({
+          name: 'root',
+          type: 'Object',
+          value: [expectedSubRootAttribute],
+          definition: rootAttributeDefinition,
+        });
+
+        const currentAttributes = component.__createNestedAttributes([
+          subRootAttributeDefinition,
+          rootAttributeDefinition,
+        ]);
+
+        expect(component.attributes).toEqual([expectedRootAttribute]);
+        expect(currentAttributes).toEqual([]);
+      });
+
+      it('Should create sub attribute if only root exists', () => {
+        const subRootAttributeDefinition = new ComponentAttributeDefinition({
+          name: 'sub-root',
+          type: 'Object',
+        });
+        const rootAttributeDefinition = new ComponentAttributeDefinition({
+          name: 'root',
+          type: 'Object',
+          definedAttributes: [subRootAttributeDefinition],
+        });
+        const rootAttribute = new ComponentAttribute({
+          name: 'root',
+          type: 'Object',
+          value: [],
+          definition: rootAttributeDefinition,
+        });
+        const component = new Component({
+          definition: new ComponentDefinition({
+            name: 'Component',
+            definedAttributes: [rootAttributeDefinition],
+          }),
+          attributes: [rootAttribute],
+        });
+        const expectedSubRootAttribute = new ComponentAttribute({
+          name: 'sub-root',
+          type: 'Object',
+          value: [],
+          definition: subRootAttributeDefinition,
+        });
+        const expectedRootAttribute = new ComponentAttribute({
+          name: 'root',
+          type: 'Object',
+          value: [expectedSubRootAttribute],
+          definition: rootAttributeDefinition,
+        });
+
+        const currentAttributes = component.__createNestedAttributes([
+          subRootAttributeDefinition,
+          rootAttributeDefinition,
+        ]);
+
+        expect(component.attributes).toEqual([expectedRootAttribute]);
+        expect(currentAttributes).toEqual([]);
+      });
+    });
+
     describe('Test method: setLinkAttribute', () => {
       it('Should update existing link attribute with new value', () => {
         const link = new ComponentLink({
@@ -352,7 +475,7 @@ describe('Test class: Component', () => {
           ],
           definition: new ComponentDefinition({
             definedAttributes: [
-              new ComponentAttributeDefinition({ name: 'name01' }),
+              new ComponentAttributeDefinition({ name: 'name01', type: 'Link' }),
             ],
           }),
         });
@@ -371,7 +494,7 @@ describe('Test class: Component', () => {
           attributes: [],
           definition: new ComponentDefinition({
             definedAttributes: [
-              new ComponentAttributeDefinition({ name: 'name01' }),
+              new ComponentAttributeDefinition({ name: 'name01', type: 'Link' }),
             ],
           }),
         });
@@ -380,6 +503,42 @@ describe('Test class: Component', () => {
         expect(component.attributes.length).toEqual(1);
         expect(component.attributes[0].definition.name).toEqual('name01');
         expect(component.attributes[0].value).toEqual(['target02']);
+      });
+
+      it('Should add all parent attributes with new link', () => {
+        const link = new ComponentLink({
+          source: 'source02',
+          target: 'target02',
+          definition: { attributeRef: 'name01' },
+        });
+        const component = new Component({
+          attributes: [],
+          definition: new ComponentDefinition({
+            definedAttributes: [
+              new ComponentAttributeDefinition({
+                name: 'Object1',
+                type: 'Object',
+                definedAttributes: [new ComponentAttributeDefinition({
+                  name: 'Object2',
+                  type: 'Object',
+                  definedAttributes: [new ComponentAttributeDefinition({
+                    name: 'name01',
+                    type: 'Link',
+                  })],
+                })],
+              }),
+            ],
+          }),
+        });
+
+        component.setLinkAttribute(link);
+
+        expect(component.attributes.length).toEqual(1);
+        expect(component.attributes[0].definition.name).toEqual('Object1');
+        expect(component.attributes[0].value.length).toEqual(1);
+        expect(component.attributes[0].value[0].definition.name).toEqual('Object2');
+        expect(component.attributes[0].value[0].value.length).toEqual(1);
+        expect(component.attributes[0].value[0].value[0].value).toEqual(['target02']);
       });
 
       it('Should do nothing if attribute already exists', () => {
@@ -400,7 +559,7 @@ describe('Test class: Component', () => {
           ],
           definition: new ComponentDefinition({
             definedAttributes: [
-              new ComponentAttributeDefinition({ name: 'name03' }),
+              new ComponentAttributeDefinition({ name: 'name03', type: 'Link' }),
             ],
           }),
         });
@@ -442,7 +601,7 @@ describe('Test class: Component', () => {
         component.attributes.push(new ComponentAttribute({
           name: 'link',
           value: ['other'],
-          type: 'String',
+          type: 'Array',
           definition: new ComponentAttributeDefinition({
             name: 'other',
             type: 'Link',
@@ -453,7 +612,7 @@ describe('Test class: Component', () => {
         expect(component.attributes).toEqual([new ComponentAttribute({
           name: 'link',
           value: ['other'],
-          type: 'String',
+          type: 'Array',
           definition: new ComponentAttributeDefinition({
             name: 'other',
             type: 'Link',
@@ -467,7 +626,7 @@ describe('Test class: Component', () => {
         component.attributes.push(new ComponentAttribute({
           name: 'link',
           value: ['test', 'other'],
-          type: 'String',
+          type: 'Array',
           definition: new ComponentAttributeDefinition({
             name: 'other',
             type: 'Link',
@@ -478,7 +637,7 @@ describe('Test class: Component', () => {
         expect(component.attributes).toEqual([new ComponentAttribute({
           name: 'link',
           value: ['other'],
-          type: 'String',
+          type: 'Array',
           definition: new ComponentAttributeDefinition({
             name: 'other',
             type: 'Link',
@@ -494,15 +653,15 @@ describe('Test class: Component', () => {
           component.attributes.push(new ComponentAttribute({
             name: 'link',
             value: ['test'],
-            type: 'String',
+            type: 'Array',
             definition: new ComponentAttributeDefinition({
-              name: 'other',
+              name: 'link',
               type: 'Link',
             }),
           }));
 
           component.removeLinkAttribute('test', 'link');
-          expect(component.attributes).toEqual([]);
+          expect(component.attributes[0].value).toEqual([]);
         },
       );
 
@@ -512,20 +671,20 @@ describe('Test class: Component', () => {
         component.attributes.push(new ComponentAttribute({
           name: 'link',
           value: ['test', 'other'],
-          type: 'String',
+          type: 'Array',
           definition: new ComponentAttributeDefinition({
-            name: 'other',
+            name: 'link',
             type: 'Link',
           }),
         }));
 
-        component.removeLinkAttribute('test');
+        component.removeLinkAttribute('test', 'link');
         expect(component.attributes).toEqual([new ComponentAttribute({
           name: 'link',
           value: ['other'],
-          type: 'String',
+          type: 'Array',
           definition: new ComponentAttributeDefinition({
-            name: 'other',
+            name: 'link',
             type: 'Link',
           }),
         })]);
@@ -537,15 +696,156 @@ describe('Test class: Component', () => {
         component.attributes.push(new ComponentAttribute({
           name: 'link',
           value: ['test'],
-          type: 'String',
+          type: 'Array',
           definition: new ComponentAttributeDefinition({
-            name: 'other',
+            name: 'link',
             type: 'Link',
           }),
         }));
 
-        component.removeLinkAttribute('test');
-        expect(component.attributes).toEqual([]);
+        component.removeLinkAttribute('test', 'link');
+        expect(component.attributes[0].value).toEqual([]);
+      });
+
+      it('Should remove the given ComponentLink id in sub attribute.', () => {
+        const component = new Component();
+
+        component.attributes.push(new ComponentAttribute({
+          name: 'object',
+          value: [new ComponentAttribute({
+            name: 'link',
+            value: ['test'],
+            type: 'Array',
+            definition: new ComponentAttributeDefinition({
+              name: 'link',
+              type: 'Link',
+            }),
+          })],
+          type: 'Object',
+          definition: new ComponentAttributeDefinition({
+            name: 'object',
+            type: 'Object',
+            definition: new ComponentAttributeDefinition({
+              name: 'link',
+              type: 'Link',
+            }),
+          }),
+        }));
+
+        component.removeLinkAttribute('test', 'link');
+
+        expect(component.attributes).toEqual([
+          new ComponentAttribute({
+            name: 'object',
+            value: [new ComponentAttribute({
+              name: 'link',
+              value: [],
+              type: 'Array',
+              definition: new ComponentAttributeDefinition({
+                name: 'link',
+                type: 'Link',
+              }),
+            })],
+            type: 'Object',
+            definition: new ComponentAttributeDefinition({
+              name: 'object',
+              type: 'Object',
+              definition: new ComponentAttributeDefinition({
+                name: 'link',
+                type: 'Link',
+              }),
+            }),
+          }),
+        ]);
+      });
+    });
+
+    describe('Test: method, __getLinkAttribute', () => {
+      it('Should retrieve nothing without definition', () => {
+        const component = new Component({
+          definition: new ComponentDefinition(),
+        });
+        const parents = [];
+        const attributeDefinition = component.__getLinkAttribute(
+          parents,
+          component.definition.definedAttributes,
+          new ComponentLink({
+            definition: new ComponentLinkDefinition({
+              attributeRef: 'link',
+            }),
+          }),
+        );
+
+        expect(parents).toEqual([]);
+        expect(attributeDefinition).toBeNull();
+      });
+
+      it('Should retrieve root link', () => {
+        const rootAttributeDefinition = new ComponentAttributeDefinition({
+          name: 'link',
+          type: 'Link',
+        });
+        const component = new Component({
+          definition: new ComponentDefinition({
+            definedAttributes: [rootAttributeDefinition],
+          }),
+        });
+        const parents = [];
+        const attributeDefinition = component.__getLinkAttribute(
+          parents,
+          component.definition.definedAttributes,
+          new ComponentLink({
+            definition: new ComponentLinkDefinition({
+              attributeRef: 'link',
+            }),
+          }),
+        );
+
+        expect(attributeDefinition).toEqual(rootAttributeDefinition);
+        expect(parents).toEqual([]);
+      });
+
+      it('Should retrieve sub link', () => {
+        const subRootAttributeDefinition = new ComponentAttributeDefinition({
+          name: 'link',
+          type: 'Link',
+        });
+        const rootAttributeDefinition = new ComponentAttributeDefinition({
+          name: 'root',
+          type: 'Object',
+          definedAttributes: [subRootAttributeDefinition],
+        });
+        const component = new Component({
+          definition: new ComponentDefinition({
+            definedAttributes: [
+              new ComponentAttributeDefinition({
+                name: 'rootWithoutWantedLink',
+                type: 'Object',
+                definedAttributes: [new ComponentAttributeDefinition({
+                  name: 'notLink',
+                  type: 'String',
+                }), new ComponentAttributeDefinition({
+                  name: 'notWantedLink',
+                  type: 'Link',
+                })],
+              }),
+              rootAttributeDefinition,
+            ],
+          }),
+        });
+        const parents = [];
+        const attributeDefinition = component.__getLinkAttribute(
+          parents,
+          component.definition.definedAttributes,
+          new ComponentLink({
+            definition: new ComponentLinkDefinition({
+              attributeRef: 'link',
+            }),
+          }),
+        );
+
+        expect(attributeDefinition).toEqual(subRootAttributeDefinition);
+        expect(parents).toEqual([rootAttributeDefinition]);
       });
     });
 
@@ -581,7 +881,7 @@ describe('Test class: Component', () => {
 
       const attribute1 = new ComponentAttribute({
         name: 'attribute1',
-        type: 'Reference',
+        type: 'String',
         value: 'ref_1',
         definition: new ComponentAttributeDefinition({ name: 'attribute1', type: 'Reference' }),
       });
@@ -619,27 +919,12 @@ describe('Test class: Component', () => {
         expect(result).toEqual([]);
       });
 
-      it('Should return an array with matching attribute types', () => {
-        const result = component.getAttributesByType('Reference', 'Link');
-
-        expect(result).toHaveLength(2);
-        expect(result[0].definition.type).toBe('Reference');
-        expect(result[1].definition.type).toBe('Link');
-      });
-
-      it('Should search in sub-attributes and return attributes Link type', () => {
-        const result = component.getAttributesByType('Link');
-
-        expect(result).toHaveLength(1);
-        expect(result[0].definition.type).toBe('Link');
-      });
-
       it('Should search in sub-attributes and return attributes Object type', () => {
         const result = component.getAttributesByType('Object');
 
         expect(result).toHaveLength(2);
-        expect(result[0].definition.type).toBe('Object');
-        expect(result[1].definition.type).toBe('Object');
+        expect(result[0].name).toBe('sub');
+        expect(result[1].name).toBe('root');
       });
     });
 
@@ -1632,12 +1917,22 @@ describe('Test class: Component', () => {
           name: 'attribute-array',
           type: 'Array',
         });
+        const attributeDefinitionBoolean = new ComponentAttributeDefinition({
+          name: 'attribute-boolean',
+          type: 'Boolean',
+        });
+        const attributeDefinitionObject = new ComponentAttributeDefinition({
+          name: 'attribute-object',
+          type: 'Object',
+          definedAttributes: [attributeDefinitionBoolean],
+        });
         const component = new Component({
           definition: {
             definedAttributes: [
               attributeDefinitionLink1,
               attributeDefinitionLink2,
               attributeDefinitionArray,
+              attributeDefinitionObject,
             ],
           },
         });
@@ -1646,10 +1941,14 @@ describe('Test class: Component', () => {
           const definitionLink = component.getDefinedAttributesByType('Link');
           const definitionArray = component.getDefinedAttributesByType('Array');
           const definitionString = component.getDefinedAttributesByType('String');
+          const definitionObject = component.getDefinedAttributesByType('Object');
+          const definitionBoolean = component.getDefinedAttributesByType('Boolean');
 
           expect(definitionLink).toEqual([attributeDefinitionLink1, attributeDefinitionLink2]);
           expect(definitionArray).toEqual([attributeDefinitionArray]);
           expect(definitionString).toEqual([]);
+          expect(definitionObject).toEqual([attributeDefinitionObject]);
+          expect(definitionBoolean).toEqual([attributeDefinitionBoolean]);
         });
       });
     });
