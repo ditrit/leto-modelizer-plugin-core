@@ -1,3 +1,4 @@
+import * as d3 from 'd3';
 import { renderString } from 'nunjucks';
 
 /**
@@ -12,27 +13,13 @@ function checkDataDrawingOptionExists(data, option) {
 }
 
 /**
- * Set components from a dataset.
- * @param {Selection} [container] - D3 selection of the root container in which you wish to create
- * components.
- * @param {Component[]} [dataset] - Dataset containing component data.
- * @returns {Selection} - D3 selection of components.
- */
-export function createComponentsFromData(container, dataset) {
-  return container.selectAll('.component')
-    .data(dataset)
-    .join('g')
-    .attr('class', 'component')
-    .attr('id', (data) => data.id);
-}
-
-/**
- * Render each component.
- * @param {Selection} [components] - D3 selection of all components.
+ * Create models.
+ * @param {Component} [data] - Data of component.
  * @param {object} [resources] - Object that contains model resources.
+ * @returns {string} - Rendered models.
  */
-export function render(components, resources) {
-  components.html((data) => renderString(
+function renderModel(data, resources) {
+  return renderString(
     resources.models[data.definition.model],
     {
       ...data,
@@ -44,5 +31,32 @@ export function render(components, resources) {
       hasY: checkDataDrawingOptionExists(data, 'y'),
       getAttribute: (name) => data.attributes.find((attribute) => attribute.name === name),
     },
-  ));
+  );
+}
+
+/**
+ * Create nodes.
+ * @param {Selection} [context] - D3 selection of the context.
+ * @param {object} [resources] - Object that contains model resources.
+ */
+function createNodes(context, resources) {
+  context.selectAll('.component')
+    .data(({ children }) => children)
+    .join('g')
+    .attr('id', ({ data }) => data.id)
+    .attr('class', 'component')
+    .html(({ data }) => renderModel(data, resources))
+    .filter(({ data, children }) => data.definition.isContainer && !(!children))
+    .each(({ data }) => {
+      createNodes(d3.select(`#${data.id}`).select('.components'), resources);
+    });
+}
+
+/**
+ * Render each component.
+ * @param {Selection} [context] - D3 selection of the context.
+ * @param {object} [resources] - Object that contains model resources.
+ */
+export function render(context, resources) {
+  createNodes(context, resources);
 }

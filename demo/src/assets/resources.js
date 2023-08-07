@@ -10,6 +10,9 @@ export default {
         {% if hasX and hasY %}
            x="{{ drawOption.x }}"
            y="{{ drawOption.y }}"
+        {% else %}
+           x="10"
+           y="10"
         {% endif %}
 
         {% if hasWidth and hasHeight %}
@@ -20,7 +23,7 @@ export default {
            height="80"
         {% endif %}
       >
-        <rect class="model__background"
+        <rect class="background"
               stroke="#224F7C"
               fill="#FFFFFF"
               width="100%" height="100%"
@@ -28,11 +31,11 @@ export default {
         />
 
         <svg x="50%" y="50%" overflow="visible">
-          <g class="model__icon" fill="#224F7C" transform="translate(-22 -34)">{{ icon | safe }}</g>
+          <g class="icon" fill="#224F7C" transform="translate(-22 -34)">{{ icon | safe }}</g>
         </svg>
 
         {% if hasError %}
-        <g class="model__error-icon">
+        <g class="error-icon">
           <svg width="15" height="15" x="5" y="5" fill="#BB0A21" viewBox="0 0 512 512">
             <path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512
                   256 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24
@@ -45,7 +48,7 @@ export default {
 
         <svg width="100%" y="50%">
           <g stroke="none" fill="#224F7C" font-family="Source Sans Pro" transform="translate(0 -40)">
-            <text class="model__name" font-size="10" text-anchor="middle" x="50%" y="62">
+            <text class="name" font-size="10" text-anchor="middle" x="50%" y="62">
               {{ name }}
             </text>
             <text class="mode__type" text-anchor="middle" font-size="8" x="50%" y="72">
@@ -54,7 +57,7 @@ export default {
           </g>
         </svg>
 
-        <g class="model__anchors" stroke="#5B81A5" fill="#FFFFFF" opacity="1">
+        <g class="anchors" stroke="#5B81A5" fill="#FFFFFF" opacity="1">
           <circle cx="50%" cy="0%" r="3" anchor="top" />
           <circle cx="100%" cy="50%" r="3" anchor="right" />
           <circle cx="50%" cy="100%" r="3" anchor="bottom" />
@@ -67,6 +70,9 @@ export default {
         {% if hasX and hasY %}
            x="{{ drawOption.x }}"
            y="{{ drawOption.y }}"
+        {% else %}
+           x="10"
+           y="10"
         {% endif %}
 
         {% if hasWidth and hasHeight %}
@@ -77,7 +83,7 @@ export default {
            height="160"
         {% endif %}
       >
-        <rect class="model__background"
+        <rect class="background"
               stroke="#224F7C"
               fill="#FFFFFF"
               width="100%" height="100%"
@@ -85,7 +91,7 @@ export default {
         />
 
         {% if hasError %}
-        <g class="model__error-icon">
+        <g class="error-icon">
           <svg width="15" height="15" x="5" y="5" fill="#BB0A21" viewBox="0 0 512 512">
             <path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512
                   256 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24
@@ -97,14 +103,14 @@ export default {
         {% endif %}
 
         <svg x="50%" y="40" overflow="visible">
-          <g class="model__type-icon" fill="#224F7C" transform="translate(-22 -34)">
+          <g class="type-icon" fill="#224F7C" transform="translate(-22 -34)">
             {{ icon | safe }}
           </g>
         </svg>
 
         <svg width="100%" y="40">
           <g stroke="none" fill="#224F7C" font-family="Source Sans Pro" transform="translate(0 -40)">
-            <text class="model__name" font-size="10" text-anchor="middle" x="50%" y="62">
+            <text class="name" font-size="10" text-anchor="middle" x="50%" y="62">
               {{ id }}
             </text>
             <text class="mode__type" text-anchor="middle" font-size="8" x="50%" y="72">
@@ -113,27 +119,24 @@ export default {
           </g>
         </svg>
 
-        <svg class="model__container" x="6" y="80"
-          {% if hasWidth and hasHeight %}
-             width="{{ drawOption.width - 12 }}" 
-             height="{{ drawOption.height - 86}}"
-          {% else %}
-             width={{ 96 - 12 }} 
-             height={{ 80 - 6 }}
-          {% endif %}
-        >
-          <rect class="model__container-background"
-                width="100%"
-                height="100%"
-                fill="transparent"
-                rx="5"
-                stroke="#5B81A5"
-                stroke-dasharray="4 3"
-                stroke-dashoffset="-3"
-          />
-        </svg>
+        <g class="components" transform="translate(6,80)"></g>
 
-        <g class="model__anchors" stroke="#5B81A5" fill="#FFFFFF" opacity="1">
+        <rect x="6" y ="80"
+          {% if hasWidth and hasHeight %}
+              width="{{ drawOption.width - 12 }}" 
+              height="{{ drawOption.height - 86}}"
+          {% else %}
+              width={{ 96 - 12 }} 
+              height={{ 80 - 6 }}
+          {% endif %}
+              fill="transparent"
+              rx="5"
+              stroke="#5B81A5"
+              stroke-dasharray="4 3"
+              stroke-dashoffset="-3"
+        />
+
+        <g class="anchors" stroke="#5B81A5" fill="#FFFFFF" opacity="1">
           <circle cx="50%" cy="0%" r="3" anchor="top" />
           <circle cx="100%" cy="50%" r="3" anchor="right" />
           <circle cx="50%" cy="100%" r="3" anchor="bottom" />
