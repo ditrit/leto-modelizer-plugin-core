@@ -88,10 +88,17 @@ class DemoParser extends DefaultParser {
           definition: this.pluginData.__networkAttributeDefinition,
         }),
         new ComponentAttribute({
-          name: 'laptop_link',
-          value: ['external1'],
-          type: 'Array',
-          definition: this.pluginData.__laptopLinkAttributeDefinition,
+          name: 'laptop_link_object',
+          value: [
+            new ComponentAttribute({
+              name: 'laptop_link',
+              value: ['external1'],
+              type: 'Array',
+              definition: this.pluginData.__laptopLinkAttributeDefinition,
+            }),
+          ],
+          type: 'Object',
+          definition: this.pluginData.__laptopLinkObjectAttributeDefinition,
         }),
       ],
     });
