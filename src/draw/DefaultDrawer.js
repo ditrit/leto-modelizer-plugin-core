@@ -51,61 +51,90 @@ class DefaultDrawer {
      * @type {Selection}
      */
     this.root = null;
-
-    /**
-     * D3 selection of all components
-     * @type {selection}
-     */
-    this.components = null;
   }
 
+  /**
+   * Initialize drawing context.
+   * @public
+   */
   initDrawingContext() {
     this.viewPort = d3.select(`#${this.viewPortID}`);
     this.root = this.viewPort
-      .append('svg')
+      .selectAll('#root')
+      .data(this.__formatComponentDataset())
+      .join('svg')
       .attr('id', 'root')
       .attr('width', '100%')
       .attr('height', '100%')
       .attr('overflow', 'visible');
 
-    this.root.append('g').attr('id', 'components');
-    this.root.append('g').attr('id', 'links');
-  }
-
-  draw() {
-    this.drawComponents();
-  }
-
-  drawComponents() {
-    this.components = cr.createComponentsFromData(
-      this.root.select('#components'),
-      this.pluginData.components,
-    );
-
-    cr.render(this.components, this.resources);
-    this.formatComponentDataset();
+    this.root.append('g').attr('class', 'components');
+    this.root.append('g').attr('class', 'links');
   }
 
   /**
-   * Format dataset before to components creation.
-   * @returns {object} - Formated dataset.
+   * Draw.
+   * @public
    */
-  formatComponentDataset() {
+  draw() {
+    console.log(this.__formatComponentDataset());
+    this.__drawingComponents();
+  }
+
+  /**
+   * Drawing components.
+   * @private
+   */
+  __drawingComponents() {
+    const context = this.root.select('.components');
+
+    cr.render(context, this.resources);
+  }
+
+  /**
+   * Format component dataset to d3 hierarchy.
+   * @returns {object} - Formated component dataset.
+   * @private
+   */
+  __formatComponentDataset() {
     const fromRootComponentDataset = {
-      id: 'components',
+      id: 'root',
       name: '',
       children: this.pluginData.components,
     };
 
     const formatedComponentDataset = d3.hierarchy(fromRootComponentDataset, (data) => {
-      if (data.id === 'components') {
+      if (data.id === 'root') {
         return data.children;
       }
 
       return this.pluginData.getChildren(data.id);
     });
 
-    return formatedComponentDataset;
+    formatedComponentDataset.children = formatedComponentDataset.children
+      .filter((component) => (
+        this.__discriminateComponentsWithouthParent()
+          .includes(component.data.id)
+      ));
+
+    return [formatedComponentDataset];
+  }
+
+  /**
+   * Get components without parent.
+   * @returns {Component.id[]} - Components without parent.
+   * @private
+   */
+  __discriminateComponentsWithouthParent() {
+    let componentWithParent = [];
+
+    this.pluginData.components.forEach((component) => {
+      componentWithParent = componentWithParent.concat(this.pluginData.getChildren(component.id));
+    });
+
+    return this.pluginData.components
+      .filter((component) => !componentWithParent.includes(component))
+      .map((component) => component.id);
   }
 
   /**
