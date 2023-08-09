@@ -31,7 +31,7 @@ export default {
             style="font-size: 14px; font-weight: 600">{{ name }}</text>
           <text class="component-type"
             x="50" y="3em"
-            style="font-size: 12px; font-style: italic">{{ definition.type }}</text>
+            style="font-size: 12px; font-style: italic">{{ definition.type }} - id: {{ id }}</text>
         </g>
         <circle class="anchor" r="0" cx="50%" cy="0%" anchor="top"></circle>
         <circle class="anchor" r="0" cx="50%" cy="100%" anchor="bottom"></circle>
@@ -76,7 +76,7 @@ export default {
                 style="font-size: 14px; font-weight: 600">{{ name }}</text>
           <text class="component-type"
                 x="50" y="3em"
-                style="font-size: 12px; font-style: italic">{{ definition.type }}</text>
+                style="font-size: 12px; font-style: italic">{{ definition.type }} - id: {{ id }}</text>
         </g>
       
         <circle class="anchor" cx="50%" cy="0%" anchor="top" r="0"></circle>

@@ -51,6 +51,18 @@ describe('Test class: Component', () => {
   });
 
   describe('Test methods', () => {
+    describe('Test method: setId', () => {
+      it('should update the component id', () => {
+        const component = new Component({ id: 'oldId' });
+
+        expect(component.id).toEqual('oldId');
+
+        component.setId('newId');
+
+        expect(component.id).toEqual('newId');
+      });
+    });
+
     describe('Test method: setReferenceAttribute', () => {
       it('should not set attribute if there is no container attribute definition', () => {
         const component = new Component({
@@ -561,6 +573,73 @@ describe('Test class: Component', () => {
 
       it('Should return sub attribute on asking sub attribute', () => {
         expect(component.getAttributeByName('sub')).toEqual(subAttribute);
+      });
+    });
+
+    describe('Test method: getAttributesByType', () => {
+      const component = new Component();
+
+      const attribute1 = new ComponentAttribute({
+        name: 'attribute1',
+        type: 'Reference',
+        value: 'ref_1',
+        definition: new ComponentAttributeDefinition({ name: 'attribute1', type: 'Reference' }),
+      });
+      const attribute2 = new ComponentAttribute({
+        name: 'attribute2',
+        type: 'Link',
+        value: 'link_1',
+        definition: new ComponentAttributeDefinition({ name: 'attribute2', type: 'Link' }),
+      });
+      const subAttribute = new ComponentAttribute({
+        name: 'sub',
+        type: 'Object',
+        value: [attribute2],
+        definition: new ComponentAttributeDefinition({ name: 'sub', type: 'Object' }),
+      });
+      const rootAttribute = new ComponentAttribute({
+        name: 'root',
+        type: 'Object',
+        value: [subAttribute],
+        definition: new ComponentAttributeDefinition({ name: 'root', type: 'Object' }),
+      });
+
+      component.attributes.push(attribute1);
+      component.attributes.push(rootAttribute);
+
+      it('Should return an empty array on unknown attribute types', () => {
+        const result = component.getAttributesByType('unknownType');
+
+        expect(result).toEqual([]);
+      });
+
+      it('Should return an empty array if no matching attribute types are found', () => {
+        const result = component.getAttributesByType('Number');
+
+        expect(result).toEqual([]);
+      });
+
+      it('Should return an array with matching attribute types', () => {
+        const result = component.getAttributesByType('Reference', 'Link');
+
+        expect(result).toHaveLength(2);
+        expect(result[0].definition.type).toBe('Reference');
+        expect(result[1].definition.type).toBe('Link');
+      });
+
+      it('Should search in sub-attributes and return attributes Link type', () => {
+        const result = component.getAttributesByType('Link');
+
+        expect(result).toHaveLength(1);
+        expect(result[0].definition.type).toBe('Link');
+      });
+
+      it('Should search in sub-attributes and return attributes Object type', () => {
+        const result = component.getAttributesByType('Object');
+
+        expect(result).toHaveLength(2);
+        expect(result[0].definition.type).toBe('Object');
+        expect(result[1].definition.type).toBe('Object');
       });
     });
 
@@ -1124,7 +1203,7 @@ describe('Test class: Component', () => {
           const attributeDefinitionValue = new ComponentAttributeDefinition({
             name: 'attribute-object',
             type: 'Object',
-            rules: { values: [value1, value2] },
+            rules: { values: [...value1, ...value2] },
           });
 
           const attribute = new ComponentAttribute({
@@ -1250,7 +1329,7 @@ describe('Test class: Component', () => {
           const attributeDefinitionValue = new ComponentAttributeDefinition({
             name: 'attribute-array',
             type: 'Array',
-            rules: { values: [value1, value2] },
+            rules: { values: [...value1, ...value2] },
           });
 
           const attribute = new ComponentAttribute({
@@ -1420,7 +1499,7 @@ describe('Test class: Component', () => {
           const attributeDefinitionValue = new ComponentAttributeDefinition({
             name: 'attribute-link',
             type: 'Link',
-            rules: { values: [links] },
+            rules: { values: links },
           });
 
           const attribute = new ComponentAttribute({

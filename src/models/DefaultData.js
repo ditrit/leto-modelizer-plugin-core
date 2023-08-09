@@ -119,6 +119,30 @@ class DefaultData {
   }
 
   /**
+   * Rename a component ID and update all its occurence inside link/References attribute type.
+   * @param {string} oldId - Old ID of component.
+   * @param {string} newId - New ID of component.
+   */
+  renameComponentId(oldId, newId) {
+    const renamedComponent = this.getComponentById(oldId);
+
+    this.components.forEach((component) => {
+      component.getAttributesByType('Reference', 'Link')
+        .forEach((attribute) => {
+          if (attribute.definition.type === 'Reference'
+            && attribute.getReferenceValue() === oldId) {
+            attribute.setReferenceValue(newId);
+          }
+          if (attribute.definition.type === 'Link') {
+            attribute.replaceLink(oldId, newId);
+          }
+        });
+    });
+
+    renamedComponent.setId(newId);
+  }
+
+  /**
    * Get all components corresponding to the given type.
    * @param {string} type - Type of component to find.
    * @returns {Component[]} Component list.
