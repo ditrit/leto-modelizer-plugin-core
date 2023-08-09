@@ -14,6 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Add `setId`, `createAttribute` and `getAttributesByType` inside `Component.js`.
   - Add `renameComponentId` inside `DefaultData.js`.
 
+- Add `arrangeComponentsPosition` method in `DefaultDrawer` and `DefaultPlugin`
+- Add inheritable class `DefaultLayout` for automatic layout in the diagram (does nothing)
+- Add inherited class `ElkLayout` for automatic layout in the diagram, using ELK.
+- Add HTML attribute equality as a Cypress step definition in `html.js`
+- Add `elkjs` and `web-worker` as package dependencies
+
 ## [0.18.0] - 2023/07/20
 
 ### Added
