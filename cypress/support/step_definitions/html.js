@@ -98,9 +98,10 @@ Then('I expect {string} to have {string} as parent', (templateSelector, template
 Then('I expect {string} to be at position {int},{int}', (templateSelector, x, y) => {
   const selector = nunjucks.renderString(templateSelector, cy.context);
 
+  // Works only for HTML nodes with x and y fields. (such as some SVG nodes)
   cy.get(selector).should((element) => {
-    expect(Math.trunc(element.position().left)).eq(x);
-    expect(Math.trunc(element.position().top)).eq(y);
+    expect(Math.trunc(parseInt(element.attr('x')))).eq(x);
+    expect(Math.trunc(parseInt(element.attr('y')))).eq(y);
   });
 });
 
