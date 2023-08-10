@@ -6,6 +6,7 @@ import DefaultParser from 'src/parser/DefaultParser';
 import DefaultRender from 'src/render/DefaultRender';
 import DefaultConfiguration from 'src/models/DefaultConfiguration';
 import FileInformation from 'src/models/FileInformation';
+import { expect } from '@jest/globals';
 
 describe('Test class: DefaultPlugin', () => {
   describe('Test constructor', () => {
@@ -255,6 +256,20 @@ describe('Test class: DefaultPlugin', () => {
           files: ['b', 'c', 'a'],
         }),
       ]);
+    });
+  });
+
+  describe('Test method: arrangeComponentsPosition', () => {
+    const spyArrangeComponentsPosition = jest.fn(async () => Promise.resolve());
+    const plugin = new DefaultPlugin({
+      pluginDrawer: {
+        arrangeComponentsPosition: spyArrangeComponentsPosition,
+      },
+    });
+
+    it('should propagate arrangeComponentsPosition call to this.__drawer', async () => {
+      await plugin.arrangeComponentsPosition();
+      expect(spyArrangeComponentsPosition).toHaveBeenCalled();
     });
   });
 });
