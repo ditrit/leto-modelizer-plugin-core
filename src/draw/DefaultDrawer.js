@@ -1,5 +1,6 @@
 import * as d3 from 'd3';
 import nunjucks from 'nunjucks';
+import ElkLayout from './ElkLayout';
 import ComponentDrawOption from '../models/ComponentDrawOption';
 import actionIcons from '../assets/actions/actionIcons';
 import ComponentLink from '../models/ComponentLink';
@@ -21,13 +22,20 @@ class DefaultDrawer {
    * @param {number[]} [options.lineLengthPerDepth] - Number of components
    * per line at a given depth. Valid values: 1 - Infinity.
    * @param {number} [options.actionMenuButtonSize] - The size of each action menu button.
+   * @param {DefaultLayout} [layout] - The manager for an automatic diagram layout.
    */
-  constructor(pluginData, resources = null, rootId = 'root', options = {}) {
+  constructor(pluginData, resources = null, rootId = 'root', options = {}, layout = null) {
     /**
      * Plugin data storage.
      * @type {DefaultData}
      */
     this.pluginData = pluginData;
+    /**
+     * Plugin layout system.
+     * @type {DefaultLayout}
+     * @default new ElkLayout()
+     */
+    this.layout = layout ?? new ElkLayout(this.pluginData);
     /**
      * Id of HTML element where we want to draw.
      * @type {string}
@@ -1722,6 +1730,16 @@ class DefaultDrawer {
    */
   hideResizer() {
     d3.select('#resizer').remove();
+  }
+
+  /**
+   * Reorganize nodes layout algorithmically.
+   * This method does not refresh the view.
+   * You have to await it and trigger a redraw.
+   * @returns {Promise<void>} Promise with nothing on success otherwise an error.
+   */
+  async arrangeComponentsPosition() {
+    await this.layout.arrangeComponentsPosition();
   }
 }
 export default DefaultDrawer;
