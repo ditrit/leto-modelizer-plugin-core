@@ -7,7 +7,7 @@
   tracking-code-which-will-go-to-the-HEAD
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> models/Tag.js</title>
+  <title> draw/DefaultLayout.js</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -93,7 +93,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Source</p>
-                    <h1>models/Tag.js</h1>
+                    <h1>draw/DefaultLayout.js</h1>
                 </header>
                 
 
@@ -103,40 +103,35 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Represent a tag in Leto-modelizer.
+ * Class that represents algorithms to automatically arrange components by
+ * computing optimal positions.
+ *
+ * The goal of implemented algorithms is to maximize human readability.
  */
-class Tag {
+class DefaultLayout {
   /**
    * Default constructor.
-   * @param {object} [props] - Object that contains all properties to set.
-   * @param {string} [props.type] - The type of this tag.
-   * @param {string} [props.value] - The value of this tag.
+   * @param {DefaultData} pluginData - Plugin data storage.
    */
-  constructor(props = {
-    type: null,
-    value: null,
-  }) {
-    const {
-      type,
-      value,
-    } = props;
+  constructor(pluginData) {
+    /**
+     * Plugin data storage.
+     * @type {DefaultData}
+     */
+    this.pluginData = pluginData ?? null;
+  }
 
-    /**
-     * The type of this tag.
-     * @type {string}
-     * @default null
-     */
-    this.type = type || null;
-    /**
-     * The value of this tag.
-     * @type {string}
-     * @default null
-     */
-    this.value = value || null;
+  /**
+   * Does nothing to components.
+   * One can override this method to implement an algorithm for automatic components layout.
+   * @returns {Promise&lt;void>} Promise with nothing on success otherwise an error.
+   */
+  async arrangeComponentsPosition() {
+    return Promise.resolve();
   }
 }
 
-export default Tag;
+export default DefaultLayout;
 </code></pre>
         </article>
     </section>
