@@ -84,6 +84,7 @@ describe('Test class: DefaultData', () => {
           name: 'link',
           value: ['link1'],
           definition: new ComponentAttributeDefinition({
+            name: 'link',
             type: 'Link',
           }),
         })],
@@ -95,7 +96,7 @@ describe('Test class: DefaultData', () => {
         definition: new ComponentLinkDefinition({ attributeRef: 'link' }),
       }));
 
-      expect(pluginData.components[0].attributes).toEqual([]);
+      expect(pluginData.components[0].attributes[0].value).toEqual([]);
     });
 
     it('Should remove reverse link', () => {
@@ -119,7 +120,7 @@ describe('Test class: DefaultData', () => {
         definition: new ComponentLinkDefinition({ attributeRef: 'link', type: 'Reverse' }),
       }));
 
-      expect(pluginData.components[0].attributes).toEqual([]);
+      expect(pluginData.components[0].attributes[0].value).toEqual([]);
     });
   });
 
@@ -426,7 +427,7 @@ describe('Test class: DefaultData', () => {
           attributes: [new ComponentAttribute({
             name: 'reference1',
             value: 'server1',
-            type: 'Reference',
+            type: 'String',
             definition: new ComponentDefinition({
               type: 'Reference',
             }),
@@ -459,7 +460,7 @@ describe('Test class: DefaultData', () => {
           attributes: [new ComponentAttribute({
             name: 'reference1',
             value: 'server2',
-            type: 'Reference',
+            type: 'String',
             definition: new ComponentDefinition({
               type: 'Reference',
             }),
@@ -603,6 +604,10 @@ describe('Test class: DefaultData', () => {
           id: childId,
           name: childId,
           definition,
+          attributes: [new ComponentAttribute({
+            value: [],
+            definition: new ComponentAttributeDefinition({ type: 'Link' }),
+          })],
         }),
         new Component({
           id: otherChildId,
@@ -621,6 +626,10 @@ describe('Test class: DefaultData', () => {
           id: rootId,
           name: rootId,
           definition,
+          attributes: [new ComponentAttribute({
+            value: [],
+            definition: new ComponentAttributeDefinition({ type: 'Link' }),
+          })],
         }),
         new Component({
           id: otherChildId,

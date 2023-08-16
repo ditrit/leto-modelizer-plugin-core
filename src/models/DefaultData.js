@@ -127,7 +127,7 @@ class DefaultData {
     const renamedComponent = this.getComponentById(oldId);
 
     this.components.forEach((component) => {
-      component.getAttributesByType('Reference', 'Link')
+      component.getAttributesByDefinitionType('Reference', 'Link')
         .forEach((attribute) => {
           if (attribute.definition.type === 'Reference'
             && attribute.getReferenceValue() === oldId) {

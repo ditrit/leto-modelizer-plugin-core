@@ -42,7 +42,7 @@
     "better-docs": "=2.7.2",
     "cypress": "=12.17.3",
     "cypress-real-events": "=1.10.0",
-    "eslint": "=8.46.0",
+    "eslint": "=8.47.0",
     "eslint-config-airbnb-base": "=15.0.0",
     "eslint-formatter-json-relative": "=0.1.0",
     "eslint-plugin-cypress": "=2.14.0",
@@ -61,6 +61,6 @@
     "d3-hierarchy": "=3.1.2",
     "elkjs": "^0.8.2",
     "nunjucks": "=3.2.4",
-    "web-worker": "^1.2.0"
+    "web-worker": "=1.2.0"
   }
 }

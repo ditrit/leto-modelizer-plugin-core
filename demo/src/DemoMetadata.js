@@ -42,6 +42,13 @@ class DemoMetadata extends DefaultMetadata {
       type: 'Link',
       linkRef: 'laptop',
     })
+
+    this.pluginData.__laptopLinkObjectAttributeDefinition = new ComponentAttributeDefinition({
+      name: 'laptop_object',
+      type: 'Object',
+      definedAttributes: [this.pluginData.__laptopLinkAttributeDefinition],
+    });
+
     this.pluginData.__workflowAttributeDefinition = new ComponentAttributeDefinition({
       name: 'workflow',
       type: 'Reference',
@@ -78,7 +85,7 @@ class DemoMetadata extends DefaultMetadata {
         this.pluginData.__nameAttributeDefinition,
         this.pluginData.__networkAttributeDefinition,
         this.pluginData.__ipAttributeDefinition,
-        this.pluginData.__laptopLinkAttributeDefinition,
+        this.pluginData.__laptopLinkObjectAttributeDefinition,
         this.pluginData.__networkLinkAttributeDefinition,
       ],
       isContainer: false,
