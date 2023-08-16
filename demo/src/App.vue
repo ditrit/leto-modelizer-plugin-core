@@ -82,7 +82,7 @@ function savePosition() {
 
 async function automaticLayout() {
   await plugin.arrangeComponentsPosition();
-  plugin.draw('root', readOnly.value);
+  plugin.draw('view-port', readOnly.value);
 }
 
 function reset() {
@@ -92,7 +92,7 @@ function reset() {
 
 function renameComponent() {
   plugin.data.renameComponentId(selectedId.value, renamedId.value);
-  plugin.draw('root', readOnly.value);
+  plugin.draw('view-port', readOnly.value);
   updateComponentsIds();
   selectedId.value = '';
   renamedId.value = '';
