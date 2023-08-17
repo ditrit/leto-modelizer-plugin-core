@@ -1,3 +1,5 @@
+import ComponentMiniMapOption from './ComponentMiniMapOption';
+
 /**
  * Definition of Component's datas and constraints
  */
@@ -8,6 +10,7 @@ class ComponentDefinition {
    * @param {string} [props.type] - The type of the associated component.
    * @param {string} [props.icon] - The icon's name of this type of component.
    * @param {string} [props.model] - Name of SVG template to render this type of component.
+   * @param {ComponentMiniMapOption} [props.miniMapOption] - Mini map options for the component.
    * @param {string} [props.displayName] - Display name of the component.
    * @param {string} [props.description] - Explanation of the component.
    * @param {string} [props.url] - URL of the documentation of the component.
@@ -27,6 +30,7 @@ class ComponentDefinition {
     type: null,
     icon: null,
     model: null,
+    miniMapOption: null,
     displayName: null,
     description: null,
     url: null,
@@ -42,6 +46,7 @@ class ComponentDefinition {
       type,
       icon,
       model,
+      miniMapOption,
       displayName,
       description,
       url,
@@ -71,6 +76,12 @@ class ComponentDefinition {
      * @type {string}
      */
     this.model = model || null;
+
+    /**
+     * Mini map rendering options for the component.
+     * @type {ComponentMiniMapOption}
+     */
+    this.miniMapOption = miniMapOption || new ComponentMiniMapOption();
 
     /**
      * Display name of the component.
