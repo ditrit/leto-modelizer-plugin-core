@@ -48,6 +48,7 @@
       </div>
       <button id="rename-component" @click="renameComponent" :disabled="!(selectedId && renamedId)">Save</button>
     </fieldset>
+    <div id='mini-map-view-port'></div>
     <div id='view-port' :style="readOnly ? { width: `${width}px`, height: `${height}px` } : {}"></div>
   </main>
 </template>
@@ -55,6 +56,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import resources from './assets/resources';
+import miniMapResources from './assets/miniMapResources';
 import DemoPlugin from '@/DemoPlugin';
 import { ComponentDrawOption, FileInput, FileInformation } from 'leto-modelizer-plugin-core';
 
@@ -124,7 +126,7 @@ const defaultConfiguration = JSON.stringify({
 
 plugin.init();
 
-plugin.initResources(resources);
+plugin.initResources(resources, miniMapResources);
 
 onMounted(() => {
   plugin.parse(new FileInformation({ path: 'diagram' }), new FileInput({
@@ -176,6 +178,15 @@ main {
   border: 1px solid black;
 }
 
+#mini-map-view-port {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 200px;
+  background-color: white;
+  border: 1px solid black;
+}
 
 button, label {
   margin-right: 10px;
