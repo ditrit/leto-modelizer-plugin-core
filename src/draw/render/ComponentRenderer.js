@@ -15,12 +15,13 @@ function checkDataDrawingOptionExists(data, option) {
 /**
  * Create models.
  * @param {Component} [data] - Data of component.
+ * @param {Function} [getModel] - Function that returns a model.
  * @param {object} [resources] - Object that contains model resources.
  * @returns {string} - Rendered models.
  */
-function renderModel(data, resources) {
+export function renderModel(data, getModel, resources) {
   return renderString(
-    resources.models[data.definition.model],
+    getModel(data.definition.model),
     {
       ...data,
       icon: resources.icons[data.definition.icon],
@@ -37,26 +38,29 @@ function renderModel(data, resources) {
 /**
  * Create nodes.
  * @param {Selection} [context] - D3 selection of the context.
+ * @param {Function} [getModel] - Function that returns a model.
  * @param {object} [resources] - Object that contains model resources.
+ * @private
  */
-function createNodes(context, resources) {
+function createNodes(context, getModel, resources) {
   context.selectAll('.component')
     .data(({ children }) => children)
     .join('g')
     .attr('id', ({ data }) => data.id)
     .attr('class', 'component')
-    .html(({ data }) => renderModel(data, resources))
+    .html(({ data }) => renderModel(data, getModel, resources))
     .filter(({ data, children }) => data.definition.isContainer && !(!children))
     .each(({ data }) => {
-      createNodes(d3.select(`#${data.id}`).select('.components'), resources);
+      createNodes(d3.select(`#${data.id}`).select('.components'), getModel, resources);
     });
 }
 
 /**
  * Render each component.
  * @param {Selection} [context] - D3 selection of the context.
+ * @param {Function} [getModel] - Function that returns a model.
  * @param {object} [resources] - Object that contains model resources.
  */
-export function render(context, resources) {
-  createNodes(context, resources);
+export function render(context, getModel, resources) {
+  createNodes(context, getModel, resources);
 }

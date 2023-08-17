@@ -77,8 +77,11 @@ class DefaultDrawer {
    * @public
    */
   draw() {
-    console.log(this.__formatComponentDataset());
     this.__drawingComponents();
+  }
+
+  __getModel(model) {
+    return this.resources.models[model];
   }
 
   /**
@@ -88,7 +91,7 @@ class DefaultDrawer {
   __drawingComponents() {
     const context = this.root.select('.components');
 
-    cr.render(context, this.resources);
+    cr.render(context, this.__getModel.bind(this), this.resources);
   }
 
   /**
