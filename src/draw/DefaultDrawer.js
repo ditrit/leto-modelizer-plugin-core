@@ -80,6 +80,12 @@ class DefaultDrawer {
     this.__drawingComponents();
   }
 
+  /**
+   * Get model.
+   * @param {string} [model] - Model name.
+   * @returns {string} - Model.
+   * @private
+   */
   __getModel(model) {
     return this.resources.models[model];
   }
