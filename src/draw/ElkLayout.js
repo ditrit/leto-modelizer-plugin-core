@@ -99,36 +99,6 @@ class ElkLayout extends DefaultLayout {
   static elk = new ELK();
 
   /**
-   * Initializes ELK parameters and inherited fields.
-   * @param {DefaultData} pluginData - A graph to be arranged.
-   * @param {object} [elkParams] - Parameters for the layout algorithm. (use defaults if unsure)
-   * @see Parameters for ELK: {@link https://eclipse.dev/elk/reference/options.html}
-   */
-  constructor(pluginData, elkParams = {}) {
-    super(pluginData);
-
-    /**
-     Parameters for the ELK automatic layout system.
-     @see https://eclipse.dev/elk/reference/options.html
-     */
-    this.elkParams = {
-      // default parameters
-      'elk.algorithm': 'elk.layered',
-      'spacing.baseValue': '50',
-      separateConnectedComponents: 'true',
-      'elk.layered.cycleBreaking.strategy': 'INTERACTIVE',
-      'elk.layered.layering.strategy': 'INTERACTIVE',
-      'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
-      'elk.layered.nodePlacement.strategy': 'BRANDES_KOEPF',
-      'elk.layered.interactiveReferencePoint': 'TOP_LEFT',
-      'elk.debugMode': 'true',
-      'elk.direction': 'UNDEFINED',
-
-      ...elkParams,
-    };
-  }
-
-  /**
    * Automatically arrange components.
    * @returns {Promise<void>} Promise with nothing on success otherwise an error.
    */
@@ -241,7 +211,7 @@ class ElkLayout extends DefaultLayout {
    * @private
    */
   async generateELKLayout(parentNode, nodes, links) {
-    const layoutOptions = this.elkParams;
+    const layoutOptions = this.pluginData.configuration.elkParams;
 
     // We prepare the input in the format expected by ELK.
     const graph = {
