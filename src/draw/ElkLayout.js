@@ -100,10 +100,14 @@ class ElkLayout extends DefaultLayout {
 
   /**
    * Automatically arrange components.
+   * @param {string} [containerId] - The container within which we need to organize the children,
+   * and if not specified, all components will be reorganized.
    * @returns {Promise<void>} Promise with nothing on success otherwise an error.
    */
-  async arrangeComponentsPosition() {
-    const { components } = this.pluginData;
+  async arrangeComponentsPosition(containerId) {
+    const components = containerId
+      ? this.pluginData.getChildren(containerId)
+      : this.pluginData.components;
     const links = this.pluginData.getLinks();
 
     const layout = await this.generateAllElkLayouts(components, links);
@@ -301,6 +305,8 @@ class ElkLayout extends DefaultLayout {
     const currentDepth = parentNode.depth + 1;
 
     return allLinks
+    // Ignore links that are unrelated to given container
+      .filter(({ source, target }) => nodes.has(source) && nodes.has(target))
       .map((link) => {
         // We operate only at a given depth.
         // Therefore we climb in the hierarchy if needed.
