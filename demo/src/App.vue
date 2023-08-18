@@ -7,6 +7,7 @@
       <button @click="savePosition">Save position</button>
       <button class="reset-btn" @click="reset">Reset UI</button>
       <button @click="automaticLayout" id="automatic-layout-button">Automatic layout</button>
+      <button @click="automaticLayoutOfChildren" id="automatic-layout-children-button">Automatic layout of network1's children</button>
       <label for="read-only-checkbox">Read-only ?</label>
       <input
         id="read-only-checkbox"
@@ -82,6 +83,11 @@ function savePosition() {
 
 async function automaticLayout() {
   await plugin.arrangeComponentsPosition();
+  plugin.draw('root', readOnly.value);
+}
+
+async function automaticLayoutOfChildren() {
+  await plugin.arrangeComponentsPosition('network1');
   plugin.draw('root', readOnly.value);
 }
 
