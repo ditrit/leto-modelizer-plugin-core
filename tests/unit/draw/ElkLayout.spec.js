@@ -4,7 +4,9 @@ import ElkLayout from 'src/draw/ElkLayout';
 import Component from 'src/models/Component';
 import ComponentDefinition from 'src/models/ComponentDefinition';
 import ComponentAttribute from 'src/models/ComponentAttribute';
-import ComponentDrawOption from '../../../src/models/ComponentDrawOption';
+import ComponentDrawOption from 'src/models/ComponentDrawOption';
+import DefaultData from 'src/models/DefaultData';
+import DefaultConfiguration from 'src/models/DefaultConfiguration';
 
 const exampleComponents = [new Component({
   id: 'workflow1',
@@ -69,13 +71,13 @@ describe('Test Class: ElkLayout', () => {
 
   describe('Test method: getNodes', () => {
     it('should return an empty map when an empty array is provided', () => {
-      const layoutManager = new ElkLayout();
+      const layoutManager = new ElkLayout(new DefaultData(new DefaultConfiguration()));
 
       expect(layoutManager.getNodes([])).toEqual(new Map());
     });
 
     it('should return exactly one node when one component has been provided', () => {
-      const layoutManager = new ElkLayout();
+      const layoutManager = new ElkLayout(new DefaultData(new DefaultConfiguration()));
       const component = new Component({
         id: 'my_id',
         name: 'my_name',
@@ -106,7 +108,7 @@ describe('Test Class: ElkLayout', () => {
     it(
       'should generate a unique root, common parent for each orphan, with a coherent hierarchy',
       () => {
-        const layoutManager = new ElkLayout();
+        const layoutManager = new ElkLayout(new DefaultData(new DefaultConfiguration()));
         const comp1 = new Component({
           id: 'my_id_1',
           name: 'my_name_1',
@@ -147,7 +149,7 @@ describe('Test Class: ElkLayout', () => {
     );
 
     it('should capture parent-child relationship and depth in the expected way', () => {
-      const layoutManager = new ElkLayout();
+      const layoutManager = new ElkLayout(new DefaultData(new DefaultConfiguration()));
       const comp1 = new Component({
         id: 'my_id_1',
         name: 'my_name_1',
@@ -199,7 +201,7 @@ describe('Test Class: ElkLayout', () => {
 
   describe('Test method: getNodeDepth', () => {
     it('should compute depth correctly', () => {
-      const layoutManager = new ElkLayout();
+      const layoutManager = new ElkLayout(new DefaultData(new DefaultConfiguration()));
 
       expect(layoutManager.getNodeDepth({})).toEqual(0);
       expect(layoutManager.getNodeDepth({ parent: {} })).toEqual(1);
@@ -210,13 +212,13 @@ describe('Test Class: ElkLayout', () => {
 
   describe('Test method: getParentsByDepth', () => {
     it('should return no parents when no components are provided', () => {
-      const layoutManager = new ElkLayout();
+      const layoutManager = new ElkLayout(new DefaultData(new DefaultConfiguration()));
 
       expect(layoutManager.getParentsByDepth(new Map())).toEqual([]);
     });
 
     it('should have expected behavior with 3 given components', () => {
-      const layoutManager = new ElkLayout();
+      const layoutManager = new ElkLayout(new DefaultData(new DefaultConfiguration()));
       const grandparent = new Component({
         id: 'my_id_1',
         name: 'my_name_1',
@@ -257,7 +259,7 @@ describe('Test Class: ElkLayout', () => {
 
   describe('Test method: generateLayout', () => {
     it('should call the expected underlying functions', () => {
-      const layoutManager = new ElkLayout();
+      const layoutManager = new ElkLayout(new DefaultData(new DefaultConfiguration()));
       // no need for real data here as it is not used
       const components = [2304324];
       const nodes = ['a', 'b', 'c'];
@@ -286,7 +288,7 @@ describe('Test Class: ElkLayout', () => {
 
   describe('Test method: generateELKLayout', () => {
     it('should provide to ELK the right input format on a minimal example', () => {
-      const layoutManager = new ElkLayout();
+      const layoutManager = new ElkLayout(new DefaultData(new DefaultConfiguration()));
       const node = {
         raw: undefined,
         children: [{
@@ -325,7 +327,7 @@ describe('Test Class: ElkLayout', () => {
     });
 
     it('should provide to ELK the right input format on a full example', () => {
-      const layoutManager = new ElkLayout();
+      const layoutManager = new ElkLayout(new DefaultData(new DefaultConfiguration()));
       const nodes = layoutManager.getNodes(exampleComponents);
 
       // root
@@ -346,7 +348,7 @@ describe('Test Class: ElkLayout', () => {
 
   describe('Test method: getAncestorByDepth', () => {
     it('should climb the tree structure correctly', () => {
-      const layoutManager = new ElkLayout();
+      const layoutManager = new ElkLayout(new DefaultData(new DefaultConfiguration()));
       const a = {
         parent: {
           parent: {
@@ -367,7 +369,7 @@ describe('Test Class: ElkLayout', () => {
 
   describe('Test method: getLinksForChildren', () => {
     it('should find the links among children of given parent node', () => {
-      const layoutManager = new ElkLayout();
+      const layoutManager = new ElkLayout(new DefaultData(new DefaultConfiguration()));
       const nodes = layoutManager.getNodes(exampleComponents);
 
       // root

@@ -12,6 +12,8 @@ class DefaultConfiguration {
    * @param {string} [props.defaultFileName] - Default file name for new components.
    * @param {string} [props.defaultFileExtension] - Default file extension for components.
    * @param {Tag[]} [props.tags] - All plugin tags.
+   * @param {object} [props.elkParams] - Parameters for the layout algorithm.
+   * @see Parameters for ELK: {@link https://eclipse.dev/elk/reference/options.html}
    */
   constructor(props = {
     editor: {
@@ -21,6 +23,7 @@ class DefaultConfiguration {
     defaultFileName: null,
     defaultFileExtension: null,
     tags: [],
+    elkParams: null,
   }) {
     /**
      * Object that contains all properties of editor configuration.
@@ -51,6 +54,24 @@ class DefaultConfiguration {
      * @default []
      */
     this.tags = props.tags || [];
+    /**
+     Parameters for the ELK automatic layout system.
+     @see https://eclipse.dev/elk/reference/options.html
+     @type {object}
+     */
+    this.elkParams = {
+      'elk.algorithm': 'elk.layered',
+      'spacing.baseValue': '50',
+      separateConnectedComponents: 'true',
+      'elk.layered.cycleBreaking.strategy': 'INTERACTIVE',
+      'elk.layered.layering.strategy': 'INTERACTIVE',
+      'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
+      'elk.layered.nodePlacement.strategy': 'BRANDES_KOEPF',
+      'elk.layered.interactiveReferencePoint': 'TOP_LEFT',
+      'elk.debugMode': 'true',
+      'elk.direction': 'UNDEFINED',
+      ...props.elkParams,
+    };
   }
 }
 
