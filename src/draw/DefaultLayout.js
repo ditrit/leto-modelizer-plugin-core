@@ -20,9 +20,12 @@ class DefaultLayout {
   /**
    * Does nothing to components.
    * One can override this method to implement an algorithm for automatic components layout.
+   * @param {string} [containerId] - Container of which we must arrange the children. If not given,
+   * all components will be rearranged.
    * @returns {Promise<void>} Promise with nothing on success otherwise an error.
    */
-  async arrangeComponentsPosition() {
+  // eslint-disable-next-line no-unused-vars
+  async arrangeComponentsPosition(containerId) {
     return Promise.resolve();
   }
 }

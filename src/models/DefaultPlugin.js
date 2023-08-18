@@ -175,10 +175,12 @@ class DefaultPlugin {
    * Reorganize nodes layout algorithmically.
    * This method does not refresh the view.
    * You have to await it and trigger a redraw.
+   * @param {string} [containerId] - Container of which we must arrange the children. If not given,
+   * all components will be rearranged.
    * @returns {Promise<void>} Promise with nothing on success otherwise an error.
    */
-  async arrangeComponentsPosition() {
-    await this.__drawer.arrangeComponentsPosition();
+  async arrangeComponentsPosition(containerId) {
+    await this.__drawer.arrangeComponentsPosition(containerId);
   }
 }
 

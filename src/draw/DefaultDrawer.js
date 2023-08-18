@@ -1735,10 +1735,12 @@ class DefaultDrawer {
    * Reorganize nodes layout algorithmically.
    * This method does not refresh the view.
    * You have to await it and trigger a redraw.
+   * @param {string} [containerId] - Container of which we must arrange the children. If not given,
+   * all components will be rearranged.
    * @returns {Promise<void>} Promise with nothing on success otherwise an error.
    */
-  async arrangeComponentsPosition() {
-    await this.layout.arrangeComponentsPosition();
+  async arrangeComponentsPosition(containerId) {
+    await this.layout.arrangeComponentsPosition(containerId);
   }
 }
 export default DefaultDrawer;
