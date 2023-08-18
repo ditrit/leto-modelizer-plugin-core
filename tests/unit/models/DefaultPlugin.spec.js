@@ -260,16 +260,18 @@ describe('Test class: DefaultPlugin', () => {
   });
 
   describe('Test method: arrangeComponentsPosition', () => {
-    const spyArrangeComponentsPosition = jest.fn(async () => Promise.resolve());
-    const plugin = new DefaultPlugin({
-      pluginDrawer: {
-        arrangeComponentsPosition: spyArrangeComponentsPosition,
-      },
-    });
-
     it('should propagate arrangeComponentsPosition call to this.__drawer', async () => {
-      await plugin.arrangeComponentsPosition();
-      expect(spyArrangeComponentsPosition).toHaveBeenCalled();
+      const spyArrangeComponentsPosition = jest.fn(async () => Promise.resolve());
+      const plugin = new DefaultPlugin({
+        pluginDrawer: {
+          arrangeComponentsPosition: spyArrangeComponentsPosition,
+        },
+      });
+
+      const argument = 97861;
+
+      await plugin.arrangeComponentsPosition(argument);
+      expect(spyArrangeComponentsPosition).toHaveBeenCalledWith(argument);
     });
   });
 });

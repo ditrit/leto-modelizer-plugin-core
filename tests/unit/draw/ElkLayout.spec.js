@@ -487,5 +487,37 @@ describe('Test Class: ElkLayout', () => {
       expect(spyGenerateAllElkLayouts).toHaveBeenCalledWith(components, links);
       expect(spyWriteLayout).toHaveBeenCalledWith(x);
     });
+
+    it('should rearrange a given component\'s children', async () => {
+      // no need for real data here as it is not used
+      // the values are only used to assert equality
+      const components = [9085325];
+      const links = [4382424];
+      const x = 29371372091312;
+
+      const pluginData = {
+        components,
+        getLinks: jest.fn(() => links),
+        getChildren: jest.fn(() => components),
+      };
+
+      const layoutManager = new ElkLayout(pluginData);
+
+      const spyGenerateAllElkLayouts = jest
+        .spyOn(layoutManager, 'generateAllElkLayouts')
+        .mockImplementation(() => x);
+
+      const spyWriteLayout = jest
+        .spyOn(layoutManager, 'writeLayout')
+        .mockImplementation(() => undefined);
+
+      await layoutManager.arrangeComponentsPosition('my_fake_container_id');
+
+      expect(pluginData.getChildren).toHaveBeenCalledWith('my_fake_container_id');
+      expect(pluginData.getChildren).toHaveBeenCalledTimes(1);
+      expect(pluginData.getLinks).toHaveBeenCalled();
+      expect(spyGenerateAllElkLayouts).toHaveBeenCalledWith(components, links);
+      expect(spyWriteLayout).toHaveBeenCalledWith(x);
+    });
   });
 });

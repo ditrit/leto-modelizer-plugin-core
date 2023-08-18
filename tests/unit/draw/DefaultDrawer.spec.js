@@ -1085,20 +1085,22 @@ describe('Test Class: DefaultDrawer()', () => {
   });
 
   describe('Test method: arrangeComponentsPosition', () => {
-    const drawer = new DefaultDrawer(
-      new DefaultData(),
-      null,
-      'root',
-    );
-
     it('should propagate arrangeComponentsPosition call to this.layout', async () => {
+      const drawer = new DefaultDrawer(
+        new DefaultData(),
+        null,
+        'root',
+      );
+
       const spyLayout = jest
         .spyOn(drawer.layout, 'arrangeComponentsPosition')
         .mockImplementation(async () => Promise.resolve());
 
-      await drawer.arrangeComponentsPosition();
+      const argument = 12802348;
 
-      expect(spyLayout).toHaveBeenCalled();
+      await drawer.arrangeComponentsPosition(argument);
+
+      expect(spyLayout).toHaveBeenCalledWith(argument);
     });
   });
 });
