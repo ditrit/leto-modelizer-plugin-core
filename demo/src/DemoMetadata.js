@@ -3,6 +3,7 @@ import {
   ComponentDefinition,
   DefaultMetadata
 } from 'leto-modelizer-plugin-core';
+import ComponentMiniMapOption from '../../src/models/ComponentMiniMapOption';
 
 class DemoMetadata extends DefaultMetadata {
   parse() {
@@ -82,6 +83,11 @@ class DemoMetadata extends DefaultMetadata {
         this.pluginData.__networkLinkAttributeDefinition,
       ],
       isContainer: false,
+      miniMapOption: new ComponentMiniMapOption({
+        shape: 'triangle',
+        fill:'blue',
+        stroke:'none',
+      }),
     });
 
     this.pluginData.__laptopDefinition = new ComponentDefinition({
@@ -96,6 +102,11 @@ class DemoMetadata extends DefaultMetadata {
         this.pluginData.__networkLinkAttributeDefinition,
       ],
       isContainer: false,
+      miniMapOption: new ComponentMiniMapOption({
+        shape: 'circle',
+        fill: 'orange',
+        stroke:'red',
+      }),
     });
 
     this.pluginData.__verticalWorkflowDefinition = new ComponentDefinition({

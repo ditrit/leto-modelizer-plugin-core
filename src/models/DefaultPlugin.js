@@ -1,5 +1,6 @@
 import DefaultData from './DefaultData';
 import DefaultDrawer from '../draw/DefaultDrawer';
+import MiniMapDrawer from '../draw/MiniMapDrawer';
 import DefaultMetadata from '../metadata/DefaultMetadata';
 import DefaultParser from '../parser/DefaultParser';
 import DefaultRender from '../render/DefaultRender';
@@ -26,6 +27,7 @@ class DefaultPlugin {
     configuration: null,
     pluginData: null,
     pluginDrawer: null,
+    pluginMiniMapDrawer: null,
     pluginMetadata: null,
     pluginParser: null,
     pluginRenderer: null,
@@ -46,6 +48,12 @@ class DefaultPlugin {
      * @private
      */
     this.__drawer = props.pluginDrawer || new DefaultDrawer(this.data);
+    /**
+     * Plugin drawer for the mini map.
+     * @type {DefaultDrawer}
+     * @private
+     */
+    this.__miniMapDrawer = props.pluginMiniMapDrawer || new MiniMapDrawer(this.data);
     /**
      * Plugin metadata.
      * @type {DefaultMetadata}
@@ -85,9 +93,11 @@ class DefaultPlugin {
   /**
    * Set resources in plugin.
    * @param {object} [resources] - Object that contains resources.
+   * @param {object} [miniMapResources] - Object that contains resources for the mini-map.
    */
-  initResources(resources) {
+  initResources(resources, miniMapResources) {
     this.__drawer.resources = resources;
+    this.__miniMapDrawer.resources = miniMapResources;
   }
 
   /**
@@ -95,6 +105,7 @@ class DefaultPlugin {
    */
   initDrawingContext() {
     this.__drawer.initDrawingContext();
+    this.__miniMapDrawer.initDrawingContext();
   }
 
   /**
@@ -102,6 +113,7 @@ class DefaultPlugin {
    */
   draw() {
     this.__drawer.draw();
+    this.__miniMapDrawer.draw();
   }
 
   /**
