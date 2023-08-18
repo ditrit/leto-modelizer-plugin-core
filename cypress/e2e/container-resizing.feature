@@ -15,7 +15,7 @@ Feature: Test container resizing
     When I drag "#server2" of -10,-10
     Then I expect "#network1" width is 296
     And  I expect "#network1" height is 246
-  
+
   Scenario: Resize component container manually
     Then I expect '#network1' width is 308
     And  I expect '#network1' height is 246
