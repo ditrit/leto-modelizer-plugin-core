@@ -6,7 +6,7 @@
     <div>
       <button @click="savePosition">Save position</button>
       <button class="reset-btn" @click="reset">Reset UI</button>
-      <button @click="automaticLayout" id="automatic-layout-button">Automatic layout</button>
+
       <label for="read-only-checkbox">Read-only ?</label>
       <input
         id="read-only-checkbox"
@@ -25,19 +25,20 @@
         </div>
       </div>
     </div>
+    <div id="fieldset-container">
     <fieldset>
       <legend>Rename a component ID</legend>
       <label>Choose an ID:</label>
       <select
-        v-model="selectedId"
-        name="ids"
-        id="component-id"
+          v-model="selectedId"
+          name="ids"
+          id="component-id"
       >
         <option value="">--select an id--</option>
         <option
-          v-for="id in componentsIds"
-          :key="id"
-          :value="id"
+            v-for="id in componentsIds"
+            :key="id"
+            :value="id"
         >
           {{ id }}
         </option>
@@ -48,6 +49,28 @@
       </div>
       <button id="rename-component" @click="renameComponent" :disabled="!(selectedId && renamedId)">Save</button>
     </fieldset>
+
+    <fieldset>
+      <legend>Rearrange components</legend>
+      <label>Parent component:</label>
+        <select
+            v-model="selectedAutoLayoutId"
+            name="idsAutomaticLayout"
+            id="automatic-layout-children-input"
+        >
+          <option value="">(Rearrange everything)</option>
+          <option
+              v-for="id in componentsIds"
+              :key="'autoLayout_'+id"
+              :value="id"
+          >
+            {{ id }}
+          </option>
+        </select>
+      <br/>
+      <button @click="automaticLayoutOfChildren" id="automatic-layout-children-button">Rearrange</button>
+    </fieldset>
+    </div>
     <div id='root' :style="readOnly ? { width: `${width}px`, height: `${height}px` } : {}"></div>
   </main>
 </template>
@@ -64,6 +87,7 @@ const height = ref(400);
 const componentsIds = ref([]);
 const selectedId = ref('');
 const renamedId = ref('');
+const selectedAutoLayoutId = ref('');
 
 const watchEvents = ['delete', 'add'];
 
@@ -80,8 +104,10 @@ function savePosition() {
   window.localStorage.setItem('configuration', configuration.content);
 }
 
-async function automaticLayout() {
-  await plugin.arrangeComponentsPosition();
+async function automaticLayoutOfChildren() {
+  await plugin.arrangeComponentsPosition(selectedAutoLayoutId.value === ''
+      ? undefined
+      : selectedAutoLayoutId.value  );
   plugin.draw('root', readOnly.value);
 }
 
@@ -187,5 +213,15 @@ button, label {
   width: 75px;
   margin-right: 15px;
   text-align: left;
+}
+
+#fieldset-container {
+  display:flex;
+  flex-direction: row;
+}
+
+fieldset {
+  margin: 5px;
+  padding: 5px;
 }
 </style>
