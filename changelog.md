@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - `getDefinedAttributesByType` will now return nested attributes inside object, fix [this bug](https://github.com/ditrit/leto-modelizer-plugin-core/issues/203).
+- Fix has error on a Link Array.
 
 ## [0.18.0] - 2023/07/20
 
