@@ -1,85 +1,129 @@
 <template>
   <main>
     <div>
-      <h1>Demo of default drawing in leto-modelizer</h1>
+      <h1>
+        Demo of default drawing in leto-modelizer
+      </h1>
     </div>
     <div>
-      <button @click="savePosition">Save position</button>
-      <button class="reset-btn" @click="reset">Reset UI</button>
+      <button @click="savePosition">
+        Save position
+      </button>
+      <button
+        class="reset-btn"
+        @click="reset"
+      >
+        Reset UI
+      </button>
 
       <label for="read-only-checkbox">Read-only ?</label>
       <input
         id="read-only-checkbox"
-        type="checkbox"
         v-model="readOnly"
+        type="checkbox"
         @change="reset"
-      />
-      <div v-if="readOnly" id="read-only-size">
+      >
+      <div
+        v-if="readOnly"
+        id="read-only-size"
+      >
         <div>
           <label>Width:</label>
-          <input type="number" v-model="width" />
+          <input
+            v-model="width"
+            type="number"
+          >
         </div>
         <div>
           <label>Height:</label>
-          <input type="number" v-model="height" />
+          <input
+            v-model="height"
+            type="number"
+          >
         </div>
       </div>
     </div>
     <div id="fieldset-container">
-    <fieldset>
-      <legend>Rename a component ID</legend>
-      <label>Choose an ID:</label>
-      <select
+      <fieldset>
+        <legend>
+          Rename a component ID
+        </legend>
+        <label>Choose an ID:</label>
+        <select
+          id="component-id"
           v-model="selectedId"
           name="ids"
-          id="component-id"
-      >
-        <option value="">--select an id--</option>
-        <option
+        >
+          <option value="">
+            --select an id--
+          </option>
+          <option
             v-for="id in componentsIds"
             :key="id"
             :value="id"
-        >
-          {{ id }}
-        </option>
-      </select>
-      <div>
-        <label>New ID</label>
-        <input id="rename-input" type="text" v-model="renamedId" />
-      </div>
-      <button id="rename-component" @click="renameComponent" :disabled="!(selectedId && renamedId)">Save</button>
-    </fieldset>
-
-    <fieldset>
-      <legend>Rearrange components</legend>
-      <label>Parent component:</label>
-        <select
-            v-model="selectedAutoLayoutId"
-            name="idsAutomaticLayout"
-            id="automatic-layout-children-input"
-        >
-          <option value="">(Rearrange everything)</option>
-          <option
-              v-for="id in componentsIds"
-              :key="'autoLayout_'+id"
-              :value="id"
           >
             {{ id }}
           </option>
         </select>
-      <br/>
-      <button @click="automaticLayoutOfChildren" id="automatic-layout-children-button">Rearrange</button>
-    </fieldset>
+        <div>
+          <label>New ID</label>
+          <input
+            id="rename-input"
+            v-model="renamedId"
+            type="text"
+          >
+        </div>
+        <button
+          id="rename-component"
+          :disabled="!(selectedId && renamedId)"
+          @click="renameComponent"
+        >
+          Save
+        </button>
+      </fieldset>
+
+      <fieldset>
+        <legend>
+          Rearrange components
+        </legend>
+        <label>Parent component:</label>
+        <select
+          id="automatic-layout-children-input"
+          v-model="selectedAutoLayoutId"
+          name="idsAutomaticLayout"
+        >
+          <option value="">
+            (Rearrange everything)
+          </option>
+          <option
+            v-for="id in componentsIds"
+            :key="'autoLayout_'+id"
+            :value="id"
+          >
+            {{ id }}
+          </option>
+        </select>
+        <br>
+        <button
+          id="automatic-layout-children-button"
+          @click="automaticLayoutOfChildren"
+        >
+          Rearrange
+        </button>
+      </fieldset>
     </div>
-    <div id='root' :style="readOnly ? { width: `${width}px`, height: `${height}px` } : {}"></div>
+    <div
+      id="root"
+      :style="readOnly ? { width: `${width}px`, height: `${height}px` } : {}"
+    />
   </main>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue';
+import { ComponentDrawOption, FileInput, FileInformation } from 'leto-modelizer-plugin-core';
 import resources from './assets/resources';
 import DemoPlugin from '@/DemoPlugin';
-import { ComponentDrawOption, FileInput, FileInformation } from 'leto-modelizer-plugin-core';
 
 const readOnly = ref(false);
 const width = ref(400);
@@ -91,41 +135,16 @@ const selectedAutoLayoutId = ref('');
 
 const watchEvents = ['delete', 'add'];
 
+/**
+ *
+ * @param data
+ */
 function next(data) {
   console.log(data);
   if (watchEvents.includes(data.event.action)) {
+    // eslint-disable-next-line no-use-before-define
     updateComponentsIds();
   }
-}
-
-function savePosition() {
-  const configuration = new FileInput({ path: 'localstorage', content: '' });
-  plugin.render(new FileInformation({ path: 'diagram' }), configuration);
-  window.localStorage.setItem('configuration', configuration.content);
-}
-
-async function automaticLayoutOfChildren() {
-  await plugin.arrangeComponentsPosition(selectedAutoLayoutId.value === ''
-      ? undefined
-      : selectedAutoLayoutId.value  );
-  plugin.draw('root', readOnly.value);
-}
-
-function reset() {
-  document.querySelector('#root').innerHTML = '';
-  plugin.draw('root', readOnly.value);
-}
-
-function renameComponent() {
-  plugin.data.renameComponentId(selectedId.value, renamedId.value);
-  plugin.draw('root', readOnly.value);
-  updateComponentsIds();
-  selectedId.value = '';
-  renamedId.value = '';
-}
-
-function updateComponentsIds() {
-  componentsIds.value = plugin.data.components.map(({ id }) => id);
 }
 
 const plugin = new DemoPlugin(next);
@@ -145,6 +164,53 @@ const defaultConfiguration = JSON.stringify({
 plugin.init();
 
 plugin.initResources(resources);
+
+/**
+ *
+ */
+function savePosition() {
+  const configuration = new FileInput({ path: 'localstorage', content: '' });
+
+  plugin.render(new FileInformation({ path: 'diagram' }), configuration);
+  window.localStorage.setItem('configuration', configuration.content);
+}
+
+/**
+ *
+ */
+async function automaticLayoutOfChildren() {
+  await plugin.arrangeComponentsPosition(selectedAutoLayoutId.value === ''
+    ? undefined
+    : selectedAutoLayoutId.value);
+  plugin.draw('root', readOnly.value);
+}
+
+/**
+ *
+ */
+function reset() {
+  document.querySelector('#root').innerHTML = '';
+  plugin.draw('root', readOnly.value);
+}
+
+/**
+ *
+ */
+function renameComponent() {
+  plugin.data.renameComponentId(selectedId.value, renamedId.value);
+  plugin.draw('root', readOnly.value);
+  // eslint-disable-next-line no-use-before-define
+  updateComponentsIds();
+  selectedId.value = '';
+  renamedId.value = '';
+}
+
+/**
+ *
+ */
+function updateComponentsIds() {
+  componentsIds.value = plugin.data.components.map(({ id }) => id);
+}
 
 onMounted(() => {
   plugin.parse(new FileInformation({ path: 'diagram' }), new FileInput({
@@ -202,7 +268,6 @@ main {
 
   border: 1px solid black;
 }
-
 
 button, label {
   margin-right: 10px;

@@ -1,5 +1,5 @@
 /dist
-/demo
 /node_modules
 .eslintrc.js
 babel.config.js
+/demo/src/assets/resources.js
