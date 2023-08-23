@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add optional containerId argument to `DefaultLayout.rearrangeComponentsPosition`.
+- Add `repositionComponent` method in `DefaultDrawer`, `DefaultPlugin` and `DefaultLayout`.
+- Add a default implementation for `repositionComponent` in  `ElkLayout`.
+- Add to the demo a button to log components position.
 
 ### Changed
 
