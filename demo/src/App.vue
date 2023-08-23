@@ -15,7 +15,15 @@
       >
         Reset UI
       </button>
-
+      <button
+        id="add-component-button"
+        @click="addComponent"
+      >
+        Add component
+      </button>
+      <button @click="gherkinTestsToConsole">
+        Log components position
+      </button>
       <label for="read-only-checkbox">Read-only ?</label>
       <input
         id="read-only-checkbox"
@@ -120,6 +128,8 @@
 </template>
 
 <script setup>
+/* eslint no-console: 0 */
+
 import { onMounted, ref } from 'vue';
 import { ComponentDrawOption, FileInput, FileInformation } from 'leto-modelizer-plugin-core';
 import resources from './assets/resources';
@@ -136,8 +146,8 @@ const selectedAutoLayoutId = ref('');
 const watchEvents = ['delete', 'add'];
 
 /**
- *
- * @param data
+ * Callback for DemoPlugin instance.
+ * @param {*} data - The data to be logged.
  */
 function next(data) {
   console.log(data);
@@ -166,7 +176,7 @@ plugin.init();
 plugin.initResources(resources);
 
 /**
- *
+ * Save position.
  */
 function savePosition() {
   const configuration = new FileInput({ path: 'localstorage', content: '' });
@@ -176,7 +186,7 @@ function savePosition() {
 }
 
 /**
- *
+ * Rearrange children of a given component, or all of them.
  */
 async function automaticLayoutOfChildren() {
   await plugin.arrangeComponentsPosition(selectedAutoLayoutId.value === ''
@@ -186,7 +196,7 @@ async function automaticLayoutOfChildren() {
 }
 
 /**
- *
+ * Reset the view.
  */
 function reset() {
   document.querySelector('#root').innerHTML = '';
@@ -194,7 +204,7 @@ function reset() {
 }
 
 /**
- *
+ * Rename a component.
  */
 function renameComponent() {
   plugin.data.renameComponentId(selectedId.value, renamedId.value);
@@ -206,7 +216,7 @@ function renameComponent() {
 }
 
 /**
- *
+ * Update components identifiers.
  */
 function updateComponentsIds() {
   componentsIds.value = plugin.data.components.map(({ id }) => id);
@@ -220,6 +230,40 @@ onMounted(() => {
   plugin.draw('root');
   updateComponentsIds();
 });
+
+/**
+ * Add a component to the model and update the view.
+ */
+function addComponent() {
+  const id = plugin.data.addComponent(plugin.data.__laptopDefinition);
+
+  // As of now, we need to draw the component before repositioning it.
+  // That is because we need the component drawOption property to be defined.
+  plugin.draw('root');
+
+  plugin.repositionComponent(id);
+  plugin.draw('root');
+}
+
+/**
+ * Log components position to the browser console.
+ */
+function gherkinTestsToConsole() {
+  console.log('-------------------- Start log position');
+  plugin.data.components
+    .map(({ id }) => document.querySelector(`g #${id}`))
+    .map((e) => {
+      if (e.attributes.x === undefined || e.attributes.y === undefined) {
+        return `'${e.id}' does not have valid position`;
+      }
+
+      return `And I expect "#${e.id}" to be at position`
+          + ` ${e.attributes.x.nodeValue},${e.attributes.y.nodeValue}\n`;
+    })
+    .forEach((line) => console.log(line));
+
+  console.log('-------------------- End log position');
+}
 </script>
 
 <style>
