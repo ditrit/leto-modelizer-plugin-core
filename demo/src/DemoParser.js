@@ -1,7 +1,7 @@
 import {
   Component,
   ComponentAttribute,
-  DefaultParser
+  DefaultParser,
 } from 'leto-modelizer-plugin-core';
 
 class DemoParser extends DefaultParser {
@@ -161,8 +161,8 @@ class DemoParser extends DefaultParser {
       id: 'workflow1',
       name: 'verticalWorkflow',
       definition: this.pluginData.__verticalWorkflowDefinition,
-      attributes: []
-    })
+      attributes: [],
+    });
     const wfStep4 = new Component({
       id: 'wfstep4',
       name: 'step4',
@@ -172,10 +172,10 @@ class DemoParser extends DefaultParser {
           definition: this.pluginData.__workflowAttributeDefinition,
           name: 'workflow',
           type: 'String',
-          value: 'workflow1'
-        })
-      ]
-    })
+          value: 'workflow1',
+        }),
+      ],
+    });
     const wfStep3 = new Component({
       id: 'wfstep3',
       name: 'step3',
@@ -185,10 +185,10 @@ class DemoParser extends DefaultParser {
           definition: this.pluginData.__workflowAttributeDefinition,
           name: 'workflow',
           type: 'String',
-          value: 'workflow1'
+          value: 'workflow1',
         }),
-      ]
-    })
+      ],
+    });
     const wfStep2 = new Component({
       id: 'wfstep2',
       name: 'step2',
@@ -198,10 +198,10 @@ class DemoParser extends DefaultParser {
           definition: this.pluginData.__workflowAttributeDefinition,
           name: 'workflow',
           type: 'String',
-          value: 'workflow1'
+          value: 'workflow1',
         }),
-      ]
-    })
+      ],
+    });
     const wfStep1 = new Component({
       id: 'wfstep1',
       name: 'step1',
@@ -211,17 +211,17 @@ class DemoParser extends DefaultParser {
           definition: this.pluginData.__workflowAttributeDefinition,
           name: 'workflow',
           type: 'String',
-          value: 'workflow1'
+          value: 'workflow1',
         }),
-      ]
-    })
+      ],
+    });
 
     const horizontalWorkflow = new Component({
       id: 'workflow2',
       name: 'horizontalWorkflow',
       definition: this.pluginData.__horizontalWorkflowDefinition,
-      attributes: []
-    })
+      attributes: [],
+    });
     const wfStep8 = new Component({
       id: 'wfstep8',
       name: 'step4',
@@ -231,10 +231,10 @@ class DemoParser extends DefaultParser {
           definition: this.pluginData.__workflowAttributeDefinition,
           name: 'workflow',
           type: 'String',
-          value: 'workflow2'
-        })
-      ]
-    })
+          value: 'workflow2',
+        }),
+      ],
+    });
     const wfStep7 = new Component({
       id: 'wfstep7',
       name: 'step3',
@@ -244,10 +244,10 @@ class DemoParser extends DefaultParser {
           definition: this.pluginData.__workflowAttributeDefinition,
           name: 'workflow',
           type: 'String',
-          value: 'workflow2'
+          value: 'workflow2',
         }),
-      ]
-    })
+      ],
+    });
     const wfStep6 = new Component({
       id: 'wfstep6',
       name: 'step2',
@@ -257,10 +257,10 @@ class DemoParser extends DefaultParser {
           definition: this.pluginData.__workflowAttributeDefinition,
           name: 'workflow',
           type: 'String',
-          value: 'workflow2'
+          value: 'workflow2',
         }),
-      ]
-    })
+      ],
+    });
     const wfStep5 = new Component({
       id: 'wfstep5',
       name: 'step1',
@@ -270,14 +270,15 @@ class DemoParser extends DefaultParser {
           definition: this.pluginData.__workflowAttributeDefinition,
           name: 'workflow',
           type: 'String',
-          value: 'workflow2'
+          value: 'workflow2',
         }),
-      ]
-    })
+      ],
+    });
 
-    this.pluginData.components = [internalLaptop, dmz1, dmz2, externalLaptop, mailServer, httpServer,
+    this.pluginData.components = [
+      internalLaptop, dmz1, dmz2, externalLaptop, mailServer, httpServer,
       verticalWorkflow, wfStep1, wfStep2, wfStep3, wfStep4,
-      horizontalWorkflow, wfStep5, wfStep6, wfStep7, wfStep8
+      horizontalWorkflow, wfStep5, wfStep6, wfStep7, wfStep8,
     ];
     this.pluginData.parseErrors = [];
   }

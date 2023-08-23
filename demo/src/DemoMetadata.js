@@ -1,7 +1,7 @@
 import {
   ComponentAttributeDefinition,
   ComponentDefinition,
-  DefaultMetadata
+  DefaultMetadata,
 } from 'leto-modelizer-plugin-core';
 
 class DemoMetadata extends DefaultMetadata {
@@ -41,7 +41,7 @@ class DemoMetadata extends DefaultMetadata {
       name: 'laptop_link',
       type: 'Link',
       linkRef: 'laptop',
-    })
+    });
 
     this.pluginData.__laptopLinkObjectAttributeDefinition = new ComponentAttributeDefinition({
       name: 'laptop_object',
@@ -63,7 +63,7 @@ class DemoMetadata extends DefaultMetadata {
       linkColor: '#ff0000',
       linkWidth: 5,
       linkDashStyle: [25, 5],
-    })
+    });
 
     // Component Definitions
     this.pluginData.__networkDefinition = new ComponentDefinition({
@@ -72,7 +72,10 @@ class DemoMetadata extends DefaultMetadata {
       model: 'DefaultContainer',
       parentTypes: ['network'],
       childrenTypes: ['server', 'network', 'workflow'],
-      definedAttributes: [this.pluginData.__nameAttributeDefinition, this.pluginData.__networkAttributeDefinition],
+      definedAttributes: [
+        this.pluginData.__nameAttributeDefinition,
+        this.pluginData.__networkAttributeDefinition,
+      ],
       isContainer: true,
     });
 
@@ -119,7 +122,7 @@ class DemoMetadata extends DefaultMetadata {
       isContainer: true,
       displayType: 'workflow',
       preventChildrenMovement: true,
-      childrenPerLine: 1
+      childrenPerLine: 1,
     });
 
     this.pluginData.__horizontalWorkflowDefinition = new ComponentDefinition({
@@ -145,8 +148,8 @@ class DemoMetadata extends DefaultMetadata {
       model: 'DefaultModel',
       parentTypes: ['workflow'],
       definedAttributes: [
-        this.pluginData.__nameAttributeDefinition
-        ,this.pluginData.__workflowAttributeDefinition
+        this.pluginData.__nameAttributeDefinition,
+        this.pluginData.__workflowAttributeDefinition,
       ],
       isContainer: false,
     });

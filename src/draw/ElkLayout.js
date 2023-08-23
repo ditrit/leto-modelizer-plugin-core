@@ -99,41 +99,15 @@ class ElkLayout extends DefaultLayout {
   static elk = new ELK();
 
   /**
-   * Initializes ELK parameters and inherited fields.
-   * @param {DefaultData} pluginData - A graph to be arranged.
-   * @param {object} [elkParams] - Parameters for the layout algorithm. (use defaults if unsure)
-   * @see Parameters for ELK: {@link https://eclipse.dev/elk/reference/options.html}
-   */
-  constructor(pluginData, elkParams = {}) {
-    super(pluginData);
-
-    /**
-     Parameters for the ELK automatic layout system.
-     @see https://eclipse.dev/elk/reference/options.html
-     */
-    this.elkParams = {
-      // default parameters
-      'elk.algorithm': 'elk.layered',
-      'spacing.baseValue': '50',
-      separateConnectedComponents: 'true',
-      'elk.layered.cycleBreaking.strategy': 'INTERACTIVE',
-      'elk.layered.layering.strategy': 'INTERACTIVE',
-      'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
-      'elk.layered.nodePlacement.strategy': 'BRANDES_KOEPF',
-      'elk.layered.interactiveReferencePoint': 'TOP_LEFT',
-      'elk.debugMode': 'true',
-      'elk.direction': 'UNDEFINED',
-
-      ...elkParams,
-    };
-  }
-
-  /**
    * Automatically arrange components.
+   * @param {string} [containerId] - The container within which we need to organize the children,
+   * and if not specified, all components will be reorganized.
    * @returns {Promise<void>} Promise with nothing on success otherwise an error.
    */
-  async arrangeComponentsPosition() {
-    const { components } = this.pluginData;
+  async arrangeComponentsPosition(containerId) {
+    const components = containerId
+      ? this.pluginData.getChildren(containerId)
+      : this.pluginData.components;
     const links = this.pluginData.getLinks();
 
     const layout = await this.generateAllElkLayouts(components, links);
@@ -241,7 +215,7 @@ class ElkLayout extends DefaultLayout {
    * @private
    */
   async generateELKLayout(parentNode, nodes, links) {
-    const layoutOptions = this.elkParams;
+    const layoutOptions = this.pluginData.configuration.elkParams;
 
     // We prepare the input in the format expected by ELK.
     const graph = {
@@ -331,6 +305,8 @@ class ElkLayout extends DefaultLayout {
     const currentDepth = parentNode.depth + 1;
 
     return allLinks
+    // Ignore links that are unrelated to given container
+      .filter(({ source, target }) => nodes.has(source) && nodes.has(target))
       .map((link) => {
         // We operate only at a given depth.
         // Therefore we climb in the hierarchy if needed.

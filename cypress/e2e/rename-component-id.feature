@@ -3,7 +3,7 @@ Feature: Test rename component id.
     Given I clear localstorage
     And I set viewport size to "1920" px for width and "1080" px for height
     And I visit the "/"
-    
+
 
   Scenario: Rename component should automatically update all the Link attributes targeting the renamed component.
     Then I expect ".link" appear 8 times on screen
@@ -12,7 +12,7 @@ Feature: Test rename component id.
     But  I expect "#link-server-laptop_link-server1-renamed" to not exist
     And  I expect "#svg-renamed" to not exist
 
-    When I select "external1" in "select"
+    When I select "external1" in "#component-id"
     And  I set on "#rename-input" text "renamed"
     And  I click on "#rename-component"
     Then I expect ".link" appear 8 times on screen
@@ -26,7 +26,7 @@ Feature: Test rename component id.
     And  I expect "#server2" is visible
     But  I expect "#svg-renamed" to not exist
 
-    When I select "network1" in "select"
+    When I select "network1" in "#component-id"
     And  I set on "#rename-input" text "renamed"
     And  I click on "#rename-component"
     Then I expect "#svg-renamed" is visible

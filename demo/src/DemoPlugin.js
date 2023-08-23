@@ -6,6 +6,7 @@ class DemoPlugin extends DefaultPlugin {
   constructor(next) {
     const configuration = new DefaultConfiguration();
     const data = new DefaultData(configuration, { name: 'demo' }, { next });
+
     super({
       configuration,
       pluginData: data,
