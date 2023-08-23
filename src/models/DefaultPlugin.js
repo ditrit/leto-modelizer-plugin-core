@@ -182,6 +182,14 @@ class DefaultPlugin {
   async arrangeComponentsPosition(containerId) {
     await this.__drawer.arrangeComponentsPosition(containerId);
   }
+
+  /**
+   * Reposition a component where there is room for it.
+   * @param {string} componentId - Id of a component to be repositioned.
+   */
+  repositionComponent(componentId) {
+    this.__drawer.repositionComponent(componentId);
+  }
 }
 
 export default DefaultPlugin;
