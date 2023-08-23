@@ -163,11 +163,11 @@ class ComponentAttribute {
   __typeOfValueValidation() {
     const type = this.type.toLowerCase();
 
-    if (type === 'array') {
-      if (this.definition.type === 'Link') {
-        return !Array.isArray(this.value) || this.value.some((link) => typeof link !== 'string');
-      }
+    if (this.definition.type === 'Link') {
+      return !Array.isArray(this.value) || this.value.some((link) => typeof link !== 'string');
+    }
 
+    if (type === 'array') {
       return !Array.isArray(this.value);
     }
 
