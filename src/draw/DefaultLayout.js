@@ -28,6 +28,14 @@ class DefaultLayout {
   async arrangeComponentsPosition(containerId) {
     return Promise.resolve();
   }
+
+  /**
+   * Reposition a component where there is room for it.
+   * @param {string} componentId - Id of a component to be repositioned.
+   */
+  // eslint-disable-next-line no-unused-vars
+  repositionComponent(componentId) {
+  }
 }
 
 export default DefaultLayout;
