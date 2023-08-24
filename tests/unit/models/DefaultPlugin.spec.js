@@ -1,3 +1,4 @@
+import Component from 'src/models/Component';
 import DefaultPlugin from 'src/models/DefaultPlugin';
 import DefaultData from 'src/models/DefaultData';
 import DefaultDrawer from 'src/draw/DefaultDrawer';
@@ -272,6 +273,21 @@ describe('Test class: DefaultPlugin', () => {
 
       await plugin.arrangeComponentsPosition(argument);
       expect(spyArrangeComponentsPosition).toHaveBeenCalledWith(argument);
+    });
+  });
+
+  describe('Test method: repositionComponent', () => {
+    it('should propagate repositionComponent call to this.__drawer', () => {
+      const spyRepositionComponent = jest.fn(() => undefined);
+      const plugin = new DefaultPlugin({
+        pluginDrawer: {
+          repositionComponent: spyRepositionComponent,
+        },
+      });
+      const component = new Component();
+
+      plugin.repositionComponent(component);
+      expect(spyRepositionComponent).toHaveBeenCalledWith(component);
     });
   });
 });

@@ -520,4 +520,560 @@ describe('Test Class: ElkLayout', () => {
       expect(spyWriteLayout).toHaveBeenCalledWith(x);
     });
   });
+
+  describe('Test method: repositionComponent', () => {
+    it('should call underlying methods and write the final result to the component', () => {
+      const component = {
+        drawOption: {
+          x: null,
+          y: null,
+          width: 123,
+          height: 59,
+        },
+      };
+
+      // Value itself does not matter.
+      const componentId = 'my_component_id';
+      const x = 32748324;
+      const y = 98021098;
+
+      const pluginData = {
+        getComponentById: jest.fn(() => component),
+      };
+
+      const layoutManager = new ElkLayout(pluginData);
+
+      const spyGetFreeCoordinatesForComponent = jest
+        .spyOn(layoutManager, 'getFreeCoordinatesForComponent')
+        .mockReturnValue({ x, y });
+
+      layoutManager.repositionComponent(componentId);
+
+      expect(pluginData.getComponentById).toHaveBeenCalledWith(componentId);
+      expect(spyGetFreeCoordinatesForComponent).toHaveBeenCalledWith(component);
+      expect(component.drawOption.x).toEqual(x);
+      expect(component.drawOption.y).toEqual(y);
+    });
+  });
+
+  describe('Test method: getFreeCoordinatesForComponent', () => {
+    it('should call underlying methods and return the result', () => {
+      const layoutManager = new ElkLayout();
+
+      // Fake data.
+      const componentsRectangles = [84, 1239, 509453];
+      const linksRectangles = [50843, 111, 97685];
+      const component = 4830240324820;
+      const fakeReturnValue = 12931230;
+
+      const spyGetComponentsRectangles = jest
+        .spyOn(layoutManager, 'getComponentsRectangles')
+        .mockReturnValue(componentsRectangles);
+
+      const spyGetLinksRectangles = jest
+        .spyOn(layoutManager, 'getLinksRectangles')
+        .mockReturnValue(linksRectangles);
+
+      const spyGetNonCollidingSpace = jest
+        .spyOn(layoutManager, 'getNonCollidingSpace')
+        .mockReturnValue(fakeReturnValue);
+
+      const returnValue = layoutManager.getFreeCoordinatesForComponent(component);
+
+      expect(spyGetComponentsRectangles).toHaveBeenCalledWith(component);
+      expect(spyGetLinksRectangles).toHaveBeenCalledWith(component);
+      expect(spyGetNonCollidingSpace).toHaveBeenCalledWith(
+        component,
+        componentsRectangles.concat(linksRectangles),
+      );
+      expect(returnValue).toEqual(fakeReturnValue);
+    });
+  });
+
+  describe('Test method: getNonCollidingSpace', () => {
+    it('should return the first non-colliding free area, given'
+      + 'a list of colliding rectangles', () => {
+      const precision = 20;
+      const layoutManager = new ElkLayout(new DefaultData(new DefaultConfiguration({
+        singleComponentParams: {
+          precision,
+        },
+      })));
+
+      // Data
+      const searchBoundaries = {
+        startingX: +1892371,
+        startingY: -1203234,
+        maxX: 991092301,
+        maxY: 703240304,
+      };
+      const componentToBePlaced = {
+        drawOption:
+          {
+            width: 1234,
+            height: 4389,
+          },
+      };
+
+      // Value does not matter.
+      // We just check that the value is passed foward.
+      const rectangles = [null, 2409843, 'dumb', {}];
+
+      const spyGetSearchBoundaries = jest
+        .spyOn(layoutManager, 'getSearchBoundaries')
+        .mockReturnValue(searchBoundaries);
+
+      // We return true at the first call, and then false.
+      const spyCollidesWithRectangles = jest
+        .spyOn(layoutManager, 'collidesWithRectangles')
+        .mockReturnValueOnce(true)
+        .mockReturnValue(false);
+
+      const returnValue = layoutManager.getNonCollidingSpace(componentToBePlaced, rectangles);
+
+      expect(spyGetSearchBoundaries).toHaveBeenCalledWith(componentToBePlaced);
+
+      const targetRectangle = {
+        x: searchBoundaries.startingX,
+        y: searchBoundaries.startingY,
+        width: componentToBePlaced.drawOption.width,
+        height: componentToBePlaced.drawOption.height,
+      };
+
+      expect(spyCollidesWithRectangles).toHaveBeenNthCalledWith(1, targetRectangle, rectangles);
+      targetRectangle.y += precision;
+      expect(spyCollidesWithRectangles).toHaveBeenNthCalledWith(2, targetRectangle, rectangles);
+      expect(spyCollidesWithRectangles).toHaveBeenCalledTimes(2);
+      expect(returnValue).toEqual({
+        x: targetRectangle.x,
+        y: targetRectangle.y,
+      });
+    });
+
+    it('should return (0,0) when no free space has been found', () => {
+      const layoutManager = new ElkLayout(new DefaultData(new DefaultConfiguration({
+        singleComponentParams: {
+          precision: 20,
+        },
+      })));
+
+      // Data
+      const searchBoundaries = {
+        startingX: 0,
+        startingY: 0,
+        maxX: 1000,
+        maxY: 1000,
+      };
+      const componentToBePlaced = {
+        drawOption:
+          {
+            width: 100,
+            height: 100,
+          },
+      };
+
+      // Value does not matter.
+      // We just check that the value is passed foward.
+      const rectangles = [null, 2409843, 'dumb', {}];
+
+      const spyGetSearchBoundaries = jest
+        .spyOn(layoutManager, 'getSearchBoundaries')
+        .mockReturnValue(searchBoundaries);
+
+      const spyCollidesWithRectangles = jest
+        .spyOn(layoutManager, 'collidesWithRectangles')
+        .mockReturnValue(true); // Always colliding.
+
+      const returnValue = layoutManager.getNonCollidingSpace(componentToBePlaced, rectangles);
+
+      expect(spyGetSearchBoundaries).toHaveBeenCalledWith(componentToBePlaced);
+      expect(spyCollidesWithRectangles).toHaveBeenCalledTimes(2500);
+      expect(returnValue).toEqual({
+        x: 0,
+        y: 0,
+      });
+    });
+  });
+
+  describe('Test method: getLinksRectangles', () => {
+    it('should compute links collision boxes correctly', () => {
+      const links = [
+        {
+          source: 'source_4320432',
+          target: 'target_991203',
+        },
+      ];
+
+      const pluginData = {
+        getLinks: jest.fn(() => links),
+      };
+
+      const layoutManager = new ElkLayout(pluginData);
+      const component1 = {
+        drawOption: {
+          x: -100,
+          y: 1200,
+          height: 160,
+          width: 90,
+        },
+      };
+      const component2 = {
+        drawOption: {
+          x: 10000,
+          y: -900,
+          height: 40,
+          width: 101,
+        },
+      };
+
+      const spyGetShallowestAncestor = jest
+        .spyOn(layoutManager, 'getShallowestAncestor')
+        .mockReturnValueOnce(component1)
+        .mockReturnValueOnce(component2);
+
+      const returnValue = layoutManager.getLinksRectangles();
+
+      expect(pluginData.getLinks).toHaveBeenCalled();
+      expect(spyGetShallowestAncestor).toHaveBeenNthCalledWith(1, links[0].source);
+      expect(spyGetShallowestAncestor).toHaveBeenNthCalledWith(2, links[0].target);
+      expect(spyGetShallowestAncestor).toHaveBeenCalledTimes(2);
+      expect(returnValue).toEqual([
+        {
+          height: 2160,
+          width: 10105.5,
+          x: -55,
+          y: -880,
+        },
+      ]);
+    });
+
+    it('should ignore self-links', () => {
+      const links = [
+        {
+          source: 'source_4320432',
+          target: 'target_991203',
+        },
+      ];
+
+      const pluginData = {
+        getLinks: jest.fn(() => links),
+      };
+
+      const layoutManager = new ElkLayout(pluginData);
+      const component1 = {
+        drawOption: {
+          x: -100,
+          y: 1200,
+          height: 160,
+          width: 90,
+        },
+      };
+
+      const spyGetShallowestAncestor = jest
+        .spyOn(layoutManager, 'getShallowestAncestor')
+        .mockReturnValueOnce(component1)
+        .mockReturnValueOnce(component1); // Same component twice.
+
+      const returnValue = layoutManager.getLinksRectangles();
+
+      expect(pluginData.getLinks).toHaveBeenCalled();
+      expect(spyGetShallowestAncestor).toHaveBeenNthCalledWith(1, links[0].source);
+      expect(spyGetShallowestAncestor).toHaveBeenNthCalledWith(2, links[0].target);
+      expect(spyGetShallowestAncestor).toHaveBeenCalledTimes(2);
+      expect(returnValue).toEqual([]); // Self-link has been ignored.
+    });
+
+    it('should ignore the component that is to be positioned', () => {
+      const links = [
+        {
+          source: 'source_1',
+          target: 'target_2',
+        },
+        {
+          source: 'source_3',
+          target: 'target_4',
+        },
+      ];
+
+      const pluginData = {
+        getLinks: jest.fn(() => links),
+      };
+
+      const layoutManager = new ElkLayout(pluginData);
+      const component1 = {
+        drawOption: {
+          x: -100,
+          y: 1200,
+          height: 160,
+          width: 90,
+        },
+      };
+      const component2 = {
+        drawOption: {
+          x: 10000,
+          y: -900,
+          height: 40,
+          width: 101,
+        },
+      };
+
+      const spyGetShallowestAncestor = jest
+        .spyOn(layoutManager, 'getShallowestAncestor')
+        .mockReturnValueOnce(component1)
+        .mockReturnValueOnce(component2)
+        .mockReturnValueOnce(component2)
+        .mockReturnValueOnce(component1);
+
+      const returnValue = layoutManager.getLinksRectangles(component1);
+
+      expect(pluginData.getLinks).toHaveBeenCalled();
+      expect(spyGetShallowestAncestor).toHaveBeenNthCalledWith(1, links[0].source);
+      expect(spyGetShallowestAncestor).toHaveBeenNthCalledWith(2, links[0].target);
+      expect(spyGetShallowestAncestor).toHaveBeenNthCalledWith(3, links[1].source);
+      expect(spyGetShallowestAncestor).toHaveBeenNthCalledWith(4, links[1].target);
+      expect(spyGetShallowestAncestor).toHaveBeenCalledTimes(4);
+      expect(returnValue).toEqual([]);
+    });
+
+    it('should return no rectangles when there are no links', () => {
+      const links = [];
+
+      const pluginData = {
+        getLinks: jest.fn(() => links),
+      };
+
+      const layoutManager = new ElkLayout(pluginData);
+      const spyGetShallowestAncestor = jest
+        .spyOn(layoutManager, 'getShallowestAncestor');
+
+      const returnValue = layoutManager.getLinksRectangles();
+
+      expect(pluginData.getLinks).toHaveBeenCalled();
+      expect(spyGetShallowestAncestor).not.toHaveBeenCalled();
+      expect(returnValue).toEqual([]);
+    });
+  });
+
+  describe('Test method: getComponentsRectangles', () => {
+    it('should compute components collision boxes correctly', () => {
+      const pluginData = {
+        configuration: new DefaultConfiguration({
+          margin: 17,
+        }),
+        components: [
+          {
+            // This component will be processed normally.
+            getContainerId: jest.fn(() => null),
+            drawOption:
+              {
+                x: 123,
+                y: 456,
+                width: 789,
+                height: 1011,
+              },
+          },
+          {
+            // This component should be ignored because it has a parent container.
+            getContainerId: jest.fn(() => 'not_null'),
+            drawOption: undefined, // should not be used
+          },
+          {
+            // This component should be ignored because it will be given as first argument.
+            getContainerId: jest.fn(() => null),
+            drawOption: undefined, // should not be used
+          },
+        ],
+      };
+      const layoutManager = new ElkLayout(pluginData);
+
+      const componentToIgnore = pluginData.components[2];
+      const returnValue = layoutManager.getComponentsRectangles(componentToIgnore);
+
+      expect(pluginData.components[0].getContainerId).toHaveBeenCalledTimes(1);
+      expect(pluginData.components[1].getContainerId).toHaveBeenCalledTimes(1);
+      expect(pluginData.components[2].getContainerId).not.toHaveBeenCalled();
+      expect(returnValue).toEqual([{
+        height: 1031,
+        width: 809,
+        x: 113,
+        y: 446,
+      }]);
+    });
+  });
+
+  describe('Test method: getSearchBoundaries', () => {
+    it('should compute correct boundaries within which will be looking for free space', () => {
+      const pluginData = {
+        configuration: new DefaultConfiguration({
+          margin: 17,
+        }),
+        components: [
+          {
+            drawOption: {
+              x: 123,
+              y: 123,
+              width: 123,
+              height: 123,
+            },
+          },
+          {
+            drawOption: {
+              x: -1000,
+              y: 123,
+              width: 123,
+              height: 700,
+            },
+          },
+          {
+            drawOption: {
+              x: 1200,
+              y: 0,
+              width: 6,
+              height: 1560,
+            },
+          },
+          {
+            drawOption: {
+              x: -123,
+              y: -9021,
+              width: 50,
+              height: 96,
+            },
+          },
+        ],
+      };
+
+      const layoutManager = new ElkLayout(pluginData);
+
+      const component = {
+        drawOption: {
+          x: null,
+          y: null,
+          width: 741,
+          height: 901,
+        },
+      };
+
+      const returnValue = layoutManager.getSearchBoundaries(component);
+
+      expect(returnValue).toEqual({
+        maxX: 1236,
+        maxY: 659,
+        startingX: -1000,
+        startingY: -9021,
+      });
+    });
+  });
+
+  describe('Test method: getShallowestAncestor', () => {
+    it('should return immediatly if given component has no parent', () => {
+      // Value does not matter, identity does.
+      const component1 = new Component({ drawOption: 3424032423 });
+
+      const spyComponentGetContainerId = jest
+        .spyOn(component1, 'getContainerId')
+        .mockReturnValue(null);
+
+      const pluginData = {
+        getComponentById: jest.fn(() => component1),
+      };
+      const layoutManager = new ElkLayout(pluginData);
+
+      const componentId = 'my_component_id';
+      const returnValue = layoutManager.getShallowestAncestor(componentId);
+
+      expect(spyComponentGetContainerId).toHaveBeenCalledTimes(1);
+      expect(pluginData.getComponentById).toHaveBeenCalledWith(componentId);
+      expect(returnValue).toBe(component1);
+    });
+
+    it('should sucessfully retrieve shallowest ancestor', () => {
+      // Value does not matter, but identity does.
+      const component1 = new Component({ drawOption: 3424032423 });
+      const component2 = new Component({ drawOption: 7843291123 });
+      const component3 = new Component({ drawOption: 1024523420 });
+
+      const spyComponentGetContainerId1 = jest
+        .spyOn(component1, 'getContainerId')
+        .mockReturnValue('dumb_value_1');
+
+      const spyComponentGetContainerId2 = jest
+        .spyOn(component2, 'getContainerId')
+        .mockReturnValue('dumb_value_2');
+
+      const spyComponentGetContainerId3 = jest
+        .spyOn(component3, 'getContainerId')
+        .mockReturnValue(null);
+
+      const pluginData = {
+        getComponentById: jest.fn()
+          .mockReturnValueOnce(component1)
+          .mockReturnValueOnce(component2)
+          .mockReturnValueOnce(component3),
+      };
+      const layoutManager = new ElkLayout(pluginData);
+
+      const componentId = 'my_component_id';
+      const returnValue = layoutManager.getShallowestAncestor(componentId);
+
+      expect(spyComponentGetContainerId1).toHaveBeenCalledTimes(1);
+      expect(spyComponentGetContainerId2).toHaveBeenCalledTimes(1);
+      expect(spyComponentGetContainerId3).toHaveBeenCalledTimes(1);
+      expect(pluginData.getComponentById).toHaveBeenNthCalledWith(1, componentId);
+      expect(pluginData.getComponentById).toHaveBeenNthCalledWith(2, 'dumb_value_1');
+      expect(pluginData.getComponentById).toHaveBeenNthCalledWith(3, 'dumb_value_2');
+      expect(pluginData.getComponentById).toHaveBeenCalledTimes(3);
+      expect(returnValue).toBe(component3);
+    });
+  });
+
+  describe('Test method: collidesWithRectangles', () => {
+    it('should', () => {
+      const layoutManager = new ElkLayout();
+
+      // Short notation for rectangles.
+      const rect = (x, y, width, height) => ({
+        x, y, width, height,
+      });
+
+      // No rectangles.
+      expect(layoutManager.collidesWithRectangles(rect(1, 2, 3, 4), [
+      ])).toBe(false);
+
+      // Same rectangle.
+      expect(layoutManager.collidesWithRectangles(rect(1, 2, 3, 4), [
+        rect(1, 2, 3, 4),
+      ])).toBe(true);
+
+      // Inner rectangle.
+      expect(layoutManager.collidesWithRectangles(rect(0, 0, 100, 200), [
+        rect(50, 50, 20, 20),
+      ])).toBe(true);
+
+      // Outer rectangle.
+      expect(layoutManager.collidesWithRectangles(rect(50, 50, 20, 20), [
+        rect(0, 0, 100, 200),
+      ])).toBe(true);
+
+      // Normal collision
+      expect(layoutManager.collidesWithRectangles(rect(0, 0, 100, 200), [
+        rect(50, 50, 100, 200),
+      ])).toBe(true);
+
+      // Touching corner
+      expect(layoutManager.collidesWithRectangles(rect(0, 0, 1, 1), [
+        rect(1, 1, 1, 1),
+      ])).toBe(true);
+
+      // Not colliding.
+      expect(layoutManager.collidesWithRectangles(rect(0, 0, 1, 1), [
+        rect(2, 1, 1, 1),
+      ])).toBe(false);
+
+      // Not colliding.
+      expect(layoutManager.collidesWithRectangles(rect(0, 0, 1, 1), [
+        rect(1, 2, 1, 1),
+      ])).toBe(false);
+    });
+  });
 });

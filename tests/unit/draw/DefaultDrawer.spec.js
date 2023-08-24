@@ -1103,4 +1103,22 @@ describe('Test Class: DefaultDrawer()', () => {
       expect(spyLayout).toHaveBeenCalledWith(argument);
     });
   });
+
+  describe('Test method: repositionComponent', () => {
+    it('should propagate repositionComponent call to this.layout', () => {
+      const drawer = new DefaultDrawer(
+        new DefaultData(),
+        null,
+        'root',
+      );
+
+      const spyRepositionComponent = jest
+        .spyOn(drawer.layout, 'repositionComponent')
+        .mockImplementation(() => undefined);
+      const component = new Component();
+
+      drawer.repositionComponent(component);
+      expect(spyRepositionComponent).toHaveBeenCalledWith(component);
+    });
+  });
 });

@@ -351,6 +351,264 @@ class ElkLayout extends DefaultLayout {
 
     return node;
   }
+
+  /**
+   * Reposition a component where there is room for it.
+   * @param {string} componentId - Id of a component to be repositioned.
+   */
+  repositionComponent(componentId) {
+    const component = this.pluginData.getComponentById(componentId);
+    const { x, y } = this.getFreeCoordinatesForComponent(component);
+
+    component.drawOption.x = x;
+    component.drawOption.y = y;
+  }
+
+  /**
+   * Get coordinates where there is free space for the given component.
+   * This function has no side effect (ie. does not actually move the component).
+   * @param {Component} componentToBePlaced - A component.
+   * @returns {{x: number, y: number}} Coordinates for the component.
+   * @private
+   */
+  getFreeCoordinatesForComponent(componentToBePlaced) {
+    // Rectangles to be avoided ; Those represent occupied space.
+    const rectangles = [];
+
+    // Generate rectangles from components.
+    rectangles.push(...this.getComponentsRectangles(componentToBePlaced));
+
+    // Generate rectangles the links.
+    rectangles.push(...this.getLinksRectangles(componentToBePlaced));
+
+    // Get free space for out component, colliding with no rectangle.
+    return this.getNonCollidingSpace(componentToBePlaced, rectangles);
+  }
+  /**
+   * A rectangle.
+   * @typedef {object} Rectangle
+   * @property {number} x - X coordinate of the top-left corner.
+   * @property {number} y - Y coordinate of the top-left corner.
+   * @property {number} width - Rectangle's width.
+   * @property {number} height - Rectangle's height.
+   */
+
+  /**
+   * Get a free space a component, given the rectangles that may collide.
+   * @param {Component} componentToBePlaced - A component.
+   * @param {Rectangle[]} rectangles - Rectangles that may collide.
+   * @returns {{x: number, y: number}} Coordinates for the component.
+   * @private
+   */
+  getNonCollidingSpace(componentToBePlaced, rectangles) {
+    const {
+      startingX,
+      startingY,
+      maxX,
+      maxY,
+    } = this.getSearchBoundaries(componentToBePlaced);
+
+    const {
+      width: componentWidth,
+      height: componentHeight,
+    } = componentToBePlaced.drawOption;
+
+    const { precision } = this.pluginData.configuration.singleComponentParams;
+
+    for (let x = startingX; x < maxX; x += precision) {
+      for (let y = startingY; y < maxY; y += precision) {
+        const targetRectangle = {
+          x,
+          y,
+          width: componentWidth,
+          height: componentHeight,
+        };
+
+        if (!this.collidesWithRectangles(targetRectangle, rectangles)) {
+          return { x, y };
+        }
+      }
+    }
+
+    // We should never arrive here if the algorithms works as intended.
+    // Default values are provided to avoid a crash.
+    return { x: 0, y: 0 };
+  }
+
+  /**
+   * Return rectangles enclosing each link at the surface (shallowest depth).
+   * @param {Component} componentToIgnore - A component which links we must ignore.
+   * @returns {Rectangle[]} An array of rectangles, enclosing the links.
+   * @private
+   */
+  getLinksRectangles(componentToIgnore) {
+    return this.pluginData.getLinks()
+      // We get the shallowest ancestors.
+      // Following this, source and target are not Ids anymore but actual component objects.
+      .map(({ source, target }) => (
+        {
+          source: this.getShallowestAncestor(source),
+          target: this.getShallowestAncestor(target),
+        }
+      ))
+      // Ignore self-links and links including the component that is to be placed.
+      .filter(({ source, target }) => source !== target
+        && source !== componentToIgnore
+        && target !== componentToIgnore)
+      // Computing the center of source/target components rectangles.
+      .map(({
+        source,
+        target,
+      }) => ({
+        source: {
+          x: source.drawOption.x + source.drawOption.width / 2,
+          y: source.drawOption.y + source.drawOption.height / 2,
+        },
+        target: {
+          x: target.drawOption.x + target.drawOption.width / 2,
+          y: target.drawOption.y + target.drawOption.height / 2,
+        },
+      }))
+      // Finally building the rectangle associated to each link.
+      // (We are not adding the margins here.)
+      .map(({
+        source,
+        target,
+      }) => {
+        const x = Math.min(source.x, target.x);
+        const y = Math.min(source.y, target.y);
+
+        const width = Math.max(source.x, target.x) - x;
+        const height = Math.max(source.y, target.y) - y;
+
+        return {
+          x,
+          y,
+          width,
+          height,
+        };
+      });
+  }
+
+  /**
+   * Return rectangles enclosing each component at the surface (shallowest depth).
+   * @param {Component} componentToIgnore - A component that we must ignore.
+   * @returns {Rectangle[]} An array of rectangles, enclosing the links.
+   * @private
+   */
+  getComponentsRectangles(componentToIgnore) {
+    const { margin } = this.pluginData.configuration.singleComponentParams;
+
+    return this.pluginData.components
+      // Ignore the component to be placed.
+      .filter((e) => e !== componentToIgnore)
+      // First level of depth (ie. not inside a container).
+      .filter((e) => e.getContainerId() === null)
+      .map((e) => e.drawOption)
+      // Adding the margin.
+      .map((e) => ({
+        x: e.x - margin / 2,
+        y: e.y - margin / 2,
+        width: e.width + margin,
+        height: e.height + margin,
+      }));
+  }
+
+  /**
+   * Compute the search boundaries, ie. the space within which we should search for a free rectangle
+   * in order to avoid putting it too far away from other already-positioned components.
+   * @param {Component} componentToBePlaced - A component.
+   * @returns {{startingY: number, maxY: number, startingX: number, maxX: number}} Coordinates
+   * and size of the search boundaries.
+   * @private
+   */
+  getSearchBoundaries(componentToBePlaced) {
+    // Starting coordinates for our search.
+    let startingX = +Infinity;
+    let startingY = +Infinity;
+
+    // Maximum coordinates.
+    let maxX = -Infinity;
+    let maxY = -Infinity;
+
+    this.pluginData.components.forEach((component) => {
+      if (component === componentToBePlaced) {
+        return;
+      }
+
+      // We want to get the most upper-left coordinates.
+      startingX = Math.min(startingX, component.drawOption.x);
+      startingY = Math.min(startingY, component.drawOption.y);
+
+      // We want to get the most bottom-right coordinates.
+      maxX = Math.max(maxX, component.drawOption.x
+        + component.drawOption.width
+        - componentToBePlaced.drawOption.width);
+      maxY = Math.max(maxY, component.drawOption.y
+        + component.drawOption.height
+        - componentToBePlaced.drawOption.height);
+    });
+
+    // If the screen rectangle is full, put the component on the top right.
+    // (We just give extra space so that the search algorithm will eventually
+    // find this space which must be free).
+    maxX += this.pluginData.configuration.singleComponentParams.precision
+      + this.pluginData.configuration.singleComponentParams.margin
+      + componentToBePlaced.drawOption.width;
+
+    return {
+      startingX,
+      startingY,
+      maxX,
+      maxY,
+    };
+  }
+
+  /**
+   * Get the shallowest ancestor of a component.
+   * @param {string} componentId - A component's id.
+   * @returns {Component} Shallowest ancestor of the given component.
+   * @private
+   */
+  getShallowestAncestor(componentId) {
+    let component = this.pluginData.getComponentById(componentId);
+    let containerId = component.getContainerId();
+
+    while (containerId !== null) {
+      component = this.pluginData.getComponentById(containerId);
+      containerId = component.getContainerId();
+    }
+
+    return component;
+  }
+
+  /**
+   * Check collision between a target rectangle and a given array of rectangles.
+   * @param {Rectangle} targetRectangle - The target rectangle.
+   * @param {Rectangle[]} rectangles - A set of rectangles.
+   * @returns {boolean} True if the target rectangle collides with a given
+   * rectangle, false otherwise.
+   * @private
+   */
+  collidesWithRectangles(targetRectangle, rectangles) {
+    const {
+      x, y, width, height,
+    } = targetRectangle;
+
+    return !!rectangles.find((rect) => {
+      const collidesHorizontally = (x <= rect.x && rect.x <= x + width)
+          || (x <= rect.x + rect.width && rect.x + rect.width <= x + width)
+          || (rect.x <= x && x <= rect.x + rect.width)
+          || (rect.x <= x + width && x + width <= rect.x + rect.width);
+
+      const collidesVertically = (y <= rect.y && rect.y <= y + height)
+          || (y <= rect.y + rect.height && rect.y + rect.height <= y + height)
+          || (rect.y <= y && y <= rect.y + rect.height)
+          || (rect.y <= y + height && y + height <= rect.y + rect.height);
+
+      return collidesVertically && collidesHorizontally;
+    });
+  }
 }
 
 export default ElkLayout;

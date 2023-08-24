@@ -1742,5 +1742,13 @@ class DefaultDrawer {
   async arrangeComponentsPosition(containerId) {
     await this.layout.arrangeComponentsPosition(containerId);
   }
+
+  /**
+   * Reposition a component where there is room for it.
+   * @param {string} componentId - Id of a component to be repositioned.
+   */
+  repositionComponent(componentId) {
+    this.layout.repositionComponent(componentId);
+  }
 }
 export default DefaultDrawer;

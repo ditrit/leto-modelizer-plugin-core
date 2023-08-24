@@ -14,6 +14,12 @@ class DefaultConfiguration {
    * @param {Tag[]} [props.tags] - All plugin tags.
    * @param {object} [props.elkParams] - Parameters for the layout algorithm.
    * @see Parameters for ELK: {@link https://eclipse.dev/elk/reference/options.html}
+   * @param {object} [props.singleComponentParams] - Parameters for the algorithm that
+   * places a single component.
+   * @param {number} [props.singleComponentParams.margin] - Minimal distance between
+   * components & links.
+   * @param {number} [props.singleComponentParams.precision] - Space interval between coordinates
+   * that will be tested. Performance decreases proportionally to the square of this parameter.
    */
   constructor(props = {
     editor: {
@@ -24,6 +30,7 @@ class DefaultConfiguration {
     defaultFileExtension: null,
     tags: [],
     elkParams: null,
+    singleComponentParams: null,
   }) {
     /**
      * Object that contains all properties of editor configuration.
@@ -71,6 +78,16 @@ class DefaultConfiguration {
       'elk.debugMode': 'true',
       'elk.direction': 'UNDEFINED',
       ...props.elkParams,
+    };
+
+    /**
+     Parameters for the algorithm that places a single new component.
+     @type {object}
+     */
+    this.singleComponentParams = {
+      precision: 10,
+      margin: 20,
+      ...props.singleComponentParams,
     };
   }
 }

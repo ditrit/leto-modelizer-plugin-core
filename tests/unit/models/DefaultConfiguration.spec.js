@@ -6,6 +6,7 @@ import DefaultConfiguration from 'src/models/DefaultConfiguration';
 describe('Test class: DefaultConfiguration', () => {
   describe('Test constructor', () => {
     let defaultElkParams;
+    let defaultSingleComponentParams;
 
     beforeEach(() => {
       defaultElkParams = {
@@ -20,6 +21,11 @@ describe('Test class: DefaultConfiguration', () => {
         'elk.debugMode': 'true',
         'elk.direction': 'UNDEFINED',
       };
+
+      defaultSingleComponentParams = {
+        precision: 10,
+        margin: 20,
+      };
     });
 
     it('Check variables instantiation', () => {
@@ -31,6 +37,7 @@ describe('Test class: DefaultConfiguration', () => {
       expect(config.defaultFileExtension).toBeNull();
       expect(config.tags).toEqual([]);
       expect(config.elkParams).toEqual(defaultElkParams);
+      expect(config.singleComponentParams).toEqual(defaultSingleComponentParams);
     });
 
     it('Check passing undefined variables to constructor', () => {
@@ -42,6 +49,7 @@ describe('Test class: DefaultConfiguration', () => {
       expect(config.defaultFileExtension).toBeNull();
       expect(config.tags).toEqual([]);
       expect(config.elkParams).toEqual(defaultElkParams);
+      expect(config.singleComponentParams).toEqual(defaultSingleComponentParams);
     });
 
     it('Check passing all variables to constructor', () => {
@@ -56,6 +64,9 @@ describe('Test class: DefaultConfiguration', () => {
         elkParams: {
           test_attribute: 12345,
         },
+        singleComponentParams: {
+          test_attribute: 12345,
+        },
       });
 
       expect(config.editor).toEqual({ syntax: true });
@@ -65,6 +76,10 @@ describe('Test class: DefaultConfiguration', () => {
       expect(config.tags).toEqual(['test']);
       expect(config.elkParams).toEqual({
         ...defaultElkParams,
+        test_attribute: 12345,
+      });
+      expect(config.singleComponentParams).toEqual({
+        ...defaultSingleComponentParams,
         test_attribute: 12345,
       });
     });
