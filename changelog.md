@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Move ELK parameters from ElkLayout to DefautConfiguration.
 
+### Fixed
+
+- Fix link generation, fix [this bug](https://github.com/ditrit/leto-modelizer/issues/293).
+
 ## [0.19.0] - 2023/08/16
 
 ### Added

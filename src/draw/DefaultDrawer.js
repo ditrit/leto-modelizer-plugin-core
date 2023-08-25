@@ -939,8 +939,8 @@ class DefaultDrawer {
    * @returns {object} A d3 link generator.
    */
   getLinkGenerator(link) {
-    const source = d3.select(`#${link.source}`);
-    const target = d3.select(`#${link.target}`);
+    const source = d3.select(`#${this.rootId} #${link.source}`);
+    const target = d3.select(`#${this.rootId} #${link.target}`);
 
     const sourceAnchor = this.getAnchorPoint(source, target);
     const targetAnchor = this.getAnchorPoint(target, source);
