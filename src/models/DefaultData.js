@@ -130,11 +130,11 @@ class DefaultData {
       component.getAttributesByDefinitionType('Reference', 'Link')
         .forEach((attribute) => {
           if (attribute.definition.type === 'Reference'
-            && attribute.getReferenceValue() === oldId) {
-            attribute.setReferenceValue(newId);
+            && attribute.value === oldId) {
+            attribute.value = newId;
           }
           if (attribute.definition.type === 'Link') {
-            attribute.replaceLink(oldId, newId);
+            attribute.value = attribute.value.map((v) => (v === oldId ? newId : v));
           }
         });
     });
@@ -269,11 +269,8 @@ class DefaultData {
     if (value === null) {
       return [];
     }
-    if (Array.isArray(value)) {
-      return this.getComponentIdFromValue(value);
-    }
 
-    return [this.getComponentIdFromValue(value)];
+    return Array.isArray(value) ? value : [value];
   }
 
   /**
@@ -297,15 +294,6 @@ class DefaultData {
     if (variable) {
       variable.value = value;
     }
-  }
-
-  /**
-   * Get the ID of a linked resource.
-   * @param {string} value - Value of the link.
-   * @returns {string} ID of the linked resource.
-   */
-  getComponentIdFromValue(value) {
-    return value;
   }
 
   /**
