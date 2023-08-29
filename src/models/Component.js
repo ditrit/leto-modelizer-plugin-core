@@ -91,7 +91,7 @@ class Component extends FileInformation {
 
     if (attributes.length > 0) {
       attributes.forEach((attribute) => {
-        attribute.setReferenceValue(container.id);
+        attribute.value = container.id;
       });
     } else {
       this.attributes.push(this.createAttribute({
@@ -152,7 +152,7 @@ class Component extends FileInformation {
       this.attributes = this.attributes
         .filter((attribute) => !(attribute.definition.type === 'Reference'
           && attribute.definition.containerRef === container.definition.type
-          && attribute.getReferenceValue() === container.id));
+          && attribute.value === container.id));
     } else {
       this.attributes = this.attributes.filter(({ definition }) => definition.type !== 'Reference');
     }
@@ -184,7 +184,9 @@ class Component extends FileInformation {
       currentAttributes.push(attribute);
     }
 
-    attribute.addLink(link.target);
+    if (!attribute.value.includes(link.target)) {
+      attribute.value.push(link.target);
+    }
   }
 
   /**
@@ -243,7 +245,11 @@ class Component extends FileInformation {
       }
 
       if (attribute.definition?.type === 'Link' && (!name || attribute.name === name)) {
-        attribute.removeLink(id);
+        const index = attribute.value.findIndex((value) => value === id);
+
+        if (index >= 0) {
+          attribute.value.splice(index, 1);
+        }
       }
     });
   }
@@ -354,7 +360,7 @@ class Component extends FileInformation {
     const attribute = this.attributes.find(({ definition }) => definition
       && definition.type === 'Reference');
 
-    return !attribute ? null : attribute.getReferenceValue();
+    return !attribute ? null : attribute.value;
   }
 
   /**
