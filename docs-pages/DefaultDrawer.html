@@ -1868,7 +1868,7 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
         
         <span class="code-name">
             
-                arrangeComponentsPosition<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span>
+                arrangeComponentsPosition<span class="signature">(containerId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span>
             
         </span>
     </h4>
@@ -1890,6 +1890,70 @@ You have to await it and trigger a redraw.
 
 
 
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+            <th>Attributes</th>
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>containerId</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">The container within which we need to organize the children,
+and if not specified, all components will be reorganized.</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
 
 
 
@@ -1930,7 +1994,7 @@ You have to await it and trigger a redraw.
         <p class="tag-source">
             <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line1740">line 1740</a>
+                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line1742">line 1742</a>
             </span>
         </p>
     
@@ -6356,6 +6420,154 @@ Remove link, emit an event accordingly then draw again.
             <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
             <span>
                 <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line1645">line 1645</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="repositionComponent">
+        <a class="href-link" href="#repositionComponent">#</a>
+        
+        <span class="code-name">
+            
+                repositionComponent<span class="signature">(componentId)</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Reposition a component where there is room for it.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>componentId</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Id of a component to be repositioned.</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
+            <span>
+                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line1750">line 1750</a>
             </span>
         </p>
     

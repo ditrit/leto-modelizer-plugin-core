@@ -745,7 +745,7 @@
         
         <span class="code-name">
             
-                arrangeComponentsPosition<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span>
+                arrangeComponentsPosition<span class="signature">(containerId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span>
             
         </span>
     </h4>
@@ -767,6 +767,70 @@ You have to await it and trigger a redraw.
 
 
 
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+            <th>Attributes</th>
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>containerId</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">The container within which we need to organize the children,
+and if not specified, all components will be reorganized.</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
 
 
 
@@ -807,7 +871,7 @@ You have to await it and trigger a redraw.
         <p class="tag-source">
             <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line180">line 180</a>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line182">line 182</a>
             </span>
         </p>
     
@@ -2093,6 +2157,154 @@ Configuration file is used for saving the components' configuration.
                 
         </div>
     </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="repositionComponent">
+        <a class="href-link" href="#repositionComponent">#</a>
+        
+        <span class="code-name">
+            
+                repositionComponent<span class="signature">(componentId)</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Reposition a component where there is room for it.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>componentId</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Id of a component to be repositioned.</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line190">line 190</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
