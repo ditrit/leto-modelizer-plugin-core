@@ -1043,8 +1043,8 @@ class DefaultDrawer {
    * @returns {object} A d3 link generator.
    */
   getLinkGenerator(link) {
-    const source = d3.select(`#${link.source}`);
-    const target = d3.select(`#${link.target}`);
+    const source = d3.select(`#${this.rootId} #${link.source}`);
+    const target = d3.select(`#${this.rootId} #${link.target}`);
 
     const sourceAnchor = this.getAnchorPoint(source, target);
     const targetAnchor = this.getAnchorPoint(target, source);
@@ -1839,10 +1839,20 @@ class DefaultDrawer {
    * Reorganize nodes layout algorithmically.
    * This method does not refresh the view.
    * You have to await it and trigger a redraw.
+   * @param {string} [containerId] - The container within which we need to organize the children,
+   * and if not specified, all components will be reorganized.
    * @returns {Promise&lt;void>} Promise with nothing on success otherwise an error.
    */
-  async arrangeComponentsPosition() {
-    await this.layout.arrangeComponentsPosition();
+  async arrangeComponentsPosition(containerId) {
+    await this.layout.arrangeComponentsPosition(containerId);
+  }
+
+  /**
+   * Reposition a component where there is room for it.
+   * @param {string} componentId - Id of a component to be repositioned.
+   */
+  repositionComponent(componentId) {
+    this.layout.repositionComponent(componentId);
   }
 }
 export default DefaultDrawer;
