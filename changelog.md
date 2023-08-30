@@ -14,6 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add a default implementation for `repositionComponent` in  `ElkLayout`.
 - Add to the demo a button to log components position.
 
+### Removed
+
+* In `ComponentAttribute` methods `getReferenceValue`, `setReferenceValue`, `getLinkValue`, `addLink`, `removeLink` and `replaceLink`.
+* In `DefaultData` method `getComponentIdFromValue`.
+
 ### Changed
 
 - Move ELK parameters from ElkLayout to DefautConfiguration.

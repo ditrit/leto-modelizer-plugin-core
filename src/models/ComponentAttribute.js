@@ -46,15 +46,6 @@ class ComponentAttribute {
      * @type {ComponentAttributeDefinition}
      */
     this.definition = definition || null;
-
-    if (this.definition?.type === 'Reference') {
-      this.setReferenceValue(value);
-    } else if (this.definition?.type === 'Link') {
-      if (value && Array.isArray(value)) {
-        this.value = [];
-        [...value].forEach((id) => this.addLink(id));
-      }
-    }
   }
 
   /**
@@ -91,68 +82,6 @@ class ComponentAttribute {
       || this.__ruleValueValidation()
       || this.__ruleMinAndMaxValidation()
       || this.__ruleRegexValidation();
-  }
-
-  /**
-   * Get the reference value of the attribute.
-   * @returns {string} The value of the reference.
-   */
-  getReferenceValue() {
-    return this.value;
-  }
-
-  /**
-   * Set the reference value of the attribute.
-   * @param {string} value - The new reference value.
-   */
-  setReferenceValue(value) {
-    this.value = value;
-  }
-
-  /**
-   * Get the link value of the attribute.
-   * @returns {Array} The value of the link.
-   */
-  getLinkValue() {
-    return this.value;
-  }
-
-  /**
-   * Add the specified ID to the value of attribute array.
-   * @param {string} id - Id of link to be added.
-   */
-  addLink(id) {
-    if (!this.value.includes(id)) {
-      this.value.push(id);
-    }
-  }
-
-  /**
-   * Remove the specified ID from the value of attribute array.
-   * @param {string} id - Id of link to be removed.
-   * @returns {boolean} True if the ID was found and removed, otherwise false.
-   */
-  removeLink(id) {
-    const index = this.value.findIndex((value) => value === id);
-
-    if (index >= 0) {
-      this.value.splice(index, 1);
-    }
-
-    return this.value.length !== 0;
-  }
-
-  /**
-   * Replace the old ID with the new ID in the link attribute's value.
-   * @param {string} oldId - The old ID.
-   * @param {string} newId - The new ID.
-   */
-  replaceLink(oldId, newId) {
-    const index = this.value.indexOf(oldId);
-
-    if (index >= 0) {
-      this.value[index] = newId;
-    }
   }
 
   /**

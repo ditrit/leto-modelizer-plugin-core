@@ -1342,24 +1342,4 @@ describe('Test class: DefaultData', () => {
       expect(pluginData.variables[0].value).toEqual('test');
     });
   });
-
-  describe('Test method: getComponentIdFromValue', () => {
-    it('Should get the ID of a single string linked component', () => {
-      const pluginData = new DefaultData();
-      const component = new Component({
-        id: 'test_component',
-        definition: new ComponentDefinition(),
-        attributes: [
-          new ComponentAttribute({
-            name: 'test_attribute',
-            value: 'test',
-          }),
-        ],
-      });
-
-      pluginData.components = [component];
-
-      expect(pluginData.getComponentIdFromValue(component.attributes[0].value)).toEqual('test');
-    });
-  });
 });
