@@ -102,7 +102,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>ElkLayout<span class="signature">(pluginData, elkParams<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>ElkLayout<span class="signature">()</span><span class="type-signature"></span></h2>
         
             <div class="class-description">Various tools to arrange the graph view (semi-)automatically.
 
@@ -137,7 +137,7 @@ from Java to Javascript :
         
         <span class="code-name">
             
-                new ElkLayout<span class="signature">(pluginData, elkParams<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
+                new ElkLayout<span class="signature">()</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -145,10 +145,6 @@ from Java to Javascript :
 
     
     
-    <div class="description">
-        Initializes ELK parameters and inherited fields.
-    </div>
-    
 
 
 
@@ -157,102 +153,6 @@ from Java to Javascript :
 
 
 
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-            <th>Attributes</th>
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>pluginData</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type"><a href="DefaultData.html">DefaultData</a></code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">A graph to be arranged.</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>elkParams</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">object</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">Parameters for the layout algorithm. (use defaults if unsure)</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
 
 
 
@@ -285,13 +185,6 @@ from Java to Javascript :
     
     
 
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li>Parameters for ELK: <a href="https://eclipse.dev/elk/reference/options.html">https://eclipse.dev/elk/reference/options.html</a></li>
-        </ul>
-    </dd>
     
 
     
@@ -364,82 +257,6 @@ from Java to Javascript :
             
                 <div class="member">
 
-<h4 class="name" id="elkParams">
-    <a class="href-link" href="#elkParams">#</a>
-    
-    <span class="code-name">
-        elkParams
-    </span>
-    
-</h4>
-
-
-
-
-<div class="description">
-    Parameters for the ELK automatic layout system.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="https://eclipse.dev/elk/reference/options.html">https://eclipse.dev/elk/reference/options.html</a></li>
-        </ul>
-    </dd>
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_ElkLayout.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_ElkLayout.js.html">draw/ElkLayout.js</a>, <a href="draw_ElkLayout.js.html#line114">line 114</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
     <span class="method-parameter is-pulled-right">
         <label>Type:</label>
         
@@ -475,12 +292,12 @@ from Java to Javascript :
     
 
     
-
-    
-    <dt class="tag-overrides">Overrides:</dt>
-    <dd class="tag-overrides"><ul class="dummy"><li>
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
         <a href="DefaultLayout.html#pluginData">DefaultLayout#pluginData</a>
     </li></ul></dd>
+    
+
     
 
     
@@ -542,7 +359,7 @@ from Java to Javascript :
         
         <span class="code-name">
             
-                arrangeComponentsPosition<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span>
+                arrangeComponentsPosition<span class="signature">(containerId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span>
             
         </span>
     </h4>
@@ -562,6 +379,70 @@ from Java to Javascript :
 
 
 
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+            <th>Attributes</th>
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>containerId</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">The container within which we need to organize the children,
+and if not specified, all components will be reorganized.</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
 
 
 
@@ -607,7 +488,7 @@ from Java to Javascript :
         <p class="tag-source">
             <a href="draw_ElkLayout.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_ElkLayout.js.html">draw/ElkLayout.js</a>, <a href="draw_ElkLayout.js.html#line135">line 135</a>
+                <a href="draw_ElkLayout.js.html">draw/ElkLayout.js</a>, <a href="draw_ElkLayout.js.html#line107">line 107</a>
             </span>
         </p>
     
@@ -654,6 +535,159 @@ from Java to Javascript :
                 
         </div>
     </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="repositionComponent">
+        <a class="href-link" href="#repositionComponent">#</a>
+        
+        <span class="code-name">
+            
+                repositionComponent<span class="signature">(componentId)</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Reposition a component where there is room for it.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>componentId</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Id of a component to be repositioned.</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="DefaultLayout.html#repositionComponent">DefaultLayout#repositionComponent</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="draw_ElkLayout.js.html" class="button">View Source</a>
+            <span>
+                <a href="draw_ElkLayout.js.html">draw/ElkLayout.js</a>, <a href="draw_ElkLayout.js.html#line359">line 359</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
