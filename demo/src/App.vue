@@ -119,6 +119,33 @@
           Rearrange
         </button>
       </fieldset>
+      <fieldset>
+        <legend>
+          Drop component
+        </legend>
+        <div>
+          <label>X position :</label>
+          <input
+            id="position-x-input"
+            v-model="position.x"
+            type="number"
+          >
+        </div>
+        <div>
+          <label>Y position :</label>
+          <input
+            id="position-y-input"
+            v-model="position.y"
+            type="number"
+          >
+        </div>
+        <button
+          id="drop-button"
+          @click="dropComponent"
+        >
+          Drop
+        </button>
+      </fieldset>
     </div>
     <div
       id="root"
@@ -142,6 +169,10 @@ const componentsIds = ref([]);
 const selectedId = ref('');
 const renamedId = ref('');
 const selectedAutoLayoutId = ref('');
+const position = ref({
+  x: 0,
+  y: 0,
+});
 
 const watchEvents = ['delete', 'add'];
 
@@ -235,13 +266,35 @@ onMounted(() => {
  * Add a component to the model and update the view.
  */
 function addComponent() {
-  const id = plugin.data.addComponent(plugin.data.__laptopDefinition);
+  const id = plugin.addComponent('root', plugin.data.__laptopDefinition);
 
   // As of now, we need to draw the component before repositioning it.
   // That is because we need the component drawOption property to be defined.
   plugin.draw('root');
 
   plugin.repositionComponent(id);
+  plugin.draw('root');
+}
+
+/**
+ * Drop a new component at the given coordinates.
+ */
+function dropComponent() {
+  const definition = plugin.data.__serverDefinition;
+  const drawOption = new ComponentDrawOption({
+    x: position.value.x,
+    y: position.value.y,
+    needsResizing: true,
+  });
+
+  plugin.addComponent(
+    'root',
+    definition,
+    undefined,
+    undefined,
+    drawOption,
+  );
+
   plugin.draw('root');
 }
 
