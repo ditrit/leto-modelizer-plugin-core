@@ -56,7 +56,7 @@ class DefaultData {
 
     /**
      * All plugin variables.
-     * @type {Variables[]}
+     * @type {Variable[]}
      */
     this.variables = props.variables || [];
     /**
