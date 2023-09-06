@@ -45,9 +45,9 @@ export default {
            x="0" y="0"
         {% endif %}
 
-        {% if hasWidth and hasHeight %}
-           width="{{ drawOption.width + 12 + padding * 2}}"
-           height="{{ drawOption.height + 56 + padding * 2}}"
+        {% if hasWidth and hasHeight and drawOption.innerWidth > 0 and drawOption.innerHeight > 0 %}
+           width="{{ drawOption.innerWidth + 12 + padding * 2 }}"
+           height="{{ drawOption.innerHeight + 56 + padding * 2 }}"
         {% else %}
            width="254" height="118"
         {% endif %}
@@ -77,9 +77,9 @@ export default {
         </g>
 
         <rect x="6" y ="50" fill="#9691B1" rx="4"
-          {% if hasWidth and hasHeight %}
-              width="{{ drawOption.width + padding * 2 }}"
-              height="{{ drawOption.height + padding * 2 }}"
+          {% if hasWidth and hasHeight and drawOption.innerWidth > 0 and drawOption.innerHeight > 0 %}
+              width="{{ drawOption.innerWidth + padding * 2 }}"
+              height="{{ drawOption.innerHeight + padding * 2 }}"
           {% else %}
               width={{ 254 - 12 }} height={{ 68 - 6 }}
           {% endif %}

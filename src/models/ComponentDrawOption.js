@@ -60,6 +60,18 @@ class ComponentDrawOption {
     this.height = height || null;
 
     /**
+     * True width of Component in pixel.
+     * @type {number}
+     */
+    this.innerWidth = null;
+
+    /**
+     * True height of Component in pixel.
+     * @type {number}
+     */
+    this.innerHeight = null;
+
+    /**
      * True if the component needs to be resized
      * @type {boolean}
      */

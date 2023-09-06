@@ -171,7 +171,6 @@ class ElkLayout extends DefaultLayout {
    * @private
    */
   writeLayout(layout) {
-    console.log('test: ', layout);
     layout.forEach((elkNode) => this.writeSingleDepthLayout(elkNode));
   }
 
@@ -283,6 +282,7 @@ class ElkLayout extends DefaultLayout {
    * @private
    */
   writeSingleDepthLayout(elkNode) {
+    console.log('elkNode: ', elkNode);
     const nodes = new Map(elkNode.children
       .map((node) => [node.id, {
         x: node.x,
@@ -297,6 +297,8 @@ class ElkLayout extends DefaultLayout {
         component.drawOption.x = x;
         component.drawOption.y = y;
       });
+
+      
   }
 
   /**

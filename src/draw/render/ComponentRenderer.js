@@ -94,8 +94,8 @@ class ComponentRenderer {
 
     const { width, height } = node.select('.components').node().getBoundingClientRect();
 
-    node.datum().data.drawOption.width = width;
-    node.datum().data.drawOption.height = height;
+    node.datum().data.drawOption.innerWidth = width;
+    node.datum().data.drawOption.innerHeight = height;
 
     node.html(this.renderModel(node.datum().data));
     this.render(nodeId);

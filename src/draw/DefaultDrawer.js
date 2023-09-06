@@ -120,6 +120,7 @@ class DefaultDrawer {
    */
   draw() {
     this.__drawingComponents();
+    this.registerComponentsDrawOption();
     this.automaticLayout();
   }
 
@@ -207,6 +208,20 @@ class DefaultDrawer {
    */
   async arrangeComponentsPosition() {
     await this.layout.arrangeComponentsPosition();
+  }
+
+  registerComponentsDrawOption() {
+    this.pluginData.components.forEach((component) => {
+      const position = this.getNodePosition(component.id);
+      const size = this.getNodeSize(component.id);
+
+      console.log(position, size);
+
+      component.drawOption.x = position.x;
+      component.drawOption.y = position.y;
+      component.drawOption.width = size.width;
+      component.drawOption.height = size.height;
+    });
   }
 }
 
