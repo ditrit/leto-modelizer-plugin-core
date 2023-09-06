@@ -79,6 +79,43 @@ describe('Test Class: DefaultDrawer()', () => {
     });
   });
 
+  describe('Test method: resetDrawerActions', () => {
+    it('should reset actions parameter', () => {
+      const defaultActions = {
+        selection: {
+          current: null,
+          style: '2px solid hsl(205, 100%, 50%)',
+          offset: '3px',
+        },
+        linkCreation: {
+          source: null,
+          target: null,
+          creating: false,
+        },
+        drag: {
+          offsetX: 0,
+          offsetY: 0,
+          state: false,
+          target: null,
+        },
+        zoom: {
+          scale: 1,
+          translate: {
+            x: 0,
+            y: 0,
+          },
+        },
+      };
+      const drawer = new DefaultDrawer();
+
+      expect(drawer.actions).toEqual(defaultActions);
+
+      drawer.action = null;
+      drawer.resetDrawerActions();
+      expect(drawer.actions).toEqual(defaultActions);
+    });
+  });
+
   describe('Test method: setupTiles', () => {
     let drawer;
     let data;
