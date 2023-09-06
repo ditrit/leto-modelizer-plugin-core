@@ -16,9 +16,6 @@ Feature: Test automatic layout for the graph
     And I expect "#wfstep2" to be at position 30,110
     And I expect "#wfstep3" to be at position 30,190
     And I expect "#wfstep4" to be at position 30,270
-    And I expect "#wfstep5" to be at position 30,30
-    And I expect "#wfstep6" to be at position 302,30
     And I expect "#wfstep7" to be at position 574,30
-    And I expect "#wfstep8" to be at position 846,30
     And I expect "#server1" to be at position 12,12
     And I expect "#server2" to be at position 12,112

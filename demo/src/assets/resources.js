@@ -6,85 +6,86 @@ export default {
   },
   models: {
     DefaultModel: `
-      <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
-        class="template"
-        width="230" height="50"
-        fill="#474262">
-        <rect class="component-hitbox" width="100%" height="100%" rx="5" ry="5"></rect>
+      <svg class="model" overflow="visible" fill="#474262" width="230" height="50"
+        {% if hasX and hasY %}
+           x="{{ drawOption.x }}" y="{{ drawOption.y }}"
+        {% else %}
+           x="0" y="0"
+        {% endif %}
+      >
+        <rect class="background" width="100%" height="100%" rx="6" />
+
+        <svg x="6" y="6" width="38" height="38">
+          <rect fill="#9691B1" width="100%" height="100%" rx="5"/>
+          <g class="type-icon" fill="#474262" transform="translate(3 3)">{{ icon | safe }}</g>
+        </svg>
+
         {% if hasError %}
-        <g class="component-error">
-            <svg xmlns="http://www.w3.org/2000/svg" 
-                 width="15" height="15"
-                 x=200 y="10"
-                 fill="yellow"
-                 viewBox="0 0 512 512">
-            <path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zm32 224c0 17.7-14.3 32-32 32s-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32z"/>
-            </svg>
+        <g class="error-icon">
+          <svg width="15" height="15" x="200" y="10" fill="yellow" viewBox="0 0 512 512">
+            <path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512
+                  256 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24
+                  24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zm32 224c0 17.7-14.3 32-32
+                  32s-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32z"
+            />
+          </svg>
         </g>
         {% endif %}
-        <g fill="white" style="font-family: Calibri, Arial">
-          <rect width="38" height="38"
-            x="6" y="6"
-            rx="4" ry="4"></rect>
-          <text class="component-name"
-            x="50" y="1.5em"
-            style="font-size: 14px; font-weight: 600">{{ name }}</text>
-          <text class="component-type"
-            x="50" y="3em"
-            style="font-size: 12px; font-style: italic">{{ definition.type }} - id: {{ id }}</text>
+        <g stroke="none" fill="white" font-family="Arial" transform="translate(50 32)">
+          <text class="name" font-size="12" y="-1em">{{ name }}</text>
+          <text class="type" font-size="12" y="0.5em">{{ definition.type }} - id: {{ id }}</text>
         </g>
-        <circle class="anchor" r="0" cx="50%" cy="0%" anchor="top"></circle>
-        <circle class="anchor" r="0" cx="50%" cy="100%" anchor="bottom"></circle>
-        <circle class="anchor" r="0" cx="100%" cy="50%" anchor="right"></circle>
-        <circle class="anchor" r="0" cx="0%" cy="50%" anchor="left"></circle>
-        <svg id="icon-{{id}}" class="component-icon" x="9" y="9" width="32" height="32"></svg>
       </svg>
     `,
     DefaultContainer: `
-      <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
-           overflow="visible"
-           class="template"
-           width="230" height="68"
-           fill="#474262">
-        <rect class="component-hitbox" width="100%" height="100%" rx="5" ry="5"></rect>
-        {% if hasError %}
-        <g class="component-error">
-            <svg xmlns="http://www.w3.org/2000/svg" 
-                 width="15" height="15"
-                 x=200 y="10"
-                 fill="yellow"
-                 viewBox="0 0 512 512">
-            <path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zm32 224c0 17.7-14.3 32-32 32s-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32z"/>
-            </svg>
-        </g>
+      <svg class="model" overflow="visible"
+        {% if hasX and hasY %}
+           x="{{ drawOption.x }}" y="{{ drawOption.y }}"
+        {% else %}
+           x="0" y="0"
         {% endif %}
-        <g transform="translate(0,50)">
-          <svg class="component-container"
-              overflow="visible"
-              fill="#9691B1">
-            <rect class="container-background"
-                  width="100%" height="100%"
-                  rx="4" ry="4"></rect>
+
+        {% if hasWidth and hasHeight %}
+           width="{{ drawOption.width + 12 + padding * 2}}"
+           height="{{ drawOption.height + 56 + padding * 2}}"
+        {% else %}
+           width="254" height="118"
+        {% endif %}
+      >
+        <rect class="background" fill="#474262" width="100%" height="100%" rx="6" />
+
+        {% if hasError %}
+        <g class="error-icon">
+          <svg width="15" height="15" x="5" y="5" fill="#BB0A21" viewBox="0 0 512 512">
+            <path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512
+                  256 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24
+                  24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zm32 224c0 17.7-14.3 32-32
+                  32s-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32z"
+            />
           </svg>
         </g>
-        <g fill="white" style="font-family: Calibri, Arial">
-          <rect width="38" height="38"
-                x="6" y="6"
-                rx="4" ry="4"></rect>
-          <text class="component-name"
-                x="50" y="1.5em"
-                style="font-size: 14px; font-weight: 600">{{ name }}</text>
-          <text class="component-type"
-                x="50" y="3em"
-                style="font-size: 12px; font-style: italic">{{ definition.type }} - id: {{ id }}</text>
+        {% endif %}
+
+        <svg x="6" y="6" width="38" height="38">
+          <rect fill="#9691B1" width="100%" height="100%" rx="5"/>
+          <g class="type-icon" fill="#474262" transform="translate(3 3)">{{ icon | safe }}</g>
+        </svg>
+
+        <g stroke="none" fill="white" font-family="Arial" transform="translate(50 32)">
+          <text class="name" font-size="12" y="-1em">{{ name }}</text>
+          <text class="type" font-size="12" y="0.5em">{{ definition.type }} - id: {{ id }}</text>
         </g>
-      
-        <circle class="anchor" cx="50%" cy="0%" anchor="top" r="0"></circle>
-        <circle class="anchor" cx="50%" cy="100%" anchor="bottom" r="0"></circle>
-        <circle class="anchor" cx="100%" cy="50%" anchor="right" r="0"></circle>
-        <circle class="anchor" cx="0%" cy="50%" anchor="left" r="0"></circle>
-  
-        <svg id="icon-{{id}}" class="component-icon" x="9" y="9" width="32" height="32"></svg>
+
+        <rect x="6" y ="50" fill="#9691B1" rx="4"
+          {% if hasWidth and hasHeight %}
+              width="{{ drawOption.width + padding * 2 }}"
+              height="{{ drawOption.height + padding * 2 }}"
+          {% else %}
+              width={{ 254 - 12 }} height={{ 68 - 6 }}
+          {% endif %}
+        />
+
+        <g class="components" transform="translate({{ 6 + padding }},{{ 50 + padding }})"></g>
       </svg>
     `,
   },

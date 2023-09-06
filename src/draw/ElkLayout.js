@@ -171,6 +171,7 @@ class ElkLayout extends DefaultLayout {
    * @private
    */
   writeLayout(layout) {
+    console.log('test: ', layout);
     layout.forEach((elkNode) => this.writeSingleDepthLayout(elkNode));
   }
 

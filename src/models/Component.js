@@ -1,5 +1,6 @@
 import ComponentAttribute from './ComponentAttribute';
 import FileInformation from './FileInformation';
+import ComponentDrawOption from './ComponentDrawOption';
 
 /**
  * A model for modelling tools in Leto Modelizer.
@@ -57,7 +58,7 @@ class Component extends FileInformation {
      * The options used to draw this Component.
      * @type {ComponentDrawOption}
      */
-    this.drawOption = drawOption || null;
+    this.drawOption = drawOption || new ComponentDrawOption();
     /**
      * Attributes of Component.
      * @type {ComponentAttribute[]}

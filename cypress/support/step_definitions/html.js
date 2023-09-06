@@ -126,11 +126,3 @@ Then('I expect {string} appear {int} time(s) on screen', (templateSelector, coun
   const selector = nunjucks.renderString(templateSelector, cy.context);
   cy.get(selector).should('have.length', count);
 });
-
-Then('I expect {string} attribute {string} to be {string}', (templateSelector, attribute, value) => {
-  const selector = nunjucks.renderString(templateSelector, cy.context);
-
-  cy.get(selector).should((element) => {
-    expect(element.attr(attribute)).eq(value);
-  });
-});

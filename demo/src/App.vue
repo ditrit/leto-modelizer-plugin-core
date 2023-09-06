@@ -48,7 +48,7 @@
       </div>
       <button id="rename-component" @click="renameComponent" :disabled="!(selectedId && renamedId)">Save</button>
     </fieldset>
-    <div id='root' :style="readOnly ? { width: `${width}px`, height: `${height}px` } : {}"></div>
+    <div id='view-port' :style="readOnly ? { width: `${width}px`, height: `${height}px` } : {}"></div>
   </main>
 </template>
 
@@ -82,17 +82,17 @@ function savePosition() {
 
 async function automaticLayout() {
   await plugin.arrangeComponentsPosition();
-  plugin.draw('root', readOnly.value);
+  plugin.draw('view-port', readOnly.value);
 }
 
 function reset() {
-  document.querySelector('#root').innerHTML = '';
-  plugin.draw('root', readOnly.value);
+  document.querySelector('#view-port').innerHTML = '';
+  plugin.draw();
 }
 
 function renameComponent() {
   plugin.data.renameComponentId(selectedId.value, renamedId.value);
-  plugin.draw('root', readOnly.value);
+  plugin.draw('view-port', readOnly.value);
   updateComponentsIds();
   selectedId.value = '';
   renamedId.value = '';
@@ -108,10 +108,16 @@ const defaultConfiguration = JSON.stringify({
     demo: {
       internal1: new ComponentDrawOption({
         x: 42,
-        y: 666,
+        y: 550,
         width: 242,
-        height: 50,
+        height: 200,
       }),
+      network1: new ComponentDrawOption({
+        x: 400,
+        y: 150,
+        width: 250,
+        height: 312,
+      })
     },
   },
 });
@@ -125,8 +131,8 @@ onMounted(() => {
     path: 'localstorage',
     content: window.localStorage.getItem('configuration') || defaultConfiguration,
   }));
-  plugin.draw('root');
-  updateComponentsIds();
+  plugin.initDrawingContext();
+  plugin.draw();
 });
 </script>
 
@@ -158,19 +164,12 @@ main {
   align-items: center;
 }
 
-#viewport {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
 .disabled{
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-#root {
+#view-port {
   width: 100%;
   height: 100%;
 
