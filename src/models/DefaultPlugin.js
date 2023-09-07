@@ -1,9 +1,11 @@
+import * as d3 from 'd3';
 import DefaultData from './DefaultData';
 import DefaultDrawer from '../draw/DefaultDrawer';
 import DefaultMetadata from '../metadata/DefaultMetadata';
 import DefaultParser from '../parser/DefaultParser';
 import DefaultRender from '../render/DefaultRender';
 import DefaultConfiguration from './DefaultConfiguration';
+import ComponentDrawOption from './ComponentDrawOption';
 
 /**
  * Default plugin structure.
@@ -189,6 +191,68 @@ class DefaultPlugin {
    */
   repositionComponent(componentId) {
     this.__drawer.repositionComponent(componentId);
+  }
+
+  /**
+   * Get the coordinates to use for component draw options.
+   * @param {string} rootId - Html id, without '#'.
+   * @param {ComponentDrawOption} drawOption - The options used to draw this Component.
+   * @param {number} drawOption.x - Position X.
+   * @param {number} drawOption.y - Position Y.
+   * @returns {object} The coordinates for new component.
+   */
+  getComponentPosition(rootId, { x, y }) {
+    const { scale, translate } = this.__drawer.actions.zoom;
+    const { left, top } = document.querySelector(`#${rootId}`).getBoundingClientRect();
+
+    return {
+      x: ((x - left) - translate.x) / scale,
+      y: ((y - top) - translate.y) / scale,
+    };
+  }
+
+  /**
+   * Create new component.
+   * @param {string} rootId - Html id, without '#'.
+   * @param {ComponentDefinition} definition - Component definition.
+   * @param {string} folder - Folder path.
+   * @param {string} fileName - File name.
+   * @param {ComponentDrawOption} drawOption - The options used to draw this Component.
+   * @returns {string} Component id.
+   */
+  addComponent(
+    rootId,
+    definition,
+    folder = '',
+    fileName = this.configuration.defaultFileName || '',
+    drawOption = null,
+  ) {
+    const id = this.data.addComponent(
+      definition,
+      folder,
+      fileName,
+    );
+    const component = this.data.getComponentById(id);
+
+    if (drawOption) {
+      const target = document
+        .elementsFromPoint(drawOption.x, drawOption.y)
+        .filter((element) => element.classList.contains('component-hitbox'))
+        .map((element) => d3.select(element).datum().data)
+        .filter((element) => element.definition.childrenTypes.includes(definition.type))[0];
+
+      if (target) {
+        const newParent = this.data.getComponentById(target.id);
+
+        component.setReferenceAttribute(newParent);
+      } else {
+        component.drawOption = new ComponentDrawOption({
+          ...this.getComponentPosition(rootId, drawOption),
+        });
+      }
+    }
+
+    return id;
   }
 }
 
