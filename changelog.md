@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add to the demo a button to log components position.
 - Add `addComponent` to Plugin to drop new component in parent container.
 - Add to the demo a button to drop a new component at the given coordinates.
+- Add `resetDrawerActions` method in `DefaultDrawer` and `DefaultPlugin`.
 
 ### Removed
 

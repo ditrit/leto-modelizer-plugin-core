@@ -116,6 +116,37 @@ class DefaultDrawer {
   }
 
   /**
+   * Reset actions.
+   */
+  resetDrawerActions() {
+    this.actions = {
+      selection: {
+        current: null,
+        style: '2px solid hsl(205, 100%, 50%)',
+        offset: '3px',
+      },
+      linkCreation: {
+        source: null,
+        target: null,
+        creating: false,
+      },
+      drag: {
+        offsetX: 0,
+        offsetY: 0,
+        state: false,
+        target: null,
+      },
+      zoom: {
+        scale: 1,
+        translate: {
+          x: 0,
+          y: 0,
+        },
+      },
+    };
+  }
+
+  /**
    * Convert screen coordinates into a given svg referential.
    * @param {number} screenX - Screen x coordinate.
    * @param {number} screenY - Screen y coordinate.
