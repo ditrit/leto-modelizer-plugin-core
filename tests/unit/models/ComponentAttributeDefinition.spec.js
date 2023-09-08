@@ -17,6 +17,8 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.linkDashStyle).toBeNull();
       expect(definedAttribute.containerRef).toBeNull();
       expect(definedAttribute.definedAttributes).toEqual([]);
+      expect(definedAttribute.itemDefinition).toEqual([]);
+      expect(definedAttribute.itemType).toBeNull();
       expect(definedAttribute.required).toEqual(false);
       expect(definedAttribute.rules.values).toBeNull();
       expect(definedAttribute.rules.min).toBeNull();
@@ -39,6 +41,8 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.linkDashStyle).toBeNull();
       expect(definedAttribute.containerRef).toBeNull();
       expect(definedAttribute.definedAttributes).toEqual([]);
+      expect(definedAttribute.itemDefinition).toEqual([]);
+      expect(definedAttribute.itemType).toBeNull();
       expect(definedAttribute.required).toEqual(false);
       expect(definedAttribute.rules.values).toBeNull();
       expect(definedAttribute.rules.min).toBeNull();
@@ -61,6 +65,8 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.linkDashStyle).toBeNull();
       expect(definedAttribute.containerRef).toBeNull();
       expect(definedAttribute.definedAttributes).toEqual([]);
+      expect(definedAttribute.itemDefinition).toEqual([]);
+      expect(definedAttribute.itemType).toBeNull();
       expect(definedAttribute.required).toEqual(false);
       expect(definedAttribute.rules.values).toBeNull();
       expect(definedAttribute.rules.min).toBeNull();
@@ -82,6 +88,8 @@ describe('Test class: ComponentAttributeDefinition', () => {
         linkDashStyle: [1, 1],
         containerRef: 'containerRef',
         definedAttributes: [new ComponentAttributeDefinition()],
+        itemDefinition: [new ComponentAttributeDefinition()],
+        itemType: 'ItemType',
         required: true,
         rules: {
           values: ['value'],
@@ -105,6 +113,10 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.containerRef).toEqual('containerRef');
       expect(definedAttribute.definedAttributes.length).toEqual(1);
       expect(definedAttribute.definedAttributes[0]).not.toBeNull();
+      expect(definedAttribute.itemDefinition.length).toEqual(1);
+      expect(definedAttribute.itemDefinition[0]).not.toBeNull();
+      expect(definedAttribute.itemType).toEqual('ItemType');
+      expect(definedAttribute.rules.values).toEqual(['value']);
       expect(definedAttribute.required).toEqual(true);
       expect(definedAttribute.rules.values).toEqual(['value']);
       expect(definedAttribute.rules.min).toEqual(1);
