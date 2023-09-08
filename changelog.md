@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+## [0.21.0] - 2023/09/08
+
+### Added
+
+- Add `addComponent` to Plugin to drop new component in parent container.
+- Add to the demo a button to drop a new component at the given coordinates.
+- Add `resetDrawerActions` method in `DefaultDrawer` and `DefaultPlugin`.
+
 ## [0.20.0] - 2023/08/30
 
 ### Added
@@ -13,9 +21,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `repositionComponent` method in `DefaultDrawer`, `DefaultPlugin` and `DefaultLayout`.
 - Add a default implementation for `repositionComponent` in  `ElkLayout`.
 - Add to the demo a button to log components position.
-- Add `addComponent` to Plugin to drop new component in parent container.
-- Add to the demo a button to drop a new component at the given coordinates.
-- Add `resetDrawerActions` method in `DefaultDrawer` and `DefaultPlugin`.
 
 ### Removed
 
@@ -449,6 +454,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add new classes LetoObjectNode, LetoTypeNode, LetoAttribute, LetoLink.
 - Add function renderString for SVG template.
 
+[0.21.0]: https://github.com/ditrit/leto-modelizer-plugin-core/blob/0.21.0/changelog.md
 [0.20.0]: https://github.com/ditrit/leto-modelizer-plugin-core/blob/0.20.0/changelog.md
 [0.19.0]: https://github.com/ditrit/leto-modelizer-plugin-core/blob/0.19.0/changelog.md
 [0.18.0]: https://github.com/ditrit/leto-modelizer-plugin-core/blob/0.18.0/changelog.md
