@@ -32,7 +32,7 @@ describe('Test Class: DefaultDrawer()', () => {
       expect(drawer.pluginData).toEqual(new DefaultData());
       expect(drawer.rootId).toEqual('root');
       expect(drawer.resources).toBeNull();
-      expect(drawer.minWidth).toEqual(230);
+      expect(drawer.minWidth).toEqual(320);
       expect(drawer.minHeight).toEqual(50);
       expect(drawer.padding).toEqual(30);
       expect(drawer.margin).toEqual(6);
@@ -45,7 +45,7 @@ describe('Test Class: DefaultDrawer()', () => {
       expect(drawer.pluginData).toEqual(new DefaultData());
       expect(drawer.rootId).toEqual('root');
       expect(drawer.resources).toEqual('resources');
-      expect(drawer.minWidth).toEqual(230);
+      expect(drawer.minWidth).toEqual(320);
       expect(drawer.minHeight).toEqual(50);
       expect(drawer.padding).toEqual(30);
       expect(drawer.margin).toEqual(6);
@@ -186,12 +186,12 @@ describe('Test Class: DefaultDrawer()', () => {
 
       expect(data[0].items[0].x0).toEqual(10);
       expect(data[0].items[0].y0).toEqual(10);
-      expect(data[0].items[0].x1).toEqual(272);
+      expect(data[0].items[0].x1).toEqual(362);
       expect(data[0].items[0].y1).toEqual(136);
 
-      expect(data[0].items[1].x0).toEqual(282);
+      expect(data[0].items[1].x0).toEqual(372);
       expect(data[0].items[1].y0).toEqual(10);
-      expect(data[0].items[1].x1).toEqual(524);
+      expect(data[0].items[1].x1).toEqual(704);
       expect(data[0].items[1].y1).toEqual(60);
     });
 
@@ -206,14 +206,14 @@ describe('Test Class: DefaultDrawer()', () => {
         y: 10,
         needsResizing: false,
         height: 126,
-        width: 262,
+        width: 352,
       }));
       expect(data[0].items[1].data.drawOption).toEqual(new ComponentDrawOption({
-        x: 282,
+        x: 372,
         y: 10,
         needsResizing: false,
         height: 50,
-        width: 242,
+        width: 332,
       }));
     });
 
@@ -264,12 +264,12 @@ describe('Test Class: DefaultDrawer()', () => {
         drawer.setupTiles(data);
         expect(data[0].items[0].x0).toEqual(1);
         expect(data[0].items[0].y0).toEqual(1);
-        expect(data[0].items[0].x1).toEqual(263);
+        expect(data[0].items[0].x1).toEqual(353);
         expect(data[0].items[0].y1).toEqual(127);
 
         expect(data[0].items[1].x0).toEqual(150);
         expect(data[0].items[1].y0).toEqual(100);
-        expect(data[0].items[1].x1).toEqual(392);
+        expect(data[0].items[1].x1).toEqual(482);
         expect(data[0].items[1].y1).toEqual(150);
       },
     );
