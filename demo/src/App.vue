@@ -74,16 +74,16 @@
           </option>
         </select>
         <div>
-          <label>New ID</label>
+          <label>New external ID</label>
           <input
             id="rename-input"
-            v-model="renamedId"
+            v-model="renamedExternalId"
             type="text"
           >
         </div>
         <button
           id="rename-component"
-          :disabled="!(selectedId && renamedId)"
+          :disabled="!(selectedId && renamedExternalId)"
           @click="renameComponent"
         >
           Save
@@ -167,7 +167,7 @@ const width = ref(400);
 const height = ref(400);
 const componentsIds = ref([]);
 const selectedId = ref('');
-const renamedId = ref('');
+const renamedExternalId = ref('');
 const selectedAutoLayoutId = ref('');
 const position = ref({
   x: 0,
@@ -243,7 +243,7 @@ function renameComponent() {
   // eslint-disable-next-line no-use-before-define
   updateComponentsIds();
   selectedId.value = '';
-  renamedId.value = '';
+  renamedExternalId.value = '';
 }
 
 /**

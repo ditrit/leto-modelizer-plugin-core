@@ -40,6 +40,7 @@ class DemoParser extends DefaultParser {
 
     const externalLaptop = new Component({
       id: 'external1',
+      externalId: 'external_id_1',
       name: 'laptop2',
       definition: this.pluginData.__laptopDefinition,
       attributes: [
@@ -159,12 +160,14 @@ class DemoParser extends DefaultParser {
 
     const verticalWorkflow = new Component({
       id: 'workflow1',
+      externalId: 'ext_workflow_id',
       name: 'verticalWorkflow',
       definition: this.pluginData.__verticalWorkflowDefinition,
       attributes: [],
     });
     const wfStep4 = new Component({
       id: 'wfstep4',
+      externalId: 'ext_wf_id_X',
       name: 'step4',
       definition: this.pluginData.__workflowStepDefinition,
       attributes: [
@@ -178,6 +181,7 @@ class DemoParser extends DefaultParser {
     });
     const wfStep3 = new Component({
       id: 'wfstep3',
+      externalId: 'ext_wf_id_X',
       name: 'step3',
       definition: this.pluginData.__workflowStepDefinition,
       attributes: [
