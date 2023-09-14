@@ -75,7 +75,9 @@ class DefaultRender {
     this.pluginData.components
       .filter((component) => component.drawOption)
       .forEach((component) => {
-        configuration[diagram.path][this.pluginData.name][component.id] = component.drawOption;
+        const key = component.getConfigurationKey();
+
+        configuration[diagram.path][this.pluginData.name][key] = component.drawOption;
       });
 
     file.content = JSON.stringify(
