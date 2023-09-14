@@ -95,15 +95,15 @@ class DefaultParser {
       return;
     }
 
-    Object.keys(config[diagram.path][this.pluginData.name]).forEach((id) => {
-      const component = this.pluginData.getComponentById(id);
+    Object.keys(config[diagram.path][this.pluginData.name]).forEach((key) => {
+      const component = this.pluginData.getComponentByConfigurationKey(key);
 
-      if (!component || !config[diagram.path][this.pluginData.name][id]) {
+      if (!component || !config[diagram.path][this.pluginData.name][key]) {
         return;
       }
 
       component.drawOption = new ComponentDrawOption(
-        config[diagram.path][this.pluginData.name][id],
+        config[diagram.path][this.pluginData.name][key],
       );
     });
 
