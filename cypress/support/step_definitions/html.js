@@ -33,6 +33,12 @@ Then('I expect field {string} is {string}', (templateSelector, templateExpectedV
   cy.get(selector).should('have.value', expectedValue);
 });
 
+Then('I expect field {string} contains {string}', (templateSelector, templateExpectedValue) => {
+  const selector = nunjucks.renderString(templateSelector, cy.context);
+  const expectedValue = nunjucks.renderString(templateExpectedValue, cy.context);
+  cy.get(selector).contains(expectedValue);
+});
+
 Then('I expect field {string} is empty', (templateSelector) => {
   const selector = nunjucks.renderString(templateSelector, cy.context);
   cy.get(selector).should('be.empty');
