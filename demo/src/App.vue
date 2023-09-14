@@ -238,7 +238,7 @@ function reset() {
  * Rename a component.
  */
 function renameComponent() {
-  plugin.data.renameComponentId(selectedId.value, renamedId.value);
+  plugin.data.renameComponentExternalId(selectedId.value, renamedExternalId.value);
   plugin.draw('root', readOnly.value);
   // eslint-disable-next-line no-use-before-define
   updateComponentsIds();

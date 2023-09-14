@@ -359,19 +359,6 @@ class Component extends FileInformation {
   }
 
   /**
-   * Get attributes corresponding to the given definition type.
-   * @param {...string} types - Type of attribute to find.
-   * @returns {ComponentAttribute[]} Component attributes array.
-   */
-  getAttributesByDefinitionType(...types) {
-    const result = [];
-
-    this.__setAttributesByField(result, this.attributes, 'definitionType', ...types);
-
-    return result;
-  }
-
-  /**
    * Retrieve container id from attributes.
    * @returns {string} Id of container or null.
    */
