@@ -74,16 +74,18 @@ class ComponentRenderer {
   /**
    * Create nodes.
    * @param {string} contextId - Id of current context.
+   * @param {number} [depth] - Depth of current context.
    * @private
    */
   render(contextId = this.drawingContextId) {
     const context = d3.select(`#${contextId}`);
 
-    context.select('.components').selectAll('.component')
+    context.select('.components').selectAll(`.component[depth="${context.datum().depth + 1}"]`)
       .data(({ children }) => children)
       .join('g')
       .attr('id', ({ data }) => data.id)
       .attr('class', 'component')
+      .attr('depth', (data) => data.depth)
       .html(({ data }) => this.renderModel(data))
       .filter(({ data, children }) => data.definition.isContainer && !(!children))
       .each(({ data }) => this.render(data.id));
@@ -91,7 +93,6 @@ class ComponentRenderer {
 
   setAutomaticlyContainerSize(nodeId) {
     const node = d3.select(`#${nodeId}`);
-
     const { width, height } = node.select('.components').node().getBoundingClientRect();
 
     node.datum().data.drawOption.innerWidth = width;

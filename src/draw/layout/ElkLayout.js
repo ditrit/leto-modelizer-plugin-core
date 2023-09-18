@@ -101,10 +101,11 @@ class ElkLayout extends DefaultLayout {
   /**
    * Initializes ELK parameters and inherited fields.
    * @param {DefaultData} pluginData - A graph to be arranged.
+   * @param {object} [renderer] - Renderer for the components. (use defaults if unsure)
    * @param {object} [elkParams] - Parameters for the layout algorithm. (use defaults if unsure)
    * @see Parameters for ELK: {@link https://eclipse.dev/elk/reference/options.html}
    */
-  constructor(pluginData, elkParams = {}) {
+  constructor(pluginData, renderer = {}, elkParams = {}) {
     super(pluginData);
 
     /**
@@ -114,7 +115,6 @@ class ElkLayout extends DefaultLayout {
     this.elkParams = {
       // default parameters
       'elk.algorithm': 'elk.layered',
-      'spacing.baseValue': '50',
       separateConnectedComponents: 'true',
       'elk.layered.cycleBreaking.strategy': 'INTERACTIVE',
       'elk.layered.layering.strategy': 'INTERACTIVE',
@@ -125,6 +125,11 @@ class ElkLayout extends DefaultLayout {
       'elk.direction': 'UNDEFINED',
 
       ...elkParams,
+    };
+
+    this.renderer = {
+      componentRenderer: null,
+      ...renderer,
     };
   }
 
@@ -158,10 +163,7 @@ class ElkLayout extends DefaultLayout {
 
     // For each parent, from the deepest nodes up to the root, get a layout for its children.
     return Promise.all(
-      this.getParentsByDepth(nodes)
-        .map(
-          (node) => this.generateELKLayout(node, nodes, links),
-        ),
+      this.getParentsByDepth(nodes).map((node) => this.generateELKLayout(node, nodes, links)),
     );
   }
 
@@ -171,7 +173,9 @@ class ElkLayout extends DefaultLayout {
    * @private
    */
   writeLayout(layout) {
-    layout.forEach((elkNode) => this.writeSingleDepthLayout(elkNode));
+    layout.forEach((elkNode) => {
+      this.writeSingleDepthLayout(elkNode);
+    });
   }
 
   /**
@@ -273,7 +277,15 @@ class ElkLayout extends DefaultLayout {
     }));
 
     // Finally calling ELK.
-    return ElkLayout.elk.layout(graph);
+    const layout = await ElkLayout.elk.layout(graph);
+
+    this.writeSingleDepthLayout(layout);
+    this.renderer.componentRenderer.render(layout.id);
+    if (layout.id !== 'root') {
+      this.renderer.componentRenderer.setAutomaticlyContainerSize(layout.id);
+    }
+
+    return layout;
   }
 
   /**
@@ -282,7 +294,6 @@ class ElkLayout extends DefaultLayout {
    * @private
    */
   writeSingleDepthLayout(elkNode) {
-    console.log('elkNode: ', elkNode);
     const nodes = new Map(elkNode.children
       .map((node) => [node.id, {
         x: node.x,
@@ -297,8 +308,6 @@ class ElkLayout extends DefaultLayout {
         component.drawOption.x = x;
         component.drawOption.y = y;
       });
-
-      
   }
 
   /**

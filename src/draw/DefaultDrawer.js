@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import ElkLayout from './ElkLayout';
+import ElkLayout from './layout/ElkLayout';
 import ComponentRenderer from './render/ComponentRenderer';
 
 /**
@@ -11,8 +11,12 @@ class DefaultDrawer {
    * @param {DefaultData} pluginData - Plugin data storage.
    * @param {object} [resources] - Object that contains resources.
    * @param {string} [viewPortId] - Id of HTML element where we want to draw.
+   * @param option
    */
-  constructor(pluginData, resources = null, viewPortId = 'view-port') {
+  constructor(pluginData, resources = null, viewPortId = 'view-port', option = {
+    padding: 10,
+    gap: 50,
+  }) {
     /**
      * Plugin data storage.
      * @type {DefaultData}
@@ -20,11 +24,28 @@ class DefaultDrawer {
     this.pluginData = pluginData;
 
     /**
+     * Component renderer.
+     */
+    this.componentRenderer = new ComponentRenderer({ padding: option.padding });
+
+    /**
      * Plugin layout system.
      * @type {DefaultLayout}
      * @default new ElkLayout()
      */
-    this.layout = new ElkLayout(this.pluginData);
+    this.layout = new ElkLayout(
+      this.pluginData,
+      { componentRenderer: this.componentRenderer },
+      {
+        'elk.padding': `[
+          left=${option.padding},
+          top=${option.padding},
+          right=${option.padding},
+          bottom=${option.padding}
+        ]`,
+        'elk.layered.spacing.baseValue': option.gap,
+      },
+    );
 
     /**
      * Object that contains resources.
@@ -51,11 +72,6 @@ class DefaultDrawer {
      * @type {Selection}
      */
     this.root = null;
-
-    /**
-     * Component renderer.
-     */
-    this.componentRenderer = new ComponentRenderer();
   }
 
   /**
@@ -80,28 +96,6 @@ class DefaultDrawer {
     this.componentRenderer.resources = this.resources;
   }
 
-  automaticLayout() {
-    // TODO: implement automatic layout
-    // first step: sort components by depth (decrescent)
-    // like this [[depth: 3, depth: 3], [depth: 2, depth: 2], [depth: 1, depth: 1]]
-    // second step: automatic layout for the deepest components
-    // third step: filter the components of the previous depth - 1
-    // to keep the container with children
-    // four step: set the width and height of these container components
-
-    const containerGroups = this.groupNodesByDepth().map((group) => (
-      group.filter((d) => d.data.definition.isContainer && !!d.children)
-    ));
-
-    containerGroups.forEach((group) => {
-      group.each((d) => {
-        // TODO: autolayout its children
-
-        this.componentRenderer.setAutomaticlyContainerSize(d.data.id);
-      });
-    });
-  }
-
   groupNodesByDepth() {
     const nodes = d3.selectAll('.component');
     const maxDepth = d3.max(nodes.data(), (d) => d.depth);
@@ -121,7 +115,6 @@ class DefaultDrawer {
   draw() {
     this.__drawingComponents();
     this.registerComponentsDrawOption();
-    this.automaticLayout();
   }
 
   /**
@@ -214,8 +207,6 @@ class DefaultDrawer {
     this.pluginData.components.forEach((component) => {
       const position = this.getNodePosition(component.id);
       const size = this.getNodeSize(component.id);
-
-      console.log(position, size);
 
       component.drawOption.x = position.x;
       component.drawOption.y = position.y;
