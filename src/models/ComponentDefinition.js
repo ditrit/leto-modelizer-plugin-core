@@ -33,8 +33,10 @@ class ComponentDefinition {
     parentTypes: [],
     childrenTypes: [],
     definedAttributes: [],
+    itemDefinition: [],
     isContainer: false,
     displayType: null,
+    itemType: null,
     preventChildrenMovement: false,
     childrenPerLine: null,
   }) {
@@ -48,8 +50,10 @@ class ComponentDefinition {
       parentTypes,
       childrenTypes,
       definedAttributes,
+      itemDefinition,
       isContainer,
       displayType,
+      itemType,
       preventChildrenMovement,
       childrenPerLine,
     } = props;
@@ -112,6 +116,13 @@ class ComponentDefinition {
     this.definedAttributes = definedAttributes || [];
 
     /**
+     * Defined attributes for this type.
+     * @type {ComponentAttributeDefinition[]}
+     * @default []
+     */
+    this.itemDefinition = itemDefinition || [];
+
+    /**
      * Boolean means if this type can be a parent.
      * @type {boolean}
      * @default false
@@ -123,6 +134,12 @@ class ComponentDefinition {
      * @type {string}
      */
     this.displayType = displayType || null;
+
+    /**
+     * Name of a specific display behavior.
+     * @type {string}
+     */
+    this.itemType = itemType || null;
 
     /**
      * Flag to always force children layout re-computing.

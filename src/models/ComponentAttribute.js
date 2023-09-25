@@ -94,10 +94,26 @@ class ComponentAttribute {
 
     if (type === 'array') {
       if (this.definition.type === 'Link') {
-        return !Array.isArray(this.value) || this.value.some((link) => typeof link !== 'string');
+        if (!Array.isArray(this.value)) {
+          return true;
+        }
+
+        return this.value.some((link) => typeof link !== 'string');
       }
 
-      return !Array.isArray(this.value);
+      if (!Array.isArray(this.value)) {
+        return true;
+      }
+
+      const itemType = this.definition.itemType ? this.definition.itemType.toLowerCase() : 'string';
+
+      return this.value.some((item) => {
+        if (typeof item !== 'string' && itemType !== 'string') {
+          return true;
+        }
+
+        return false;
+      });
     }
 
     // eslint-disable-next-line valid-typeof
