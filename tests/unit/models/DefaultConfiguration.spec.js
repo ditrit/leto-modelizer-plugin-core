@@ -38,6 +38,7 @@ describe('Test class: DefaultConfiguration', () => {
       expect(config.tags).toEqual([]);
       expect(config.elkParams).toEqual(defaultElkParams);
       expect(config.singleComponentParams).toEqual(defaultSingleComponentParams);
+      expect(config.isFolderTypeDiagram).toEqual(true);
     });
 
     it('Check passing undefined variables to constructor', () => {
@@ -50,6 +51,7 @@ describe('Test class: DefaultConfiguration', () => {
       expect(config.tags).toEqual([]);
       expect(config.elkParams).toEqual(defaultElkParams);
       expect(config.singleComponentParams).toEqual(defaultSingleComponentParams);
+      expect(config.isFolderTypeDiagram).toEqual(true);
     });
 
     it('Check passing all variables to constructor', () => {
@@ -67,6 +69,7 @@ describe('Test class: DefaultConfiguration', () => {
         singleComponentParams: {
           test_attribute: 12345,
         },
+        isFolderTypeDiagram: false,
       });
 
       expect(config.editor).toEqual({ syntax: true });
@@ -82,6 +85,7 @@ describe('Test class: DefaultConfiguration', () => {
         ...defaultSingleComponentParams,
         test_attribute: 12345,
       });
+      expect(config.isFolderTypeDiagram).toEqual(false);
     });
   });
 });

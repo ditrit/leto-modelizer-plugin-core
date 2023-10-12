@@ -20,6 +20,7 @@ class DefaultConfiguration {
    * components & links.
    * @param {number} [props.singleComponentParams.precision] - Space interval between coordinates
    * that will be tested. Performance decreases proportionally to the square of this parameter.
+   * @param {boolean} [props.isFolderTypeDiagram] - True if diagram type is folder, otherwise false.
    */
   constructor(props = {
     editor: {
@@ -31,6 +32,7 @@ class DefaultConfiguration {
     tags: [],
     elkParams: null,
     singleComponentParams: null,
+    isFolderTypeDiagram: true,
   }) {
     /**
      * Object that contains all properties of editor configuration.
@@ -62,9 +64,9 @@ class DefaultConfiguration {
      */
     this.tags = props.tags || [];
     /**
-     Parameters for the ELK automatic layout system.
-     @see https://eclipse.dev/elk/reference/options.html
-     @type {object}
+     * Parameters for the ELK automatic layout system.
+     * @see https://eclipse.dev/elk/reference/options.html
+     * @type {object}
      */
     this.elkParams = {
       'elk.algorithm': 'elk.layered',
@@ -79,16 +81,20 @@ class DefaultConfiguration {
       'elk.direction': 'UNDEFINED',
       ...props.elkParams,
     };
-
     /**
-     Parameters for the algorithm that places a single new component.
-     @type {object}
+     * Parameters for the algorithm that places a single new component.
+     * @type {object}
      */
     this.singleComponentParams = {
       precision: 10,
       margin: 20,
       ...props.singleComponentParams,
     };
+    /**
+     * True if diagram type is folder, otherise false.
+     * @type {boolean}
+     */
+    this.isFolderTypeDiagram = props.isFolderTypeDiagram ?? true;
   }
 }
 
