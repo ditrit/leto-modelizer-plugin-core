@@ -291,7 +291,6 @@ function dropComponent() {
     'root',
     definition,
     undefined,
-    undefined,
     drawOption,
   );
 
