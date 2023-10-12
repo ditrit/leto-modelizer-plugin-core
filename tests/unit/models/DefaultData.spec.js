@@ -149,7 +149,7 @@ describe('Test class: DefaultData', () => {
       expect(pluginData.components).toEqual([]);
 
       const definition = new ComponentDefinition();
-      const id = pluginData.addComponent(definition);
+      const id = pluginData.addComponent(definition, 'test.tf');
 
       expect(pluginData.components).toEqual([
         new Component({
@@ -167,7 +167,7 @@ describe('Test class: DefaultData', () => {
       expect(pluginData.components).toEqual([]);
 
       const definition = new ComponentDefinition();
-      const id = pluginData.addComponent(definition, 'src/');
+      const id = pluginData.addComponent(definition, 'src/test.tf');
 
       expect(pluginData.components).toEqual([
         new Component({
