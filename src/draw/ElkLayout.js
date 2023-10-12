@@ -199,7 +199,7 @@ class ElkLayout extends DefaultLayout {
       .filter((node) => node.parent)
       .map((node) => node.parent);
 
-    /** @type {(NodeData)[]} */
+    /** @type {NodeData[]} */
     const uniqueParents = Array.from(new Set(allParents));
 
     // Sorted by decreasing depth.
