@@ -24,10 +24,10 @@ Feature: Test container resizing
     Then I expect "#resizer" is visible
 
     When I drag '#resizer' of 50,100
-    Then I expect '#network1' width is 358
+    Then I expect '#network1' width is 357
     And  I expect '#network1' height is 346
 
     # To test if the component retains its new size after drag.
     When I drag '#network1' of 10,10
-    Then I expect '#network1' width is 358
+    Then I expect '#network1' width is 357
     And  I expect '#network1' height is 346

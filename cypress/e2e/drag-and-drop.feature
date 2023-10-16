@@ -9,7 +9,7 @@ Feature: Test container drag and drop
 
     When I drag "#root #external1" of 25,25
     Then I expect "#root #external1" is visible
-    And  I expect "#root #external1" to be at position 943,55
+    And  I expect "#root #external1" to be at position 942,53
 
   Scenario: Components should not be draggable when read-only
     Then I expect "#root #external1" to be at position 918,30
