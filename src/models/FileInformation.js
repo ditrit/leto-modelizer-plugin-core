@@ -17,7 +17,7 @@ class FileInformation {
      * @type {string}
      * @default null
      */
-    this.path = path || null;
+    this.path = path ?? null;
   }
 
   /**
