@@ -139,6 +139,24 @@ new DefaultConfiguration({
 });
 ```
 
+### Types of plugin diagram
+
+A diagram is the result of your modeling. It is created by instantiating components, then rendered as declarative code in a file.
+There are two types of plugins for creating diagrams:
+
+- "Folder" type: represent a diagram using the contents of a folder containing one or several files.
+- "File" type: represent a diagram using the contents of a specified file.
+
+Your plugin diagram type should be registered in the `DefaultConfiguration` like so:
+
+```js
+new DefaultConfiguration({
+  isFolderTypeDiagram: false,
+});
+```
+
+If not specified, it is defaulted to `true`.
+
 ### Events
 
 By default, plugin sends event if you provide a `next()` function in DefaultData, like:
