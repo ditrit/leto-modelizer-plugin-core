@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unrelease]
 
+### Added
+
+- Add `external_id` in Component.
+
 ### Changed
 
 - Improve plugin-core documentation.

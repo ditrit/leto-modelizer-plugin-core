@@ -232,7 +232,7 @@ We use [Semantic Versioning](https://semver.org/spec/v2.0.0.html) as guideline f
 
 Steps to release:
 - Checkout a branch `release/vX.Y.Z` from the latest `dev`.
-- Improve your version number in `package.json`, `package-lock.json` and `changelog.md`.
+- Increase your version number in `package.json`, `package-lock.json` and `changelog.md`.
 - Verify the content of the `changelog.md`.
 - Build the project
 - Commit your modification (with the `dist` content) with this commit's name `Release version X.Y.Z`.
