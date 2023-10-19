@@ -100,7 +100,7 @@
     
 
 
-    <h3>leto-modelizer-plugin-core 0.21.0</h3>
+    <h3>leto-modelizer-plugin-core 0.22.0</h3>
 
 
 
@@ -214,7 +214,8 @@ export default new DefaultPlugin({
 <p>This is the default lifecycle of plugin usage in Leto Modelizer.</p>
 <h3>Plugin creation</h3>
 <p>Create you plugin project from <a href="https://github.com/ditrit/leto-modelizer-plugin-template">leto-modelizer-plugin-template</a> and follow the readme section of the template project.</p>
-<h3>Tag your plugin</h3>
+<h3>Plugin configuration</h3>
+<h4>Tag your plugin</h4>
 <p>To help users understand the usage of your plugin, you can tag it using two types of tags:</p>
 <ul>
 <li><code>language</code>: This tag indicates the programming language used in your plugin.</li>
@@ -228,6 +229,37 @@ export default new DefaultPlugin({
   ],
 });
 </code></pre>
+<h4>Type of plugin diagram</h4>
+<p>A diagram is the result of your modeling. It is created by instantiating components, then rendered as declarative code in a file.
+There are two types of plugins for creating diagrams:</p>
+<ul>
+<li>&quot;Folder&quot; type: represent a diagram using the contents of a folder containing one or several files.</li>
+<li>&quot;File&quot; type: represent a diagram using the contents of a specified file.</li>
+</ul>
+<p>Your plugin diagram type should be registered in the <code>DefaultConfiguration</code>:</p>
+<pre class="prettyprint source lang-js"><code>new DefaultConfiguration({
+  isFolderTypeDiagram: false,
+});
+</code></pre>
+<p>If not specified, it is defaulted to <code>true</code>.</p>
+<h4>Default file name and file extension</h4>
+<p>You can define the name of the file that will be created by default with <code>defaultFileName</code>. It must contain the name and extension.
+You can define the extension required for your plugin files with <code>defaultFileExtension</code>.</p>
+<p>Your plugin default file name and file extension should be registered in the <code>DefaultConfiguration</code>:</p>
+<pre class="prettyprint source lang-js"><code>new DefaultConfiguration({
+  defaultFileName: 'main.tf',
+  defaultFileExtension: 'tf',
+});
+</code></pre>
+<p>If not specified, both are defaulted to <code>null</code>.</p>
+<h4>Restrictive folder</h4>
+<p>Diagram creators can specify that the creation or discovery of diagrams for their plugin should be restricted to a particular folder. You can create as many nodes as you want, but make sure to add the <code>/</code> at the end.</p>
+<p>Your plugin restrictive folder type should be registered in the <code>DefaultConfiguration</code>:</p>
+<pre class="prettyprint source lang-js"><code>new DefaultConfiguration({
+  restrictiveFolder: 'infra/dev/',
+});
+</code></pre>
+<p>If not specified, it is defaulted to <code>null</code>.</p>
 <h3>Events</h3>
 <p>By default, plugin sends event if you provide a <code>next()</code> function in DefaultData, like:</p>
 <pre class="prettyprint source lang-js"><code>new DefaultPlugin({
