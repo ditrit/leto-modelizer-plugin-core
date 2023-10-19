@@ -258,18 +258,17 @@ class DefaultData {
   /**
    * Create new component.
    * @param {ComponentDefinition} definition - Component definition.
-   * @param {string} [folder] - Folder path.
-   * @param {string} [fileName] - File name.
+   * @param {string} path - Component path.
    * @returns {string} Component id.
    */
-  addComponent(definition, folder = '', fileName = this.configuration.defaultFileName || '') {
+  addComponent(definition, path) {
     const id = this.generateComponentId(definition);
 
     this.components.push(new Component({
       id,
       name: id,
       definition,
-      path: `${folder}${fileName}`,
+      path,
     }));
 
     return id;

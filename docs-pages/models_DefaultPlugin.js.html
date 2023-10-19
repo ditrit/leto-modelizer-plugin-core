@@ -326,22 +326,19 @@ class DefaultPlugin {
    * Create new component.
    * @param {string} rootId - Html id, without '#'.
    * @param {ComponentDefinition} definition - Component definition.
-   * @param {string} folder - Folder path.
-   * @param {string} fileName - File name.
+   * @param {string} path - Component path.
    * @param {ComponentDrawOption} drawOption - The options used to draw this Component.
    * @returns {string} Component id.
    */
   addComponent(
     rootId,
     definition,
-    folder = '',
-    fileName = this.configuration.defaultFileName || '',
+    path,
     drawOption = null,
   ) {
     const id = this.data.addComponent(
       definition,
-      folder,
-      fileName,
+      path,
     );
     const component = this.data.getComponentById(id);
 
