@@ -20,6 +20,9 @@ class ComponentAttributeDefinition {
    * @param {boolean} [props.required] - Attribute is required.
    * @param {ComponentAttributeDefinition[]} [props.definedAttributes] - Defined attributes for
    * this type.
+   * @param {ComponentAttributeDefinition[]} [props.itemDefinition] - Definition of the structure
+   * @param {string} [props.itemType] - Type of individual array elements,
+   * valid types are String/Boolean/Number/Array/Object/Link/Reference.
    * @param {object} [props.rules] - Rules of this type of Attribute.
    * @param {Array} [props.rules.values] - Default values of attribute.
    * @param {number} [props.rules.min] - Minimum value of Attribute.
@@ -40,6 +43,8 @@ class ComponentAttributeDefinition {
     containerRef: null,
     required: false,
     definedAttributes: [],
+    itemDefinition: [],
+    itemType: null,
     rules: {
       values: null,
       min: null,
@@ -60,6 +65,8 @@ class ComponentAttributeDefinition {
       linkDashStyle,
       containerRef,
       definedAttributes,
+      itemDefinition,
+      itemType,
       required,
       rules,
     } = props;
@@ -127,6 +134,16 @@ class ComponentAttributeDefinition {
      * @type {ComponentAttributeDefinition[]}
      */
     this.definedAttributes = definedAttributes || [];
+    /**
+     * Defined items for this component.
+     * @type {ComponentAttributeDefinition[]}
+     */
+    this.itemDefinition = itemDefinition || [];
+    /**
+     * Define the type of Components that can be in the parent component.
+     * @type {string}
+     */
+    this.itemType = itemType || null;
     /**
      * Attribute is required.
      * @type {boolean}
