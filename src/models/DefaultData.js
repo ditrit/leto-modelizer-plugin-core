@@ -152,7 +152,7 @@ class DefaultData {
   }
 
   /**
-   * Create new component.
+   * Create and add new component inside components list.
    * @param {ComponentDefinition} definition - Component definition.
    * @param {string} path - Component path.
    * @returns {string} Component id.
@@ -248,7 +248,6 @@ class DefaultData {
    * @param {ComponentAttribute} attribute - Attribute to get value.
    * @returns {string | string[]} Value of attribute.
    */
-
   getAttributeValue(attribute) {
     if (attribute.isVariable) {
       return this.getVariableValue(attribute.value);
@@ -275,7 +274,7 @@ class DefaultData {
   /**
    * Get the value of a variable.
    * @param {string} name - Name of the variable.
-   * @returns {string | string[]} - Value of the variable.
+   * @returns {string | string[]} Value of the variable.
    */
   getVariableValue(name) {
     return this.variables.find((variable) => variable.name === name)?.value || null;
@@ -285,7 +284,6 @@ class DefaultData {
    * Set the value of a variable.
    * @param {string} name - Name of the variable.
    * @param {string} value - New value of the variable.
-   * @returns {void}
    */
   setVariableValue(name, value) {
     const variable = this.variables.find((v) => v.name === name);

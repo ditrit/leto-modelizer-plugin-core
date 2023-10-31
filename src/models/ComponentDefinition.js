@@ -1,5 +1,5 @@
 /**
- * Definition of Component's datas and constraints
+ * Definition of Component's data and constraints
  */
 class ComponentDefinition {
   /**

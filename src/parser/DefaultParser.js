@@ -1,7 +1,7 @@
 import ComponentDrawOption from '../models/ComponentDrawOption';
 
 /**
- * Class that used for parsing.
+ * Class used for parsing data to Component.
  */
 class DefaultParser {
   /**

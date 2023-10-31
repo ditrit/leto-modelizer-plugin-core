@@ -219,7 +219,7 @@ class DefaultPlugin {
   }
 
   /**
-   * Create new component.
+   * Create new component with draw option if passed as param.
    * @param {string} rootId - Html id, without '#'.
    * @param {ComponentDefinition} definition - Component definition.
    * @param {string} path - Component path.
@@ -236,9 +236,9 @@ class DefaultPlugin {
       definition,
       path,
     );
-    const component = this.data.getComponentById(id);
 
     if (drawOption) {
+      const component = this.data.getComponentById(id);
       const target = document
         .elementsFromPoint(drawOption.x, drawOption.y)
         .filter((element) => element.classList.contains('component-hitbox'))

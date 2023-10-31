@@ -1,5 +1,5 @@
 /**
- * Class to add Attribute in Components
+ * Class to add Attribute in Components.
  */
 class ComponentAttribute {
   /**
