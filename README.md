@@ -126,70 +126,7 @@ Create you plugin project from [leto-modelizer-plugin-template](https://github.c
 
 ### Plugin configuration
 
-#### Tag your plugin
-
-To help users understand the usage of your plugin, you can tag it using two types of tags:
-- `language`: This tag indicates the programming language used in your plugin.
-- `category`: This tag assigns an appropriate category to your plugin, such as CI, CD, Workflow, and more.
-
-All tags should be registered in the `DefaultConfiguration`:
-
-```js
-new DefaultConfiguration({
-  tags: [
-    new Tag({ type: 'category', value: 'Infrastructure' }),
-    new Tag({ type: 'language', value: 'Terraform' }),
-  ],
-});
-```
-
-#### Type of plugin diagram
-
-A diagram is the result of your modeling. It is created by instantiating components, then rendered as declarative code in a file.
-There are two types of plugins for creating diagrams:
-
-- "Folder" type: represent a diagram using the contents of a folder containing one or several files.
-- "File" type: represent a diagram using the contents of a specified file.
-
-Your plugin diagram type should be registered in the `DefaultConfiguration`:
-
-```js
-new DefaultConfiguration({
-  isFolderTypeDiagram: false,
-});
-```
-
-If not specified, it is defaulted to `true`.
-
-#### Default file name and file extension
-
-You can define the name of the file that will be created by default with `defaultFileName`. It must contain the name and extension.
-You can define the extension required for your plugin files with `defaultFileExtension`. 
-
-Your plugin default file name and file extension should be registered in the `DefaultConfiguration`:
-
-```js
-new DefaultConfiguration({
-  defaultFileName: 'main.tf',
-  defaultFileExtension: 'tf',
-});
-```
-
-If not specified, both are defaulted to `null`.
-
-#### Restrictive folder
-
-Diagram creators can specify that the creation or discovery of diagrams for their plugin should be restricted to a particular folder. You can create as many nodes as you want, but make sure to add the `/` at the end.
-
-Your plugin restrictive folder type should be registered in the `DefaultConfiguration`:
-
-```js
-new DefaultConfiguration({
-  restrictiveFolder: 'infra/dev/',
-});
-```
-
-If not specified, it is defaulted to `null`.
+The [configuration.md](https://github.com/ditrit/leto-modelizer-plugin-core/blob/main/guides/documentations/configuration.md) explains how you can configure your plugin.
 
 ### Events
 
