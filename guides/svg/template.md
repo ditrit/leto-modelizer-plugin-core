@@ -1,11 +1,11 @@
-# How to build a component model
+# How to build the template for a component svg
 
-## Example of model :
+## Example of template
 
 For this example, we use a container template. It contains all necessary information to understand how to transform
 it into a "non-container" template.
 
-### A basic model of container component :
+### A basic svg of a container template
 
 ```jsx
 <svg class="template" width="250" height="200">
@@ -36,7 +36,7 @@ it into a "non-container" template.
 </svg>
 ```
 
-### Why I see curly brackets and percent sign in this model ?
+### Why I see curly brackets and percent sign in this svg ?
 
 As you can see, we have a specific syntax in the template svg with curly brackets `{{ }}` and percent sign `{% %}`. To 
 render the template, we use the `nunjucks` templating engine. If you want to know more about it, you can read the
@@ -88,7 +88,7 @@ You can display the value of `myAttributeName` like this :
 
 ## Step by step
 
-### 1. Create the template :
+### 1. Create the template
 
 First you have to create the template with a `<svg></svg>` containing a class `template`. We also need to define the
 width and height for the drawer to work properly.
@@ -98,7 +98,7 @@ width and height for the drawer to work properly.
 <svg class="template" width="250" height="200"></svg>
 ```
 
-### 2. Add the hitbox :
+### 2. Add the hitbox
 
 The hitbox is the area where you can click to select or drag the component. It is usually a `<rect />` but it can be any
 shape you want.
@@ -112,7 +112,7 @@ shape you want.
 </svg>
 ```
 
-### 3. Add the icon container :
+### 3. Add the icon container
 
 The icon is the small picture that appears on the component. The drawer will use the icon property of the component 
 definition to define which icon will be displayed on the template.
@@ -130,7 +130,7 @@ definition to define which icon will be displayed on the template.
 
 *Note : the icon will be added and the viewBox will be set by the drawer, you don't need to add it manually.*
 
-### 4. Add the metadata you want to display :
+### 4. Add the metadata you want to display
 
 In our case, we want to display the name and the type of the component. To do so, add two `<text></text>` with the
 `component-name` and `component-type` classes.
@@ -149,7 +149,7 @@ In our case, we want to display the name and the type of the component. To do so
 </svg>
 ```
 
-### 5. Add the container ***(only for container template)*** :
+### 5. Add the container ***(only for container template)***
 
 To add a container, you need to add a `<svg></svg>` with a `component-container` class, and inside it, you need to add
 a `<rect></rect>` with a `container-background` class.
@@ -173,7 +173,7 @@ outside the container. You also need to fill the `container-background` with the
 </svg>
 ```
 
-### 6. Add the error icon :
+### 6. Add the error icon
 
 This step is not mandatory, but if you want to display an error icon when the component has an error, you need to add
 a `<g></g>` with a `component-error` class. We used `nunjucks` to have a conditional rendering. When the component has
@@ -208,7 +208,7 @@ an error, we display the error icon. Otherwise, we don't display it.
 </svg>
 ```
 
-### 7. Position the elements :
+### 7. Position the elements
 
 Now that we have all the elements, we can position them. We can't use the `x` and `y` attributes, because the Firefox
 browser have specific behavior with them. So we use the`<g></g>` element and the `transform` attribute with the
@@ -247,7 +247,7 @@ browser have specific behavior with them. So we use the`<g></g>` element and the
 
 ## Tips and Tricks
 
-### Center an element from component width and height :
+### Center an element from component width and height
 
 To center an element, you need to use the `transform` attribute with the `translate(x,y)` function, and the `x` and `y`
 of the element.
@@ -272,7 +272,7 @@ don't get a bug with Firefox.
 </svg>
 ```
 
-### Personalize the template :
+### Personalize the template
 
 You can personalize the template by adding attributes to the `<svg></svg>` element, like the `rx` and `ry` to have
 rounded corners, or the `stroke` and `stroke-width` to have a border, etc. I invite you to read the

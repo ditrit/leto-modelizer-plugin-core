@@ -2,7 +2,7 @@ import ComponentAttribute from './ComponentAttribute';
 import FileInformation from './FileInformation';
 
 /**
- * A model for modelling tools in Leto Modelizer.
+ * Class that represents the base of modeling tools.
  * @augments {FileInformation}
  */
 class Component extends FileInformation {
@@ -159,7 +159,7 @@ class Component extends FileInformation {
   }
 
   /**
-   * Set the attribute of a given link
+   * Set the attribute of a given link.
    * @param {ComponentLink} link - The link we want to set the attribute.
    */
   setLinkAttribute(link) {

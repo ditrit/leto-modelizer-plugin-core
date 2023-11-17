@@ -1,7 +1,7 @@
 import FileInput from '../models/FileInput';
 
 /**
- * Class that compile a Component to data.
+ * Class that compiles a Component to data.
  */
 class DefaultRender {
   /**

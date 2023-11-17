@@ -1,5 +1,5 @@
 /**
- * Define Attributes for type.
+ * Definition of Component Attributes' data and constraints.
  */
 class ComponentAttributeDefinition {
   /**

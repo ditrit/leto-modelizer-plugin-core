@@ -1,5 +1,5 @@
 /**
- * Class that represent the metadata of a specific implementation.
+ * Class that represents the metadata of a specific implementation.
  */
 class DefaultMetadata {
   /**
