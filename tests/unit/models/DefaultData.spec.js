@@ -22,6 +22,7 @@ describe('Test class: DefaultData', () => {
       expect(pluginData.parseErrors).toEqual([]);
       expect(pluginData.definitions).toEqual({ components: [], links: [] });
       expect(pluginData.eventManager).toEqual(null);
+      expect(pluginData.baseFolder).toEqual('/');
     });
 
     it('Check passing undefined variables to constructor', () => {
@@ -35,6 +36,7 @@ describe('Test class: DefaultData', () => {
       expect(pluginData.parseErrors).toEqual([]);
       expect(pluginData.definitions).toEqual({ components: [], links: [] });
       expect(pluginData.eventManager).toEqual(null);
+      expect(pluginData.baseFolder).toEqual('/');
 
       pluginData = new DefaultData(new DefaultConfiguration(), { definitions: {} });
       expect(pluginData.definitions).toEqual({ components: [], links: [] });
@@ -51,6 +53,7 @@ describe('Test class: DefaultData', () => {
           components: [3],
           links: [4],
         },
+        baseFolder: '/root',
       }, {});
 
       expect(pluginData.configuration).toEqual(new DefaultConfiguration());
@@ -61,6 +64,7 @@ describe('Test class: DefaultData', () => {
       expect(pluginData.parseErrors).toEqual([2]);
       expect(pluginData.definitions).toEqual({ components: [3], links: [4] });
       expect(pluginData.eventManager).toEqual({});
+      expect(pluginData.baseFolder).toEqual('/root');
     });
   });
 

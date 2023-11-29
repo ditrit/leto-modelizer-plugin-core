@@ -23,6 +23,7 @@ class DefaultData {
    * @param {ComponentLinkDefinition[]} [props.definitions.link] - All component link
    * definitions.
    * @param {ParseError[]} [props.parseErrors] - Parse errors array.
+   * @param {string} [props.baseFolder] - The current project folder.
    * @param {object} [event] - Event manager.
    * @param {Function} [event.next] - Function to emit event.
    */
@@ -36,6 +37,7 @@ class DefaultData {
       links: [],
     },
     parseErrors: [],
+    baseFolder: '/',
   }, event = null) {
     /**
      * Plugin name.
@@ -77,6 +79,11 @@ class DefaultData {
      * @default []
      */
     this.parseErrors = props.parseErrors || [];
+    /**
+     * The current project folder.
+     * @type {string}
+     */
+    this.baseFolder = props.baseFolder || '/';
     /**
      * Index of the last event log.
      * @type {number}
