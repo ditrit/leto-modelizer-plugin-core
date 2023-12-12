@@ -307,7 +307,10 @@ describe('Test class: ComponentAttribute', () => {
       it('Check if respect all conditions', () => {
         expect(componentAttribute.hasError()).toBeFalsy();
       });
-
+      it('Check if value is not null or undefined', () => {
+        componentAttribute.value = null;
+        expect(componentAttribute.hasError()).toBeFalsy();
+      });
       it('Check if type is not array', () => {
         componentAttribute.value = 'string';
         expect(componentAttribute.hasError()).toBeTruthy();
@@ -323,6 +326,10 @@ describe('Test class: ComponentAttribute', () => {
         expect(componentAttribute.hasError()).toBeTruthy();
       });
 
+      it('Check if value is bigger than max', () => {
+        componentAttribute.value = [1, 2, 3, 4, 5, 6];
+        expect(componentAttribute.hasError()).toBeTruthy();
+      });
       it('Check if value is not in values', () => {
         componentAttribute.value = ['test'];
         componentAttribute.definition.rules.values = [1, 2, 3];
@@ -339,6 +346,69 @@ describe('Test class: ComponentAttribute', () => {
         expect(componentAttribute.hasError()).toBeFalsy();
 
         componentAttribute.definition.rules.values = null;
+      });
+      it('Check if item in array is valid', () => {
+        componentAttribute.value = [
+          {
+            name: 'image',
+            value: 'test array of object',
+            type: 'String',
+            definition: {
+              name: 'image',
+              type: 'String',
+            },
+          }];
+        componentAttribute.definition = {
+          name: 'name',
+          type: 'Array',
+          definedAttributes: [{
+            name: 'image',
+            type: 'String',
+            definedAttributes: [],
+            itemDefinition: [],
+            itemType: 'String',
+          }],
+          itemDefinition: [],
+          itemType: 'String',
+          rules: {
+            values: null,
+            min: 1,
+            max: 1,
+          },
+        };
+        expect(componentAttribute.hasError()).toBeFalsy();
+      });
+      it('Check if itemType is valid', () => {
+        componentAttribute.value = [
+          {
+            name: 'image',
+            value: 'test array of object',
+            type: 'String',
+            definition: {
+              name: 'image',
+              type: 'String',
+            },
+          },
+        ];
+        componentAttribute.definition = {
+          name: 'name',
+          type: 'Array',
+          definedAttributes: [{
+            name: 'image',
+            type: 'String',
+            definedAttributes: [],
+            itemDefinition: [],
+            itemType: 'InvalidType',
+          }],
+          itemDefinition: [],
+          itemType: 'String',
+          rules: {
+            values: null,
+            min: 1,
+            max: 1,
+          },
+        };
+        expect(componentAttribute.hasError()).toBeFalsy();
       });
     });
 

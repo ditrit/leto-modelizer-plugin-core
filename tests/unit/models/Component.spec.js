@@ -861,7 +861,25 @@ describe('Test class: Component', () => {
         value: [subAttribute],
       });
 
+      const aooItemSubAttribute = new ComponentAttribute({
+        name: 'aoo_sub',
+        value: 'aoo sub test',
+      });
+
+      const arrayOfObjectItem = new ComponentAttribute({
+        type: 'Object',
+        value: [aooItemSubAttribute],
+      });
+
+      const arrayOfObjectRootAttribute = new ComponentAttribute({
+        name: 'aoo_root',
+        type: 'Array',
+        definition: new ComponentAttributeDefinition({ type: 'Array', itemType: 'Object' }),
+        value: [arrayOfObjectItem],
+      });
+
       component.attributes.push(rootAttribute);
+      component.attributes.push(arrayOfObjectRootAttribute);
 
       it('Should return null on unknown attribute', () => {
         expect(component.getAttributeByName('unknown')).toBeNull();
@@ -873,6 +891,10 @@ describe('Test class: Component', () => {
 
       it('Should return sub attribute on asking sub attribute', () => {
         expect(component.getAttributeByName('sub')).toEqual(subAttribute);
+      });
+
+      it('Should return sub attribute of item of array of object on asking sub attribute', () => {
+        expect(component.getAttributeByName('aoo_sub')).toEqual(aooItemSubAttribute);
       });
     });
 
@@ -904,9 +926,27 @@ describe('Test class: Component', () => {
         definition: new ComponentAttributeDefinition({ name: 'root', type: 'Object' }),
       });
 
+      const aooItemSubAttribute = new ComponentAttribute({
+        name: 'aoo_sub',
+        type: 'String',
+        value: 42,
+        definition: new ComponentAttributeDefinition({ name: 'aoo_sub', type: 'String' }),
+      });
+      const arrayOfObjectItem = new ComponentAttribute({
+        type: 'Object',
+        value: [aooItemSubAttribute],
+        definition: new ComponentAttributeDefinition({ type: 'Object' }),
+      });
+      const arrayOfObjectRootAttribute = new ComponentAttribute({
+        name: 'aoo_root',
+        type: 'Array',
+        definition: new ComponentAttributeDefinition({ type: 'Array', itemType: 'Object' }),
+        value: [arrayOfObjectItem],
+      });
+
       component.attributes.push(attribute1);
       component.attributes.push(rootAttribute);
-
+      component.attributes.push(arrayOfObjectRootAttribute);
       it('Should return an empty array on unknown attribute types', () => {
         const result = component.getAttributesByType('unknownType');
 
@@ -922,9 +962,18 @@ describe('Test class: Component', () => {
       it('Should search in sub-attributes and return attributes Object type', () => {
         const result = component.getAttributesByType('Object');
 
-        expect(result).toHaveLength(2);
+        expect(result).toHaveLength(3);
         expect(result[0].name).toBe('sub');
         expect(result[1].name).toBe('root');
+        expect(result[2].name).toBe(null);
+      });
+
+      it('Should search in sub-attributes and return attributes String type', () => {
+        const result = component.getAttributesByType('String');
+
+        expect(result).toHaveLength(2);
+        expect(result[0].name).toBe('attribute1');
+        expect(result[1].name).toBe('aoo_sub');
       });
     });
 

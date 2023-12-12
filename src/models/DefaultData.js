@@ -381,6 +381,9 @@ class DefaultData {
         this.definitions.links.push(linkDefinition);
       } else if (attributeDefinition.type === 'Object') {
         this.__setLinkDefinitions(type, attributeDefinition.definedAttributes);
+      } else if (attributeDefinition.type === 'Array'
+      && attributeDefinition.itemType === 'Object') {
+        this.__setLinkDefinitions(type, attributeDefinition.itemDefinition[0].definedAttributes);
       }
     });
   }

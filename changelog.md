@@ -5,12 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-## [Unrelease]
+## [Unrelesed]
+
+### Added
+
+- Add `itemType` and `itemDefinition` attributes in `ComponentAttributeDefinition`.
+- Add tests for new attributes and validation.
 
 ### Changed
 
+- Change `__typeOfValueValidation` in `ComponentAttribute`:
+  - Enhanced validation for Array attributes by checking element types.
+  - Introduced support for the `itemType` attribute in Array attributes.
+- Change `__getAttributeByName` in `Componnent`:
+  - Add search for the case of an array of objects.
+- Change `__setAttributesByField` in `Component`:
+  - Add case that takes into consideration an array of objects.
+- Change `__setLinkDefinitions` in `Default Data`:
+  - Add case that takes into consideration an array of objects.
 - Improve plugin-core documentation.
-
 ## [0.22.0] - 2023/10/19
 
 ### Added

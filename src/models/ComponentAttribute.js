@@ -91,17 +91,30 @@ class ComponentAttribute {
    */
   __typeOfValueValidation() {
     const type = this.type.toLowerCase();
-
-    if (this.definition.type === 'Link') {
-      return !Array.isArray(this.value) || this.value.some((link) => typeof link !== 'string');
-    }
+    let typeofvalue = typeof this.value;
 
     if (type === 'array') {
-      return !Array.isArray(this.value);
+      typeofvalue = 'array';
+      if (this.definition.type === 'Link') {
+        if (!Array.isArray(this.value)) {
+          return true;
+        }
+
+        return this.value.some((link) => typeof link !== 'string');
+      }
+
+      if (!Array.isArray(this.value)) {
+        return true;
+      }
+      if (this.definition.itemType) {
+        const itemType = this.definition.itemType.toLowerCase();
+
+        // eslint-disable-next-line valid-typeof
+        return this.value.some((item) => typeof item.value !== itemType);
+      }
     }
 
-    // eslint-disable-next-line valid-typeof
-    return typeof this.value !== type;
+    return typeofvalue !== type;
   }
 
   /**

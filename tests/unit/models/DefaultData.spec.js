@@ -216,6 +216,24 @@ describe('Test class: DefaultData', () => {
                 }),
               ],
             }),
+            new ComponentAttributeDefinition({
+              name: 'arrayOfObject',
+              type: 'Array',
+              itemType: 'Object',
+              itemDefinition: [
+                new ComponentAttributeDefinition({
+                  type: 'Object',
+                  definedAttributes: [
+                    new ComponentAttributeDefinition({
+                      name: 'link4',
+                      type: 'Link',
+                      linkRef: 'laptop4',
+                      linkType: 'Default',
+                    }),
+                  ],
+                }),
+              ],
+            }),
           ],
         }),
       ];
@@ -239,6 +257,12 @@ describe('Test class: DefaultData', () => {
           attributeRef: 'link3',
           sourceRef: 'server',
           targetRef: 'laptop3',
+          type: 'Default',
+        }),
+        new ComponentLinkDefinition({
+          attributeRef: 'link4',
+          sourceRef: 'server',
+          targetRef: 'laptop4',
           type: 'Default',
         }),
       ]);
