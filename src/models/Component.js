@@ -276,7 +276,8 @@ class Component extends FileInformation {
       if (attributes[index].name === name) {
         return attributes[index];
       }
-      if (attributes[index].type === 'Object') {
+      if (attributes[index].type === 'Object' || (attributes[index].definition?.type === 'Array'
+        && attributes[index].definition?.itemType === 'Object')) {
         const attribute = this.__getAttributeByName(attributes[index].value, name);
 
         if (attribute) {
@@ -299,7 +300,8 @@ class Component extends FileInformation {
    */
   __setAttributesByField(result, attributes, field, ...values) {
     attributes.forEach((attribute) => {
-      if (attribute?.type === 'Object') {
+      if (attribute?.type === 'Object' || (attribute?.definition?.type === 'Array'
+      && attribute?.definition?.itemType === 'Object')) {
         this.__setAttributesByField(result, attribute.value, field, ...values);
       }
 
