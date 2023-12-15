@@ -156,7 +156,7 @@ describe('Test Class: DefaultParser()', () => {
 
       pluginData.components.push(new Component({ id: 'c1' }));
       pluginData.components.push(new Component({ id: 'c2' }));
-      defaultParser.parseConfiguration(new FileInformation({ path: 'test' }), configFile);
+      defaultParser.parseConfiguration(new FileInformation({ path: 'folder/test' }), configFile);
 
       expect(pluginData.components).toEqual([
         new Component({ id: 'c1', drawOption: new ComponentDrawOption({ x: 1 }) }),

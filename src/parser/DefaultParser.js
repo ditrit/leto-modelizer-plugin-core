@@ -39,10 +39,12 @@ class DefaultParser {
   /**
    * Set configuration into Components.
    * @param {FileInformation} diagram - Diagram file information.
+   * @param {string} diagram.path - Absolute path of the diagram.
    * @param {FileInput} file - Configuration file of components.
    * @param {string} [parentEventId] - Parent event id.
    */
   parseConfiguration(diagram, file, parentEventId = null) {
+    const diagramPath = diagram.path?.split('/').slice(1).join('/');
     const logId = this.pluginData.emitEvent({
       parent: parentEventId,
       type: 'Parser',
@@ -69,7 +71,7 @@ class DefaultParser {
 
     const config = JSON.parse(file.content);
 
-    if (!config[diagram.path]) {
+    if (!config[diagramPath]) {
       this.pluginData.emitEvent({
         id: logId,
         status: 'warning',
@@ -82,7 +84,7 @@ class DefaultParser {
       return;
     }
 
-    if (!config[diagram.path][this.pluginData.name]) {
+    if (!config[diagramPath][this.pluginData.name]) {
       this.pluginData.emitEvent({
         id: logId,
         status: 'warning',
@@ -95,15 +97,15 @@ class DefaultParser {
       return;
     }
 
-    Object.keys(config[diagram.path][this.pluginData.name]).forEach((id) => {
+    Object.keys(config[diagramPath][this.pluginData.name]).forEach((id) => {
       const component = this.pluginData.getComponentById(id);
 
-      if (!component || !config[diagram.path][this.pluginData.name][id]) {
+      if (!component || !config[diagramPath][this.pluginData.name][id]) {
         return;
       }
 
       component.drawOption = new ComponentDrawOption(
-        config[diagram.path][this.pluginData.name][id],
+        config[diagramPath][this.pluginData.name][id],
       );
     });
 
