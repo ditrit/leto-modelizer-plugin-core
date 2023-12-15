@@ -212,7 +212,7 @@ plugin.initResources(resources);
 function savePosition() {
   const configuration = new FileInput({ path: 'localstorage', content: '' });
 
-  plugin.render(new FileInformation({ path: 'diagram' }), configuration);
+  plugin.render(new FileInformation({ path: 'root/diagram' }), configuration);
   window.localStorage.setItem('configuration', configuration.content);
 }
 
@@ -254,7 +254,7 @@ function updateComponentsIds() {
 }
 
 onMounted(() => {
-  plugin.parse(new FileInformation({ path: 'diagram' }), new FileInput({
+  plugin.parse(new FileInformation({ path: 'root/diagram' }), new FileInput({
     path: 'localstorage',
     content: window.localStorage.getItem('configuration') || defaultConfiguration,
   }));
