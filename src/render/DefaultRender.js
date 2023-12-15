@@ -50,6 +50,7 @@ class DefaultRender {
   /**
    * Update configuration file content according to components data.
    * @param {FileInformation} diagram - Diagram file information.
+   * @param {string} diagram.path - Absolute path of the diagram.
    * @param {FileInput} file - Configuration file of components.
    * @param {string} [parentEventId] - Parent event id.
    */
@@ -64,18 +65,19 @@ class DefaultRender {
         global: false,
       },
     });
+    const diagramPath = diagram.path?.split('/').slice(1).join('/');
     const configuration = JSON.parse(file.content) || {};
 
-    if (!configuration[diagram.path]) {
-      configuration[diagram.path] = {};
+    if (!configuration[diagramPath]) {
+      configuration[diagramPath] = {};
     }
 
-    configuration[diagram.path][this.pluginData.name] = {};
+    configuration[diagramPath][this.pluginData.name] = {};
 
     this.pluginData.components
       .filter((component) => component.drawOption)
       .forEach((component) => {
-        configuration[diagram.path][this.pluginData.name][component.id] = component.drawOption;
+        configuration[diagramPath][this.pluginData.name][component.id] = component.drawOption;
       });
 
     file.content = JSON.stringify(

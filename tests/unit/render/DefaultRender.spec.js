@@ -73,7 +73,7 @@ describe('Test Class: DefaultRender()', () => {
           content: '',
         });
 
-        render.renderConfiguration(new FileInformation({ path: 'test' }), configFile);
+        render.renderConfiguration(new FileInformation({ path: 'folder/test' }), configFile);
 
         expect(configFile.path).toEqual('test.json');
         expect(configFile.content).toEqual(JSON.stringify({
@@ -97,7 +97,7 @@ describe('Test Class: DefaultRender()', () => {
           content: '',
         });
 
-        render.renderConfiguration(new FileInformation({ path: 'test' }), configFile);
+        render.renderConfiguration(new FileInformation({ path: 'folder/test' }), configFile);
 
         expect(configFile.path).toEqual('test.json');
         expect(configFile.content).toEqual(JSON.stringify({
@@ -140,7 +140,7 @@ describe('Test Class: DefaultRender()', () => {
           }),
         });
 
-        render.renderConfiguration(new FileInformation({ path: 'test' }), configFile);
+        render.renderConfiguration(new FileInformation({ path: 'folder/test' }), configFile);
 
         expect(configFile.path).toEqual('test.json');
         expect(configFile.content).toEqual(JSON.stringify({
