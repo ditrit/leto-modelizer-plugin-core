@@ -5,29 +5,29 @@ Feature: Test container resizing
     And I visit the "/"
 
   Scenario: Move component inside container should resize it
-    Then I expect "#network1" width is 308
+    Then I expect "#network1" width is 398
     And  I expect "#network1" height is 246
 
     When I drag "#server2" of 10,10
-    Then I expect "#network1" width is 306
+    Then I expect "#network1" width is 396
     And  I expect "#network1" height is 256
 
     When I drag "#server2" of -10,-10
-    Then I expect "#network1" width is 296
+    Then I expect "#network1" width is 386
     And  I expect "#network1" height is 246
 
   Scenario: Resize component container manually
-    Then I expect '#network1' width is 308
+    Then I expect '#network1' width is 398
     And  I expect '#network1' height is 246
 
     When I click on '#network1' at 10,10
     Then I expect "#resizer" is visible
 
     When I drag '#resizer' of 50,100
-    Then I expect '#network1' width is 357
+    Then I expect '#network1' width is 447
     And  I expect '#network1' height is 346
 
     # To test if the component retains its new size after drag.
     When I drag '#network1' of 10,10
-    Then I expect '#network1' width is 357
+    Then I expect '#network1' width is 447
     And  I expect '#network1' height is 346

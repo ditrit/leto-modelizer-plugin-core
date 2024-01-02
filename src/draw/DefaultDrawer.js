@@ -50,9 +50,9 @@ class DefaultDrawer {
     /**
      * Minimum width of a component.
      * @type {number}
-     * @default 230
+     * @default 320
      */
-    this.minWidth = options.minWidth !== undefined ? options.minWidth : 230;
+    this.minWidth = options.minWidth !== undefined ? options.minWidth : 320;
     /**
      * Minimum height of a component.
      * @type {number}

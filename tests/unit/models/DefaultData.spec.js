@@ -73,6 +73,44 @@ describe('Test class: DefaultData', () => {
     });
   });
 
+  describe('Test method: generateComponentId', () => {
+    it('Should generate a new correct component id when there is no component yet', () => {
+      const pluginData = new DefaultData(new DefaultConfiguration());
+
+      expect(pluginData.components).toEqual([]);
+
+      const id = pluginData.generateComponentId();
+
+      expect(id).toEqual('id_1');
+    });
+
+    it('Should generate a new increased component id according to the latest one', () => {
+      const pluginData = new DefaultData(new DefaultConfiguration());
+
+      expect(pluginData.components).toEqual([]);
+
+      const definition = new ComponentDefinition();
+      // addComponent calls generateComponentId
+      const id = pluginData.addComponent(definition);
+
+      expect(id).toEqual('id_1');
+
+      expect(pluginData.components).toEqual([
+        new Component({
+          id,
+          name: id,
+          definition,
+          path: null,
+        }),
+      ]);
+
+      // calling another time with an existing component id, should increment the id
+      const id2 = pluginData.generateComponentId();
+
+      expect(id2).toEqual('id_2');
+    });
+  });
+
   describe('Test method: removeLink', () => {
     it('Should remove default link', () => {
       const pluginData = new DefaultData(new DefaultConfiguration());
@@ -141,6 +179,7 @@ describe('Test class: DefaultData', () => {
           path: null,
         }),
       ]);
+      expect(pluginData.components[0].externalId).toEqual(id);
     });
 
     it('Should create new component and set correct path without folder', () => {
@@ -399,14 +438,37 @@ describe('Test class: DefaultData', () => {
     });
   });
 
-  describe('Test method: renameComponentId', () => {
-    it('Should rename the component id and update all its occurrences in links/references', () => {
+  describe('Test method: getComponentByConfigurationKey', () => {
+    it('Should return null on unknown id', () => {
+      const pluginData = new DefaultData(new DefaultConfiguration());
+
+      expect(pluginData.getComponentByConfigurationKey('bad')).toBeNull();
+    });
+
+    it('Should return the component corresponding to the given key', () => {
+      const definition = new ComponentDefinition();
+      const pluginData = new DefaultData(new DefaultConfiguration());
+      const id = pluginData.addComponent(definition);
+
+      pluginData.addComponent(definition);
+
+      expect(pluginData.getComponentByConfigurationKey(id)).toEqual(new Component({
+        id,
+        name: id,
+        definition,
+      }));
+    });
+  });
+
+  describe('Test method: renameComponentExternalId', () => {
+    it('Should rename only the component external id', () => {
       const definition = new ComponentDefinition();
       const pluginData = new DefaultData(new DefaultConfiguration());
 
       pluginData.components = [
         new Component({
           id: 'server1',
+          externalId: 'external_1',
           name: 'server1',
           definition,
         }),
@@ -435,11 +497,12 @@ describe('Test class: DefaultData', () => {
         }),
       ];
 
-      pluginData.renameComponentId('server1', 'server2');
+      pluginData.renameComponentExternalId('server1', 'new_external_1');
 
       expect(pluginData.components).toEqual([
         new Component({
-          id: 'server2',
+          id: 'server1',
+          externalId: 'new_external_1',
           name: 'server1',
           definition,
         }),
@@ -447,7 +510,7 @@ describe('Test class: DefaultData', () => {
           id: 'gateway1',
           attributes: [new ComponentAttribute({
             name: 'link1',
-            value: ['server2'],
+            value: ['server1'],
             type: 'Array',
             definition: new ComponentDefinition({
               type: 'Link',
@@ -459,7 +522,7 @@ describe('Test class: DefaultData', () => {
           name: 'subnet1',
           attributes: [new ComponentAttribute({
             name: 'reference1',
-            value: 'server2',
+            value: 'server1',
             type: 'String',
             definition: new ComponentDefinition({
               type: 'Reference',

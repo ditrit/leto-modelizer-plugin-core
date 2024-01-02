@@ -11,6 +11,7 @@ describe('Test class: Component', () => {
       const component = new Component();
 
       expect(component.id).toBeNull();
+      expect(component.externalId).toBeNull();
       expect(component.__class).toEqual('Component');
       expect(component.name).toBeNull();
       expect(component.definition).toBeNull();
@@ -23,6 +24,7 @@ describe('Test class: Component', () => {
       const component = new Component({});
 
       expect(component.id).toBeNull();
+      expect(component.externalId).toBeNull();
       expect(component.__class).toEqual('Component');
       expect(component.name).toBeNull();
       expect(component.definition).toBeNull();
@@ -42,6 +44,28 @@ describe('Test class: Component', () => {
       });
 
       expect(component.id).toEqual('id');
+      expect(component.externalId).toEqual('id');
+      expect(component.__class).toEqual('Component');
+      expect(component.name).toEqual('name');
+      expect(component.definition).toEqual('definition');
+      expect(component.drawOption).toEqual('drawOption');
+      expect(component.attributes).toEqual('attributes');
+      expect(component.path).toEqual('path');
+    });
+
+    it('Check passing all variables to constructor with specific externalId', () => {
+      const component = new Component({
+        id: 'id',
+        externalId: 'externalId',
+        name: 'name',
+        definition: 'definition',
+        drawOption: 'drawOption',
+        attributes: 'attributes',
+        path: 'path',
+      });
+
+      expect(component.id).toEqual('id');
+      expect(component.externalId).toEqual('externalId');
       expect(component.__class).toEqual('Component');
       expect(component.name).toEqual('name');
       expect(component.definition).toEqual('definition');
@@ -52,15 +76,27 @@ describe('Test class: Component', () => {
   });
 
   describe('Test methods', () => {
-    describe('Test method: setId', () => {
-      it('should update the component id', () => {
-        const component = new Component({ id: 'oldId' });
+    describe('Test method: setExternalId', () => {
+      it('should correctly set the externalId', () => {
+        const component = new Component({
+          id: 'id',
+          externalId: 'externalId',
+        });
 
-        expect(component.id).toEqual('oldId');
+        expect(component.externalId).toEqual('externalId');
+        component.setExternalId('newExternalId');
+        expect(component.externalId).toEqual('newExternalId');
+      });
+    });
 
-        component.setId('newId');
+    describe('Test method: getConfigurationKey', () => {
+      it('should correctly get the configuration key', () => {
+        const component = new Component({
+          id: 'id',
+          externalId: 'externalId',
+        });
 
-        expect(component.id).toEqual('newId');
+        expect(component.getConfigurationKey()).toEqual('id');
       });
     });
 

@@ -61,7 +61,7 @@ Feature: Test add linkable component.
     And I expect "#wfstep6" is visible
     And I expect "#wfstep7" is visible
     And I expect "#wfstep8" is visible
-    And I expect "#network_1" is visible
+    And I expect "#id_1" is visible
 
     Then I expect ".link" appear 9 times on screen
     And I expect "#link-server-laptop_link-server1-external1" is visible
@@ -72,7 +72,7 @@ Feature: Test add linkable component.
     And I expect "#link-__workflow-__next-wfstep5-wfstep6" is visible
     And I expect "#link-__workflow-__next-wfstep6-wfstep7" is visible
     And I expect "#link-__workflow-__next-wfstep7-wfstep8" is visible
-    And I expect "#link-server-network_link-server1-network_1" is visible
+    And I expect "#link-server-network_link-server1-id_1" is visible
 
     When I click on "#svg-server2"
     Then I expect "#create-linkable-component" is visible
@@ -102,8 +102,8 @@ Feature: Test add linkable component.
     And I expect "#wfstep6" is visible
     And I expect "#wfstep7" is visible
     And I expect "#wfstep8" is visible
-    And I expect "#network_1" is visible
-    And I expect "#laptop_1" is visible
+    And I expect "#id_1" is visible
+    And I expect "#id_2" is visible
 
     Then I expect ".link" appear 10 times on screen
     And I expect "#link-server-laptop_link-server1-external1" is visible
@@ -114,5 +114,5 @@ Feature: Test add linkable component.
     And I expect "#link-__workflow-__next-wfstep5-wfstep6" is visible
     And I expect "#link-__workflow-__next-wfstep6-wfstep7" is visible
     And I expect "#link-__workflow-__next-wfstep7-wfstep8" is visible
-    And I expect "#link-server-network_link-server1-network_1" is visible
-    And I expect "#link-server-laptop_link-server2-laptop_1" is visible
+    And I expect "#link-server-network_link-server1-id_1" is visible
+    And I expect "#link-server-laptop_link-server2-id_2" is visible

@@ -119,27 +119,25 @@ class DefaultData {
   }
 
   /**
-   * Rename a component ID and update all its occurence inside link/References attribute type.
-   * @param {string} oldId - Old ID of component.
-   * @param {string} newId - New ID of component.
+   * Get component by configuration any kind of key.
+   * The configuration file is using a certain type of key for the components, this key is
+   * used to define their position. So in order to retrieve the component's position from the
+   * configuration file, we need to know which kind of key is used.
+   * By default, if not overriden by plugin, it has the same behavior as getComponentById.
+   * @param {string} key - Key to use for finding the component. By default the key is the id.
+   * @returns {Component} Component or null.
    */
-  renameComponentId(oldId, newId) {
-    const renamedComponent = this.getComponentById(oldId);
+  getComponentByConfigurationKey(key) {
+    return this.getComponentById(key);
+  }
 
-    this.components.forEach((component) => {
-      component.getAttributesByDefinitionType('Reference', 'Link')
-        .forEach((attribute) => {
-          if (attribute.definition.type === 'Reference'
-            && attribute.value === oldId) {
-            attribute.value = newId;
-          }
-          if (attribute.definition.type === 'Link') {
-            attribute.value = attribute.value.map((v) => (v === oldId ? newId : v));
-          }
-        });
-    });
-
-    renamedComponent.setId(newId);
+  /**
+   * Rename a component external ID.
+   * @param {string} id - ID of component.
+   * @param {string} newExternalId - New external ID of component.
+   */
+  renameComponentExternalId(id, newExternalId) {
+    this.getComponentById(id).setExternalId(newExternalId);
   }
 
   /**
@@ -158,7 +156,7 @@ class DefaultData {
    * @returns {string} Component id.
    */
   addComponent(definition, path) {
-    const id = this.generateComponentId(definition);
+    const id = this.generateComponentId();
 
     this.components.push(new Component({
       id,
@@ -172,20 +170,19 @@ class DefaultData {
 
   /**
    * Generate id from definition and components list.
-   * @param {ComponentDefinition} definition - Component definition.
-   * @returns {string} String that is the concatenation of the definition type and an index.
+   * The id is composed of "id_" and the number of component plus 1.
+   * @returns {string} Unique string for the id.
    */
-  generateComponentId(definition) {
-    const templateId = `${definition.type}_`;
+  generateComponentId() {
+    // the id will be used as HTML id and a number can't be used as id
+    // so we are adding the templateId in order to have ids like 'id_X'
+    const templateId = 'id_';
     const ids = this.components
       .map(({ id }) => id)
       .filter((id) => new RegExp(`${templateId}\\d+`).test(id))
       .map((id) => parseInt(id.substring(templateId.length), 10));
-    let index = 1;
 
-    while (ids.includes(index)) {
-      index += 1;
-    }
+    const index = ids.length === 0 ? 1 : Math.max(...ids) + 1;
 
     return `${templateId}${index}`;
   }

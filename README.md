@@ -130,7 +130,7 @@ The [configuration.md](https://github.com/ditrit/leto-modelizer-plugin-core/blob
 
 ### Events
 
-By default, plugin sends event if you provide a `next()` function in DefaultData, like:
+By default, the plugin sends events if you provide a `next()` function in DefaultData, like:
 
 ```js
 new DefaultPlugin({
@@ -142,7 +142,7 @@ new DefaultPlugin({
 
 If you do not, events are still stored in the `DefaultData.eventLogs`.
 
-When you create your plugin, you can send event to Leto-modelizer to see the progression of your parsing or rendering action.
+When you create your plugin, you can send events to Leto-modelizer to see the progression of your parsing or rendering action.
 
 See `EventLog` in [technical documentation](https://ditrit.io/leto-modelizer-plugin-core/) for more information.
 
@@ -232,7 +232,7 @@ We use [Semantic Versioning](https://semver.org/spec/v2.0.0.html) as guideline f
 
 Steps to release:
 - Checkout a branch `release/vX.Y.Z` from the latest `dev`.
-- Improve your version number in `package.json`, `package-lock.json` and `changelog.md`.
+- Increase your version number in `package.json`, `package-lock.json` and `changelog.md`.
 - Verify the content of the `changelog.md`.
 - Build the project
 - Commit your modification (with the `dist` content) with this commit's name `Release version X.Y.Z`.
