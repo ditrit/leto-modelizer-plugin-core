@@ -100,7 +100,7 @@
     
 
 
-    <h3>leto-modelizer-plugin-core 0.22.0</h3>
+    <h3>leto-modelizer-plugin-core 0.23.0</h3>
 
 
 
@@ -142,7 +142,7 @@
 <pre class="prettyprint source"><code>npm install --save &quot;git://github.com/ditrit/leto-modelizer-plugin-core.git&quot;
 </code></pre>
 <h3>Usage</h3>
-<p>Here is all imports you can use in your plugin:</p>
+<p>Here are all imports you can use in your plugin:</p>
 <pre class="prettyprint source lang-js"><code>import {
   Component,
   ComponentDefinition,
@@ -160,6 +160,8 @@
   FileInput,
   DefaultData,
   DefaultPlugin,
+  DefaultConfiguration,
+  Tag,
   Variable,
 } from &quot;leto-modelizer-plugin-core&quot;;
 </code></pre>
@@ -215,53 +217,9 @@ export default new DefaultPlugin({
 <h3>Plugin creation</h3>
 <p>Create you plugin project from <a href="https://github.com/ditrit/leto-modelizer-plugin-template">leto-modelizer-plugin-template</a> and follow the readme section of the template project.</p>
 <h3>Plugin configuration</h3>
-<h4>Tag your plugin</h4>
-<p>To help users understand the usage of your plugin, you can tag it using two types of tags:</p>
-<ul>
-<li><code>language</code>: This tag indicates the programming language used in your plugin.</li>
-<li><code>category</code>: This tag assigns an appropriate category to your plugin, such as CI, CD, Workflow, and more.</li>
-</ul>
-<p>All tags should be registered in the <code>DefaultConfiguration</code>:</p>
-<pre class="prettyprint source lang-js"><code>new DefaultConfiguration({
-  tags: [
-    new Tag({ type: 'category', value: 'Infrastructure' }),
-    new Tag({ type: 'language', value: 'Terraform' }),
-  ],
-});
-</code></pre>
-<h4>Type of plugin diagram</h4>
-<p>A diagram is the result of your modeling. It is created by instantiating components, then rendered as declarative code in a file.
-There are two types of plugins for creating diagrams:</p>
-<ul>
-<li>&quot;Folder&quot; type: represent a diagram using the contents of a folder containing one or several files.</li>
-<li>&quot;File&quot; type: represent a diagram using the contents of a specified file.</li>
-</ul>
-<p>Your plugin diagram type should be registered in the <code>DefaultConfiguration</code>:</p>
-<pre class="prettyprint source lang-js"><code>new DefaultConfiguration({
-  isFolderTypeDiagram: false,
-});
-</code></pre>
-<p>If not specified, it is defaulted to <code>true</code>.</p>
-<h4>Default file name and file extension</h4>
-<p>You can define the name of the file that will be created by default with <code>defaultFileName</code>. It must contain the name and extension.
-You can define the extension required for your plugin files with <code>defaultFileExtension</code>.</p>
-<p>Your plugin default file name and file extension should be registered in the <code>DefaultConfiguration</code>:</p>
-<pre class="prettyprint source lang-js"><code>new DefaultConfiguration({
-  defaultFileName: 'main.tf',
-  defaultFileExtension: 'tf',
-});
-</code></pre>
-<p>If not specified, both are defaulted to <code>null</code>.</p>
-<h4>Restrictive folder</h4>
-<p>Diagram creators can specify that the creation or discovery of diagrams for their plugin should be restricted to a particular folder. You can create as many nodes as you want, but make sure to add the <code>/</code> at the end.</p>
-<p>Your plugin restrictive folder type should be registered in the <code>DefaultConfiguration</code>:</p>
-<pre class="prettyprint source lang-js"><code>new DefaultConfiguration({
-  restrictiveFolder: 'infra/dev/',
-});
-</code></pre>
-<p>If not specified, it is defaulted to <code>null</code>.</p>
+<p>The <a href="https://github.com/ditrit/leto-modelizer-plugin-core/blob/main/guides/documentations/configuration.md">configuration.md</a> explains how you can configure your plugin.</p>
 <h3>Events</h3>
-<p>By default, plugin sends event if you provide a <code>next()</code> function in DefaultData, like:</p>
+<p>By default, the plugin sends events if you provide a <code>next()</code> function in DefaultData, like:</p>
 <pre class="prettyprint source lang-js"><code>new DefaultPlugin({
   event: {
     next: () => {},
@@ -269,7 +227,7 @@ You can define the extension required for your plugin files with <code>defaultFi
 })
 </code></pre>
 <p>If you do not, events are still stored in the <code>DefaultData.eventLogs</code>.</p>
-<p>When you create your plugin, you can send event to Leto-modelizer to see the progression of your parsing or rendering action.</p>
+<p>When you create your plugin, you can send events to Leto-modelizer to see the progression of your parsing or rendering action.</p>
 <p>See <code>EventLog</code> in <a href="https://ditrit.io/leto-modelizer-plugin-core/">technical documentation</a> for more information.</p>
 <h3>Technical documentation</h3>
 <p>Technical documentation can be found <a href="https://ditrit.io/leto-modelizer-plugin-core/">here</a>.</p>
@@ -299,12 +257,27 @@ You can define the extension required for your plugin files with <code>defaultFi
 <h3>Directory structure</h3>
 <p>This is the default directory structure we use for this project:</p>
 <pre class="prettyprint source"><code>leto-modelizer-plugin-core
+├ cypress              ⇨ Contains all the cypress related files
+│ ├ e2e                ⇨ Contains all the e2e tests
+│ └ support            ⇨ Contains all support files for e2e tests
+│   └ step_definitions ⇨ Contains all step definitions for e2e tests
+├ demo                 ⇨ Contains a vue demo application
+├ dist                 ⇨ Contains the built application
 ├ docs                 ⇨ Contains all files generated by esdoc
+├ public               ⇨ Contains all public files, like favicon
 ├ reports              ⇨ Contains all the report files for sonar
 ├ guides               ⇨ Contains all the guides
+├ └  docs              ⇨ Contains all plugin-core documentation
 │ └  migrations        ⇨ Contains all migration guides
+│ └  svg               ⇨ Contains the guide to build a component svg
 ├ src                  ⇨ Contains all files for modeling tools
-│ └  models            ⇨ Contains all the models
+│ ├ assets             ⇨ Contains all the assets
+│ ├ draw               ⇨ Contains all files related to the Class that draws components in a graphical representation
+│ ├ error              ⇨ Contains all files related to the Class that represents a parsing error
+│ ├ metadata           ⇨ Contains all files related to the Class that represents the metadata of a specific implementation
+│ ├ models             ⇨ Contains all files related to the Class that represents default plugin structure
+│ ├ parser             ⇨ Contains the Class used for parsing
+│ └ render             ⇨ Contains the Class that compile components to data
 └ tests                ⇨ Contains all files related to the tests
 </code></pre>
 <h3>How to release</h3>
@@ -312,7 +285,7 @@ You can define the extension required for your plugin files with <code>defaultFi
 <p>Steps to release:</p>
 <ul>
 <li>Checkout a branch <code>release/vX.Y.Z</code> from the latest <code>dev</code>.</li>
-<li>Improve your version number in <code>package.json</code>, <code>package-lock.json</code> and <code>changelog.md</code>.</li>
+<li>Increase your version number in <code>package.json</code>, <code>package-lock.json</code> and <code>changelog.md</code>.</li>
 <li>Verify the content of the <code>changelog.md</code>.</li>
 <li>Build the project</li>
 <li>Commit your modification (with the <code>dist</code> content) with this commit's name <code>Release version X.Y.Z</code>.</li>
