@@ -105,7 +105,7 @@
             <pre class="prettyprint source linenums"><code>import FileInput from '../models/FileInput';
 
 /**
- * Class that compile a Component to data.
+ * Class that compiles a Component to data.
  */
 class DefaultRender {
   /**
@@ -179,7 +179,9 @@ class DefaultRender {
     this.pluginData.components
       .filter((component) => component.drawOption)
       .forEach((component) => {
-        configuration[diagram.path][this.pluginData.name][component.id] = component.drawOption;
+        const key = component.getConfigurationKey();
+
+        configuration[diagram.path][this.pluginData.name][key] = component.drawOption;
       });
 
     file.content = JSON.stringify(
