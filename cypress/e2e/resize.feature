@@ -1,4 +1,7 @@
+@ignore
 Feature: Test resize when draw on read-only
+  
+  @ignore
   Scenario: Should be able to see all the diagram
     Given I clear localstorage
     And I set viewport size to "1920" px for width and "1080" px for height

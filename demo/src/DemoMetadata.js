@@ -41,6 +41,7 @@ class DemoMetadata extends DefaultMetadata {
       name: 'laptop_link',
       type: 'Link',
       linkRef: 'laptop',
+      linkModel: 'laptopLink',
     })
 
     this.pluginData.__laptopLinkObjectAttributeDefinition = new ComponentAttributeDefinition({
@@ -60,9 +61,7 @@ class DemoMetadata extends DefaultMetadata {
       type: 'Link',
       linkRef: 'network',
       linkType: 'Reverse',
-      linkColor: '#ff0000',
-      linkWidth: 5,
-      linkDashStyle: [25, 5],
+      linkModel: 'networkLink',
     })
 
     // Component Definitions
@@ -74,6 +73,10 @@ class DemoMetadata extends DefaultMetadata {
       childrenTypes: ['server', 'network', 'workflow'],
       definedAttributes: [this.pluginData.__nameAttributeDefinition, this.pluginData.__networkAttributeDefinition],
       isContainer: true,
+      width: 254,
+      height: 118,
+      minWidth: 230,
+      minHeight: 50,
     });
 
     this.pluginData.__serverDefinition = new ComponentDefinition({
@@ -89,6 +92,10 @@ class DemoMetadata extends DefaultMetadata {
         this.pluginData.__networkLinkAttributeDefinition,
       ],
       isContainer: false,
+      width: 230,
+      height: 50,
+      minWidth: 230,
+      minHeight: 50,
     });
 
     this.pluginData.__laptopDefinition = new ComponentDefinition({
@@ -103,10 +110,15 @@ class DemoMetadata extends DefaultMetadata {
         this.pluginData.__networkLinkAttributeDefinition,
       ],
       isContainer: false,
+      width: 230,
+      height: 50,
+      minWidth: 230,
+      minHeight: 50,
     });
 
     this.pluginData.__verticalWorkflowDefinition = new ComponentDefinition({
       type: 'workflow',
+      linkModel: 'workflowLink',
       icon: 'network',
       model: 'DefaultContainer',
       parentTypes: ['network', 'workflow'],
@@ -118,12 +130,17 @@ class DemoMetadata extends DefaultMetadata {
       ],
       isContainer: true,
       displayType: 'workflow',
-      preventChildrenMovement: true,
-      childrenPerLine: 1
+      workflowDirection: 'vertical',
+      width: 254,
+      height: 118,
+      minWidth: 230,
+      minHeight: 44,
+      containerMargin: 6,
     });
 
     this.pluginData.__horizontalWorkflowDefinition = new ComponentDefinition({
       type: 'workflow',
+      linkModel: 'workflowLink',
       icon: 'network',
       model: 'DefaultContainer',
       parentTypes: ['network', 'workflow'],
@@ -135,8 +152,12 @@ class DemoMetadata extends DefaultMetadata {
       ],
       isContainer: true,
       displayType: 'workflow',
-      preventChildrenMovement: true,
-      childrenPerLine: 5,
+      workflowDirection: 'horizontal',
+      width: 254,
+      height: 118,
+      minWidth: 230,
+      minHeight: 44,
+      containerMargin: 6,
     });
 
     this.pluginData.__workflowStepDefinition = new ComponentDefinition({
@@ -149,6 +170,10 @@ class DemoMetadata extends DefaultMetadata {
         ,this.pluginData.__workflowAttributeDefinition
       ],
       isContainer: false,
+      width: 230,
+      height: 50,
+      minWidth: 230,
+      minHeight: 0,
     });
 
     this.pluginData.definitions = {

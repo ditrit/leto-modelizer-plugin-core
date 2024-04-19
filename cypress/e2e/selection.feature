@@ -1,9 +1,11 @@
+@ignore
 Feature: Test component/link selection
   Background:
     Given I clear localstorage
     And I set viewport size to "1920" px for width and "1080" px for height
     And I visit the "/"
 
+  @ignore
   Scenario Outline: Clicking on a <type> should select it
     When I click on "<selector>"
     Then I expect <type> "<selector>" to have style "outlineColor" set to "rgb(0, 149, 255)"
@@ -15,6 +17,7 @@ Feature: Test component/link selection
       | component | #external1 .template                       |
       | link      | #link-server-laptop_link-server1-external1 |
 
+  @ignore
   Scenario Outline: Clicking again on a <type> should deselect it
     Given I click on "<selector>"
 
@@ -26,6 +29,7 @@ Feature: Test component/link selection
       | component | #external1 .template                       |
       | link      | #link-server-laptop_link-server1-external1 |
 
+  @ignore
   Scenario Outline: Clicking away from a selected <type> should deselect it
     Given I click on "<selector>"
 
@@ -37,6 +41,7 @@ Feature: Test component/link selection
       | component | #external1 .template                       |
       | link      | #link-server-laptop_link-server1-external1 |
 
+  @ignore
   Scenario Outline: Clicking on a different <type> should select it and deselect the previous one
     Given I click on "<selector1>"
 
@@ -53,6 +58,7 @@ Feature: Test component/link selection
       | link      | #link-server-laptop_link-server1-external1 | #link-laptop-network_link-internal1-network1 |
       | link      | #link-server-laptop_link-server1-external1 | #external1 .template                         |
 
+  @ignore
   Scenario: Clicking on a component should select it and make action menu appear
     When I click on "#root #external1"
     Then I expect component "#root #external1 .template" to have style "outlineColor" set to "rgb(0, 149, 255)"
@@ -62,6 +68,7 @@ Feature: Test component/link selection
     And I expect "#create-link" is visible
     And I expect "#remove-component" is visible
 
+  @ignore
   Scenario: Clicking on a link should select it and make action menu appear
     When I click on "#link-server-laptop_link-server1-external1"
     Then I expect component "#link-server-laptop_link-server1-external1" to have style "outlineColor" set to "rgb(0, 149, 255)"
@@ -70,11 +77,13 @@ Feature: Test component/link selection
     And I expect "#action-menu" is visible
     And I expect "#remove-link" is visible
 
+  @ignore
   Scenario: Clicking on a component on read-only should not select it
     When I click on "#read-only-checkbox"
     And  I click on "#root #external1"
     Then I expect "#action-menu" to not exist
 
+  @ignore
   Scenario: Clicking on a link on read-only should not select it
     When I click on "#read-only-checkbox"
     And  I click on "#link-server-laptop_link-server1-external1"

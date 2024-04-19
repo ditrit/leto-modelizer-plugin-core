@@ -48,7 +48,9 @@
       </div>
       <button id="rename-component" @click="renameComponent" :disabled="!(selectedId && renamedId)">Save</button>
     </fieldset>
-    <div id='root' :style="readOnly ? { width: `${width}px`, height: `${height}px` } : {}"></div>
+    <div style="padding: 50px; width: 100%; height: 100%">
+      <div id='view-port' :style="readOnly ? { width: `${width}px`, height: `${height}px` } : {}"></div>
+    </div>
   </main>
 </template>
 
@@ -68,7 +70,7 @@ const renamedId = ref('');
 const watchEvents = ['delete', 'add'];
 
 function next(data) {
-  console.log(data);
+  console.log(...Object.keys(data.event).map((key) => data.event[key]).filter((value) => !!value));
   if (watchEvents.includes(data.event.action)) {
     updateComponentsIds();
   }
@@ -81,18 +83,18 @@ function savePosition() {
 }
 
 async function automaticLayout() {
-  await plugin.arrangeComponentsPosition();
-  plugin.draw('root', readOnly.value);
+  plugin.arrangeComponentsPosition(null, false);
+  plugin.draw();
 }
 
-function reset() {
-  document.querySelector('#root').innerHTML = '';
-  plugin.draw('root', readOnly.value);
+async function reset() {
+  plugin.initDrawer('view-port', readOnly.value);
+  await plugin.draw();
 }
 
 function renameComponent() {
   plugin.data.renameComponentId(selectedId.value, renamedId.value);
-  plugin.draw('root', readOnly.value);
+  plugin.draw();
   updateComponentsIds();
   selectedId.value = '';
   renamedId.value = '';
@@ -108,25 +110,33 @@ const defaultConfiguration = JSON.stringify({
     demo: {
       internal1: new ComponentDrawOption({
         x: 42,
-        y: 666,
-        width: 242,
+        y: 550,
+        width: 170,
         height: 50,
       }),
+      network2: new ComponentDrawOption({
+        x: 400,
+        y: 150,
+        width: 250,
+        height: 312,
+      })
     },
   },
 });
 
-plugin.init();
+onMounted(async () => {
+  plugin.init();
+  plugin.initResources(resources);
 
-plugin.initResources(resources);
-
-onMounted(() => {
   plugin.parse(new FileInformation({ path: 'diagram' }), new FileInput({
     path: 'localstorage',
     content: window.localStorage.getItem('configuration') || defaultConfiguration,
   }));
-  plugin.draw('root');
-  updateComponentsIds();
+
+  plugin.initDrawer('view-port', false);
+
+  plugin.arrangeComponentsPosition(null, true);
+  await plugin.draw();
 });
 </script>
 
@@ -158,23 +168,21 @@ main {
   align-items: center;
 }
 
-#viewport {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
 .disabled{
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-#root {
+#view-port {
   width: 100%;
   height: 100%;
 
   border: 1px solid black;
+  overflow: hidden;
+}
+
+.grabbing-cursor {
+  cursor: grabbing !important;
 }
 
 

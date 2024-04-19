@@ -59,7 +59,6 @@
   "dependencies": {
     "d3": "=7.8.5",
     "d3-hierarchy": "=3.1.2",
-    "elkjs": "^0.8.2",
     "nunjucks": "=3.2.4",
     "web-worker": "=1.2.0"
   }

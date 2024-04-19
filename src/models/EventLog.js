@@ -14,7 +14,7 @@ class EventLog {
    * @param {string} [props.type] - Type of log. Can be 'Plugin', 'Render', 'Metadata',
    * 'Drawer', 'Parser' or 'Data'.
    * @param {string} [props.action] - Action of log. Can be 'init', 'read', 'write', 'add',
-   * 'update', 'move', 'resize', 'select' or 'delete'.
+   * 'update', 'move', 'resize', 'select', 'openMenu', 'delete' or 'zoom'.
    * @param {string} [props.status] - Status of log. Can be 'running', 'success', 'warning'
    * or 'error'.
    * @param {string | number | Array | object} [props.data] - Extra data of log.

@@ -87,16 +87,21 @@ class DefaultPlugin {
    * @param {object} [resources] - Object that contains resources.
    */
   initResources(resources) {
-    this.__drawer.resources = resources;
+    this.data.resources = resources;
+  }
+
+  /**
+   * Init drawing context of plugin.
+   */
+  initDrawer(id, readOnly) {
+    this.__drawer.init(id, readOnly);
   }
 
   /**
    * Draws all data in the html element defined by the id.
-   * @param {string} id - Html id, without '#'.
-   * @param {boolean} readOnly - Make the draw read-only.
    */
-  draw(id, readOnly) {
-    this.__drawer.draw(id, readOnly);
+  async draw() {
+    return this.__drawer.draw();
   }
 
   /**
@@ -177,8 +182,18 @@ class DefaultPlugin {
    * You have to await it and trigger a redraw.
    * @returns {Promise<void>} Promise with nothing on success otherwise an error.
    */
-  async arrangeComponentsPosition() {
-    await this.__drawer.arrangeComponentsPosition();
+  arrangeComponentsPosition(id, keepPosition) {
+    this.__drawer.arrangeComponentsPosition(id, keepPosition);
+  }
+
+  /**
+   * Reorganize nodes layout algorithmically.
+   * This method does not refresh the view.
+   * You have to await it and trigger a redraw.
+   * @returns {Promise<void>} Promise with nothing on success otherwise an error.
+   */
+  resize(id) {
+    this.__drawer.resize(id);
   }
 }
 

@@ -9,22 +9,23 @@ class DefaultLayout {
    * Default constructor.
    * @param {DefaultData} pluginData - Plugin data storage.
    */
-  constructor(pluginData) {
+  constructor(pluginData, viewport) {
     /**
      * Plugin data storage.
      * @type {DefaultData}
      */
     this.pluginData = pluginData ?? null;
+
+    /**
+     * D3 selection of the view port.
+     * @type {Selection}
+     */
+    this.viewport = viewport;
   }
 
-  /**
-   * Does nothing to components.
-   * One can override this method to implement an algorithm for automatic components layout.
-   * @returns {Promise<void>} Promise with nothing on success otherwise an error.
-   */
-  async arrangeComponentsPosition() {
-    return Promise.resolve();
-  }
+  generateComponentsLayout(id, keepPosition) {}
+
+  resize(id) {}
 }
 
 export default DefaultLayout;

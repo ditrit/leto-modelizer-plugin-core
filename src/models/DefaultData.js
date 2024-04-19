@@ -3,6 +3,7 @@ import Component from './Component';
 import ComponentLink from './ComponentLink';
 import ComponentLinkDefinition from './ComponentLinkDefinition';
 import EventLog from './EventLog';
+import ComponentTemporaryLink from './ComponentTemporaryLink';
 
 const CORE_VERSION = packageInfo.version;
 
@@ -36,6 +37,7 @@ class DefaultData {
       links: [],
     },
     parseErrors: [],
+    resources: {},
   }, event = null) {
     /**
      * Plugin name.
@@ -53,6 +55,40 @@ class DefaultData {
      * @default []
      */
     this.components = props.components || [];
+
+    /**
+     * TODO
+     */
+    this.scene = props.scene || {
+      x: 0,
+      y: 0,
+      zoom: 1,
+      selection: [],
+      selectionRef: null,
+    };
+
+    this.keysBinding = {
+      moveSceneUp: ['ArrowUp'],
+      moveSceneDown: ['ArrowDown'],
+      moveSceneLeft: ['ArrowLeft'],
+      moveSceneRight: ['ArrowRight'],
+      moveComponentUp: [],
+      moveComponentDown: [],
+      moveComponentLeft: [],
+      moveComponentRight: [],
+      zoomIn: ['+'],
+      zoomOut: ['-'],
+      deleteObject: ['Delete'],
+      editComponent: [',', '?'],
+      selection: ['Shift'],
+      selectAll: ['A'],
+      deselectAll: ['D'],
+    };
+
+    this.container = {
+      padding: 30,
+      gap: 50,
+    };
 
     /**
      * All plugin variables.
@@ -99,6 +135,19 @@ class DefaultData {
      * @type {DefaultConfiguration}
      */
     this.configuration = pluginConfiguration;
+
+    /**
+     * Object that contains resources.
+     * @type {object}
+     * @default null
+     */
+    this.resources = props.resources || {
+      icons: {},
+      markers: {},
+      links: {},
+      models: {},
+    };
+    this.temporaryLink = null;
   }
 
   /**
@@ -116,6 +165,17 @@ class DefaultData {
    */
   getComponentById(id) {
     return this.components.find((component) => component.id === id) || null;
+  }
+
+  getComponentDepth(id) {
+    const component = this.getComponentById(id);
+    const containerId = component.getContainerId();
+
+    if (!containerId) {
+      return 0;
+    }
+
+    return this.getComponentDepth(containerId) + 1;
   }
 
   /**
@@ -241,6 +301,10 @@ class DefaultData {
       });
     });
 
+    if (this.temporaryLink) {
+      links.push(this.temporaryLink);
+    }
+
     return links.concat(this.getWorkflowLinks());
   }
 
@@ -308,6 +372,23 @@ class DefaultData {
     return value;
   }
 
+  canHaveLink(type) {
+    return this.definitions.links.some(({ sourceRef, targetRef }) => sourceRef === type);
+  }
+
+  canBeLink(fromType, toType) {
+    return this.definitions.links
+      .some(({ sourceRef, targetRef }) => sourceRef === fromType && targetRef === toType);
+  }
+
+  createTemporaryLink(source, anchorName) {
+    this.temporaryLink = new ComponentTemporaryLink({
+      source,
+      anchorName,
+      definition: this.definitions.links.find(({ isTemporary }) => isTemporary),
+    });
+  }
+
   /**
    * Build internal links for workflow containers.
    * @returns {ComponentLink[]} List of links
@@ -323,6 +404,7 @@ class DefaultData {
               definition: new ComponentLinkDefinition({
                 sourceRef: '__workflow',
                 attributeRef: '__next',
+                model: component.definition.linkModel,
               }),
               source: children[childIndex].id,
               target: children[childIndex + 1].id,
@@ -371,6 +453,11 @@ class DefaultData {
       this.__setLinkDefinitions(type, definedAttributes);
     });
 
+    this.definitions.links.push(new ComponentLinkDefinition({
+      isTemporary: true,
+      model: 'temporaryLink',
+    }));
+
     this.emitEvent({ id, status: 'success' });
   }
 
@@ -388,9 +475,7 @@ class DefaultData {
           attributeRef: attributeDefinition.name,
           sourceRef: type,
           targetRef: attributeDefinition.linkRef,
-          color: attributeDefinition.linkColor,
-          width: attributeDefinition.linkWidth,
-          dashStyle: attributeDefinition.linkDashStyle,
+          model: attributeDefinition.linkModel,
         });
 
         this.definitions.links.push(linkDefinition);

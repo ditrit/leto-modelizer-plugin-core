@@ -34,9 +34,7 @@ class ComponentAttributeDefinition {
     url: null,
     linkType: null,
     linkRef: [],
-    linkColor: 'black',
-    linkWidth: 2,
-    linkDashStyle: null,
+    linkModel: null,
     containerRef: null,
     required: false,
     definedAttributes: [],
@@ -55,9 +53,7 @@ class ComponentAttributeDefinition {
       url,
       linkType,
       linkRef,
-      linkColor,
-      linkWidth,
-      linkDashStyle,
+      linkModel,
       containerRef,
       definedAttributes,
       required,
@@ -101,22 +97,10 @@ class ComponentAttributeDefinition {
      */
     this.linkRef = linkRef || [];
     /**
-     * Color of the link.
+     * Model of the link.
      * @type {string}
-     * @default 'black'
      */
-    this.linkColor = linkColor || 'black';
-    /**
-     * Width of the link.
-     * @type {number}
-     * @default 2
-     */
-    this.linkWidth = linkWidth || 2;
-    /**
-     * Dash style of the link. See stroke-dasharray of svg.
-     * @type {number[]}
-     */
-    this.linkDashStyle = linkDashStyle || null;
+    this.linkModel = linkModel || null;
     /**
      * Define the reference of Component that can be the container of this component.
      * @type {string}

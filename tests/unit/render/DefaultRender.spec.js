@@ -108,6 +108,7 @@ describe('Test Class: DefaultRender()', () => {
                 needsResizing: false,
                 needsPositioning: false,
                 manuallyResized: false,
+                layoutDirection: 'UNDEFINED',
               },
             },
           },

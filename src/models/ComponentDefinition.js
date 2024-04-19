@@ -35,8 +35,15 @@ class ComponentDefinition {
     definedAttributes: [],
     isContainer: false,
     displayType: null,
-    preventChildrenMovement: false,
-    childrenPerLine: null,
+    workflowDirection: null,
+    // preventChildrenMovement: false,
+    // childrenPerLine: null,
+    linkModel: null,
+    width: 0, // default width
+    height: 0, // default height
+    minWidth: 0,
+    minHeight: 0,
+    containerMargin: 0,
   }) {
     const {
       type,
@@ -50,8 +57,15 @@ class ComponentDefinition {
       definedAttributes,
       isContainer,
       displayType,
-      preventChildrenMovement,
-      childrenPerLine,
+      workflowDirection,
+      // preventChildrenMovement,
+      // childrenPerLine,
+      linkModel,
+      width,
+      height,
+      minWidth,
+      minHeight,
+      containerMargin,
     } = props;
 
     /**
@@ -71,6 +85,12 @@ class ComponentDefinition {
      * @type {string}
      */
     this.model = model || null;
+
+    this.width = width || 0;
+    this.height = height || 0;
+    this.minWidth = minWidth || 0;
+    this.minHeight = minHeight || 0;
+    this.containerMargin = containerMargin || 0;
 
     /**
      * Display name of the component.
@@ -123,19 +143,21 @@ class ComponentDefinition {
      * @type {string}
      */
     this.displayType = displayType || null;
-
-    /**
-     * Flag to always force children layout re-computing.
-     * @type {boolean}
-     * @default false
-     */
-    this.preventChildrenMovement = preventChildrenMovement ?? false;
-
-    /**
-     * Override the container's children layout line length.
-     * @type {number}
-     */
-    this.childrenPerLine = childrenPerLine ?? null;
+    this.workflowDirection = workflowDirection || null;
+    //
+    // /**
+    //  * Flag to always force children layout re-computing.
+    //  * @type {boolean}
+    //  * @default false
+    //  */
+    // this.preventChildrenMovement = preventChildrenMovement ?? false;
+    //
+    // /**
+    //  * Override the container's children layout line length.
+    //  * @type {number}
+    //  */
+    // this.childrenPerLine = childrenPerLine ?? null;
+    this.linkModel = linkModel ?? null;
   }
 }
 

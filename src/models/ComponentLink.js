@@ -15,12 +15,14 @@ class ComponentLink extends FileInformation {
   constructor(props = {
     source: null,
     target: null,
+    name: null,
     definition: null,
   }) {
     super();
     const {
       source,
       target,
+      name,
       definition,
     } = props;
 
@@ -40,6 +42,11 @@ class ComponentLink extends FileInformation {
      * @type {object}
      */
     this.target = target || null;
+    /**
+     * Name of the link.
+     * @type {string}
+     */
+    this.name = name || null;
     /**
      * The definition of the link.
      * @type {ComponentLinkDefinition}

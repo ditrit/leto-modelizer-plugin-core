@@ -1,7 +1,8 @@
 import {
   Component,
   ComponentAttribute,
-  DefaultParser
+  DefaultParser,
+  ComponentDrawOption,
 } from 'leto-modelizer-plugin-core';
 
 class DemoParser extends DefaultParser {
@@ -161,11 +162,14 @@ class DemoParser extends DefaultParser {
       id: 'workflow1',
       name: 'verticalWorkflow',
       definition: this.pluginData.__verticalWorkflowDefinition,
+      drawOption: new ComponentDrawOption({
+        layoutDirection: 'DOWN',
+      }),
       attributes: []
     })
     const wfStep4 = new Component({
       id: 'wfstep4',
-      name: 'step4',
+      name: 'A4',
       definition: this.pluginData.__workflowStepDefinition,
       attributes: [
         new ComponentAttribute({
@@ -178,7 +182,7 @@ class DemoParser extends DefaultParser {
     })
     const wfStep3 = new Component({
       id: 'wfstep3',
-      name: 'step3',
+      name: 'A3',
       definition: this.pluginData.__workflowStepDefinition,
       attributes: [
         new ComponentAttribute({
@@ -191,7 +195,7 @@ class DemoParser extends DefaultParser {
     })
     const wfStep2 = new Component({
       id: 'wfstep2',
-      name: 'step2',
+      name: 'A2',
       definition: this.pluginData.__workflowStepDefinition,
       attributes: [
         new ComponentAttribute({
@@ -204,7 +208,7 @@ class DemoParser extends DefaultParser {
     })
     const wfStep1 = new Component({
       id: 'wfstep1',
-      name: 'step1',
+      name: 'A1',
       definition: this.pluginData.__workflowStepDefinition,
       attributes: [
         new ComponentAttribute({
@@ -220,11 +224,14 @@ class DemoParser extends DefaultParser {
       id: 'workflow2',
       name: 'horizontalWorkflow',
       definition: this.pluginData.__horizontalWorkflowDefinition,
+      drawOption: new ComponentDrawOption({
+        layoutDirection: 'RIGHT',
+      }),
       attributes: []
     })
     const wfStep8 = new Component({
       id: 'wfstep8',
-      name: 'step4',
+      name: 'B4',
       definition: this.pluginData.__workflowStepDefinition,
       attributes: [
         new ComponentAttribute({
@@ -237,7 +244,7 @@ class DemoParser extends DefaultParser {
     })
     const wfStep7 = new Component({
       id: 'wfstep7',
-      name: 'step3',
+      name: 'B3',
       definition: this.pluginData.__workflowStepDefinition,
       attributes: [
         new ComponentAttribute({
@@ -250,7 +257,7 @@ class DemoParser extends DefaultParser {
     })
     const wfStep6 = new Component({
       id: 'wfstep6',
-      name: 'step2',
+      name: 'B2',
       definition: this.pluginData.__workflowStepDefinition,
       attributes: [
         new ComponentAttribute({
@@ -263,7 +270,7 @@ class DemoParser extends DefaultParser {
     })
     const wfStep5 = new Component({
       id: 'wfstep5',
-      name: 'step1',
+      name: 'B1',
       definition: this.pluginData.__workflowStepDefinition,
       attributes: [
         new ComponentAttribute({

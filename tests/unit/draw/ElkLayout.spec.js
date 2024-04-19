@@ -1,6 +1,6 @@
 import { expect, describe, jest } from '@jest/globals';
 
-import ElkLayout from 'src/draw/ElkLayout';
+import ElkLayout from 'src/draw/layout/ElkLayout';
 import Component from 'src/models/Component';
 import ComponentDefinition from 'src/models/ComponentDefinition';
 import ComponentAttribute from 'src/models/ComponentAttribute';

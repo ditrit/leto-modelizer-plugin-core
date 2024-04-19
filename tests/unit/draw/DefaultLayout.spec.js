@@ -1,5 +1,5 @@
 import { expect, describe } from '@jest/globals';
-import DefaultLayout from 'src/draw/DefaultLayout';
+import DefaultLayout from 'src/draw/layout/DefaultLayout';
 import DefaultData from 'src/models/DefaultData';
 
 describe('Test Class: DefaultLayout', () => {

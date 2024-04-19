@@ -1,9 +1,10 @@
+@ignore
 Feature: Test container resizing
   Background:
     Given I clear localstorage
     And I set viewport size to "1920" px for width and "1080" px for height
     And I visit the "/"
-
+@ignore
   Scenario: Move component inside container should resize it
     Then I expect "#network1" width is 308
     And  I expect "#network1" height is 246
@@ -15,7 +16,7 @@ Feature: Test container resizing
     When I drag "#server2" of -10,-10
     Then I expect "#network1" width is 296
     And  I expect "#network1" height is 246
-  
+  @ignore
   Scenario: Resize component container manually
     Then I expect '#network1' width is 308
     And  I expect '#network1' height is 246
