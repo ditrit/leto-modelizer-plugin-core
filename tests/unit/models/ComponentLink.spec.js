@@ -8,6 +8,7 @@ describe('Test class: ComponentLink', () => {
       expect(link.__class).toEqual('Link');
       expect(link.source).toBeNull();
       expect(link.target).toBeNull();
+      expect(link.name).toBeNull();
       expect(link.definition).toBeNull();
     });
 
@@ -17,6 +18,7 @@ describe('Test class: ComponentLink', () => {
       expect(link.__class).toEqual('Link');
       expect(link.source).toBeNull();
       expect(link.target).toBeNull();
+      expect(link.name).toBeNull();
       expect(link.definition).toBeNull();
     });
 
@@ -24,12 +26,14 @@ describe('Test class: ComponentLink', () => {
       const link = new ComponentLink({
         source: 'source',
         target: 'target',
+        name: 'name',
         definition: {},
       });
 
       expect(link.__class).toEqual('Link');
       expect(link.source).toEqual('source');
       expect(link.target).toEqual('target');
+      expect(link.name).toEqual('name');
       expect(link.definition).toBeDefined();
     });
   });

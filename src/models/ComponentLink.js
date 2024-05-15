@@ -10,17 +10,20 @@ class ComponentLink extends FileInformation {
    * @param {object} [props] - Object that contains all properties to set.
    * @param {string} [props.source] - Id of component can be the source in a link.
    * @param {string} [props.target] - Id of component can be the target of the link.
+   * @param {string} [props.name] - Name of the link anchor, link to store where the link begin.
    * @param {ComponentLinkDefinition} [props.definition] - The definition of the link.
    */
   constructor(props = {
     source: null,
     target: null,
+    name: null,
     definition: null,
   }) {
     super();
     const {
       source,
       target,
+      name,
       definition,
     } = props;
 
@@ -40,6 +43,11 @@ class ComponentLink extends FileInformation {
      * @type {object}
      */
     this.target = target || null;
+    /**
+     * Name of the link.
+     * @type {string}
+     */
+    this.name = name || null;
     /**
      * The definition of the link.
      * @type {ComponentLinkDefinition}
