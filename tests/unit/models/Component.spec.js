@@ -101,6 +101,36 @@ describe('Test class: Component', () => {
       });
     });
 
+    describe('Test method: canContain', () => {
+      it('should be false on non-container component', () => {
+        const component = new Component({
+          definition: new ComponentDefinition({ isContainer: false }),
+        });
+
+        expect(component.canContain('type')).toEqual(false);
+      });
+
+      it('should be false on container and without valid type', () => {
+        const component = new Component({
+          definition: new ComponentDefinition({ isContainer: true }),
+        });
+
+        component.definition.childrenTypes.push('valid');
+
+        expect(component.canContain('invalid')).toEqual(false);
+      });
+
+      it('should be true on container and with valid type', () => {
+        const component = new Component({
+          definition: new ComponentDefinition({ isContainer: true }),
+        });
+
+        component.definition.childrenTypes.push('valid');
+
+        expect(component.canContain('valid')).toEqual(true);
+      });
+    });
+
     describe('Test method: setReferenceAttribute', () => {
       it('should not set attribute if there is no container attribute definition', () => {
         const component = new Component({
