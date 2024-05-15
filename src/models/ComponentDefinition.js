@@ -18,10 +18,22 @@ class ComponentDefinition {
    * @param {boolean} [props.isContainer] - Boolean means if this type can be a parent.
    * instantiated components.
    * @param {string} [props.displayType] - Use the given displayType to override
-   * the component's rendering. Allowed values: workflow|null
-   * @param {boolean} [props.preventChildrenMovement] - Prevent user from arbitrarily moving
-   * child components.
-   * @param {number} [props.childrenPerLine] - Override the line layout
+   * the component's rendering. Allowed values: workflow|null.
+   * @param {string} [props.workflowDirection] -  Workflow direction, can be horizontal or vertical.
+   * Default value is horizontal.
+   * @param {string} [props.linkModel] - Name of SVG template to render the link of this component,
+   * only used in case of workflow.
+   * @param {number} [props.defaultWidth] - Default width that will be set on creation.
+   * @param {number} [props.defaultHeight] - Default height that will be set on creation.
+   * @param {number} [props.minWidth] - Minimum width of the component.
+   * @param {number} [props.minHeight] - Minimum height of the component.
+   * @param {number} [props.reservedWidth] - Width reserved in the component for display, only use
+   * for container.
+   * @param {number} [props.reservedHeight] - Height reserved in the component for display, only use
+   * for container.
+   * @param {number} [props.margin] - Margin inside the components zone, only used for container.
+   * @param {number} [props.gap] - Gap between component inside the components zone, only used for
+   * container.
    */
   constructor(props = {
     type: null,
@@ -35,8 +47,16 @@ class ComponentDefinition {
     definedAttributes: [],
     isContainer: false,
     displayType: null,
-    preventChildrenMovement: false,
-    childrenPerLine: null,
+    workflowDirection: null,
+    linkModel: null,
+    defaultWidth: 0,
+    defaultHeight: 0,
+    minWidth: 0,
+    minHeight: 0,
+    reservedWidth: 0,
+    reservedHeight: 0,
+    margin: 10,
+    gap: 30,
   }) {
     const {
       type,
@@ -50,8 +70,16 @@ class ComponentDefinition {
       definedAttributes,
       isContainer,
       displayType,
-      preventChildrenMovement,
-      childrenPerLine,
+      workflowDirection,
+      linkModel,
+      defaultWidth,
+      defaultHeight,
+      minWidth,
+      minHeight,
+      reservedWidth,
+      reservedHeight,
+      margin,
+      gap,
     } = props;
 
     /**
@@ -125,17 +153,65 @@ class ComponentDefinition {
     this.displayType = displayType || null;
 
     /**
-     * Flag to always force children layout re-computing.
-     * @type {boolean}
-     * @default false
+     * Workflow direction, can be horizontal or vertical.
+     * @type {string}
+     * @default horizontal
      */
-    this.preventChildrenMovement = preventChildrenMovement ?? false;
+    this.workflowDirection = workflowDirection || 'horizontal';
 
     /**
-     * Override the container's children layout line length.
+     * Name of SVG template to render the link of this component, only used in case of workflow.
+     * @type {string|null}
+     */
+    this.linkModel = linkModel || null;
+
+    /**
+     * Default width that will be set on creation.
      * @type {number}
      */
-    this.childrenPerLine = childrenPerLine ?? null;
+    this.defaultWidth = defaultWidth || 0;
+
+    /**
+     * Default height that will be set on creation.
+     * @type {number}
+     */
+    this.defaultHeight = defaultHeight || 0;
+
+    /**
+     * Minimum width of the component.
+     * @type {number}
+     */
+    this.minWidth = minWidth || 0;
+
+    /**
+     * Minimum height of the component.
+     * @type {number}
+     */
+    this.minHeight = minHeight || 0;
+
+    /**
+     * Width reserved in the component for display, only used for container.
+     * @type {number}
+     */
+    this.reservedWidth = reservedWidth || 0;
+
+    /**
+     * Height reserved in the component for display, only used for container.
+     * @type {number}
+     */
+    this.reservedHeight = reservedHeight || 0;
+
+    /**
+     * Margin inside the components zone, only used for container.
+     * @type {number}
+     */
+    this.margin = margin || 10;
+
+    /**
+     * Gap between component inside the components zone, only used for container.
+     * @type {number}
+     */
+    this.gap = gap || 30;
   }
 }
 
