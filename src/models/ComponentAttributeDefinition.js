@@ -13,9 +13,7 @@ class ComponentAttributeDefinition {
    * @param {string} [props.url] - URL of the documentation of the attribute.
    * @param {string} [props.linkType] - Type of link, valid types are Default/Reverse.
    * @param {string[]} [props.linkRef] - Reference of accepted component for link.
-   * @param {string} [props.linkColor] - Color of the link.
-   * @param {number} [props.linkWidth] - Width of the link.
-   * @param {number[]} [props.linkDashStyle] - Dash style of the link. See stroke-dasharray of svg.
+   * @param {string[]} [props.linkModel] - Name of SVG model to render the link of component.
    * @param {string} [props.containerRef] - Reference of accepted component for container.
    * @param {boolean} [props.required] - Attribute is required.
    * @param {ComponentAttributeDefinition[]} [props.definedAttributes] - Defined attributes for
@@ -34,9 +32,7 @@ class ComponentAttributeDefinition {
     url: null,
     linkType: null,
     linkRef: [],
-    linkColor: 'black',
-    linkWidth: 2,
-    linkDashStyle: null,
+    linkModel: null,
     containerRef: null,
     required: false,
     definedAttributes: [],
@@ -55,9 +51,7 @@ class ComponentAttributeDefinition {
       url,
       linkType,
       linkRef,
-      linkColor,
-      linkWidth,
-      linkDashStyle,
+      linkModel,
       containerRef,
       definedAttributes,
       required,
@@ -101,22 +95,10 @@ class ComponentAttributeDefinition {
      */
     this.linkRef = linkRef || [];
     /**
-     * Color of the link.
+     * Name of SVG model to render the link of component.
      * @type {string}
-     * @default 'black'
      */
-    this.linkColor = linkColor || 'black';
-    /**
-     * Width of the link.
-     * @type {number}
-     * @default 2
-     */
-    this.linkWidth = linkWidth || 2;
-    /**
-     * Dash style of the link. See stroke-dasharray of svg.
-     * @type {number[]}
-     */
-    this.linkDashStyle = linkDashStyle || null;
+    this.linkModel = linkModel || null;
     /**
      * Define the reference of Component that can be the container of this component.
      * @type {string}
