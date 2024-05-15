@@ -4,6 +4,7 @@ import ComponentDefinition from 'src/models/ComponentDefinition';
 import ComponentAttributeDefinition from 'src/models/ComponentAttributeDefinition';
 import ComponentLink from 'src/models/ComponentLink';
 import ComponentLinkDefinition from 'src/models/ComponentLinkDefinition';
+import ComponentDrawOption from 'src/models/ComponentDrawOption';
 
 describe('Test class: Component', () => {
   describe('Test constructor', () => {
@@ -15,7 +16,7 @@ describe('Test class: Component', () => {
       expect(component.__class).toEqual('Component');
       expect(component.name).toBeNull();
       expect(component.definition).toBeNull();
-      expect(component.drawOption).toBeNull();
+      expect(component.drawOption).toEqual(new ComponentDrawOption());
       expect(component.attributes).toEqual([]);
       expect(component.path).toBeNull();
     });
@@ -28,7 +29,7 @@ describe('Test class: Component', () => {
       expect(component.__class).toEqual('Component');
       expect(component.name).toBeNull();
       expect(component.definition).toBeNull();
-      expect(component.drawOption).toBeNull();
+      expect(component.drawOption).not.toBeNull();
       expect(component.attributes).toEqual([]);
       expect(component.path).toBeNull();
     });
