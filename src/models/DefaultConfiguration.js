@@ -12,15 +12,19 @@ class DefaultConfiguration {
    * @param {string} [props.defaultFileName] - Default file name for new components.
    * @param {string} [props.defaultFileExtension] - Default file extension for components.
    * @param {Tag[]} [props.tags] - All plugin tags.
-   * @param {object} [props.elkParams] - Parameters for the layout algorithm.
-   * @see Parameters for ELK: {@link https://eclipse.dev/elk/reference/options.html}
-   * @param {object} [props.singleComponentParams] - Parameters for the algorithm that
-   * places a single component.
-   * @param {number} [props.singleComponentParams.margin] - Minimal distance between
-   * components & links.
-   * @param {number} [props.singleComponentParams.precision] - Space interval between coordinates
-   * that will be tested. Performance decreases proportionally to the square of this parameter.
    * @param {boolean} [props.isFolderTypeDiagram] - True if diagram type is folder, otherwise false.
+   * @param {object[]} [props.extraResources] - List of extra resources to register. An extra
+   * resource is model name that can't be set in Component.
+   * @param {string} [props.extraResources.type] - Type of resources can be markers, links and
+   * icons. You can set models, but only component can use models.
+   * @param {string} [props.extraResources.name] - Name of SVG model to render the resource.
+   * @param {object} [props.rootContainer] - Configuration of root container in the scene.
+   * @param {number} [props.rootContainer.margin] - Margin inside the root container.
+   * @param {number} [props.rootContainer.gap] - Gap between component inside the root container.
+   * @param {object} [props.container] - Default configuration of all container in the scene.
+   * @param {number} [props.container.margin] - Default margin inside container.
+   * @param {number} [props.container.gap] - Default gap between component inside container.
+   * @param {object} [props.keysBinding] - Set of keyboard shortcuts for actions performing.
    */
   constructor(props = {
     editor: {
@@ -30,9 +34,17 @@ class DefaultConfiguration {
     defaultFileName: null,
     defaultFileExtension: null,
     tags: [],
-    elkParams: null,
-    singleComponentParams: null,
     isFolderTypeDiagram: true,
+    extraResources: [],
+    rootContainer: {
+      margin: 30,
+      gap: 50,
+    },
+    container: {
+      margin: 30,
+      gap: 50,
+    },
+    keysBinding: {},
   }) {
     /**
      * Object that contains all properties of editor configuration.
@@ -64,37 +76,55 @@ class DefaultConfiguration {
      */
     this.tags = props.tags || [];
     /**
-     * Parameters for the ELK automatic layout system.
-     * @see https://eclipse.dev/elk/reference/options.html
-     * @type {object}
-     */
-    this.elkParams = {
-      'elk.algorithm': 'elk.layered',
-      'spacing.baseValue': '50',
-      separateConnectedComponents: 'true',
-      'elk.layered.cycleBreaking.strategy': 'INTERACTIVE',
-      'elk.layered.layering.strategy': 'INTERACTIVE',
-      'elk.layered.crossingMinimization.strategy': 'LAYER_SWEEP',
-      'elk.layered.nodePlacement.strategy': 'BRANDES_KOEPF',
-      'elk.layered.interactiveReferencePoint': 'TOP_LEFT',
-      'elk.debugMode': 'true',
-      'elk.direction': 'UNDEFINED',
-      ...props.elkParams,
-    };
-    /**
-     * Parameters for the algorithm that places a single new component.
-     * @type {object}
-     */
-    this.singleComponentParams = {
-      precision: 10,
-      margin: 20,
-      ...props.singleComponentParams,
-    };
-    /**
-     * True if diagram type is folder, otherise false.
+     * True if diagram type is folder, otherwise false.
      * @type {boolean}
      */
     this.isFolderTypeDiagram = props.isFolderTypeDiagram ?? true;
+    /**
+     * List of extra resources to register. An extra resource is model name that can't be set in
+     * Component.
+     * @type {{type: string, name: string}}
+     */
+    this.extraResources = props.extraResources || [];
+    /**
+     * Configuration of root container in the scene.
+     * @type {{margin: number, gap: number}}
+     */
+    this.rootContainer = {
+      margin: props.rootContainer?.margin || 30,
+      gap: props.rootContainer?.gap || 50,
+    };
+    /**
+     * Default configuration of all containers in the scene.
+     * @type {{margin: number, gap: number}}
+     */
+    this.container = {
+      margin: props.container?.margin || 30,
+      gap: props.container?.gap || 50,
+    };
+
+    /**
+     * Set of keyboard shortcuts for actions performing.
+     * @type {object}
+     */
+    this.keysBinding = {
+      moveSceneUp: ['ArrowUp'],
+      moveSceneDown: ['ArrowDown'],
+      moveSceneLeft: ['ArrowLeft'],
+      moveSceneRight: ['ArrowRight'],
+      moveComponentUp: [],
+      moveComponentDown: [],
+      moveComponentLeft: [],
+      moveComponentRight: [],
+      zoomIn: ['+'],
+      zoomOut: ['-'],
+      deleteObject: ['Delete'],
+      editComponent: [',', '?'],
+      selection: ['Shift'],
+      selectAll: ['A'],
+      deselectAll: ['D'],
+      ...props.keysBinding,
+    };
   }
 }
 
