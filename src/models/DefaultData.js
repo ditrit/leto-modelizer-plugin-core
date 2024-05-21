@@ -3,6 +3,7 @@ import Component from './Component';
 import ComponentLink from './ComponentLink';
 import ComponentLinkDefinition from './ComponentLinkDefinition';
 import EventLog from './EventLog';
+import ComponentTemporaryLink from './ComponentTemporaryLink';
 
 const CORE_VERSION = packageInfo.version;
 
@@ -23,6 +24,19 @@ class DefaultData {
    * @param {ComponentLinkDefinition[]} [props.definitions.link] - All component link
    * definitions.
    * @param {ParseError[]} [props.parseErrors] - Parse errors array.
+   * @param {object} [props.resources] - All svg models.
+   * @param {object} [props.resources.icons] - All svg models' icons
+   * @param {object} [props.resources.markers] - All svg models' markers.
+   * @param {object} [props.resources.links] - All svg models' links.
+   * @param {object} [props.resources.models] - All svg models' components.
+   * @param {object} [props.scene] -All scene data, position, zoom factor, current selection and
+   * selected container type.
+   * @param {number} [props.scene.x] - Translation x of the scene.
+   * @param {number} [props.scene.y] - Translation y of the scene.
+   * @param {number} [props.scene.zoom] - Zoom factor of the scene.
+   * @param {string[]} [props.scene.selection] - List of ids of selected components.
+   * @param {string} [props.scene.selectionRef] - Type on container selection. If null it refers to
+   * root container.
    * @param {object} [event] - Event manager.
    * @param {Function} [event.next] - Function to emit event.
    */
@@ -36,6 +50,14 @@ class DefaultData {
       links: [],
     },
     parseErrors: [],
+    resources: {},
+    scene: {
+      x: 0,
+      y: 0,
+      zoom: 1,
+      selection: [],
+      selectionRef: null,
+    },
   }, event = null) {
     /**
      * Plugin name.
@@ -55,6 +77,18 @@ class DefaultData {
     this.components = props.components || [];
 
     /**
+     * All scene data, position, zoom factor, current selection and selected container type.
+     * @type {object}
+     */
+    this.scene = {
+      x: props.scene?.x || 0,
+      y: props.scene?.y || 0,
+      zoom: props.scene?.zoom || 1,
+      selection: props.scene?.selection || [],
+      selectionRef: props.scene?.selectionRef || null,
+    };
+
+    /**
      * All plugin variables.
      * @type {Variable[]}
      */
@@ -64,13 +98,10 @@ class DefaultData {
      * @type {{components: ComponentDefinition[], links: ComponentLinkDefinition[]}}
      */
     this.definitions = {
-      components: [],
-      links: [],
+      components: props.definitions?.components || [],
+      links: props.definitions?.links || [],
     };
-    if (props.definitions) {
-      this.definitions.components = props.definitions.components || [];
-      this.definitions.links = props.definitions.links || [];
-    }
+
     /**
      * All parser errors.
      * @type {ParseError[]}
@@ -99,6 +130,23 @@ class DefaultData {
      * @type {DefaultConfiguration}
      */
     this.configuration = pluginConfiguration;
+
+    /**
+     * Object that contains resources.
+     * @type {object}
+     * @default null
+     */
+    this.resources = {
+      icons: { ...props.resources?.icons },
+      markers: { ...props.resources?.markers },
+      links: { ...props.resources?.links },
+      models: { ...props.resources?.models },
+    };
+    /**
+     * Current temporary link.
+     * @type {ComponentTemporaryLink}
+     */
+    this.temporaryLink = null;
   }
 
   /**
@@ -116,6 +164,25 @@ class DefaultData {
    */
   getComponentById(id) {
     return this.components.find((component) => component.id === id) || null;
+  }
+
+  /**
+   * Recursively calculates the depth of a component within a hierarchical structure, starting at 0.
+   * The depth of a component is defined as the number of levels it is nested within other
+   * components.
+   * A top-level component has a depth of 0. For each level of nesting, the depth increases by 1.
+   * @param {string} id - Component id.
+   * @returns {number} Component depth.
+   */
+  getComponentDepth(id) {
+    const component = this.getComponentById(id);
+    const containerId = component.getContainerId();
+
+    if (!containerId) {
+      return 0;
+    }
+
+    return this.getComponentDepth(containerId) + 1;
   }
 
   /**
@@ -237,6 +304,10 @@ class DefaultData {
       });
     });
 
+    if (this.temporaryLink) {
+      links.push(this.temporaryLink);
+    }
+
     return links.concat(this.getWorkflowLinks());
   }
 
@@ -291,6 +362,48 @@ class DefaultData {
   }
 
   /**
+   * Get the ID of a linked resource.
+   * @param {string} value - Value of the link.
+   * @returns {string} ID of the linked resource.
+   */
+  getComponentIdFromValue(value) {
+    return value;
+  }
+
+  /**
+   * Indicate if type can have a link.
+   * @param {string} type - Component type.
+   * @returns {boolean} True if component can have link otherwise false.
+   */
+  canHaveLink(type) {
+    return this.definitions.links.some(({ sourceRef }) => sourceRef === type);
+  }
+
+  /**
+   * Indicate if type can be linked with another.
+   * @param {string} source - Source type.
+   * @param {string} target - Target type.
+   * @returns {boolean} True if type can be linked to another otherwise false.
+   */
+  canBeLinked(source, target) {
+    return this.definitions.links
+      .some(({ sourceRef, targetRef }) => sourceRef === source && targetRef === target);
+  }
+
+  /**
+   * Create temporary link.
+   * @param {string} source - Id of component can be the source in a link.
+   * @param {string} anchorName - Anchor name of the component.
+   */
+  createTemporaryLink(source, anchorName) {
+    this.temporaryLink = new ComponentTemporaryLink({
+      anchorName,
+      source,
+      definition: this.definitions.links.find(({ isTemporary }) => isTemporary),
+    });
+  }
+
+  /**
    * Build internal links for workflow containers.
    * @returns {ComponentLink[]} List of links
    */
@@ -305,6 +418,7 @@ class DefaultData {
               definition: new ComponentLinkDefinition({
                 sourceRef: '__workflow',
                 attributeRef: '__next',
+                model: component.definition.linkModel,
               }),
               source: children[childIndex].id,
               target: children[childIndex + 1].id,
@@ -353,6 +467,11 @@ class DefaultData {
       this.__setLinkDefinitions(type, definedAttributes);
     });
 
+    this.definitions.links.push(new ComponentLinkDefinition({
+      isTemporary: true,
+      model: 'temporaryLink',
+    }));
+
     this.emitEvent({ id, status: 'success' });
   }
 
@@ -370,9 +489,7 @@ class DefaultData {
           attributeRef: attributeDefinition.name,
           sourceRef: type,
           targetRef: attributeDefinition.linkRef,
-          color: attributeDefinition.linkColor,
-          width: attributeDefinition.linkWidth,
-          dashStyle: attributeDefinition.linkDashStyle,
+          model: attributeDefinition.linkModel,
         });
 
         this.definitions.links.push(linkDefinition);
