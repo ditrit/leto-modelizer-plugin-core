@@ -1,11 +1,9 @@
-import * as d3 from 'd3';
 import DefaultData from './DefaultData';
 import DefaultDrawer from '../draw/DefaultDrawer';
 import DefaultMetadata from '../metadata/DefaultMetadata';
 import DefaultParser from '../parser/DefaultParser';
 import DefaultRender from '../render/DefaultRender';
 import DefaultConfiguration from './DefaultConfiguration';
-import ComponentDrawOption from './ComponentDrawOption';
 
 /**
  * Default plugin structure.
@@ -89,23 +87,23 @@ class DefaultPlugin {
    * @param {object} [resources] - Object that contains resources.
    */
   initResources(resources) {
-    this.__drawer.resources = resources;
+    this.data.resources = resources;
   }
 
   /**
-   * Reset actions.
+   * Init drawing context of plugin.
+   * @param {string} id - Html id of div that will be the drawing container.
+   * @param {boolean} readOnly - If false, indicate if user can make action or modify the scene.
    */
-  resetDrawerActions() {
-    this.__drawer.resetDrawerActions();
+  initDrawer(id, readOnly) {
+    this.__drawer.init(id, readOnly);
   }
 
   /**
    * Draws all data in the html element defined by the id.
-   * @param {string} id - Html id, without '#'.
-   * @param {boolean} readOnly - Make the draw read-only.
    */
-  draw(id, readOnly) {
-    this.__drawer.draw(id, readOnly);
+  draw() {
+    this.__drawer.draw();
   }
 
   /**
@@ -184,20 +182,21 @@ class DefaultPlugin {
    * Reorganize nodes layout algorithmically.
    * This method does not refresh the view.
    * You have to await it and trigger a redraw.
-   * @param {string} [containerId] - The container within which we need to organize the children,
-   * and if not specified, all components will be reorganized.
-   * @returns {Promise<void>} Promise with nothing on success otherwise an error.
+   * @param {string} id - The container within which we need to organize the children,
+   * and if null specified, all components will be reorganized.
+   * @param {boolean} keepPosition - If true, rearrange only components without a specified
+   * position; otherwise, rearrange all components.
    */
-  async arrangeComponentsPosition(containerId) {
-    await this.__drawer.arrangeComponentsPosition(containerId);
+  arrangeComponentsPosition(id, keepPosition) {
+    this.__drawer.arrangeComponentsPosition(id, keepPosition);
   }
 
   /**
-   * Reposition a component where there is room for it.
-   * @param {string} componentId - Id of a component to be repositioned.
+   * Resize the container to its minimum size.
+   * @param {string} id - Container id.
    */
-  repositionComponent(componentId) {
-    this.__drawer.repositionComponent(componentId);
+  resize(id) {
+    this.__drawer.resize(id);
   }
 
   /**
@@ -220,40 +219,32 @@ class DefaultPlugin {
 
   /**
    * Create new component with draw option if passed as param.
-   * @param {string} rootId - Html id, without '#'.
+   * @param {string} parentId - Id of parent container, null for root.
    * @param {ComponentDefinition} definition - Component definition.
    * @param {string} path - Component path.
-   * @param {ComponentDrawOption} drawOption - The options used to draw this Component.
+   * @param {object} event - Event that contain mouse position.
    * @returns {string} Component id.
    */
   addComponent(
-    rootId,
+    parentId,
     definition,
     path,
-    drawOption = null,
+    event,
   ) {
     const id = this.data.addComponent(
       definition,
       path,
     );
+    const component = this.data.getComponentById(id);
 
-    if (drawOption) {
-      const component = this.data.getComponentById(id);
-      const target = document
-        .elementsFromPoint(drawOption.x, drawOption.y)
-        .filter((element) => element.classList.contains('component-hitbox'))
-        .map((element) => d3.select(element).datum().data)
-        .filter((element) => element.definition.childrenTypes.includes(definition.type))[0];
+    if (parentId) {
+      const container = this.data.getComponentById(parentId);
 
-      if (target) {
-        const newParent = this.data.getComponentById(target.id);
+      component.setReferenceAttribute(container);
+    }
 
-        component.setReferenceAttribute(newParent);
-      } else {
-        component.drawOption = new ComponentDrawOption({
-          ...this.getComponentPosition(rootId, drawOption),
-        });
-      }
+    if (event) {
+      this.__drawer.dropComponent(component, event);
     }
 
     return id;
