@@ -33,7 +33,6 @@ class DefaultDrawer {
     /**
      * Plugin layout system.
      * @type {DefaultLayout}
-     * @default new ElkLayout()
      */
     this.layout = layout ?? new ElkLayout(this.pluginData);
     /**
