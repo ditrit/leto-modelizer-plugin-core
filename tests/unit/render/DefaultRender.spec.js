@@ -105,9 +105,7 @@ describe('Test Class: DefaultRender()', () => {
             plugin: {
               c1: {
                 x: 1,
-                needsResizing: false,
-                needsPositioning: false,
-                manuallyResized: false,
+                hide: false,
               },
             },
           },
