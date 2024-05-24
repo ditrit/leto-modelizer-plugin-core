@@ -167,8 +167,7 @@ class DemoParser extends DefaultParser {
     });
     const wfStep4 = new Component({
       id: 'wfstep4',
-      externalId: 'ext_wf_id_X',
-      name: 'step4',
+      name: 'A4',
       definition: this.pluginData.__workflowStepDefinition,
       attributes: [
         new ComponentAttribute({
@@ -181,8 +180,7 @@ class DemoParser extends DefaultParser {
     });
     const wfStep3 = new Component({
       id: 'wfstep3',
-      externalId: 'ext_wf_id_X',
-      name: 'step3',
+      name: 'A3',
       definition: this.pluginData.__workflowStepDefinition,
       attributes: [
         new ComponentAttribute({
@@ -195,7 +193,7 @@ class DemoParser extends DefaultParser {
     });
     const wfStep2 = new Component({
       id: 'wfstep2',
-      name: 'step2',
+      name: 'A2',
       definition: this.pluginData.__workflowStepDefinition,
       attributes: [
         new ComponentAttribute({
@@ -208,7 +206,7 @@ class DemoParser extends DefaultParser {
     });
     const wfStep1 = new Component({
       id: 'wfstep1',
-      name: 'step1',
+      name: 'A1',
       definition: this.pluginData.__workflowStepDefinition,
       attributes: [
         new ComponentAttribute({
@@ -228,7 +226,7 @@ class DemoParser extends DefaultParser {
     });
     const wfStep8 = new Component({
       id: 'wfstep8',
-      name: 'step4',
+      name: 'B4',
       definition: this.pluginData.__workflowStepDefinition,
       attributes: [
         new ComponentAttribute({
@@ -241,7 +239,7 @@ class DemoParser extends DefaultParser {
     });
     const wfStep7 = new Component({
       id: 'wfstep7',
-      name: 'step3',
+      name: 'B3',
       definition: this.pluginData.__workflowStepDefinition,
       attributes: [
         new ComponentAttribute({
@@ -254,7 +252,7 @@ class DemoParser extends DefaultParser {
     });
     const wfStep6 = new Component({
       id: 'wfstep6',
-      name: 'step2',
+      name: 'B2',
       definition: this.pluginData.__workflowStepDefinition,
       attributes: [
         new ComponentAttribute({
@@ -267,7 +265,7 @@ class DemoParser extends DefaultParser {
     });
     const wfStep5 = new Component({
       id: 'wfstep5',
-      name: 'step1',
+      name: 'B1',
       definition: this.pluginData.__workflowStepDefinition,
       attributes: [
         new ComponentAttribute({
