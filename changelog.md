@@ -7,9 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Complete refacto of drawer:
+  - Multi selection of components
+  - Add marker on link.
+  - Add anchor for link.
+  - Manage burger menu event on component.
+  - Hide components.
+  - Add more properties on component to improve display.
+  - Add new events to 'openMenu' and 'zoom'.
+
+### Changed
+
+- Complete refacto of drawer:
+  - Externalize all svg rendering into separate class using nunjucks.
+  - Externalize all actions into separate classes.
+  - Reduce complexity of DefaultDrawer.
+  - Resize action is more userFriendly.
+  - Replace ELK Layout by homemade layout.
+  - Link used nunjucks for rendering. 
+
 ### Fixed
 
 - Workflow to generate technical documentation.
+- Having null component draw option.
 
 ## [0.23.0] - 2024/01/02
 
@@ -319,7 +341,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Rename the `draw` method to `drawComponents`.
 - Switch action menu position parameter from `absolute` to `fixed`.
 - Update constructor of `DefaultDrawer`, `DefaultRenderer`, `DefaultParser` and `DefaultMetadata` to use `DefaultData`.
-- Update `draw` method of `DefaultDrawer` to only use the container id.
+- Update `draw` method of `DefaultDrawer` to only used the container id.
 - Rename method `getDefinitions` of `DefaultMetadata` to `parse` and make it update directly the plugin data.
 - Make the method `parse` of `DefaultParser` update directly the plugin data instead of return components, links and errors.
 - `DefaultDrawer` constructor props re-ordered to `(pluginData, resources, events, rootId, options)` based on the likelihood of each prop being changed by the user.
