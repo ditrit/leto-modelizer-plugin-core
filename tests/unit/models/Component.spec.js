@@ -4,6 +4,7 @@ import ComponentDefinition from 'src/models/ComponentDefinition';
 import ComponentAttributeDefinition from 'src/models/ComponentAttributeDefinition';
 import ComponentLink from 'src/models/ComponentLink';
 import ComponentLinkDefinition from 'src/models/ComponentLinkDefinition';
+import ComponentDrawOption from 'src/models/ComponentDrawOption';
 
 describe('Test class: Component', () => {
   describe('Test constructor', () => {
@@ -15,7 +16,7 @@ describe('Test class: Component', () => {
       expect(component.__class).toEqual('Component');
       expect(component.name).toBeNull();
       expect(component.definition).toBeNull();
-      expect(component.drawOption).toBeNull();
+      expect(component.drawOption).toEqual(new ComponentDrawOption());
       expect(component.attributes).toEqual([]);
       expect(component.path).toBeNull();
     });
@@ -28,7 +29,7 @@ describe('Test class: Component', () => {
       expect(component.__class).toEqual('Component');
       expect(component.name).toBeNull();
       expect(component.definition).toBeNull();
-      expect(component.drawOption).toBeNull();
+      expect(component.drawOption).not.toBeNull();
       expect(component.attributes).toEqual([]);
       expect(component.path).toBeNull();
     });
@@ -97,6 +98,36 @@ describe('Test class: Component', () => {
         });
 
         expect(component.getConfigurationKey()).toEqual('id');
+      });
+    });
+
+    describe('Test method: canContain', () => {
+      it('should be false on non-container component', () => {
+        const component = new Component({
+          definition: new ComponentDefinition({ isContainer: false }),
+        });
+
+        expect(component.canContain('type')).toEqual(false);
+      });
+
+      it('should be false on container and without valid type', () => {
+        const component = new Component({
+          definition: new ComponentDefinition({ isContainer: true }),
+        });
+
+        component.definition.childrenTypes.push('valid');
+
+        expect(component.canContain('invalid')).toEqual(false);
+      });
+
+      it('should be true on container and with valid type', () => {
+        const component = new Component({
+          definition: new ComponentDefinition({ isContainer: true }),
+        });
+
+        component.definition.childrenTypes.push('valid');
+
+        expect(component.canContain('valid')).toEqual(true);
       });
     });
 

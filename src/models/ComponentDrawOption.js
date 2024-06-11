@@ -9,40 +9,31 @@ class ComponentDrawOption {
    * @param {number} [props.y] - Y Position of Component.
    * @param {number} [props.width] - Width of Component in pixel.
    * @param {number} [props.height] - Height of Component in pixel.
-   * @param {boolean} [props.needsResizing] - Flag to indicate if
-   * the Component's width and height need re-computing.
-   * @param {boolean} [props.needsPositioning] - Flag to indicate if
-   * the Component's position needs re-computing.
-   * @param {boolean} [props.manuallyResized] - Flag to indicate if the Component was resized
-   * manually.
+   * @param {boolean} [props.hide] - Indicate if component is hidden.
    */
   constructor(props = {
     x: null,
     y: null,
     width: null,
     height: null,
-    needsResizing: false,
-    needsPositioning: false,
-    manuallyResized: false,
+    hide: false,
   }) {
     const {
       x,
       y,
       width,
       height,
-      needsResizing,
-      needsPositioning,
-      manuallyResized,
+      hide,
     } = props;
 
     /**
-     * X Position of Component.
+     * X Position of Component relative to its container(scene or component).
      * @type {number}
      */
     this.x = x || null;
 
     /**
-     * Y Position of Component.
+     * Y Position of Component relative to its container(scene or component).
      * @type {number}
      */
     this.y = y || null;
@@ -60,22 +51,10 @@ class ComponentDrawOption {
     this.height = height || null;
 
     /**
-     * True if the component needs to be resized
+     * Indicate if component is hidden.
      * @type {boolean}
      */
-    this.needsResizing = needsResizing || false;
-
-    /**
-     * True if the component should be positioned automatically.
-     * @type {boolean}
-     */
-    this.needsPositioning = needsPositioning || false;
-
-    /**
-     * True if the component was manually resized.
-     * @type {boolean}
-     */
-    this.manuallyResized = manuallyResized || false;
+    this.hide = hide || false;
   }
 }
 

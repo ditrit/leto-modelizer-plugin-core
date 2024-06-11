@@ -3,8 +3,17 @@ import nunjucks from 'nunjucks';
 
 When('I click on {string}', (selector) => cy.get(selector).realClick({
   button: 'left',
-  position: 'center'
+  position: 'center',
 }));
+
+When('I click on {string} with {string}', (selector, modifier) => {
+  cy.get(selector)
+    .trigger('keydown', { key: 'Shift', shiftKey: true });
+  cy.get(selector)
+    .click({ force: true });
+  cy.get(selector)
+    .trigger('keyup', { key: 'Shift', shiftKey: false });
+});
 
 When('I click on {string} of {string}', (position, selector) => cy.get(selector).realClick({
   button: 'left',

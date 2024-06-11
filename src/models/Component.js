@@ -1,5 +1,6 @@
 import ComponentAttribute from './ComponentAttribute';
 import FileInformation from './FileInformation';
+import ComponentDrawOption from './ComponentDrawOption';
 
 /**
  * Class that represents the base of modeling tools.
@@ -67,7 +68,7 @@ class Component extends FileInformation {
      * The options used to draw this Component.
      * @type {ComponentDrawOption}
      */
-    this.drawOption = drawOption || null;
+    this.drawOption = drawOption || new ComponentDrawOption();
     /**
      * Attributes of Component.
      * @type {ComponentAttribute[]}
@@ -387,9 +388,7 @@ class Component extends FileInformation {
       .some((defAttribute) => {
         const attribute = this.getAttributeByName(defAttribute.name);
 
-        return !attribute
-          || attribute.value === null
-          || attribute.value === undefined
+        return !attribute?.value
           || ((attribute.type === 'Array' || attribute.type === 'Object')
             && attribute.value.length === 0)
           || (attribute.type === 'String' && attribute.value.trim() === '');
@@ -434,6 +433,15 @@ class Component extends FileInformation {
         result.push(attribute);
       }
     });
+  }
+
+  /**
+   * Indicate if component can contain provided component type.
+   * @param {string} type - Type of component.
+   * @returns {boolean} True if component can contain type otherwise false.
+   */
+  canContain(type) {
+    return this.definition.isContainer && this.definition.childrenTypes.includes(type);
   }
 }
 

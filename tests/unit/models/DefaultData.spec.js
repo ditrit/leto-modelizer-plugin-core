@@ -8,6 +8,7 @@ import ComponentAttributeDefinition from 'src/models/ComponentAttributeDefinitio
 import ComponentLink from 'src/models/ComponentLink';
 import ComponentLinkDefinition from 'src/models/ComponentLinkDefinition';
 import Variable from 'src/models/Variable';
+import ComponentTemporaryLink from 'src/models/ComponentTemporaryLink';
 
 describe('Test class: DefaultData', () => {
   describe('Test constructor', () => {
@@ -21,6 +22,20 @@ describe('Test class: DefaultData', () => {
       expect(pluginData.variables).toEqual([]);
       expect(pluginData.parseErrors).toEqual([]);
       expect(pluginData.definitions).toEqual({ components: [], links: [] });
+      expect(pluginData.resources).toEqual({
+        icons: {},
+        markers: {},
+        links: {},
+        models: {},
+      });
+      expect(pluginData.scene).toEqual({
+        x: 0,
+        y: 0,
+        zoom: 1,
+        selection: [],
+        selectionRef: null,
+      });
+      expect(pluginData.temporaryLink).toEqual(null);
       expect(pluginData.eventManager).toEqual(null);
     });
 
@@ -34,6 +49,20 @@ describe('Test class: DefaultData', () => {
       expect(pluginData.variables).toEqual([]);
       expect(pluginData.parseErrors).toEqual([]);
       expect(pluginData.definitions).toEqual({ components: [], links: [] });
+      expect(pluginData.resources).toEqual({
+        icons: {},
+        markers: {},
+        links: {},
+        models: {},
+      });
+      expect(pluginData.scene).toEqual({
+        x: 0,
+        y: 0,
+        zoom: 1,
+        selection: [],
+        selectionRef: null,
+      });
+      expect(pluginData.temporaryLink).toEqual(null);
       expect(pluginData.eventManager).toEqual(null);
 
       pluginData = new DefaultData(new DefaultConfiguration(), { definitions: {} });
@@ -51,6 +80,19 @@ describe('Test class: DefaultData', () => {
           components: [3],
           links: [4],
         },
+        resources: {
+          icons: { a: 'a' },
+          markers: { b: 'b' },
+          links: { c: 'c' },
+          models: { d: 'd' },
+        },
+        scene: {
+          x: 1,
+          y: 2,
+          zoom: 3,
+          selection: ['a'],
+          selectionRef: 'selectionRef',
+        },
       }, {});
 
       expect(pluginData.configuration).toEqual(new DefaultConfiguration());
@@ -61,6 +103,27 @@ describe('Test class: DefaultData', () => {
       expect(pluginData.parseErrors).toEqual([2]);
       expect(pluginData.definitions).toEqual({ components: [3], links: [4] });
       expect(pluginData.eventManager).toEqual({});
+      expect(pluginData.resources).toEqual({
+        icons: {
+          a: 'a',
+        },
+        markers: {
+          b: 'b',
+        },
+        links: {
+          c: 'c',
+        },
+        models: {
+          d: 'd',
+        },
+      });
+      expect(pluginData.scene).toEqual({
+        x: 1,
+        y: 2,
+        zoom: 3,
+        selection: ['a'],
+        selectionRef: 'selectionRef',
+      });
     });
   });
 
@@ -70,6 +133,31 @@ describe('Test class: DefaultData', () => {
         expect(CORE_VERSION).not.toBeNull();
         expect(new DefaultData(new DefaultConfiguration()).coreVersion).toEqual(CORE_VERSION);
       });
+    });
+  });
+
+  describe('Test method: getComponentDepth', () => {
+    const pluginData = new DefaultData(new DefaultConfiguration());
+
+    pluginData.components = [
+      new Component({
+        id: 'id_1',
+      }),
+      new Component({
+        id: 'id_2',
+        attributes: [new ComponentAttribute({
+          definition: new ComponentDefinition({ type: 'Reference' }),
+          value: 'id_1',
+        })],
+      }),
+    ];
+
+    it('Should return 0', () => {
+      expect(pluginData.getComponentDepth('id_1')).toEqual(0);
+    });
+
+    it('Should return 1', () => {
+      expect(pluginData.getComponentDepth('id_2')).toEqual(1);
     });
   });
 
@@ -108,6 +196,14 @@ describe('Test class: DefaultData', () => {
       const id2 = pluginData.generateComponentId();
 
       expect(id2).toEqual('id_2');
+    });
+  });
+
+  describe('Test method: getComponentIdFromValue', () => {
+    it('Should return value', () => {
+      const pluginData = new DefaultData(new DefaultConfiguration());
+
+      expect(pluginData.getComponentIdFromValue('test')).toEqual('test');
     });
   });
 
@@ -280,6 +376,10 @@ describe('Test class: DefaultData', () => {
           targetRef: 'laptop3',
           type: 'Default',
         }),
+        new ComponentLinkDefinition({
+          isTemporary: true,
+          model: 'temporaryLink',
+        }),
       ]);
     });
   });
@@ -381,6 +481,87 @@ describe('Test class: DefaultData', () => {
           definition: pluginData.definitions.links[2],
           source: 'server3',
           target: 'server2',
+        }),
+      ]);
+    });
+
+    it('should return temporary link', () => {
+      const pluginData = new DefaultData(new DefaultConfiguration());
+
+      pluginData.createTemporaryLink('test', 'anchor1');
+
+      expect(pluginData.getLinks()).toEqual([
+        new ComponentTemporaryLink({
+          anchorName: 'anchor1',
+          source: 'test',
+        }),
+      ]);
+    });
+  });
+
+  describe('Test method: canHaveLink', () => {
+    it('Should return true with valid type', () => {
+      const pluginData = new DefaultData(new DefaultConfiguration());
+
+      pluginData.definitions.links.push(new ComponentLinkDefinition({
+        sourceRef: 'source',
+        targetRef: 'target',
+      }));
+
+      expect(pluginData.canHaveLink('source')).toEqual(true);
+    });
+
+    it('Should return false with invalid type', () => {
+      const pluginData = new DefaultData(new DefaultConfiguration());
+
+      pluginData.definitions.links.push(new ComponentLinkDefinition({
+        sourceRef: 'source',
+        targetRef: 'target',
+      }));
+
+      expect(pluginData.canHaveLink('bad')).toEqual(false);
+      expect(pluginData.canHaveLink('target')).toEqual(false);
+    });
+  });
+
+  describe('Test method: canBeLinked', () => {
+    it('Should return true with valid types', () => {
+      const pluginData = new DefaultData(new DefaultConfiguration());
+
+      pluginData.definitions.links.push(new ComponentLinkDefinition({
+        sourceRef: 'source',
+        targetRef: 'target',
+      }));
+
+      expect(pluginData.canBeLinked('source', 'target')).toEqual(true);
+    });
+
+    it('Should return false with invalid types', () => {
+      const pluginData = new DefaultData(new DefaultConfiguration());
+
+      pluginData.definitions.links.push(new ComponentLinkDefinition({
+        sourceRef: 'source',
+        targetRef: 'target',
+      }));
+
+      expect(pluginData.canBeLinked('source', 'bad')).toEqual(false);
+      expect(pluginData.canBeLinked('bad', 'target')).toEqual(false);
+      expect(pluginData.canBeLinked('bad', 'bad')).toEqual(false);
+    });
+  });
+
+  describe('Test method: createTemporaryLink', () => {
+    it('Should create link', () => {
+      const pluginData = new DefaultData(new DefaultConfiguration());
+
+      expect(pluginData.getLinks()).toEqual([]);
+
+      pluginData.createTemporaryLink('source', 'anchor');
+
+      expect(pluginData.getLinks()).toEqual([
+        new ComponentTemporaryLink({
+          source: 'source',
+          anchorName: 'anchor',
         }),
       ]);
     });

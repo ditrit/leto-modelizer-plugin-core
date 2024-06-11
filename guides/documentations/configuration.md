@@ -18,14 +18,24 @@ The DefaultConfiguration class is used to set your plugin's configuration, like 
 class YourPluginConfiguration extends DefaultConfiguration {
   constructor() {
     super({
-      tags: [],
-      isFolderTypeDiagram: true,
-      defaultFileName: null,
-      defaultFileExtension: null,
-      restrictiveFolder: null,
       editor: {
         syntax: null,
       },
+      restrictiveFolder: null,
+      defaultFileName: null,
+      defaultFileExtension: null,
+      tags: [],
+      isFolderTypeDiagram: true,
+      extraResources: [],
+      rootContainer: {
+        margin: 30,
+        gap: 50,
+      },
+      container: {
+        margin: 30,
+        gap: 50,
+      },
+      keysBinding: {},
     });
   }
 }
@@ -34,11 +44,16 @@ class YourPluginConfiguration extends DefaultConfiguration {
 
 In this part, you will see how you can:
 
-- Tag your plugin
-- Define the type for your plugin diagram
-- Define a default file name and file extension
-- Define a restrictive folder
-- Set the configuration for the code editor
+- `editor`: Set the configuration for the code editor.
+- `restrictiveFolder`: Define a restrictive folder.
+- `defaultFileName`: Define a default file name and file extension.
+- `defaultFileExtension`: Define a default file extension.
+- `tags`: Tag your plugin
+- `isFolderTypeDiagram`: Define the type for your plugin diagram
+- `extraResources`: Define extra icons, markers or links svg model.
+- `rootContainer`: Define root container options, like gap and margin.
+- `container`: Define default container options, like gap and margin.
+- `keysBinding`: Define key binding for actions.
 
 ## Tag your plugin
 
@@ -121,3 +136,29 @@ new DefaultConfiguration({
 ```
 
 See an example of a syntax configuration for [Terraform Plugin](https://github.com/ditrit/terrator-plugin/blob/main/src/configuration/syntax.js).
+
+## Keys binding
+
+You can modify key binding by setting the key name for each key binding.
+
+Each actions, can have one or many associated keys.
+
+Here is default implemented actions associated to a key binding:
+
+- Delete object
+
+Default key is `Suppr` and it used to delete component.
+
+- Toggle object selection
+
+Selection is done by a `shift` click on component. You can choose `shift` or another key to make selection.
+
+But it will always be associated to the mouse click.
+
+- Select all object
+
+Default key is `A` (a uppercase) and is used to select all object in the root container.
+
+- Deselect all object
+
+Default key is `D` (d uppercase) and is used to clear selection.

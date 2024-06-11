@@ -16,8 +16,16 @@ describe('Test class: ComponentDefinition', () => {
       expect(componentDefinition.definedAttributes).toEqual([]);
       expect(componentDefinition.isContainer).toBeFalsy();
       expect(componentDefinition.displayType).toBeFalsy();
-      expect(componentDefinition.preventChildrenMovement).toBeFalsy();
-      expect(componentDefinition.childrenPerLine).toBeFalsy();
+      expect(componentDefinition.workflowDirection).toEqual('horizontal');
+      expect(componentDefinition.linkModel).toBeNull();
+      expect(componentDefinition.defaultWidth).toEqual(0);
+      expect(componentDefinition.defaultHeight).toEqual(0);
+      expect(componentDefinition.minWidth).toEqual(0);
+      expect(componentDefinition.minHeight).toEqual(0);
+      expect(componentDefinition.reservedWidth).toEqual(0);
+      expect(componentDefinition.reservedHeight).toEqual(0);
+      expect(componentDefinition.margin).toEqual(10);
+      expect(componentDefinition.gap).toEqual(30);
     });
 
     it('Check passing undefined variables to constructor', () => {
@@ -34,8 +42,16 @@ describe('Test class: ComponentDefinition', () => {
       expect(componentDefinition.definedAttributes).toEqual([]);
       expect(componentDefinition.isContainer).toBeFalsy();
       expect(componentDefinition.displayType).toBeFalsy();
-      expect(componentDefinition.preventChildrenMovement).toBeFalsy();
-      expect(componentDefinition.childrenPerLine).toBeFalsy();
+      expect(componentDefinition.workflowDirection).toEqual('horizontal');
+      expect(componentDefinition.linkModel).toBeNull();
+      expect(componentDefinition.defaultWidth).toEqual(0);
+      expect(componentDefinition.defaultHeight).toEqual(0);
+      expect(componentDefinition.minWidth).toEqual(0);
+      expect(componentDefinition.minHeight).toEqual(0);
+      expect(componentDefinition.reservedWidth).toEqual(0);
+      expect(componentDefinition.reservedHeight).toEqual(0);
+      expect(componentDefinition.margin).toEqual(10);
+      expect(componentDefinition.gap).toEqual(30);
     });
 
     it('Check passing variable to constructor', () => {
@@ -50,9 +66,17 @@ describe('Test class: ComponentDefinition', () => {
         childrenTypes: ['childrenType'],
         definedAttributes: ['attribute'],
         isContainer: true,
-        displayType: 'test',
-        preventChildrenMovement: true,
-        childrenPerLine: 5,
+        displayType: 'displayType',
+        workflowDirection: 'vertical',
+        linkModel: 'linkModel',
+        defaultWidth: 1,
+        defaultHeight: 2,
+        minWidth: 3,
+        minHeight: 4,
+        reservedWidth: 5,
+        reservedHeight: 6,
+        margin: 7,
+        gap: 8,
       });
 
       expect(componentDefinition.type).toEqual('type');
@@ -68,9 +92,17 @@ describe('Test class: ComponentDefinition', () => {
       expect(componentDefinition.definedAttributes.length).toEqual(1);
       expect(componentDefinition.definedAttributes[0]).toEqual('attribute');
       expect(componentDefinition.isContainer).toBeTruthy();
-      expect(componentDefinition.displayType).toEqual('test');
-      expect(componentDefinition.preventChildrenMovement).toBeTruthy();
-      expect(componentDefinition.childrenPerLine).toEqual(5);
+      expect(componentDefinition.displayType).toEqual('displayType');
+      expect(componentDefinition.workflowDirection).toEqual('vertical');
+      expect(componentDefinition.linkModel).toEqual('linkModel');
+      expect(componentDefinition.defaultWidth).toEqual(1);
+      expect(componentDefinition.defaultHeight).toEqual(2);
+      expect(componentDefinition.minWidth).toEqual(3);
+      expect(componentDefinition.minHeight).toEqual(4);
+      expect(componentDefinition.reservedWidth).toEqual(5);
+      expect(componentDefinition.reservedHeight).toEqual(6);
+      expect(componentDefinition.margin).toEqual(7);
+      expect(componentDefinition.gap).toEqual(8);
     });
   });
 });

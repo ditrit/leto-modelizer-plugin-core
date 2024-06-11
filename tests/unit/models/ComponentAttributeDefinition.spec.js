@@ -12,9 +12,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.url).toBeNull();
       expect(definedAttribute.linkType).toBeNull();
       expect(definedAttribute.linkRef).toEqual([]);
-      expect(definedAttribute.linkColor).toEqual('black');
-      expect(definedAttribute.linkWidth).toEqual(2);
-      expect(definedAttribute.linkDashStyle).toBeNull();
+      expect(definedAttribute.linkModel).toBeNull();
       expect(definedAttribute.containerRef).toBeNull();
       expect(definedAttribute.definedAttributes).toEqual([]);
       expect(definedAttribute.required).toEqual(false);
@@ -34,9 +32,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.url).toBeNull();
       expect(definedAttribute.linkType).toBeNull();
       expect(definedAttribute.linkRef).toEqual([]);
-      expect(definedAttribute.linkColor).toEqual('black');
-      expect(definedAttribute.linkWidth).toEqual(2);
-      expect(definedAttribute.linkDashStyle).toBeNull();
+      expect(definedAttribute.linkModel).toBeNull();
       expect(definedAttribute.containerRef).toBeNull();
       expect(definedAttribute.definedAttributes).toEqual([]);
       expect(definedAttribute.required).toEqual(false);
@@ -56,9 +52,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.url).toBeNull();
       expect(definedAttribute.linkType).toBeNull();
       expect(definedAttribute.linkRef).toEqual([]);
-      expect(definedAttribute.linkColor).toEqual('black');
-      expect(definedAttribute.linkWidth).toEqual(2);
-      expect(definedAttribute.linkDashStyle).toBeNull();
+      expect(definedAttribute.linkModel).toBeNull();
       expect(definedAttribute.containerRef).toBeNull();
       expect(definedAttribute.definedAttributes).toEqual([]);
       expect(definedAttribute.required).toEqual(false);
@@ -77,9 +71,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
         url: 'url',
         linkType: 'Default',
         linkRef: ['linkRef'],
-        linkColor: 'blue',
-        linkWidth: 3,
-        linkDashStyle: [1, 1],
+        linkModel: 'linkModel',
         containerRef: 'containerRef',
         definedAttributes: [new ComponentAttributeDefinition()],
         required: true,
@@ -99,9 +91,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.linkType).toEqual('Default');
       expect(definedAttribute.linkRef.length).toEqual(1);
       expect(definedAttribute.linkRef[0]).toEqual('linkRef');
-      expect(definedAttribute.linkColor).toEqual('blue');
-      expect(definedAttribute.linkWidth).toEqual(3);
-      expect(definedAttribute.linkDashStyle).toEqual([1, 1]);
+      expect(definedAttribute.linkModel).toEqual('linkModel');
       expect(definedAttribute.containerRef).toEqual('containerRef');
       expect(definedAttribute.definedAttributes.length).toEqual(1);
       expect(definedAttribute.definedAttributes[0]).not.toBeNull();
