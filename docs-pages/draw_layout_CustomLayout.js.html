@@ -1,0 +1,556 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  tracking-code-which-will-go-to-the-HEAD
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> draw/layout/CustomLayout.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">leto-modelizer-plugin-core</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/ditrit/leto-modelizer-plugin-core#README.md"
+                        >
+                            Github
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Action.html">Action</a></li><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="ComponentRenderer.html">ComponentRenderer</a></li><li><a href="ComponentTemporaryLink.html">ComponentTemporaryLink</a></li><li><a href="CustomLayout.html">CustomLayout</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultLayout.html">DefaultLayout</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="DeleteAction.html">DeleteAction</a></li><li><a href="DeselectionAllAction.html">DeselectionAllAction</a></li><li><a href="DragComponentAction.html">DragComponentAction</a></li><li><a href="DragSceneAction.html">DragSceneAction</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="LinkAction.html">LinkAction</a></li><li><a href="LinkRenderer.html">LinkRenderer</a></li><li><a href="MenuAction.html">MenuAction</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="ResizeComponentAction.html">ResizeComponentAction</a></li><li><a href="SelectionAllAction.html">SelectionAllAction</a></li><li><a href="Tag.html">Tag</a></li><li><a href="ToggleSelectionAction.html">ToggleSelectionAction</a></li><li><a href="Variable.html">Variable</a></li><li><a href="ZoomAction.html">ZoomAction</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>draw/layout/CustomLayout.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import DefaultLayout from './DefaultLayout';
+
+/**
+ * Custom implementation of DefaultLayout.
+ */
+class CustomLayout extends DefaultLayout {
+  /**
+   * Generate layout of a container.
+   * Will update all component drawOption with new position and size.
+   * @param {string} id - Container id, null for root container.
+   * @param {boolean} keepPosition - If true, rearrange only components without a specified
+   * position; otherwise, rearrange all components.
+   * @returns {boolean} Return true on successful generation.
+   */
+  generateComponentsLayout(id, keepPosition) {
+    const nodes = this.getNodes();
+    const graph = nodes.get(id || 'root');
+    const movingIds = [];
+    const resizingIds = [];
+
+    this.generateLayout(nodes, graph, keepPosition);
+
+    nodes.forEach((node) => {
+      if (node.id === 'root') {
+        return;
+      }
+      if (id !== null &amp;&amp; id !== node.parent.id &amp;&amp; id !== node.id) {
+        return;
+      }
+
+      const component = this.pluginData.getComponentById(node.id);
+
+      const isMoving = component.drawOption.x !== node.x || component.drawOption.y !== node.y;
+      const isResizing = component.drawOption.width !== node.width
+        || component.drawOption.height !== node.height;
+
+      component.drawOption.x = node.x;
+      component.drawOption.y = node.y;
+      component.drawOption.width = node.width;
+      component.drawOption.height = node.height;
+
+      if (isMoving) {
+        movingIds.push(component.id);
+      } else if (isResizing) {
+        resizingIds.push(component.id);
+      }
+    });
+
+    if (movingIds.length > 0) {
+      this.pluginData.emitEvent({
+        components: movingIds,
+        type: 'Drawer',
+        action: 'move',
+        status: 'success',
+      });
+    }
+
+    if (resizingIds.length > 0) {
+      this.pluginData.emitEvent({
+        components: resizingIds,
+        type: 'Drawer',
+        action: 'resize',
+        status: 'success',
+      });
+    }
+
+    return true;
+  }
+
+  /**
+   * Initializes all nodes of a layout.
+   * @returns {Map&lt;string, object>} Initialized nodes.
+   */
+  getNodes() {
+    const root = {
+      id: 'root',
+      parent: null,
+      children: [],
+      depth: 0,
+      type: 'default',
+      isContainer: true,
+      margin: this.pluginData.configuration.rootContainer.margin,
+      gap: this.pluginData.configuration.rootContainer.gap,
+    };
+    const nodes = new Map(
+      this.pluginData.components.map((component) => [component.id, this.createNode(component)]),
+    );
+
+    nodes.set('root', root);
+
+    nodes.forEach((node) => {
+      if (node.parent) {
+        const parent = nodes.get(node.parent);
+
+        node.parent = parent;
+        parent.children.push(node);
+      }
+    });
+
+    return nodes;
+  }
+
+  /**
+   * Convert component to a node with needed properties.
+   * @param {Component} component - Component.
+   * @returns {object} Node of component.
+   */
+  createNode(component) {
+    return {
+      id: component.id,
+      parent: component.getContainerId() || 'root',
+      type: component.definition.displayType || 'default',
+      direction: component.definition.workflowDirection,
+      children: [],
+      depth: this.pluginData.getComponentDepth(component.id) + 1,
+      isContainer: component.definition.isContainer,
+      width: component.definition.defaultWidth,
+      height: component.definition.defaultHeight,
+      minWidth: component.definition.minWidth,
+      minHeight: component.definition.minHeight,
+      reservedWidth: component.definition.reservedWidth,
+      reservedHeight: component.definition.reservedHeight,
+      margin: component.definition.margin,
+      gap: component.definition.gap,
+      x: component.drawOption.x,
+      y: component.drawOption.y,
+    };
+  }
+
+  /**
+   * Recursive method to generate layout of a container. Generate layout of container children.
+   * @param {Map&lt;string, object>} nodes - Layout nodes.
+   * @param {object} node - Node to generate layout.
+   * @param {boolean} keepPosition - If true, rearrange only components without a specified
+   * position; otherwise, rearrange all components.
+   */
+  generateLayout(nodes, node, keepPosition) {
+    node.children.forEach((child) => {
+      this.generateLayout(nodes, child, keepPosition);
+    });
+
+    if (node.isContainer &amp;&amp; node.type === 'default') {
+      this.generateDefaultLayout(node, keepPosition);
+    } else if (node.isContainer) {
+      this.generateWorkflowLayout(nodes, node);
+    }
+  }
+
+  /**
+   * Generate layout of default container.
+   * @param {object} container - Container.
+   * @param {boolean} keepPosition - If true, rearrange only components without a specified
+   * position; otherwise, rearrange all components.
+   */
+  generateDefaultLayout(container, keepPosition) {
+    this.text = 0;
+    const nodesAlreadyPlaced = [];
+    const nodesToPlace = [];
+    const {
+      margin,
+      gap,
+      minWidth,
+      minHeight,
+      reservedWidth,
+      reservedHeight,
+    } = container;
+    let maxX = 0;
+    let maxY = 0;
+
+    container.children.forEach((node) => {
+      if (node.x &amp;&amp; node.y &amp;&amp; keepPosition) {
+        nodesAlreadyPlaced.push(node);
+        maxX = Math.max(node.x + node.width, maxX);
+        maxY = Math.max(node.y + node.height, maxY);
+      } else {
+        nodesToPlace.push(node);
+      }
+    });
+
+    let index = 0;
+    let indexPoints = 0;
+    let node;
+    let points = this.getPoints(index, margin, gap);
+
+    while (nodesToPlace.length > 0) {
+      if (!node) {
+        [node] = nodesToPlace;
+      }
+
+      if (points.length === 0) {
+        indexPoints = 0;
+        index += 1;
+        points = this.getPoints(index, margin, gap);
+      }
+
+      if (points.length > 0 &amp;&amp; this.canBePlaced(nodesAlreadyPlaced, node, points[indexPoints])) {
+        node.x = points[indexPoints].x;
+        node.y = points[indexPoints].y;
+
+        maxX = Math.max(node.x + node.width, maxX);
+        maxY = Math.max(node.y + node.height, maxY);
+
+        nodesAlreadyPlaced.push(node);
+        nodesToPlace.shift();
+        node = null;
+      }
+
+      indexPoints += 1;
+
+      if (indexPoints >= points.length) {
+        indexPoints = 0;
+        index += 1;
+        points = this.getPoints(index, margin, gap);
+      }
+    }
+
+    container.width = Math.max(maxX + margin + reservedWidth, minWidth);
+    container.height = Math.max(maxY + margin + reservedHeight, minHeight);
+  }
+
+  /**
+   * Indicate if node can be placed at position. Check if node not overriding existing node at
+   * position.
+   * @param {object[]} existingNodes - Existing nodes to check position overriding.
+   * @param {object} node - Node to check.
+   * @param {object} position - x, y position to check
+   * @returns {boolean} True if node can be placed at given position, otherwise false.
+   */
+  canBePlaced(existingNodes, node, position) {
+    return existingNodes.every(({
+      x,
+      y,
+      width,
+      height,
+    }) => {
+      const isLeftOf = position.x + node.width &lt; x;
+      const isRightOf = position.x > x + width;
+      const isAbove = position.y + node.height &lt; y;
+      const isBelow = position.y > y + height;
+
+      return (isLeftOf || isRightOf || isAbove || isBelow);
+    });
+  }
+
+  /**
+   * Generates a list of points forming a path along the edges of a square grid of a given size.
+   * Only give points on right and bottom edge.
+   * @param {number} i - The number of segments to create (determines the square size). Square are
+   * always a multiple of margin. If i = 0, return default position.
+   * @param {number} margin - The margin from the origin (0,0) to start the grid.
+   * @param {number} gap - The distance between consecutive points.
+   * @returns {object[]} An array of points along the edges of the square grid.
+   */
+  getPoints(i, margin, gap) {
+    if (i === 0) {
+      return [{ x: margin, y: margin }];
+    }
+    const maxX = margin + gap * i;
+    const maxY = margin + gap * i;
+    const points = [];
+
+    let y = margin;
+    let x = margin;
+
+    while (x &lt;= maxX) {
+      if (x === maxX &amp;&amp; maxY === y) {
+        break;
+      }
+
+      points.push({
+        x,
+        y: maxY,
+      });
+      x += gap;
+
+      points.push({
+        x: maxX,
+        y,
+      });
+      y += gap;
+    }
+
+    points.push({
+      x: maxX,
+      y: maxY,
+    });
+
+    return points;
+  }
+
+  /**
+   * Generate layout of workflow container.
+   * @param {Map&lt;string, object>} nodes - Layout nodes.
+   * @param {object} container - Container.
+   */
+  generateWorkflowLayout(nodes, container) {
+    if (container.direction === 'vertical') {
+      this.generateVerticalWorkflowLayout(nodes, container);
+    } else {
+      this.generateHorizontalWorkflowLayout(nodes, container);
+    }
+  }
+
+  /**
+   * Generate layout of horizontal workflow container.
+   * @param {Map&lt;string, object>} nodes - Layout nodes.
+   * @param {object} container - Container.
+   */
+  generateHorizontalWorkflowLayout(nodes, container) {
+    const {
+      margin,
+      gap,
+      minWidth,
+      minHeight,
+      reservedWidth,
+      reservedHeight,
+    } = container;
+    let x = margin;
+    let maxY = 0;
+
+    container.children.forEach((child) => {
+      child.x = x;
+      child.y = margin; // innerPadding of container
+      x = child.x + child.width + gap;
+
+      if (child.height > maxY) {
+        maxY = child.height;
+      }
+    });
+
+    container.width = Math.max(x - gap + margin + reservedWidth, minWidth);
+    container.height = Math.max(maxY + margin * 2 + reservedHeight, minHeight);
+  }
+
+  /**
+   * Generate layout of vertical workflow container.
+   * @param {Map&lt;string, object>} nodes - Layout nodes.
+   * @param {object} container - Container.
+   */
+  generateVerticalWorkflowLayout(nodes, container) {
+    const {
+      margin,
+      gap,
+      minWidth,
+      minHeight,
+      reservedWidth,
+      reservedHeight,
+    } = container;
+    let y = margin;
+    let maxX = 0;
+
+    container.children.forEach((child) => {
+      child.x = margin; // innerPadding of container
+      child.y = y;
+      y = child.y + child.height + gap;
+
+      if (child.width > maxX) {
+        maxX = child.width;
+      }
+    });
+
+    container.width = Math.max(maxX + margin * 2 + reservedWidth, minWidth);
+    container.height = Math.max(y - gap + margin + reservedHeight, minHeight);
+  }
+
+  /**
+   * Resize component to its minimum size.
+   * @param {string} id - Id of component to resize.
+   * @returns {boolean} Return true on successful resizing.
+   */
+  resize(id) {
+    const container = this.pluginData.getComponentById(id);
+
+    if (!container.definition.isContainer) {
+      return false;
+    }
+
+    let maxX = 0;
+    let maxY = 0;
+
+    this.pluginData.getChildren(id).forEach((component) => {
+      const x = component.drawOption.x + component.drawOption.width;
+      const y = component.drawOption.y + component.drawOption.height;
+
+      if (x > maxX) {
+        maxX = x;
+      }
+
+      if (y > maxY) {
+        maxY = y;
+      }
+    });
+
+    const {
+      minWidth,
+      minHeight,
+      reservedWidth,
+      reservedHeight,
+      margin,
+    } = container.definition;
+    const newWidth = Math.max(maxX + margin * 2 + reservedWidth, minWidth);
+    const newHeight = Math.max(maxY + margin * 2 + reservedHeight, minHeight);
+
+    if (newWidth !== container.drawOption.width || newHeight !== container.drawOption.height) {
+      container.drawOption.width = newWidth;
+      container.drawOption.height = newHeight;
+
+      this.pluginData.emitEvent({
+        components: [id],
+        type: 'Drawer',
+        action: 'resize',
+        status: 'success',
+      });
+    }
+
+    return true;
+  }
+}
+
+export default CustomLayout;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

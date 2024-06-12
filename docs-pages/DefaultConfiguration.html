@@ -83,7 +83,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultLayout.html">DefaultLayout</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="ElkLayout.html">ElkLayout</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="Tag.html">Tag</a></li><li><a href="Variable.html">Variable</a></li></ul><h3><a href="global.html">Global</a></h3></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Action.html">Action</a></li><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="ComponentRenderer.html">ComponentRenderer</a></li><li><a href="ComponentTemporaryLink.html">ComponentTemporaryLink</a></li><li><a href="CustomLayout.html">CustomLayout</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultLayout.html">DefaultLayout</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="DeleteAction.html">DeleteAction</a></li><li><a href="DeselectionAllAction.html">DeselectionAllAction</a></li><li><a href="DragComponentAction.html">DragComponentAction</a></li><li><a href="DragSceneAction.html">DragSceneAction</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="LinkAction.html">LinkAction</a></li><li><a href="LinkRenderer.html">LinkRenderer</a></li><li><a href="MenuAction.html">MenuAction</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="ResizeComponentAction.html">ResizeComponentAction</a></li><li><a href="SelectionAllAction.html">SelectionAllAction</a></li><li><a href="Tag.html">Tag</a></li><li><a href="ToggleSelectionAction.html">ToggleSelectionAction</a></li><li><a href="Variable.html">Variable</a></li><li><a href="ZoomAction.html">ZoomAction</a></li></ul></div>
                 
             </nav>
         </div>
@@ -410,141 +410,6 @@ configuration.</td>
     
 <tr class="deep-level-1">
   
-      <td class="name"><code>elkParams</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">object</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">Parameters for the layout algorithm.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>singleComponentParams</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">object</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">Parameters for the algorithm that
-places a single component.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>singleComponentParams.margin</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">Minimal distance between
-components & links.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>singleComponentParams.precision</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">Space interval between coordinates
-that will be tested. Performance decreases proportionally to the square of this parameter.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
       <td class="name"><code>isFolderTypeDiagram</code></td>
   
 
@@ -572,6 +437,338 @@ that will be tested. Performance decreases proportionally to the square of this 
   
 
   <td class="description last">True if diagram type is folder, otherwise false.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>extraResources</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">Array.&lt;object></code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">List of extra resources to register. An extra
+resource is model name that can't be set in Component.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>extraResources.type</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">Type of resources can be markers, links and
+icons. You can set models, but only component can use models.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>extraResources.name</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">Name of SVG model to render the resource.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>rootContainer</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">object</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">Configuration of root container in the scene.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>rootContainer.margin</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">number</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">Margin inside the root container.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>rootContainer.gap</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">number</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">Gap between component inside the root container.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>container</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">object</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">Default configuration of all container in the scene.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>container.margin</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">number</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">Default margin inside container.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>container.gap</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">number</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">Default gap between component inside container.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>keysBinding</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">object</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">Set of keyboard shortcuts for actions performing.</td>
 </tr>
 
   
@@ -613,13 +810,6 @@ that will be tested. Performance decreases proportionally to the square of this 
     
     
 
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li>Parameters for ELK: <a href="https://eclipse.dev/elk/reference/options.html">https://eclipse.dev/elk/reference/options.html</a></li>
-        </ul>
-    </dd>
     
 
     
@@ -678,6 +868,83 @@ that will be tested. Performance decreases proportionally to the square of this 
         <div class='vertical-section'>
             <h1>Members</h1>
             <div class="members">
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">Object</code>
+
+
+    </span>
+
+<h4 class="name" id="container">
+    <a class="href-link" href="#container">#</a>
+    
+    <span class="code-name">
+        container
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Default configuration of all containers in the scene.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line101">line 101</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
             
                 <div class="member">
 
@@ -744,7 +1011,7 @@ that will be tested. Performance decreases proportionally to the square of this 
         <p class="tag-source">
             <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line59">line 59</a>
+                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line71">line 71</a>
             </span>
         </p>
     
@@ -821,7 +1088,7 @@ that will be tested. Performance decreases proportionally to the square of this 
         <p class="tag-source">
             <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line54">line 54</a>
+                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line66">line 66</a>
             </span>
         </p>
     
@@ -898,7 +1165,7 @@ that will be tested. Performance decreases proportionally to the square of this 
         <p class="tag-source">
             <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line41">line 41</a>
+                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line53">line 53</a>
             </span>
         </p>
     
@@ -915,16 +1182,16 @@ that will be tested. Performance decreases proportionally to the square of this 
     <span class="method-parameter is-pulled-right">
         <label>Type:</label>
         
-<code class="param-type">object</code>
+<code class="param-type">Object</code>
 
 
     </span>
 
-<h4 class="name" id="elkParams">
-    <a class="href-link" href="#elkParams">#</a>
+<h4 class="name" id="extraResources">
+    <a class="href-link" href="#extraResources">#</a>
     
     <span class="code-name">
-        elkParams
+        extraResources
     </span>
     
 </h4>
@@ -933,7 +1200,8 @@ that will be tested. Performance decreases proportionally to the square of this 
 
 
 <div class="description">
-    Parameters for the ELK automatic layout system.
+    List of extra resources to register. An extra resource is model name that can't be set in
+Component.
 </div>
 
 
@@ -968,13 +1236,6 @@ that will be tested. Performance decreases proportionally to the square of this 
     
 
     
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="https://eclipse.dev/elk/reference/options.html">https://eclipse.dev/elk/reference/options.html</a></li>
-        </ul>
-    </dd>
-    
 
     
 
@@ -982,7 +1243,7 @@ that will be tested. Performance decreases proportionally to the square of this 
         <p class="tag-source">
             <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line71">line 71</a>
+                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line88">line 88</a>
             </span>
         </p>
     
@@ -1017,7 +1278,7 @@ that will be tested. Performance decreases proportionally to the square of this 
 
 
 <div class="description">
-    True if diagram type is folder, otherise false.
+    True if diagram type is folder, otherwise false.
 </div>
 
 
@@ -1059,7 +1320,84 @@ that will be tested. Performance decreases proportionally to the square of this 
         <p class="tag-source">
             <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line97">line 97</a>
+                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line82">line 82</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">object</code>
+
+
+    </span>
+
+<h4 class="name" id="keysBinding">
+    <a class="href-link" href="#keysBinding">#</a>
+    
+    <span class="code-name">
+        keysBinding
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Set of keyboard shortcuts for actions performing.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line110">line 110</a>
             </span>
         </p>
     
@@ -1136,7 +1474,7 @@ that will be tested. Performance decreases proportionally to the square of this 
         <p class="tag-source">
             <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line49">line 49</a>
+                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line61">line 61</a>
             </span>
         </p>
     
@@ -1153,16 +1491,16 @@ that will be tested. Performance decreases proportionally to the square of this 
     <span class="method-parameter is-pulled-right">
         <label>Type:</label>
         
-<code class="param-type">object</code>
+<code class="param-type">Object</code>
 
 
     </span>
 
-<h4 class="name" id="singleComponentParams">
-    <a class="href-link" href="#singleComponentParams">#</a>
+<h4 class="name" id="rootContainer">
+    <a class="href-link" href="#rootContainer">#</a>
     
     <span class="code-name">
-        singleComponentParams
+        rootContainer
     </span>
     
 </h4>
@@ -1171,7 +1509,7 @@ that will be tested. Performance decreases proportionally to the square of this 
 
 
 <div class="description">
-    Parameters for the algorithm that places a single new component.
+    Configuration of root container in the scene.
 </div>
 
 
@@ -1213,7 +1551,7 @@ that will be tested. Performance decreases proportionally to the square of this 
         <p class="tag-source">
             <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line88">line 88</a>
+                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line93">line 93</a>
             </span>
         </p>
     
@@ -1295,7 +1633,7 @@ that will be tested. Performance decreases proportionally to the square of this 
         <p class="tag-source">
             <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line65">line 65</a>
+                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line77">line 77</a>
             </span>
         </p>
     
@@ -1327,7 +1665,7 @@ that will be tested. Performance decreases proportionally to the square of this 
             
             <footer class="footer">
                 <div class="content has-text-centered">
-                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a></p>
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a></p>
                     <p class="sidebar-created-by">
                         <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
                         <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>

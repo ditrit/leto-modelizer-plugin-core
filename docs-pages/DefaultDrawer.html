@@ -83,7 +83,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultLayout.html">DefaultLayout</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="ElkLayout.html">ElkLayout</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="Tag.html">Tag</a></li><li><a href="Variable.html">Variable</a></li></ul><h3><a href="global.html">Global</a></h3></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Action.html">Action</a></li><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="ComponentRenderer.html">ComponentRenderer</a></li><li><a href="ComponentTemporaryLink.html">ComponentTemporaryLink</a></li><li><a href="CustomLayout.html">CustomLayout</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultLayout.html">DefaultLayout</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="DeleteAction.html">DeleteAction</a></li><li><a href="DeselectionAllAction.html">DeselectionAllAction</a></li><li><a href="DragComponentAction.html">DragComponentAction</a></li><li><a href="DragSceneAction.html">DragSceneAction</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="LinkAction.html">LinkAction</a></li><li><a href="LinkRenderer.html">LinkRenderer</a></li><li><a href="MenuAction.html">MenuAction</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="ResizeComponentAction.html">ResizeComponentAction</a></li><li><a href="SelectionAllAction.html">SelectionAllAction</a></li><li><a href="Tag.html">Tag</a></li><li><a href="ToggleSelectionAction.html">ToggleSelectionAction</a></li><li><a href="Variable.html">Variable</a></li><li><a href="ZoomAction.html">ZoomAction</a></li></ul></div>
                 
             </nav>
         </div>
@@ -102,7 +102,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>DefaultDrawer<span class="signature">(pluginData, resources<span class="signature-attributes">opt</span>, rootId<span class="signature-attributes">opt</span>, options<span class="signature-attributes">opt</span>, layout<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>DefaultDrawer<span class="signature">(pluginData)</span><span class="type-signature"></span></h2>
         
             <div class="class-description">Class that draws a component in a graphical representation.</div>
         
@@ -128,7 +128,7 @@
         
         <span class="code-name">
             
-                new DefaultDrawer<span class="signature">(pluginData, resources<span class="signature-attributes">opt</span>, rootId<span class="signature-attributes">opt</span>, options<span class="signature-attributes">opt</span>, layout<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
+                new DefaultDrawer<span class="signature">(pluginData)</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -162,11 +162,7 @@
             <th>Type</th>
 
             
-            <th>Attributes</th>
-            
 
-            
-            <th>Default</th>
             
 
             <th class="last">Description</th>
@@ -192,408 +188,10 @@
   </td>
 
   
-      <td class="attributes">
-      
 
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-      </td>
   
 
   <td class="description last">Plugin data storage.</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>resources</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">object</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-          null
-      
-      </td>
-  
-
-  <td class="description last">Object that contains resources.</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>rootId</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-          root
-      
-      </td>
-  
-
-  <td class="description last">Id of HTML element where we want to draw.</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>options</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">object</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-      </td>
-  
-
-  <td class="description last">Rendering options.</td>
-</tr>
-
-  
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>minWidth</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-      </td>
-  
-
-  <td class="description last">Minimum width of a component.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>minHeight</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-      </td>
-  
-
-  <td class="description last">Minimum height of a component.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>padding</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-      </td>
-  
-
-  <td class="description last">Padding around a component.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>margin</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-      </td>
-  
-
-  <td class="description last">Component margin thickness.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>lineLengthPerDepth</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">Array.&lt;number></code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-      </td>
-  
-
-  <td class="description last">Number of components
-per line at a given depth. Valid values: 1 - Infinity.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>actionMenuButtonSize</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-      </td>
-  
-
-  <td class="description last">The size of each action menu button.</td>
-</tr>
-
-  
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>layout</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type"><a href="DefaultLayout.html">DefaultLayout</a></code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-      </td>
-  
-
-  <td class="description last">The manager for an automatic diagram layout.</td>
 </tr>
 
 
@@ -641,7 +239,7 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
         <p class="tag-source">
             <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line11">line 11</a>
+                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line19">line 19</a>
             </span>
         </p>
     
@@ -697,16 +295,16 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
     <span class="method-parameter is-pulled-right">
         <label>Type:</label>
         
-<code class="param-type">number</code>
+<code class="param-type">object</code>
 
 
     </span>
 
-<h4 class="name" id="actionMenuButtonSize">
-    <a class="href-link" href="#actionMenuButtonSize">#</a>
+<h4 class="name" id="actions">
+    <a class="href-link" href="#actions">#</a>
     
     <span class="code-name">
-        actionMenuButtonSize
+        actions
     </span>
     
 </h4>
@@ -715,7 +313,7 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
 
 
 <div class="description">
-    The size of each action menu button.
+    Object to store all instances of actions.
 </div>
 
 
@@ -747,10 +345,74 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
     
 
     
-    <dt class="tag-default">Default Value:</dt>
-    <dd class="tag-default"><ul class="dummy">
-            <li>24</li>
-        </ul></dd>
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
+            <span>
+                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line69">line 69</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id="componentRenderer">
+    <a class="href-link" href="#componentRenderer">#</a>
+    
+    <span class="code-name">
+        componentRenderer
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Component renderer.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
     
     
 
@@ -762,7 +424,7 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
         <p class="tag-source">
             <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line86">line 86</a>
+                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line34">line 34</a>
             </span>
         </p>
     
@@ -784,11 +446,11 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
 
     </span>
 
-<h4 class="name" id="actions">
-    <a class="href-link" href="#actions">#</a>
+<h4 class="name" id="d3">
+    <a class="href-link" href="#d3">#</a>
     
     <span class="code-name">
-        actions
+        d3
     </span>
     
 </h4>
@@ -797,7 +459,7 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
 
 
 <div class="description">
-    Store for actions, used to set specific actions values when making actions.
+    D3 library.
 </div>
 
 
@@ -839,7 +501,7 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
         <p class="tag-source">
             <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line91">line 91</a>
+                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line63">line 63</a>
             </span>
         </p>
     
@@ -906,11 +568,6 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
     
 
     
-    <dt class="tag-default">Default Value:</dt>
-    <dd class="tag-default"><ul class="dummy">
-            <li>new ElkLayout()</li>
-        </ul></dd>
-    
     
 
     
@@ -921,7 +578,7 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
         <p class="tag-source">
             <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line38">line 38</a>
+                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line45">line 45</a>
             </span>
         </p>
     
@@ -935,19 +592,11 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
             
                 <div class="member">
 
-    <span class="method-parameter is-pulled-right">
-        <label>Type:</label>
-        
-<code class="param-type">Array.&lt;number></code>
-
-
-    </span>
-
-<h4 class="name" id="lineLengthPerDepth">
-    <a class="href-link" href="#lineLengthPerDepth">#</a>
+<h4 class="name" id="linkRenderer">
+    <a class="href-link" href="#linkRenderer">#</a>
     
     <span class="code-name">
-        lineLengthPerDepth
+        linkRenderer
     </span>
     
 </h4>
@@ -956,7 +605,7 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
 
 
 <div class="description">
-    Number of components per line at a given depth. Valid values: 1 - Infinity.
+    Link renderer.
 </div>
 
 
@@ -988,11 +637,6 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
     
 
     
-    <dt class="tag-default">Default Value:</dt>
-    <dd class="tag-default"><ul class="dummy">
-            <li>[5, 1]</li>
-        </ul></dd>
-    
     
 
     
@@ -1003,335 +647,7 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
         <p class="tag-source">
             <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line79">line 79</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-    <span class="method-parameter is-pulled-right">
-        <label>Type:</label>
-        
-<code class="param-type">number</code>
-
-
-    </span>
-
-<h4 class="name" id="margin">
-    <a class="href-link" href="#margin">#</a>
-    
-    <span class="code-name">
-        margin
-    </span>
-    
-</h4>
-
-
-
-
-<div class="description">
-    Component margin thickness.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-default">Default Value:</dt>
-    <dd class="tag-default"><ul class="dummy">
-            <li>6</li>
-        </ul></dd>
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line73">line 73</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-    <span class="method-parameter is-pulled-right">
-        <label>Type:</label>
-        
-<code class="param-type">number</code>
-
-
-    </span>
-
-<h4 class="name" id="minHeight">
-    <a class="href-link" href="#minHeight">#</a>
-    
-    <span class="code-name">
-        minHeight
-    </span>
-    
-</h4>
-
-
-
-
-<div class="description">
-    Minimum height of a component.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-default">Default Value:</dt>
-    <dd class="tag-default"><ul class="dummy">
-            <li>50</li>
-        </ul></dd>
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line61">line 61</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-    <span class="method-parameter is-pulled-right">
-        <label>Type:</label>
-        
-<code class="param-type">number</code>
-
-
-    </span>
-
-<h4 class="name" id="minWidth">
-    <a class="href-link" href="#minWidth">#</a>
-    
-    <span class="code-name">
-        minWidth
-    </span>
-    
-</h4>
-
-
-
-
-<div class="description">
-    Minimum width of a component.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-default">Default Value:</dt>
-    <dd class="tag-default"><ul class="dummy">
-            <li>320</li>
-        </ul></dd>
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line55">line 55</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-    <span class="method-parameter is-pulled-right">
-        <label>Type:</label>
-        
-<code class="param-type">number</code>
-
-
-    </span>
-
-<h4 class="name" id="padding">
-    <a class="href-link" href="#padding">#</a>
-    
-    <span class="code-name">
-        padding
-    </span>
-    
-</h4>
-
-
-
-
-<div class="description">
-    Padding around components.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-default">Default Value:</dt>
-    <dd class="tag-default"><ul class="dummy">
-            <li>30</li>
-        </ul></dd>
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line67">line 67</a>
+                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line39">line 39</a>
             </span>
         </p>
     
@@ -1408,7 +724,84 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
         <p class="tag-source">
             <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line32">line 32</a>
+                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line29">line 29</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">Selection</code>
+
+
+    </span>
+
+<h4 class="name" id="scene">
+    <a class="href-link" href="#scene">#</a>
+    
+    <span class="code-name">
+        scene
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    D3 selection of the main scene.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
+            <span>
+                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line57">line 57</a>
             </span>
         </p>
     
@@ -1430,11 +823,11 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
 
     </span>
 
-<h4 class="name" id="resources">
-    <a class="href-link" href="#resources">#</a>
+<h4 class="name" id="states">
+    <a class="href-link" href="#states">#</a>
     
     <span class="code-name">
-        resources
+        states
     </span>
     
 </h4>
@@ -1443,7 +836,7 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
 
 
 <div class="description">
-    Object that contains resources.
+    Object to store all states of the scene.
 </div>
 
 
@@ -1485,7 +878,7 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
         <p class="tag-source">
             <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line49">line 49</a>
+                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line86">line 86</a>
             </span>
         </p>
     
@@ -1502,16 +895,16 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
     <span class="method-parameter is-pulled-right">
         <label>Type:</label>
         
-<code class="param-type">string</code>
+<code class="param-type">Selection</code>
 
 
     </span>
 
-<h4 class="name" id="rootId">
-    <a class="href-link" href="#rootId">#</a>
+<h4 class="name" id="viewport">
+    <a class="href-link" href="#viewport">#</a>
     
     <span class="code-name">
-        rootId
+        viewport
     </span>
     
 </h4>
@@ -1520,7 +913,7 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
 
 
 <div class="description">
-    Id of HTML element where we want to draw.
+    D3 selection of the view port.
 </div>
 
 
@@ -1552,11 +945,6 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
     
 
     
-    <dt class="tag-default">Default Value:</dt>
-    <dd class="tag-default"><ul class="dummy">
-            <li>'root'</li>
-        </ul></dd>
-    
     
 
     
@@ -1567,7 +955,7 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
         <p class="tag-source">
             <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line44">line 44</a>
+                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line51">line 51</a>
             </span>
         </p>
     
@@ -1592,283 +980,12 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
 
 
     
-    <h4 class="name" id="SVGToScreen">
-        <a class="href-link" href="#SVGToScreen">#</a>
-        
-        <span class="code-name">
-            
-                SVGToScreen<span class="signature">(svgX, svgY, svg<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {DOMPoint}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Convert svg coordinates into screen coordinates.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-            <th>Attributes</th>
-            
-
-            
-            <th>Default</th>
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>svgX</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-      </td>
-  
-
-  <td class="description last">SVG x coordinate.</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>svgY</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-      </td>
-  
-
-  <td class="description last">SVG y coordinate.</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>svg</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">SVGSVGElement</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-          null
-      
-      </td>
-  
-
-  <td class="description last">SVG referential.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line170">line 170</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>The transformed coordinates.</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">DOMPoint</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
     <h4 class="name" id="arrangeComponentsPosition">
         <a class="href-link" href="#arrangeComponentsPosition">#</a>
         
-            
-                <span class='tag'>async</span>
-            
-        
         <span class="code-name">
             
-                arrangeComponentsPosition<span class="signature">(containerId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span>
+                arrangeComponentsPosition<span class="signature">(id, keepPosition)</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -1877,9 +994,8 @@ per line at a given depth. Valid values: 1 - Infinity.</td>
     
     
     <div class="description">
-        Reorganize nodes layout algorithmically.
-This method does not refresh the view.
-You have to await it and trigger a redraw.
+        Reorganize position and size of all components.
+This method does not refresh the view. You have to await it and trigger a redraw.
     </div>
     
 
@@ -1904,8 +1020,6 @@ You have to await it and trigger a redraw.
             <th>Type</th>
 
             
-            <th>Attributes</th>
-            
 
             
 
@@ -1919,7 +1033,7 @@ You have to await it and trigger a redraw.
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>containerId</code></td>
+      <td class="name"><code>id</code></td>
   
 
   <td class="type">
@@ -1932,16 +1046,6 @@ You have to await it and trigger a redraw.
   </td>
 
   
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
 
   
 
@@ -1951,384 +1055,17 @@ and if not specified, all components will be reorganized.</td>
 
 
         
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line1773">line 1773</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>Promise with nothing on success otherwise an error.</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">Promise.&lt;void></code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="buildTree">
-        <a class="href-link" href="#buildTree">#</a>
-        
-        <span class="code-name">
-            
-                buildTree<span class="signature">()</span><span class="type-signature"> &rarr; {Array}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Build d3 hierarchy and treemap layout.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line757">line 757</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>The nodes grouped by parent.</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">Array</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="cancelLinkCreationInteraction">
-        <a class="href-link" href="#cancelLinkCreationInteraction">#</a>
-        
-        <span class="code-name">
-            
-                cancelLinkCreationInteraction<span class="signature">()</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Handle link creation being cancelled.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line1743">line 1743</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="changeParent">
-        <a class="href-link" href="#changeParent">#</a>
-        
-        <span class="code-name">
-            
-                changeParent<span class="signature">(target, event)</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Change the event subject's parent to the target component.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
 
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>target</code></td>
+      <td class="name"><code>keepPosition</code></td>
   
 
   <td class="type">
   
       
-<code class="param-type">Selection</code>
+<code class="param-type">boolean</code>
 
 
   
@@ -2338,32 +1075,7 @@ and if not specified, all components will be reorganized.</td>
 
   
 
-  <td class="description last">Where the dragged element was dropped.</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>event</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">DragEvent</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">D3's drag event.</td>
+  <td class="description last">If true only component without position will be reorganized.</td>
 </tr>
 
 
@@ -2443,12 +1155,12 @@ and if not specified, all components will be reorganized.</td>
 
 
     
-    <h4 class="name" id="clickHandler">
-        <a class="href-link" href="#clickHandler">#</a>
+    <h4 class="name" id="clearActions">
+        <a class="href-link" href="#clearActions">#</a>
         
         <span class="code-name">
             
-                clickHandler<span class="signature">(event)</span><span class="type-signature"></span>
+                clearActions<span class="signature">()</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -2457,303 +1169,7 @@ and if not specified, all components will be reorganized.</td>
     
     
     <div class="description">
-        Handle component click event. Set selected style on it.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>event</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">PointerEvent</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The click event.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line623">line 623</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="createLink">
-        <a class="href-link" href="#createLink">#</a>
-        
-        <span class="code-name">
-            
-                createLink<span class="signature">(componentId)</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Create a link between the previously selected source and destination.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>componentId</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">Component id.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line1319">line 1319</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="createRenderingContext">
-        <a class="href-link" href="#createRenderingContext">#</a>
-        
-        <span class="code-name">
-            
-                createRenderingContext<span class="signature">()</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Create a new svg to render the models in, or fetch an existing one.
+        Remove all instances of actions and remove all set events.
     </div>
     
 
@@ -2804,7 +1220,7 @@ and if not specified, all components will be reorganized.</td>
         <p class="tag-source">
             <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line546">line 546</a>
+                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line128">line 128</a>
             </span>
         </p>
     
@@ -2826,204 +1242,6 @@ and if not specified, all components will be reorganized.</td>
 
 
 
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="dragHandler">
-        <a class="href-link" href="#dragHandler">#</a>
-        
-        <span class="code-name">
-            
-                dragHandler<span class="signature">(draggedElement, event)</span><span class="type-signature"> &rarr; {Element}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Handles dragging a component across the screen and return the element it will be dropped on.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>draggedElement</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">Element</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The DOM element being dragged.</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>event</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">DragEvent</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The emitted drag event.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line249">line 249</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>The element to drop the dragged element onto.</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">Element</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
 
 
 
@@ -3039,7 +1257,7 @@ and if not specified, all components will be reorganized.</td>
         
         <span class="code-name">
             
-                draw<span class="signature">(rootId, readOnly)</span><span class="type-signature"></span>
+                draw<span class="signature">()</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -3048,7 +1266,7 @@ and if not specified, all components will be reorganized.</td>
     
     
     <div class="description">
-        Draws all Components and ComponentLinks in the parentId Element.
+        Components driven drawing.
     </div>
     
 
@@ -3059,82 +1277,6 @@ and if not specified, all components will be reorganized.</td>
 
 
 
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>rootId</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">Id of the container where you want to draw.</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>readOnly</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">boolean</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">Make the draw read-only.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
 
 
 
@@ -3175,7 +1317,7 @@ and if not specified, all components will be reorganized.</td>
         <p class="tag-source">
             <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line571">line 571</a>
+                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line358">line 358</a>
             </span>
         </p>
     
@@ -3207,12 +1349,12 @@ and if not specified, all components will be reorganized.</td>
 
 
     
-    <h4 class="name" id="drawComponents">
-        <a class="href-link" href="#drawComponents">#</a>
+    <h4 class="name" id="dropComponent">
+        <a class="href-link" href="#dropComponent">#</a>
         
         <span class="code-name">
             
-                drawComponents<span class="signature">(readOnly)</span><span class="type-signature"></span>
+                dropComponent<span class="signature">(component, event)</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -3221,7 +1363,7 @@ and if not specified, all components will be reorganized.</td>
     
     
     <div class="description">
-        Render components in model view.
+        Drop component on scene.
     </div>
     
 
@@ -3259,509 +1401,15 @@ and if not specified, all components will be reorganized.</td>
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>readOnly</code></td>
+      <td class="name"><code>component</code></td>
   
 
   <td class="type">
   
       
-<code class="param-type">boolean</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">Draw read-only components.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line632">line 632</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="drawLinks">
-        <a class="href-link" href="#drawLinks">#</a>
-        
-        <span class="code-name">
-            
-                drawLinks<span class="signature">(readOnly)</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Render links in model view.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>readOnly</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">boolean</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">Draw read-only links.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line885">line 885</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="findInsertionPosition">
-        <a class="href-link" href="#findInsertionPosition">#</a>
-        
-        <span class="code-name">
-            
-                findInsertionPosition<span class="signature">(parentNode, event)</span><span class="type-signature"> &rarr; {<a href="Component.html">Component</a>}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Find after which component the dragged component should be placed in a container.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>parentNode</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">Node</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The destination container.</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>event</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">DragEvent</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The drag event.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line433">line 433</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>- The component that will be directly before the dropped component.</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
 <code class="param-type"><a href="Component.html">Component</a></code>
 
 
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="getAnchorPoint">
-        <a class="href-link" href="#getAnchorPoint">#</a>
-        
-        <span class="code-name">
-            
-                getAnchorPoint<span class="signature">(sourceSelection, targetSelection)</span><span class="type-signature"> &rarr; {Array.&lt;number>|null}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Get the most appropriate anchor point for a link towards the given target.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>sourceSelection</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">Selection</code>
-
-
   
   </td>
 
@@ -3769,1580 +1417,10 @@ and if not specified, all components will be reorganized.</td>
 
   
 
-  <td class="description last">The source D3 selection object.</td>
+  <td class="description last">Component to drop.</td>
 </tr>
 
 
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>targetSelection</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">Selection</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The target D3 selection object.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line808">line 808</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>- Tuple representing x,y coordinates,
-null if lacking source and/or target. Format required by d3.</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">Array.&lt;number></code>
-|
-
-<code class="param-type">null</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="getBearing">
-        <a class="href-link" href="#getBearing">#</a>
-        
-        <span class="code-name">
-            
-                getBearing<span class="signature">(pointA, pointB)</span><span class="type-signature"> &rarr; {number}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Get the angle (in degrees) between two points.
-0 = pointB is directly below.
-180 = pointB is directly above.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>pointA</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">object</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The point to get the bearing from.</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>pointB</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">object</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The point to get the bearing to.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line958">line 958</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>The bearing.</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">number</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="getComponentHeight">
-        <a class="href-link" href="#getComponentHeight">#</a>
-        
-        <span class="code-name">
-            
-                getComponentHeight<span class="signature">(component)</span><span class="type-signature"> &rarr; {number}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Compute the component's height then store it in its drawOptions.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>component</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">Node</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The component to get the height for.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line1005">line 1005</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>The computed height.</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">number</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="getComponentWidth">
-        <a class="href-link" href="#getComponentWidth">#</a>
-        
-        <span class="code-name">
-            
-                getComponentWidth<span class="signature">(component)</span><span class="type-signature"> &rarr; {number}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Compute the component's width then store it in its drawOptions.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>component</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">Node</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The component to get the width for.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line1028">line 1028</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>The computed width.</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">number</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="getLineLengthForDepth">
-        <a class="href-link" href="#getLineLengthForDepth">#</a>
-        
-        <span class="code-name">
-            
-                getLineLengthForDepth<span class="signature">(depth, lineLengthOverride<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {number}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Get the maximum line length for a given depth.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-            <th>Attributes</th>
-            
-
-            
-            <th>Default</th>
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>depth</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-      </td>
-  
-
-  <td class="description last">The depth to check.</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>lineLengthOverride</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">boolean</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-          null
-      
-      </td>
-  
-
-  <td class="description last">Override if parent is tagged as a workflow</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line219">line 219</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>The maximum length at that depth.</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">number</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="getLinkGenerator">
-        <a class="href-link" href="#getLinkGenerator">#</a>
-        
-        <span class="code-name">
-            
-                getLinkGenerator<span class="signature">(link)</span><span class="type-signature"> &rarr; {object}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Build a new d3 link generator for a ComponentLink
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>link</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type"><a href="ComponentLink.html">ComponentLink</a></code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The link to build the generator for.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line972">line 972</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>A d3 link generator.</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">object</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="getMenuActions">
-        <a class="href-link" href="#getMenuActions">#</a>
-        
-        <span class="code-name">
-            
-                getMenuActions<span class="signature">(targetSelection)</span><span class="type-signature"> &rarr; {Array}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Get a list of actions to fill the menu for a given target.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>targetSelection</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">object</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The target object.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-<div class="table-container">
-    <table class="props table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-            
-<tr class="deep-level-0">
-    
-        <td class="name"><code>id</code></td>
-    
-
-    <td class="type">
-    
-        
-<code class="param-type">string</code>
-
-
-    
-    </td>
-
-    
-
-    
-
-    <td class="description last">Id of the action button.</td>
-</tr>
-
-        
-            
-<tr class="deep-level-0">
-    
-        <td class="name"><code>icon</code></td>
-    
-
-    <td class="type">
-    
-        
-<code class="param-type">string</code>
-
-
-    
-    </td>
-
-    
-
-    
-
-    <td class="description last">Icon to display in the action button</td>
-</tr>
-
-        
-            
-<tr class="deep-level-0">
-    
-        <td class="name"><code>handler</code></td>
-    
-
-    <td class="type">
-    
-        
-<code class="param-type">function</code>
-
-
-    
-    </td>
-
-    
-
-    
-
-    <td class="description last">Function called on action click.</td>
-</tr>
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line1698">line 1698</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>The list of menu actions.</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">Array</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="getSelectionCenter">
-        <a class="href-link" href="#getSelectionCenter">#</a>
-        
-        <span class="code-name">
-            
-                getSelectionCenter<span class="signature">(selection)</span><span class="type-signature"> &rarr; {object}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Get the coordinates for a given selection's center.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>selection</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">Selection</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The selection to find the center for.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line941">line 941</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>Position of selection.</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">object</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="handleDropEvent">
-        <a class="href-link" href="#handleDropEvent">#</a>
-        
-        <span class="code-name">
-            
-                handleDropEvent<span class="signature">(event, dropTarget)</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Update component hierarchy and re-render.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
         
 
             
@@ -5354,7 +1432,7 @@ null if lacking source and/or target. Format required by d3.</div>
   <td class="type">
   
       
-<code class="param-type">DragEvent</code>
+<code class="param-type">object</code>
 
 
   
@@ -5364,32 +1442,7 @@ null if lacking source and/or target. Format required by d3.</div>
 
   
 
-  <td class="description last">D3's drag event.</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>dropTarget</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">Element</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The element on which the dragged component was dropped.</td>
+  <td class="description last">Mouse event.</td>
 </tr>
 
 
@@ -5437,7 +1490,7 @@ null if lacking source and/or target. Format required by d3.</div>
         <p class="tag-source">
             <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line344">line 344</a>
+                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line434">line 434</a>
             </span>
         </p>
     
@@ -5469,12 +1522,12 @@ null if lacking source and/or target. Format required by d3.</div>
 
 
     
-    <h4 class="name" id="hideActionMenu">
-        <a class="href-link" href="#hideActionMenu">#</a>
+    <h4 class="name" id="getScene">
+        <a class="href-link" href="#getScene">#</a>
         
         <span class="code-name">
             
-                hideActionMenu<span class="signature">()</span><span class="type-signature"></span>
+                getScene<span class="signature">()</span><span class="type-signature"> &rarr; {object}</span>
             
         </span>
     </h4>
@@ -5483,7 +1536,7 @@ null if lacking source and/or target. Format required by d3.</div>
     
     
     <div class="description">
-        Hide the action menu.
+        Get scene width data.
     </div>
     
 
@@ -5534,1379 +1587,7 @@ null if lacking source and/or target. Format required by d3.</div>
         <p class="tag-source">
             <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line1753">line 1753</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="hideResizer">
-        <a class="href-link" href="#hideResizer">#</a>
-        
-        <span class="code-name">
-            
-                hideResizer<span class="signature">()</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Hide the resizer.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line1761">line 1761</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="initializeActionMenu">
-        <a class="href-link" href="#initializeActionMenu">#</a>
-        
-        <span class="code-name">
-            
-                initializeActionMenu<span class="signature">(targetSelection)</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Initialize the action menu for a given target.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>targetSelection</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">Selection</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">D3 selection of the target object.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line1350">line 1350</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="initializeComponentDrawOptions">
-        <a class="href-link" href="#initializeComponentDrawOptions">#</a>
-        
-        <span class="code-name">
-            
-                initializeComponentDrawOptions<span class="signature">(component)</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Initialize component height and width then store them in its drawOptions.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>component</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">Node</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The component to initialize the values for.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line718">line 718</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="initializeCreateLinkableComponentMenu">
-        <a class="href-link" href="#initializeCreateLinkableComponentMenu">#</a>
-        
-        <span class="code-name">
-            
-                initializeCreateLinkableComponentMenu<span class="signature">(definitions)</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Initialize the linkable components creation menu.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>definitions</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">Array.&lt;<a href="ComponentDefinition.html">ComponentDefinition</a>></code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">List of component definitions.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line1526">line 1526</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="initializeResizer">
-        <a class="href-link" href="#initializeResizer">#</a>
-        
-        <span class="code-name">
-            
-                initializeResizer<span class="signature">(targetSelection)</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Initialize resizer button when container component is selected.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>targetSelection</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">Selection</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">D3 selection of the target object.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line1446">line 1446</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="removeComponentHandler">
-        <a class="href-link" href="#removeComponentHandler">#</a>
-        
-        <span class="code-name">
-            
-                removeComponentHandler<span class="signature">()</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Handler for component removal.
-Remove component, emit an event accordingly then draw again.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line1659">line 1659</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="removeLinkHandler">
-        <a class="href-link" href="#removeLinkHandler">#</a>
-        
-        <span class="code-name">
-            
-                removeLinkHandler<span class="signature">()</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Handler for link removal.
-Remove link, emit an event accordingly then draw again.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line1676">line 1676</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="repositionComponent">
-        <a class="href-link" href="#repositionComponent">#</a>
-        
-        <span class="code-name">
-            
-                repositionComponent<span class="signature">(componentId)</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Reposition a component where there is room for it.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>componentId</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">Id of a component to be repositioned.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line1781">line 1781</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="resetDrawerActions">
-        <a class="href-link" href="#resetDrawerActions">#</a>
-        
-        <span class="code-name">
-            
-                resetDrawerActions<span class="signature">()</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Reset actions.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line121">line 121</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="screenToSVG">
-        <a class="href-link" href="#screenToSVG">#</a>
-        
-        <span class="code-name">
-            
-                screenToSVG<span class="signature">(screenX, screenY, svg<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {DOMPoint}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Convert screen coordinates into a given svg referential.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-            <th>Attributes</th>
-            
-
-            
-            <th>Default</th>
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>screenX</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-      </td>
-  
-
-  <td class="description last">Screen x coordinate.</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>screenY</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-      </td>
-  
-
-  <td class="description last">Screen y coordinate.</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>svg</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">SVGSVGElement</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-          null
-      
-      </td>
-  
-
-  <td class="description last">SVG referential.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line156">line 156</a>
+                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line323">line 323</a>
             </span>
         </p>
     
@@ -6937,13 +1618,13 @@ Remove link, emit an event accordingly then draw again.
 
 <div class="columns">
     
-    <div class='param-desc column is-7'>The transformed coordinates.</div>
+    <div class='param-desc column is-7'>D3 selection of scene.</div>
     
     
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
-<code class="param-type">DOMPoint</code>
+<code class="param-type">object</code>
 
 
     </div>
@@ -6963,12 +1644,12 @@ Remove link, emit an event accordingly then draw again.
 
 
     
-    <h4 class="name" id="setDisabledStyle">
-        <a class="href-link" href="#setDisabledStyle">#</a>
+    <h4 class="name" id="getSceneData">
+        <a class="href-link" href="#getSceneData">#</a>
         
         <span class="code-name">
             
-                setDisabledStyle<span class="signature">(selector<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
+                getSceneData<span class="signature">()</span><span class="type-signature"> &rarr; {object}</span>
             
         </span>
     </h4>
@@ -6977,7 +1658,7 @@ Remove link, emit an event accordingly then draw again.
     
     
     <div class="description">
-        Apply the disabled style to all elements matching the selector.
+        Format component dataset to d3 hierarchy.
     </div>
     
 
@@ -6988,77 +1669,6 @@ Remove link, emit an event accordingly then draw again.
 
 
 
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-            <th>Attributes</th>
-            
-
-            
-            <th>Default</th>
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>selector</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-          .component
-      
-      </td>
-  
-
-  <td class="description last">CSS selector string.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
 
 
 
@@ -7099,7 +1709,7 @@ Remove link, emit an event accordingly then draw again.
         <p class="tag-source">
             <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line228">line 228</a>
+                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line406">line 406</a>
             </span>
         </p>
     
@@ -7122,6 +1732,31 @@ Remove link, emit an event accordingly then draw again.
 
 
 
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>- Formated component dataset.</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">object</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
 
 
 
@@ -7131,12 +1766,12 @@ Remove link, emit an event accordingly then draw again.
 
 
     
-    <h4 class="name" id="setViewPortAction">
-        <a class="href-link" href="#setViewPortAction">#</a>
+    <h4 class="name" id="init">
+        <a class="href-link" href="#init">#</a>
         
         <span class="code-name">
             
-                setViewPortAction<span class="signature">(readOnly)</span><span class="type-signature"></span>
+                init<span class="signature">(id, readOnly)</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -7145,7 +1780,7 @@ Remove link, emit an event accordingly then draw again.
     
     
     <div class="description">
-        Set actions on viewport.
+        Initialize drawing context.
     </div>
     
 
@@ -7172,12 +1807,43 @@ Remove link, emit an event accordingly then draw again.
             
 
             
+            <th>Default</th>
+            
 
             <th class="last">Description</th>
         </tr>
         </thead>
 
         <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>id</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+
+  
+      <td class="default">
+      
+      </td>
+  
+
+  <td class="description last">Html id of div that will be the drawing container.</td>
+</tr>
+
+
         
 
             
@@ -7195,327 +1861,6 @@ Remove link, emit an event accordingly then draw again.
   
   </td>
 
-  
-
-  
-
-  <td class="description last">Disable viewport action.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line1186">line 1186</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="setupDragBehavior">
-        <a class="href-link" href="#setupDragBehavior">#</a>
-        
-        <span class="code-name">
-            
-                setupDragBehavior<span class="signature">()</span><span class="type-signature"> &rarr; {function}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Create and return d3 drag behaviour.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
-            <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line296">line 296</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>D3 drag behaviour.</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">function</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="setupTiles">
-        <a class="href-link" href="#setupTiles">#</a>
-        
-        <span class="code-name">
-            
-                setupTiles<span class="signature">(lines, invertEven<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Compute the dimension of every component.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-            <th>Attributes</th>
-            
-
-            
-            <th>Default</th>
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>lines</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">Array</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-
-      
-
-      
-      </td>
-  
-
-  
-      <td class="default">
-      
-      </td>
-  
-
-  <td class="description last">Rows of components.</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>invertEven</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">boolean</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
   
 
   
@@ -7526,7 +1871,7 @@ Remove link, emit an event accordingly then draw again.
       </td>
   
 
-  <td class="description last">Layout even line components right to left.</td>
+  <td class="description last">Indicate if user can make action or modify the scene.</td>
 </tr>
 
 
@@ -7574,7 +1919,7 @@ Remove link, emit an event accordingly then draw again.
         <p class="tag-source">
             <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line1046">line 1046</a>
+                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line101">line 101</a>
             </span>
         </p>
     
@@ -7606,12 +1951,12 @@ Remove link, emit an event accordingly then draw again.
 
 
     
-    <h4 class="name" id="startLinkCreationInteraction">
-        <a class="href-link" href="#startLinkCreationInteraction">#</a>
+    <h4 class="name" id="initActions">
+        <a class="href-link" href="#initActions">#</a>
         
         <span class="code-name">
             
-                startLinkCreationInteraction<span class="signature">()</span><span class="type-signature"></span>
+                initActions<span class="signature">()</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -7620,7 +1965,7 @@ Remove link, emit an event accordingly then draw again.
     
     
     <div class="description">
-        Initialize the link creation menu.
+        Initialize actions and set event on viewport and other.
     </div>
     
 
@@ -7671,7 +2016,7 @@ Remove link, emit an event accordingly then draw again.
         <p class="tag-source">
             <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line1640">line 1640</a>
+                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line149">line 149</a>
             </span>
         </p>
     
@@ -7703,12 +2048,12 @@ Remove link, emit an event accordingly then draw again.
 
 
     
-    <h4 class="name" id="unsetAllDisabledStyles">
-        <a class="href-link" href="#unsetAllDisabledStyles">#</a>
+    <h4 class="name" id="initScene">
+        <a class="href-link" href="#initScene">#</a>
         
         <span class="code-name">
             
-                unsetAllDisabledStyles<span class="signature">()</span><span class="type-signature"></span>
+                initScene<span class="signature">()</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -7717,7 +2062,7 @@ Remove link, emit an event accordingly then draw again.
     
     
     <div class="description">
-        Remove the disabled style from previously disabled components.
+        Initialize the scene, set all markers component and link groups.
     </div>
     
 
@@ -7768,7 +2113,155 @@ Remove link, emit an event accordingly then draw again.
         <p class="tag-source">
             <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line238">line 238</a>
+                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line336">line 336</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="resize">
+        <a class="href-link" href="#resize">#</a>
+        
+        <span class="code-name">
+            
+                resize<span class="signature">(id)</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Resize the container to its minimum size.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>id</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Container id.</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="draw_DefaultDrawer.js.html" class="button">View Source</a>
+            <span>
+                <a href="draw_DefaultDrawer.js.html">draw/DefaultDrawer.js</a>, <a href="draw_DefaultDrawer.js.html#line398">line 398</a>
             </span>
         </p>
     
@@ -7814,7 +2307,7 @@ Remove link, emit an event accordingly then draw again.
             
             <footer class="footer">
                 <div class="content has-text-centered">
-                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a></p>
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a></p>
                     <p class="sidebar-created-by">
                         <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
                         <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>

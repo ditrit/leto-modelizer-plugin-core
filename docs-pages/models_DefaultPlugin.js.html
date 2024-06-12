@@ -85,7 +85,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultLayout.html">DefaultLayout</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="ElkLayout.html">ElkLayout</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="Tag.html">Tag</a></li><li><a href="Variable.html">Variable</a></li></ul><h3><a href="global.html">Global</a></h3></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Action.html">Action</a></li><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="ComponentRenderer.html">ComponentRenderer</a></li><li><a href="ComponentTemporaryLink.html">ComponentTemporaryLink</a></li><li><a href="CustomLayout.html">CustomLayout</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultLayout.html">DefaultLayout</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="DeleteAction.html">DeleteAction</a></li><li><a href="DeselectionAllAction.html">DeselectionAllAction</a></li><li><a href="DragComponentAction.html">DragComponentAction</a></li><li><a href="DragSceneAction.html">DragSceneAction</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="LinkAction.html">LinkAction</a></li><li><a href="LinkRenderer.html">LinkRenderer</a></li><li><a href="MenuAction.html">MenuAction</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="ResizeComponentAction.html">ResizeComponentAction</a></li><li><a href="SelectionAllAction.html">SelectionAllAction</a></li><li><a href="Tag.html">Tag</a></li><li><a href="ToggleSelectionAction.html">ToggleSelectionAction</a></li><li><a href="Variable.html">Variable</a></li><li><a href="ZoomAction.html">ZoomAction</a></li></ul></div>
                 
             </nav>
         </div>
@@ -102,14 +102,12 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import * as d3 from 'd3';
-import DefaultData from './DefaultData';
+            <pre class="prettyprint source linenums"><code>import DefaultData from './DefaultData';
 import DefaultDrawer from '../draw/DefaultDrawer';
 import DefaultMetadata from '../metadata/DefaultMetadata';
 import DefaultParser from '../parser/DefaultParser';
 import DefaultRender from '../render/DefaultRender';
 import DefaultConfiguration from './DefaultConfiguration';
-import ComponentDrawOption from './ComponentDrawOption';
 
 /**
  * Default plugin structure.
@@ -193,23 +191,23 @@ class DefaultPlugin {
    * @param {object} [resources] - Object that contains resources.
    */
   initResources(resources) {
-    this.__drawer.resources = resources;
+    this.data.resources = resources;
   }
 
   /**
-   * Reset actions.
+   * Init drawing context of plugin.
+   * @param {string} id - Html id of div that will be the drawing container.
+   * @param {boolean} readOnly - If false, indicate if user can make action or modify the scene.
    */
-  resetDrawerActions() {
-    this.__drawer.resetDrawerActions();
+  initDrawer(id, readOnly) {
+    this.__drawer.init(id, readOnly);
   }
 
   /**
    * Draws all data in the html element defined by the id.
-   * @param {string} id - Html id, without '#'.
-   * @param {boolean} readOnly - Make the draw read-only.
    */
-  draw(id, readOnly) {
-    this.__drawer.draw(id, readOnly);
+  draw() {
+    this.__drawer.draw();
   }
 
   /**
@@ -288,20 +286,21 @@ class DefaultPlugin {
    * Reorganize nodes layout algorithmically.
    * This method does not refresh the view.
    * You have to await it and trigger a redraw.
-   * @param {string} [containerId] - The container within which we need to organize the children,
-   * and if not specified, all components will be reorganized.
-   * @returns {Promise&lt;void>} Promise with nothing on success otherwise an error.
+   * @param {string} id - The container within which we need to organize the children,
+   * and if null specified, all components will be reorganized.
+   * @param {boolean} keepPosition - If true, rearrange only components without a specified
+   * position; otherwise, rearrange all components.
    */
-  async arrangeComponentsPosition(containerId) {
-    await this.__drawer.arrangeComponentsPosition(containerId);
+  arrangeComponentsPosition(id, keepPosition) {
+    this.__drawer.arrangeComponentsPosition(id, keepPosition);
   }
 
   /**
-   * Reposition a component where there is room for it.
-   * @param {string} componentId - Id of a component to be repositioned.
+   * Resize the container to its minimum size.
+   * @param {string} id - Container id.
    */
-  repositionComponent(componentId) {
-    this.__drawer.repositionComponent(componentId);
+  resize(id) {
+    this.__drawer.resize(id);
   }
 
   /**
@@ -324,40 +323,32 @@ class DefaultPlugin {
 
   /**
    * Create new component with draw option if passed as param.
-   * @param {string} rootId - Html id, without '#'.
+   * @param {string} parentId - Id of parent container, null for root.
    * @param {ComponentDefinition} definition - Component definition.
    * @param {string} path - Component path.
-   * @param {ComponentDrawOption} drawOption - The options used to draw this Component.
+   * @param {object} event - Event that contain mouse position.
    * @returns {string} Component id.
    */
   addComponent(
-    rootId,
+    parentId,
     definition,
     path,
-    drawOption = null,
+    event,
   ) {
     const id = this.data.addComponent(
       definition,
       path,
     );
+    const component = this.data.getComponentById(id);
 
-    if (drawOption) {
-      const component = this.data.getComponentById(id);
-      const target = document
-        .elementsFromPoint(drawOption.x, drawOption.y)
-        .filter((element) => element.classList.contains('component-hitbox'))
-        .map((element) => d3.select(element).datum().data)
-        .filter((element) => element.definition.childrenTypes.includes(definition.type))[0];
+    if (parentId) {
+      const container = this.data.getComponentById(parentId);
 
-      if (target) {
-        const newParent = this.data.getComponentById(target.id);
+      component.setReferenceAttribute(container);
+    }
 
-        component.setReferenceAttribute(newParent);
-      } else {
-        component.drawOption = new ComponentDrawOption({
-          ...this.getComponentPosition(rootId, drawOption),
-        });
-      }
+    if (event) {
+      this.__drawer.dropComponent(component, event);
     }
 
     return id;
@@ -376,7 +367,7 @@ export default DefaultPlugin;
             
             <footer class="footer">
                 <div class="content has-text-centered">
-                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a></p>
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a></p>
                     <p class="sidebar-created-by">
                         <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
                         <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>

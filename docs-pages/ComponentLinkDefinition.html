@@ -83,7 +83,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultLayout.html">DefaultLayout</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="ElkLayout.html">ElkLayout</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="Tag.html">Tag</a></li><li><a href="Variable.html">Variable</a></li></ul><h3><a href="global.html">Global</a></h3></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Action.html">Action</a></li><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="ComponentRenderer.html">ComponentRenderer</a></li><li><a href="ComponentTemporaryLink.html">ComponentTemporaryLink</a></li><li><a href="CustomLayout.html">CustomLayout</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultLayout.html">DefaultLayout</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="DeleteAction.html">DeleteAction</a></li><li><a href="DeselectionAllAction.html">DeselectionAllAction</a></li><li><a href="DragComponentAction.html">DragComponentAction</a></li><li><a href="DragSceneAction.html">DragSceneAction</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="LinkAction.html">LinkAction</a></li><li><a href="LinkRenderer.html">LinkRenderer</a></li><li><a href="MenuAction.html">MenuAction</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="ResizeComponentAction.html">ResizeComponentAction</a></li><li><a href="SelectionAllAction.html">SelectionAllAction</a></li><li><a href="Tag.html">Tag</a></li><li><a href="ToggleSelectionAction.html">ToggleSelectionAction</a></li><li><a href="Variable.html">Variable</a></li><li><a href="ZoomAction.html">ZoomAction</a></li></ul></div>
                 
             </nav>
         </div>
@@ -343,7 +343,7 @@
     
 <tr class="deep-level-1">
   
-      <td class="name"><code>color</code></td>
+      <td class="name"><code>model</code></td>
   
 
   <td class="type">
@@ -369,20 +369,20 @@
 
   
 
-  <td class="description last">Color of the link.</td>
+  <td class="description last">Name of SVG model to render the link of component.</td>
 </tr>
 
   
     
 <tr class="deep-level-1">
   
-      <td class="name"><code>width</code></td>
+      <td class="name"><code>isTemporary</code></td>
   
 
   <td class="type">
   
       
-<code class="param-type">number</code>
+<code class="param-type">boolean</code>
 
 
   
@@ -402,273 +402,7 @@
 
   
 
-  <td class="description last">Width of the link.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>dashStyle</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">Array.&lt;number></code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">Dash style of the link. See stroke-dasharray of svg.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>marker</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">object</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">Marker of the link, see
-<a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Element/marker">official documentation</a>.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>marker.width</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">Width of the marker.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>marker.height</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">Height of the marker.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>marker.refX</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">X offset of the marker from the edge of the link path.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>marker.refY</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">Y offset of the marker from
-the edge of the link path.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>marker.orient</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">Orientation of the marker.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>marker.path</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">Path of the shape of the marker.</td>
+  <td class="description last">Indicate if link is temporary.</td>
 </tr>
 
   
@@ -834,7 +568,84 @@ the edge of the link path.</td>
         <p class="tag-source">
             <a href="models_ComponentLinkDefinition.js.html" class="button">View Source</a>
             <span>
-                <a href="models_ComponentLinkDefinition.js.html">models/ComponentLinkDefinition.js</a>, <a href="models_ComponentLinkDefinition.js.html#line57">line 57</a>
+                <a href="models_ComponentLinkDefinition.js.html">models/ComponentLinkDefinition.js</a>, <a href="models_ComponentLinkDefinition.js.html#line36">line 36</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">boolean</code>
+
+
+    </span>
+
+<h4 class="name" id="isTemporary">
+    <a class="href-link" href="#isTemporary">#</a>
+    
+    <span class="code-name">
+        isTemporary
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Indicate if link is temporary.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_ComponentLinkDefinition.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_ComponentLinkDefinition.js.html">models/ComponentLinkDefinition.js</a>, <a href="models_ComponentLinkDefinition.js.html#line61">line 61</a>
             </span>
         </p>
     
@@ -856,11 +667,11 @@ the edge of the link path.</td>
 
     </span>
 
-<h4 class="name" id="color">
-    <a class="href-link" href="#color">#</a>
+<h4 class="name" id="model">
+    <a class="href-link" href="#model">#</a>
     
     <span class="code-name">
-        color
+        model
     </span>
     
 </h4>
@@ -869,7 +680,7 @@ the edge of the link path.</td>
 
 
 <div class="description">
-    Color of the link.
+    Name of SVG model to render the link of component.
 </div>
 
 
@@ -911,153 +722,7 @@ the edge of the link path.</td>
         <p class="tag-source">
             <a href="models_ComponentLinkDefinition.js.html" class="button">View Source</a>
             <span>
-                <a href="models_ComponentLinkDefinition.js.html">models/ComponentLinkDefinition.js</a>, <a href="models_ComponentLinkDefinition.js.html#line77">line 77</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-    <span class="method-parameter is-pulled-right">
-        <label>Type:</label>
-        
-<code class="param-type">Array.&lt;number></code>
-
-
-    </span>
-
-<h4 class="name" id="dashStyle">
-    <a class="href-link" href="#dashStyle">#</a>
-    
-    <span class="code-name">
-        dashStyle
-    </span>
-    
-</h4>
-
-
-
-
-<div class="description">
-    Dash style of the link. See stroke-dasharray of svg.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="models_ComponentLinkDefinition.js.html" class="button">View Source</a>
-            <span>
-                <a href="models_ComponentLinkDefinition.js.html">models/ComponentLinkDefinition.js</a>, <a href="models_ComponentLinkDefinition.js.html#line88">line 88</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-<h4 class="name" id="marker">
-    <a class="href-link" href="#marker">#</a>
-    
-    <span class="code-name">
-        marker
-    </span>
-    
-</h4>
-
-
-
-
-<div class="description">
-    Marker of the link.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="models_ComponentLinkDefinition.js.html" class="button">View Source</a>
-            <span>
-                <a href="models_ComponentLinkDefinition.js.html">models/ComponentLinkDefinition.js</a>, <a href="models_ComponentLinkDefinition.js.html#line93">line 93</a>
+                <a href="models_ComponentLinkDefinition.js.html">models/ComponentLinkDefinition.js</a>, <a href="models_ComponentLinkDefinition.js.html#line56">line 56</a>
             </span>
         </p>
     
@@ -1134,7 +799,7 @@ the edge of the link path.</td>
         <p class="tag-source">
             <a href="models_ComponentLinkDefinition.js.html" class="button">View Source</a>
             <span>
-                <a href="models_ComponentLinkDefinition.js.html">models/ComponentLinkDefinition.js</a>, <a href="models_ComponentLinkDefinition.js.html#line62">line 62</a>
+                <a href="models_ComponentLinkDefinition.js.html">models/ComponentLinkDefinition.js</a>, <a href="models_ComponentLinkDefinition.js.html#line41">line 41</a>
             </span>
         </p>
     
@@ -1211,7 +876,7 @@ the edge of the link path.</td>
         <p class="tag-source">
             <a href="models_ComponentLinkDefinition.js.html" class="button">View Source</a>
             <span>
-                <a href="models_ComponentLinkDefinition.js.html">models/ComponentLinkDefinition.js</a>, <a href="models_ComponentLinkDefinition.js.html#line67">line 67</a>
+                <a href="models_ComponentLinkDefinition.js.html">models/ComponentLinkDefinition.js</a>, <a href="models_ComponentLinkDefinition.js.html#line46">line 46</a>
             </span>
         </p>
     
@@ -1288,89 +953,7 @@ the edge of the link path.</td>
         <p class="tag-source">
             <a href="models_ComponentLinkDefinition.js.html" class="button">View Source</a>
             <span>
-                <a href="models_ComponentLinkDefinition.js.html">models/ComponentLinkDefinition.js</a>, <a href="models_ComponentLinkDefinition.js.html#line72">line 72</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-    <span class="method-parameter is-pulled-right">
-        <label>Type:</label>
-        
-<code class="param-type">number</code>
-
-
-    </span>
-
-<h4 class="name" id="width">
-    <a class="href-link" href="#width">#</a>
-    
-    <span class="code-name">
-        width
-    </span>
-    
-</h4>
-
-
-
-
-<div class="description">
-    Color of the link.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-default">Default Value:</dt>
-    <dd class="tag-default"><ul class="dummy">
-            <li>2</li>
-        </ul></dd>
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="models_ComponentLinkDefinition.js.html" class="button">View Source</a>
-            <span>
-                <a href="models_ComponentLinkDefinition.js.html">models/ComponentLinkDefinition.js</a>, <a href="models_ComponentLinkDefinition.js.html#line83">line 83</a>
+                <a href="models_ComponentLinkDefinition.js.html">models/ComponentLinkDefinition.js</a>, <a href="models_ComponentLinkDefinition.js.html#line51">line 51</a>
             </span>
         </p>
     
@@ -1402,7 +985,7 @@ the edge of the link path.</td>
             
             <footer class="footer">
                 <div class="content has-text-centered">
-                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a></p>
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a></p>
                     <p class="sidebar-created-by">
                         <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
                         <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>

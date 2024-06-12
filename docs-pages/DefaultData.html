@@ -83,7 +83,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultLayout.html">DefaultLayout</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="ElkLayout.html">ElkLayout</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="Tag.html">Tag</a></li><li><a href="Variable.html">Variable</a></li></ul><h3><a href="global.html">Global</a></h3></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Action.html">Action</a></li><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="ComponentRenderer.html">ComponentRenderer</a></li><li><a href="ComponentTemporaryLink.html">ComponentTemporaryLink</a></li><li><a href="CustomLayout.html">CustomLayout</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultLayout.html">DefaultLayout</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="DeleteAction.html">DeleteAction</a></li><li><a href="DeselectionAllAction.html">DeselectionAllAction</a></li><li><a href="DragComponentAction.html">DragComponentAction</a></li><li><a href="DragSceneAction.html">DragSceneAction</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="LinkAction.html">LinkAction</a></li><li><a href="LinkRenderer.html">LinkRenderer</a></li><li><a href="MenuAction.html">MenuAction</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="ResizeComponentAction.html">ResizeComponentAction</a></li><li><a href="SelectionAllAction.html">SelectionAllAction</a></li><li><a href="Tag.html">Tag</a></li><li><a href="ToggleSelectionAction.html">ToggleSelectionAction</a></li><li><a href="Variable.html">Variable</a></li><li><a href="ZoomAction.html">ZoomAction</a></li></ul></div>
                 
             </nav>
         </div>
@@ -500,6 +500,371 @@ definitions.</td>
 </tr>
 
   
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>resources</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">object</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">All svg models.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>resources.icons</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">object</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">All svg models' icons</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>resources.markers</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">object</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">All svg models' markers.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>resources.links</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">object</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">All svg models' links.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>resources.models</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">object</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">All svg models' components.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>scene</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">object</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">All scene data, position, zoom factor, current selection and
+selected container type.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>scene.x</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">number</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">Translation x of the scene.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>scene.y</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">number</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">Translation y of the scene.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>scene.zoom</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">number</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">Zoom factor of the scene.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>scene.selection</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">Array.&lt;string></code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">List of ids of selected components.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>scene.selectionRef</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">Type on container selection. If null it refers to
+root container.</td>
+</tr>
+
+  
 
 
         
@@ -617,7 +982,7 @@ definitions.</td>
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line12">line 12</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line13">line 13</a>
             </span>
         </p>
     
@@ -738,7 +1103,7 @@ definitions.</td>
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line55">line 55</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line77">line 77</a>
             </span>
         </p>
     
@@ -815,7 +1180,7 @@ definitions.</td>
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line101">line 101</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line132">line 132</a>
             </span>
         </p>
     
@@ -884,7 +1249,7 @@ definitions.</td>
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line108">line 108</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line156">line 156</a>
             </span>
         </p>
     
@@ -961,7 +1326,7 @@ definitions.</td>
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line66">line 66</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line100">line 100</a>
             </span>
         </p>
     
@@ -1038,7 +1403,7 @@ definitions.</td>
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line96">line 96</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line127">line 127</a>
             </span>
         </p>
     
@@ -1115,7 +1480,7 @@ definitions.</td>
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line91">line 91</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line122">line 122</a>
             </span>
         </p>
     
@@ -1192,7 +1557,7 @@ definitions.</td>
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line44">line 44</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line66">line 66</a>
             </span>
         </p>
     
@@ -1274,7 +1639,243 @@ definitions.</td>
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line79">line 79</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line110">line 110</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">object</code>
+
+
+    </span>
+
+<h4 class="name" id="resources">
+    <a class="href-link" href="#resources">#</a>
+    
+    <span class="code-name">
+        resources
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Object that contains resources.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li>null</li>
+        </ul></dd>
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_DefaultData.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line139">line 139</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">object</code>
+
+
+    </span>
+
+<h4 class="name" id="scene">
+    <a class="href-link" href="#scene">#</a>
+    
+    <span class="code-name">
+        scene
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    All scene data, position, zoom factor, current selection and selected container type.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_DefaultData.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line83">line 83</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type"><a href="ComponentTemporaryLink.html">ComponentTemporaryLink</a></code>
+
+
+    </span>
+
+<h4 class="name" id="temporaryLink">
+    <a class="href-link" href="#temporaryLink">#</a>
+    
+    <span class="code-name">
+        temporaryLink
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Current temporary link.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_DefaultData.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line149">line 149</a>
             </span>
         </p>
     
@@ -1351,7 +1952,7 @@ definitions.</td>
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line61">line 61</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line95">line 95</a>
             </span>
         </p>
     
@@ -1428,7 +2029,7 @@ definitions.</td>
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line49">line 49</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line71">line 71</a>
             </span>
         </p>
     
@@ -1594,7 +2195,7 @@ definitions.</td>
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line158">line 158</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line225">line 225</a>
             </span>
         </p>
     
@@ -1641,6 +2242,550 @@ definitions.</td>
                 
         </div>
     </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="canBeLinked">
+        <a class="href-link" href="#canBeLinked">#</a>
+        
+        <span class="code-name">
+            
+                canBeLinked<span class="signature">(source, target)</span><span class="type-signature"> &rarr; {boolean}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Indicate if type can be linked with another.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>source</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Source type.</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>target</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Target type.</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_DefaultData.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line388">line 388</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>True if type can be linked to another otherwise false.</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">boolean</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="canHaveLink">
+        <a class="href-link" href="#canHaveLink">#</a>
+        
+        <span class="code-name">
+            
+                canHaveLink<span class="signature">(type)</span><span class="type-signature"> &rarr; {boolean}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Indicate if type can have a link.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>type</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Component type.</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_DefaultData.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line378">line 378</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>True if component can have link otherwise false.</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">boolean</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="createTemporaryLink">
+        <a class="href-link" href="#createTemporaryLink">#</a>
+        
+        <span class="code-name">
+            
+                createTemporaryLink<span class="signature">(source, anchorName)</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Create temporary link.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>source</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Id of component can be the source in a link.</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>anchorName</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Anchor name of the component.</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_DefaultData.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line398">line 398</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1767,7 +2912,7 @@ definitions.</td>
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line465">line 465</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line582">line 582</a>
             </span>
         </p>
     
@@ -1922,7 +3067,7 @@ definitions.</td>
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line475">line 475</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line592">line 592</a>
             </span>
         </p>
     
@@ -2045,7 +3190,7 @@ The id is composed of "id_" and the number of component plus 1.
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line176">line 176</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line243">line 243</a>
             </span>
         </p>
     
@@ -2218,7 +3363,7 @@ The id is composed of "id_" and the number of component plus 1.
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line248">line 248</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line319">line 319</a>
             </span>
         </p>
     
@@ -2394,7 +3539,7 @@ The id is composed of "id_" and the number of component plus 1.
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line390">line 390</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line507">line 507</a>
             </span>
         </p>
     
@@ -2571,7 +3716,7 @@ By default, if not overriden by plugin, it has the same behavior as getComponent
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line130">line 130</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line197">line 197</a>
             </span>
         </p>
     
@@ -2744,7 +3889,7 @@ By default, if not overriden by plugin, it has the same behavior as getComponent
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line117">line 117</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line165">line 165</a>
             </span>
         </p>
     
@@ -2782,6 +3927,355 @@ By default, if not overriden by plugin, it has the same behavior as getComponent
         <label>Type: </label>
         
 <code class="param-type"><a href="Component.html">Component</a></code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="getComponentDepth">
+        <a class="href-link" href="#getComponentDepth">#</a>
+        
+        <span class="code-name">
+            
+                getComponentDepth<span class="signature">(id)</span><span class="type-signature"> &rarr; {number}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Recursively calculates the depth of a component within a hierarchical structure, starting at 0.
+The depth of a component is defined as the number of levels it is nested within other
+components.
+A top-level component has a depth of 0. For each level of nesting, the depth increases by 1.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>id</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Component id.</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_DefaultData.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line177">line 177</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>Component depth.</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">number</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="getComponentIdFromValue">
+        <a class="href-link" href="#getComponentIdFromValue">#</a>
+        
+        <span class="code-name">
+            
+                getComponentIdFromValue<span class="signature">(value)</span><span class="type-signature"> &rarr; {string}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Get the ID of a linked resource.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>value</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Value of the link.</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_DefaultData.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line369">line 369</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>ID of the linked resource.</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">string</code>
 
 
     </div>
@@ -2917,7 +4411,7 @@ By default, if not overriden by plugin, it has the same behavior as getComponent
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line148">line 148</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line215">line 215</a>
             </span>
         </p>
     
@@ -3090,7 +4584,7 @@ By default, if not overriden by plugin, it has the same behavior as getComponent
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line457">line 457</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line574">line 574</a>
             </span>
         </p>
     
@@ -3263,7 +4757,7 @@ By default, if not overriden by plugin, it has the same behavior as getComponent
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line261">line 261</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line332">line 332</a>
             </span>
         </p>
     
@@ -3385,7 +4879,7 @@ By default, if not overriden by plugin, it has the same behavior as getComponent
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line219">line 219</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line286">line 286</a>
             </span>
         </p>
     
@@ -3507,7 +5001,7 @@ By default, if not overriden by plugin, it has the same behavior as getComponent
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line323">line 323</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line437">line 437</a>
             </span>
         </p>
     
@@ -3680,7 +5174,7 @@ By default, if not overriden by plugin, it has the same behavior as getComponent
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line276">line 276</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line347">line 347</a>
             </span>
         </p>
     
@@ -3805,7 +5299,7 @@ By default, if not overriden by plugin, it has the same behavior as getComponent
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line297">line 297</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line410">line 410</a>
             </span>
         </p>
     
@@ -3990,7 +5484,7 @@ By default, if not overriden by plugin, it has the same behavior as getComponent
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line343">line 343</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line457">line 457</a>
             </span>
         </p>
     
@@ -4164,7 +5658,7 @@ before the moved component</td>
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line439">line 439</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line556">line 556</a>
             </span>
         </p>
     
@@ -4338,7 +5832,7 @@ after the moved component</td>
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line421">line 421</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line538">line 538</a>
             </span>
         </p>
     
@@ -4486,7 +5980,7 @@ after the moved component</td>
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line194">line 194</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line261">line 261</a>
             </span>
         </p>
     
@@ -4634,7 +6128,7 @@ after the moved component</td>
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line208">line 208</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line275">line 275</a>
             </span>
         </p>
     
@@ -4807,7 +6301,7 @@ after the moved component</td>
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line139">line 139</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line206">line 206</a>
             </span>
         </p>
     
@@ -4980,7 +6474,7 @@ after the moved component</td>
         <p class="tag-source">
             <a href="models_DefaultData.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line285">line 285</a>
+                <a href="models_DefaultData.js.html">models/DefaultData.js</a>, <a href="models_DefaultData.js.html#line356">line 356</a>
             </span>
         </p>
     
@@ -5026,7 +6520,7 @@ after the moved component</td>
             
             <footer class="footer">
                 <div class="content has-text-centered">
-                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a></p>
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a></p>
                     <p class="sidebar-created-by">
                         <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
                         <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
