@@ -1,0 +1,311 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  tracking-code-which-will-go-to-the-HEAD
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> draw/action/Action.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">leto-modelizer-plugin-core</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/ditrit/leto-modelizer-plugin-core#README.md"
+                        >
+                            Github
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Action.html">Action</a></li><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="ComponentRenderer.html">ComponentRenderer</a></li><li><a href="ComponentTemporaryLink.html">ComponentTemporaryLink</a></li><li><a href="CustomLayout.html">CustomLayout</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultLayout.html">DefaultLayout</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="DeleteAction.html">DeleteAction</a></li><li><a href="DeselectionAllAction.html">DeselectionAllAction</a></li><li><a href="DragComponentAction.html">DragComponentAction</a></li><li><a href="DragSceneAction.html">DragSceneAction</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="LinkAction.html">LinkAction</a></li><li><a href="LinkRenderer.html">LinkRenderer</a></li><li><a href="MenuAction.html">MenuAction</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="ResizeComponentAction.html">ResizeComponentAction</a></li><li><a href="SelectionAllAction.html">SelectionAllAction</a></li><li><a href="Tag.html">Tag</a></li><li><a href="ToggleSelectionAction.html">ToggleSelectionAction</a></li><li><a href="Variable.html">Variable</a></li><li><a href="ZoomAction.html">ZoomAction</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>draw/action/Action.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Represents an interface action.
+ */
+class Action {
+  /**
+   * Default constructor.
+   * @param {DefaultData} pluginData - Plugin data storage.
+   * @param {object} viewport - D3 selection of the view port.
+   * @param {DefaultLayout} layout - Layout to organise components.
+   */
+  constructor(pluginData, viewport, layout) {
+    /**
+     * Plugin data storage.
+     * @type {DefaultData}
+     */
+    this.pluginData = pluginData;
+    /**
+     * D3 selection of the view port.
+     * @type {object}
+     */
+    this.viewport = viewport;
+    /**
+     * Layout to organise components.
+     * @type {DefaultLayout}
+     */
+    this.layout = layout;
+  }
+
+  /**
+   * Executes the action.
+   * @param {object} event - The event triggering the action.
+   * @returns {boolean} Indicates whether the scene needs to be redrawn.
+   */
+  // eslint-disable-next-line no-unused-vars
+  execute(event) {
+    return false;
+  }
+
+  /**
+   * Finalizes the action.
+   * @param {object} event - The event triggering the action.
+   * @returns {boolean} Indicates whether the scene needs to be redrawn.
+   */
+  // eslint-disable-next-line no-unused-vars
+  finalize(event) {
+    return false;
+  }
+
+  /**
+   * Applies the scene transformation based on the plugin data.
+   */
+  applySceneTransform() {
+    const { x, y, zoom } = this.pluginData.scene;
+    const translate = `translate(${x} ${y})`;
+    const scale = `scale(${zoom})`;
+
+    this.viewport.selectAll('.scene > g').attr('transform', `${translate} ${scale}`);
+  }
+
+  /**
+   * Gets the source IDs from the event.
+   * @param {object} event - The event containing the source information.
+   * @returns {string[]} The array of source IDs.
+   */
+  getSourcesId(event) {
+    if (this.pluginData.scene.selection.includes(event.subject.datum().data.id)) {
+      return this.pluginData.scene.selection;
+    }
+
+    return [event.subject.datum().data.id];
+  }
+
+  /**
+   * Gets the position of the source.
+   * @param {string} sourceId - The ID of the source.
+   * @returns {object} The position of the source.
+   */
+  getSourcePosition(sourceId) {
+    const sourceModel = this.viewport.select(`.${sourceId} .model`);
+
+    return {
+      x: parseFloat(sourceModel.attr('x')),
+      y: parseFloat(sourceModel.attr('y')),
+    };
+  }
+
+  /**
+   * Gets the targets by depth from the event.
+   * @param {object} event - The event containing the target information.
+   * @returns {string[][]} An array of target IDs grouped by depth.
+   */
+  getTargetsByDepth(event) {
+    const sourceId = event.subject.datum().data.id;
+    const {
+      clientX: x,
+      clientY: y,
+    } = event.sourceEvent;
+    const targetsByDepth = [];
+
+    this.viewport.selectAll(`g.component.container:not(.${sourceId})`).each((element) => {
+      // Can't take x, y, width and height from #element.data.id because, width is growing with
+      // component moving.
+      const {
+        x: eX,
+        y: eY,
+        width,
+        height,
+      } = this.viewport.select(`.${element.data.id} .background`)
+        .node()
+        .getBoundingClientRect();
+
+      if (!(x >= eX &amp;&amp; x &lt;= eX + width &amp;&amp; y >= eY &amp;&amp; y &lt;= eY + height)) {
+        return;
+      }
+
+      const depth = parseInt(
+        this.viewport.select(`.${element.data.id}`).attr('depth'),
+        10,
+      ) - 1;
+
+      while (targetsByDepth.length &lt;= depth) {
+        targetsByDepth.push([]);
+      }
+
+      targetsByDepth[depth].push(element.data.id);
+    });
+
+    return targetsByDepth;
+  }
+
+  /**
+   * Gets the target IDs from the event. Ids are ordered by depth, from the deepest to the
+   * shallowest.
+   * @param {object} event - The event containing the target information.
+   * @returns {string[]} An array of target IDs.
+   */
+  getTargetsId(event) {
+    const targetsByDepth = this.getTargetsByDepth(event);
+
+    return targetsByDepth.flat().reverse();
+  }
+
+  /**
+   * Gets the primary target ID from the event.
+   * @param {object} event - The event containing the target information.
+   * @returns {string} The primary target ID.
+   */
+  getTargetId(event) {
+    return this.getTargetsId(event)[0];
+  }
+
+  /**
+   * Gets the transformation between two selectors.
+   * @param {string} selector1 - The first selector.
+   * @param {string} selector2 - The second selector.
+   * @returns {object} The transformation between the two selectors.
+   */
+  getTransform(selector1, selector2) {
+    const {
+      x: sourceX,
+      y: sourceY,
+    } = this.viewport.select(selector1).node().getBoundingClientRect();
+    const {
+      x: targetX,
+      y: targetY,
+    } = this.viewport.select(selector2).node().getBoundingClientRect();
+
+    return {
+      dx: sourceX - targetX,
+      dy: sourceY - targetY,
+    };
+  }
+}
+
+export default Action;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

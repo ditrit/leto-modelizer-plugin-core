@@ -1,0 +1,319 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  tracking-code-which-will-go-to-the-HEAD
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> draw/render/LinkRenderer.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">leto-modelizer-plugin-core</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/ditrit/leto-modelizer-plugin-core#README.md"
+                        >
+                            Github
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Action.html">Action</a></li><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="ComponentRenderer.html">ComponentRenderer</a></li><li><a href="ComponentTemporaryLink.html">ComponentTemporaryLink</a></li><li><a href="CustomLayout.html">CustomLayout</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultLayout.html">DefaultLayout</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="DeleteAction.html">DeleteAction</a></li><li><a href="DeselectionAllAction.html">DeselectionAllAction</a></li><li><a href="DragComponentAction.html">DragComponentAction</a></li><li><a href="DragSceneAction.html">DragSceneAction</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="LinkAction.html">LinkAction</a></li><li><a href="LinkRenderer.html">LinkRenderer</a></li><li><a href="MenuAction.html">MenuAction</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="ResizeComponentAction.html">ResizeComponentAction</a></li><li><a href="SelectionAllAction.html">SelectionAllAction</a></li><li><a href="Tag.html">Tag</a></li><li><a href="ToggleSelectionAction.html">ToggleSelectionAction</a></li><li><a href="Variable.html">Variable</a></li><li><a href="ZoomAction.html">ZoomAction</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>draw/render/LinkRenderer.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as d3 from 'd3';
+import { renderString } from 'nunjucks';
+
+/**
+ * Class to render link.
+ */
+class LinkRenderer {
+  /**
+   * Default constructor.
+   * @param {DefaultData} pluginData - Plugin data storage.
+   * @param {object} viewport - D3 selection of the view port.
+   */
+  constructor(pluginData, viewport) {
+    /**
+     * Plugin data storage.
+     * @type {DefaultData}
+     */
+    this.pluginData = pluginData || null;
+
+    /**
+     * D3 selection of the view port.
+     * @type {Selection}
+     */
+    this.viewport = viewport || null;
+  }
+
+  /**
+   * Render nodes for each link.
+   */
+  render() {
+    const scenePosition = this.viewport.select('.scene').node().getBoundingClientRect();
+
+    this.viewport.select('.scene .links').selectAll('.link')
+      .data(() => this.pluginData.getLinks())
+      .join('g')
+      .attr('class', (link) => `${link.source}_to_${link.target} link`)
+      .attr('from', (link) => link.source)
+      .attr('to', (link) => link.target)
+      .html((link) => {
+        let sourceAnchor;
+        let targetAnchor;
+
+        if (link.isTemporary) {
+          sourceAnchor = this.viewport
+            .select(`.${link.source} .anchors .anchor[name="${link.anchorName}"]`)
+            .node()
+            .getBoundingClientRect();
+          sourceAnchor = {
+            name: link.anchorName,
+            x: sourceAnchor.x + sourceAnchor.width / 2,
+            y: sourceAnchor.y + sourceAnchor.height / 2,
+            width: sourceAnchor.width,
+          };
+          targetAnchor = {
+            x: link.endX,
+            y: link.endY,
+          };
+        } else {
+          sourceAnchor = this.getClosestAnchor(link.source, link.target);
+          targetAnchor = this.getClosestAnchor(link.target, link.source);
+        }
+
+        return renderString(
+          this.pluginData.resources.links[link.definition.model] || '',
+          {
+            d: this.getLinkPoints(scenePosition, sourceAnchor, targetAnchor),
+          },
+        );
+      });
+  }
+
+  /**
+   * Get path definition of a link.
+   * @param {object} scene - BoundingClientRect of the scene.
+   * @param {object} sourceAnchor - BoundingClientRect of the source anchor.
+   * @param {object} targetAnchor - BoundingClientRect of the target anchor.
+   * @returns {string} Path definition.
+   */
+  getLinkPoints(scene, sourceAnchor, targetAnchor) {
+    const endPosition1 = this.getReducedPointPositionOnSegment(
+      sourceAnchor.x,
+      sourceAnchor.y,
+      targetAnchor.x,
+      targetAnchor.y,
+      10,
+    );
+    const endPosition2 = this.getReducedPointPositionOnSegment(
+      sourceAnchor.x,
+      sourceAnchor.y,
+      targetAnchor.x,
+      targetAnchor.y,
+      5,
+    );
+    const startX = (sourceAnchor.x - scene.x - this.pluginData.scene.x)
+      / this.pluginData.scene.zoom;
+    const startY = (sourceAnchor.y - scene.y - this.pluginData.scene.y)
+      / this.pluginData.scene.zoom;
+    const end1X = (endPosition1.x - scene.x - this.pluginData.scene.x)
+      / this.pluginData.scene.zoom;
+    const end1Y = (endPosition1.y - scene.y - this.pluginData.scene.y)
+      / this.pluginData.scene.zoom;
+    const end2X = (endPosition2.x - scene.x - this.pluginData.scene.x)
+      / this.pluginData.scene.zoom;
+    const end2Y = (endPosition2.y - scene.y - this.pluginData.scene.y)
+      / this.pluginData.scene.zoom;
+    const drawCurve = d3.line().curve(d3.curveBasis);
+
+    return drawCurve([
+      [startX, startY],
+      [startX + (end1X - startX) * 0.2, startY + (end1Y - startY) * 0.8],
+      [end1X, end1Y],
+      [end2X, end2Y],
+    ]);
+  }
+
+  /**
+   * Get the closest anchor of a source component to a target component.
+   * @param {string} sourceId - Source component id.
+   * @param {string} targetId - Target component id.
+   * @returns {object} - Object that contains name, position and width of the source anchor.
+   */
+  getClosestAnchor(sourceId, targetId) {
+    const targetPosition = this.viewport.select(`.${targetId} .background`)
+      .node().getBoundingClientRect();
+    const targetX = targetPosition.x + targetPosition.width / 2;
+    const targetY = targetPosition.y + targetPosition.height / 2;
+
+    let minDistance = null;
+    let closestAnchor = null;
+
+    this.viewport.selectAll(`.${sourceId}.anchors .anchor`).each((_, index, data) => {
+      const anchorElement = data[index];
+      const anchorName = anchorElement.attributes.name.value;
+      const anchorPosition = anchorElement.getBoundingClientRect();
+      const deltaX = targetX - anchorPosition.x;
+      const deltaY = targetY - anchorPosition.y;
+      const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+      if (closestAnchor === null || distance &lt; minDistance) {
+        minDistance = distance;
+        closestAnchor = {
+          name: anchorName,
+          x: anchorPosition.x + anchorPosition.width / 2,
+          y: anchorPosition.y + anchorPosition.height / 2,
+          width: anchorPosition.width,
+        };
+      }
+    });
+
+    return closestAnchor;
+  }
+
+  /**
+   * Computes a new point on the line segment defined by (xa, ya) and (xb, yb) that is reduced by a
+   * specified distance from the end point (xb, yb).
+   * @param {number} xa - The x-coordinate of the start point of the segment.
+   * @param {number} ya - The y-coordinate of the start point of the segment.
+   * @param {number} xb - The x-coordinate of the end point of the segment.
+   * @param {number} yb - The y-coordinate of the end point of the segment.
+   * @param {number} reduction - The distance by which to reduce the segment from the end point
+   * (xb, yb).
+   * @returns {object} An object containing the x and y coordinates of the new point on the segment.
+   */
+  getReducedPointPositionOnSegment(xa, ya, xb, yb, reduction) {
+    if (xa === xb &amp;&amp; ya === yb) {
+      return { x: 0, y: 0 };
+    }
+
+    const dx = xb - xa;
+    const dy = yb - ya;
+
+    const abLength = Math.sqrt(dx * dx + dy * dy);
+    const abPrimeLength = abLength - reduction;
+    const reductionFactor = abPrimeLength / abLength;
+
+    return {
+      x: xa + dx * reductionFactor,
+      y: ya + dy * reductionFactor,
+    };
+  }
+}
+
+export default LinkRenderer;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

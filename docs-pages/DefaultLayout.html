@@ -83,7 +83,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultLayout.html">DefaultLayout</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="ElkLayout.html">ElkLayout</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="Tag.html">Tag</a></li><li><a href="Variable.html">Variable</a></li></ul><h3><a href="global.html">Global</a></h3></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Action.html">Action</a></li><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="ComponentRenderer.html">ComponentRenderer</a></li><li><a href="ComponentTemporaryLink.html">ComponentTemporaryLink</a></li><li><a href="CustomLayout.html">CustomLayout</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultLayout.html">DefaultLayout</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="DeleteAction.html">DeleteAction</a></li><li><a href="DeselectionAllAction.html">DeselectionAllAction</a></li><li><a href="DragComponentAction.html">DragComponentAction</a></li><li><a href="DragSceneAction.html">DragSceneAction</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="LinkAction.html">LinkAction</a></li><li><a href="LinkRenderer.html">LinkRenderer</a></li><li><a href="MenuAction.html">MenuAction</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="ResizeComponentAction.html">ResizeComponentAction</a></li><li><a href="SelectionAllAction.html">SelectionAllAction</a></li><li><a href="Tag.html">Tag</a></li><li><a href="ToggleSelectionAction.html">ToggleSelectionAction</a></li><li><a href="Variable.html">Variable</a></li><li><a href="ZoomAction.html">ZoomAction</a></li></ul></div>
                 
             </nav>
         </div>
@@ -102,7 +102,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>DefaultLayout<span class="signature">(pluginData)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>DefaultLayout<span class="signature">(pluginData, viewport)</span><span class="type-signature"></span></h2>
         
             <div class="class-description">Class that represents algorithms to automatically arrange components by
 computing optimal positions.
@@ -131,7 +131,7 @@ The goal of implemented algorithms is to maximize human readability.</div>
         
         <span class="code-name">
             
-                new DefaultLayout<span class="signature">(pluginData)</span><span class="type-signature"></span>
+                new DefaultLayout<span class="signature">(pluginData, viewport)</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -199,6 +199,31 @@ The goal of implemented algorithms is to maximize human readability.</div>
 
 
         
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>viewport</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">object</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">D3 selection of the view port.</td>
+</tr>
+
+
+        
         </tbody>
     </table>
 </div>
@@ -240,9 +265,9 @@ The goal of implemented algorithms is to maximize human readability.</div>
 
     
         <p class="tag-source">
-            <a href="draw_DefaultLayout.js.html" class="button">View Source</a>
+            <a href="draw_layout_DefaultLayout.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_DefaultLayout.js.html">draw/DefaultLayout.js</a>, <a href="draw_DefaultLayout.js.html#line7">line 7</a>
+                <a href="draw_layout_DefaultLayout.js.html">draw/layout/DefaultLayout.js</a>, <a href="draw_layout_DefaultLayout.js.html#line7">line 7</a>
             </span>
         </p>
     
@@ -356,9 +381,86 @@ The goal of implemented algorithms is to maximize human readability.</div>
 
     
         <p class="tag-source">
-            <a href="draw_DefaultLayout.js.html" class="button">View Source</a>
+            <a href="draw_layout_DefaultLayout.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_DefaultLayout.js.html">draw/DefaultLayout.js</a>, <a href="draw_DefaultLayout.js.html#line17">line 17</a>
+                <a href="draw_layout_DefaultLayout.js.html">draw/layout/DefaultLayout.js</a>, <a href="draw_layout_DefaultLayout.js.html#line18">line 18</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">object</code>
+
+
+    </span>
+
+<h4 class="name" id="viewport">
+    <a class="href-link" href="#viewport">#</a>
+    
+    <span class="code-name">
+        viewport
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    D3 selection of the view port.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="draw_layout_DefaultLayout.js.html" class="button">View Source</a>
+            <span>
+                <a href="draw_layout_DefaultLayout.js.html">draw/layout/DefaultLayout.js</a>, <a href="draw_layout_DefaultLayout.js.html#line24">line 24</a>
             </span>
         </p>
     
@@ -383,16 +485,12 @@ The goal of implemented algorithms is to maximize human readability.</div>
 
 
     
-    <h4 class="name" id="arrangeComponentsPosition">
-        <a class="href-link" href="#arrangeComponentsPosition">#</a>
-        
-            
-                <span class='tag'>async</span>
-            
+    <h4 class="name" id="generateComponentsLayout">
+        <a class="href-link" href="#generateComponentsLayout">#</a>
         
         <span class="code-name">
             
-                arrangeComponentsPosition<span class="signature">(containerId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span>
+                generateComponentsLayout<span class="signature">(id, keepPosition)</span><span class="type-signature"> &rarr; {boolean}</span>
             
         </span>
     </h4>
@@ -401,8 +499,8 @@ The goal of implemented algorithms is to maximize human readability.</div>
     
     
     <div class="description">
-        Does nothing to components.
-One can override this method to implement an algorithm for automatic components layout.
+        Generate layout of a container.
+Will update all component drawOption with new position and size.
     </div>
     
 
@@ -427,8 +525,6 @@ One can override this method to implement an algorithm for automatic components 
             <th>Type</th>
 
             
-            <th>Attributes</th>
-            
 
             
 
@@ -442,7 +538,7 @@ One can override this method to implement an algorithm for automatic components 
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>containerId</code></td>
+      <td class="name"><code>id</code></td>
   
 
   <td class="type">
@@ -455,21 +551,36 @@ One can override this method to implement an algorithm for automatic components 
   </td>
 
   
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
 
-      
+  
 
+  <td class="description last">Container id, null for root container.</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>keepPosition</code></td>
+  
+
+  <td class="type">
+  
       
-      </td>
+<code class="param-type">boolean</code>
+
+
+  
+  </td>
+
   
 
   
 
-  <td class="description last">The container within which we need to organize the children,
-and if not specified, all components will be reorganized.</td>
+  <td class="description last">If true, rearrange only components without a specified
+position; otherwise, rearrange all components.</td>
 </tr>
 
 
@@ -515,9 +626,9 @@ and if not specified, all components will be reorganized.</td>
 
     
         <p class="tag-source">
-            <a href="draw_DefaultLayout.js.html" class="button">View Source</a>
+            <a href="draw_layout_DefaultLayout.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_DefaultLayout.js.html">draw/DefaultLayout.js</a>, <a href="draw_DefaultLayout.js.html#line28">line 28</a>
+                <a href="draw_layout_DefaultLayout.js.html">draw/layout/DefaultLayout.js</a>, <a href="draw_layout_DefaultLayout.js.html#line36">line 36</a>
             </span>
         </p>
     
@@ -548,13 +659,13 @@ and if not specified, all components will be reorganized.</td>
 
 <div class="columns">
     
-    <div class='param-desc column is-7'>Promise with nothing on success otherwise an error.</div>
+    <div class='param-desc column is-7'>Return true on successful generation.</div>
     
     
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
-<code class="param-type">Promise.&lt;void></code>
+<code class="param-type">boolean</code>
 
 
     </div>
@@ -574,12 +685,12 @@ and if not specified, all components will be reorganized.</td>
 
 
     
-    <h4 class="name" id="repositionComponent">
-        <a class="href-link" href="#repositionComponent">#</a>
+    <h4 class="name" id="resize">
+        <a class="href-link" href="#resize">#</a>
         
         <span class="code-name">
             
-                repositionComponent<span class="signature">(componentId)</span><span class="type-signature"></span>
+                resize<span class="signature">(id)</span><span class="type-signature"> &rarr; {boolean}</span>
             
         </span>
     </h4>
@@ -588,7 +699,7 @@ and if not specified, all components will be reorganized.</td>
     
     
     <div class="description">
-        Reposition a component where there is room for it.
+        Resize component to its minimum size.
     </div>
     
 
@@ -626,7 +737,7 @@ and if not specified, all components will be reorganized.</td>
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>componentId</code></td>
+      <td class="name"><code>id</code></td>
   
 
   <td class="type">
@@ -642,7 +753,7 @@ and if not specified, all components will be reorganized.</td>
 
   
 
-  <td class="description last">Id of a component to be repositioned.</td>
+  <td class="description last">Id of component to resize.</td>
 </tr>
 
 
@@ -688,9 +799,9 @@ and if not specified, all components will be reorganized.</td>
 
     
         <p class="tag-source">
-            <a href="draw_DefaultLayout.js.html" class="button">View Source</a>
+            <a href="draw_layout_DefaultLayout.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_DefaultLayout.js.html">draw/DefaultLayout.js</a>, <a href="draw_DefaultLayout.js.html#line37">line 37</a>
+                <a href="draw_layout_DefaultLayout.js.html">draw/layout/DefaultLayout.js</a>, <a href="draw_layout_DefaultLayout.js.html#line46">line 46</a>
             </span>
         </p>
     
@@ -712,6 +823,31 @@ and if not specified, all components will be reorganized.</td>
 
 
 
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>Return true on successful resizing.</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">boolean</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
 
 
 
@@ -736,7 +872,7 @@ and if not specified, all components will be reorganized.</td>
             
             <footer class="footer">
                 <div class="content has-text-centered">
-                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a></p>
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a></p>
                     <p class="sidebar-created-by">
                         <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
                         <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
