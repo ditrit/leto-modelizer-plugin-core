@@ -83,7 +83,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultLayout.html">DefaultLayout</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="ElkLayout.html">ElkLayout</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="Tag.html">Tag</a></li><li><a href="Variable.html">Variable</a></li></ul><h3><a href="global.html">Global</a></h3></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Action.html">Action</a></li><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="ComponentRenderer.html">ComponentRenderer</a></li><li><a href="ComponentTemporaryLink.html">ComponentTemporaryLink</a></li><li><a href="CustomLayout.html">CustomLayout</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultLayout.html">DefaultLayout</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="DeleteAction.html">DeleteAction</a></li><li><a href="DeselectionAllAction.html">DeselectionAllAction</a></li><li><a href="DragComponentAction.html">DragComponentAction</a></li><li><a href="DragSceneAction.html">DragSceneAction</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="LinkAction.html">LinkAction</a></li><li><a href="LinkRenderer.html">LinkRenderer</a></li><li><a href="MenuAction.html">MenuAction</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="ResizeComponentAction.html">ResizeComponentAction</a></li><li><a href="SelectionAllAction.html">SelectionAllAction</a></li><li><a href="Tag.html">Tag</a></li><li><a href="ToggleSelectionAction.html">ToggleSelectionAction</a></li><li><a href="Variable.html">Variable</a></li><li><a href="ZoomAction.html">ZoomAction</a></li></ul></div>
                 
             </nav>
         </div>
@@ -518,7 +518,7 @@
         <p class="tag-source">
             <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line13">line 13</a>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line11">line 11</a>
             </span>
         </p>
     
@@ -634,7 +634,7 @@
         <p class="tag-source">
             <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line39">line 39</a>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line37">line 37</a>
             </span>
         </p>
     
@@ -711,7 +711,7 @@
         <p class="tag-source">
             <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line44">line 44</a>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line42">line 42</a>
             </span>
         </p>
     
@@ -741,7 +741,7 @@
         
         <span class="code-name">
             
-                addComponent<span class="signature">(rootId, definition, path, drawOption)</span><span class="type-signature"> &rarr; {string}</span>
+                addComponent<span class="signature">(parentId, definition, path, event)</span><span class="type-signature"> &rarr; {string}</span>
             
         </span>
     </h4>
@@ -777,8 +777,6 @@
             
 
             
-            <th>Default</th>
-            
 
             <th class="last">Description</th>
         </tr>
@@ -790,7 +788,7 @@
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>rootId</code></td>
+      <td class="name"><code>parentId</code></td>
   
 
   <td class="type">
@@ -805,12 +803,8 @@
   
 
   
-      <td class="default">
-      
-      </td>
-  
 
-  <td class="description last">Html id, without '#'.</td>
+  <td class="description last">Id of parent container, null for root.</td>
 </tr>
 
 
@@ -833,10 +827,6 @@
 
   
 
-  
-      <td class="default">
-      
-      </td>
   
 
   <td class="description last">Component definition.</td>
@@ -863,10 +853,6 @@
   
 
   
-      <td class="default">
-      
-      </td>
-  
 
   <td class="description last">Component path.</td>
 </tr>
@@ -877,13 +863,13 @@
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>drawOption</code></td>
+      <td class="name"><code>event</code></td>
   
 
   <td class="type">
   
       
-<code class="param-type"><a href="ComponentDrawOption.html">ComponentDrawOption</a></code>
+<code class="param-type">object</code>
 
 
   
@@ -892,14 +878,8 @@
   
 
   
-      <td class="default">
-      
-          null
-      
-      </td>
-  
 
-  <td class="description last">The options used to draw this Component.</td>
+  <td class="description last">Event that contain mouse position.</td>
 </tr>
 
 
@@ -947,7 +927,7 @@
         <p class="tag-source">
             <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line229">line 229</a>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line228">line 228</a>
             </span>
         </p>
     
@@ -1007,13 +987,9 @@
     <h4 class="name" id="arrangeComponentsPosition">
         <a class="href-link" href="#arrangeComponentsPosition">#</a>
         
-            
-                <span class='tag'>async</span>
-            
-        
         <span class="code-name">
             
-                arrangeComponentsPosition<span class="signature">(containerId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span>
+                arrangeComponentsPosition<span class="signature">(id, keepPosition)</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -1025,192 +1001,6 @@
         Reorganize nodes layout algorithmically.
 This method does not refresh the view.
 You have to await it and trigger a redraw.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-            <th>Attributes</th>
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>containerId</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">The container within which we need to organize the children,
-and if not specified, all components will be reorganized.</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
-            <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line191">line 191</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>Promise with nothing on success otherwise an error.</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">Promise.&lt;void></code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="draw">
-        <a class="href-link" href="#draw">#</a>
-        
-        <span class="code-name">
-            
-                draw<span class="signature">(id, readOnly)</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Draws all data in the html element defined by the id.
     </div>
     
 
@@ -1264,7 +1054,8 @@ and if not specified, all components will be reorganized.</td>
 
   
 
-  <td class="description last">Html id, without '#'.</td>
+  <td class="description last">The container within which we need to organize the children,
+and if null specified, all components will be reorganized.</td>
 </tr>
 
 
@@ -1273,7 +1064,7 @@ and if not specified, all components will be reorganized.</td>
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>readOnly</code></td>
+      <td class="name"><code>keepPosition</code></td>
   
 
   <td class="type">
@@ -1289,7 +1080,8 @@ and if not specified, all components will be reorganized.</td>
 
   
 
-  <td class="description last">Make the draw read-only.</td>
+  <td class="description last">If true, rearrange only components without a specified
+position; otherwise, rearrange all components.</td>
 </tr>
 
 
@@ -1337,7 +1129,104 @@ and if not specified, all components will be reorganized.</td>
         <p class="tag-source">
             <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line107">line 107</a>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line190">line 190</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="draw">
+        <a class="href-link" href="#draw">#</a>
+        
+        <span class="code-name">
+            
+                draw<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Draws all data in the html element defined by the id.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line105">line 105</a>
             </span>
         </p>
     
@@ -1559,7 +1448,7 @@ and if not specified, all components will be reorganized.</td>
         <p class="tag-source">
             <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line211">line 211</a>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line210">line 210</a>
             </span>
         </p>
     
@@ -1744,7 +1633,7 @@ and if not specified, all components will be reorganized.</td>
         <p class="tag-source">
             <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line149">line 149</a>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line147">line 147</a>
             </span>
         </p>
     
@@ -1866,7 +1755,180 @@ and if not specified, all components will be reorganized.</td>
         <p class="tag-source">
             <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line74">line 74</a>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line72">line 72</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="initDrawer">
+        <a class="href-link" href="#initDrawer">#</a>
+        
+        <span class="code-name">
+            
+                initDrawer<span class="signature">(id, readOnly)</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Init drawing context of plugin.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>id</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Html id of div that will be the drawing container.</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>readOnly</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">boolean</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">If false, indicate if user can make action or modify the scene.</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line98">line 98</a>
             </span>
         </p>
     
@@ -2026,7 +2088,7 @@ and if not specified, all components will be reorganized.</td>
         <p class="tag-source">
             <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line91">line 91</a>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line89">line 89</a>
             </span>
         </p>
     
@@ -2174,7 +2236,7 @@ and if not specified, all components will be reorganized.</td>
         <p class="tag-source">
             <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line140">line 140</a>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line138">line 138</a>
             </span>
         </p>
     
@@ -2426,7 +2488,7 @@ Configuration file is used for setting up the components' configuration.
         <p class="tag-source">
             <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line118">line 118</a>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line116">line 116</a>
             </span>
         </p>
     
@@ -2625,7 +2687,7 @@ Configuration file is used for saving the components' configuration.
         <p class="tag-source">
             <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line163">line 163</a>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line161">line 161</a>
             </span>
         </p>
     
@@ -2682,12 +2744,12 @@ Configuration file is used for saving the components' configuration.
 
 
     
-    <h4 class="name" id="repositionComponent">
-        <a class="href-link" href="#repositionComponent">#</a>
+    <h4 class="name" id="resize">
+        <a class="href-link" href="#resize">#</a>
         
         <span class="code-name">
             
-                repositionComponent<span class="signature">(componentId)</span><span class="type-signature"></span>
+                resize<span class="signature">(id)</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -2696,7 +2758,7 @@ Configuration file is used for saving the components' configuration.
     
     
     <div class="description">
-        Reposition a component where there is room for it.
+        Resize the container to its minimum size.
     </div>
     
 
@@ -2734,7 +2796,7 @@ Configuration file is used for saving the components' configuration.
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>componentId</code></td>
+      <td class="name"><code>id</code></td>
   
 
   <td class="type">
@@ -2750,7 +2812,7 @@ Configuration file is used for saving the components' configuration.
 
   
 
-  <td class="description last">Id of a component to be repositioned.</td>
+  <td class="description last">Container id.</td>
 </tr>
 
 
@@ -2798,104 +2860,7 @@ Configuration file is used for saving the components' configuration.
         <p class="tag-source">
             <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line199">line 199</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="resetDrawerActions">
-        <a class="href-link" href="#resetDrawerActions">#</a>
-        
-        <span class="code-name">
-            
-                resetDrawerActions<span class="signature">()</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Reset actions.
-    </div>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="models_DefaultPlugin.js.html" class="button">View Source</a>
-            <span>
-                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line98">line 98</a>
+                <a href="models_DefaultPlugin.js.html">models/DefaultPlugin.js</a>, <a href="models_DefaultPlugin.js.html#line198">line 198</a>
             </span>
         </p>
     
@@ -2941,7 +2906,7 @@ Configuration file is used for saving the components' configuration.
             
             <footer class="footer">
                 <div class="content has-text-centered">
-                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a></p>
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a></p>
                     <p class="sidebar-created-by">
                         <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
                         <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>

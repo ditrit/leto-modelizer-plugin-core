@@ -1,0 +1,232 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  tracking-code-which-will-go-to-the-HEAD
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> draw/action/ResizeComponentAction.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">leto-modelizer-plugin-core</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/ditrit/leto-modelizer-plugin-core#README.md"
+                        >
+                            Github
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Action.html">Action</a></li><li><a href="Component.html">Component</a></li><li><a href="ComponentAttribute.html">ComponentAttribute</a></li><li><a href="ComponentAttributeDefinition.html">ComponentAttributeDefinition</a></li><li><a href="ComponentDefinition.html">ComponentDefinition</a></li><li><a href="ComponentDrawOption.html">ComponentDrawOption</a></li><li><a href="ComponentLink.html">ComponentLink</a></li><li><a href="ComponentLinkDefinition.html">ComponentLinkDefinition</a></li><li><a href="ComponentRenderer.html">ComponentRenderer</a></li><li><a href="ComponentTemporaryLink.html">ComponentTemporaryLink</a></li><li><a href="CustomLayout.html">CustomLayout</a></li><li><a href="DefaultConfiguration.html">DefaultConfiguration</a></li><li><a href="DefaultData.html">DefaultData</a></li><li><a href="DefaultDrawer.html">DefaultDrawer</a></li><li><a href="DefaultLayout.html">DefaultLayout</a></li><li><a href="DefaultMetadata.html">DefaultMetadata</a></li><li><a href="DefaultParser.html">DefaultParser</a></li><li><a href="DefaultPlugin.html">DefaultPlugin</a></li><li><a href="DefaultRender.html">DefaultRender</a></li><li><a href="DeleteAction.html">DeleteAction</a></li><li><a href="DeselectionAllAction.html">DeselectionAllAction</a></li><li><a href="DragComponentAction.html">DragComponentAction</a></li><li><a href="DragSceneAction.html">DragSceneAction</a></li><li><a href="EventLog.html">EventLog</a></li><li><a href="FileInformation.html">FileInformation</a></li><li><a href="FileInput.html">FileInput</a></li><li><a href="LinkAction.html">LinkAction</a></li><li><a href="LinkRenderer.html">LinkRenderer</a></li><li><a href="MenuAction.html">MenuAction</a></li><li><a href="ParseError.html">ParseError</a></li><li><a href="ResizeComponentAction.html">ResizeComponentAction</a></li><li><a href="SelectionAllAction.html">SelectionAllAction</a></li><li><a href="Tag.html">Tag</a></li><li><a href="ToggleSelectionAction.html">ToggleSelectionAction</a></li><li><a href="Variable.html">Variable</a></li><li><a href="ZoomAction.html">ZoomAction</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>draw/action/ResizeComponentAction.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import Action from './Action';
+
+/**
+ * Action to resize component.
+ */
+class ResizeComponentAction extends Action {
+  /**
+   * Update element size from mouse translation.
+   * @param {object} event - The event containing the target information.
+   * @returns {boolean} No need to draw.
+   */
+  execute(event) {
+    const source = event.subject.datum();
+    const { zoom } = this.pluginData.scene;
+    const model = this.viewport.select(`.${source.data.id} .model`);
+    const modelSize = model.node().getBoundingClientRect();
+    const { x: maxX, y: maxY } = this.getMaxPosition(source.data.id);
+    const { clientX: mouseX, clientY: mouseY } = event.sourceEvent;
+    let minWidth = Math.max((maxX - modelSize.x) / zoom, source.data.definition.minWidth);
+    let minHeight = Math.max((maxY - modelSize.y) / zoom, source.data.definition.minHeight);
+    let width = (mouseX - modelSize.x) / zoom;
+    let height = (mouseY - modelSize.y) / zoom;
+
+    model.attr('width', width > minWidth ? width : minWidth);
+    model.attr('height', height > minHeight ? height : minHeight);
+
+    const background = this.viewport.select(`.${source.data.id} .components-background`);
+    const backgroundSize = background.node().getBoundingClientRect();
+
+    minWidth = Math.max((maxX - backgroundSize.x)
+      / zoom, source.data.definition.minWidth - source.data.definition.reservedWidth);
+    minHeight = Math.max((maxY - backgroundSize.y)
+      / zoom, source.data.definition.minHeight - source.data.definition.reservedHeight);
+    width = (mouseX - backgroundSize.x) / zoom;
+    height = (mouseY - backgroundSize.y) / zoom;
+
+    background.attr('width', width > minWidth ? width : minWidth);
+    background.attr('height', height > minHeight ? height : minHeight);
+
+    return false;
+  }
+
+  /**
+   * Update component size from element.
+   * @param {object} event - The event containing the target information.
+   * @returns {boolean} Need to draw.
+   */
+  finalize(event) {
+    const { id } = event.subject.datum().data;
+    const model = this.viewport.select(`.${id} .model`);
+    const component = this.pluginData.getComponentById(id);
+
+    component.drawOption.width = parseFloat(model.attr('width'));
+    component.drawOption.height = parseFloat(model.attr('height'));
+
+    this.pluginData.emitEvent({
+      components: [id],
+      type: 'Drawer',
+      action: 'resize',
+      status: 'success',
+    });
+
+    return true;
+  }
+
+  /**
+   * Get max position of bottom right container corner to calculate max size.
+   * @param {string} containerId - Container id.
+   * @returns {{x: number, y: number}} Max position of container corner.
+   */
+  getMaxPosition(containerId) {
+    const container = this.pluginData.getComponentById(containerId);
+    let maxX = 0;
+    let maxY = 0;
+
+    this.pluginData.getChildren(containerId)
+      .forEach((component) => {
+        const {
+          x,
+          y,
+          width,
+          height,
+        } = this.viewport.select(`.${component.id} .model`).node().getBoundingClientRect();
+
+        maxX = Math.max(maxX, x + width + container.definition.margin);
+        maxY = Math.max(maxY, y + height + container.definition.margin);
+      });
+
+    return {
+      x: maxX,
+      y: maxY,
+    };
+  }
+}
+
+export default ResizeComponentAction;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>
