@@ -12,12 +12,15 @@ class ComponentLink extends FileInformation {
    * @param {string} [props.target] - Id of component can be the target of the link.
    * @param {string} [props.name] - Name of the link anchor, link to store where the link begin.
    * @param {ComponentLinkDefinition} [props.definition] - The definition of the link.
+   * @param {boolean} [props.isReverse] - Indicate if this link is a reverse link.
+   * The purpose of reversing a Link is to switch the start and the end of the link.
    */
   constructor(props = {
     source: null,
     target: null,
     name: null,
     definition: null,
+    isReverse: false,
   }) {
     super();
     const {
@@ -25,6 +28,7 @@ class ComponentLink extends FileInformation {
       target,
       name,
       definition,
+      isReverse,
     } = props;
 
     /**
@@ -53,6 +57,12 @@ class ComponentLink extends FileInformation {
      * @type {ComponentLinkDefinition}
      */
     this.definition = definition || null;
+    /**
+     * Indicate if this link is a reverse link.
+     * The purpose of reversing a Link is to switch the start and the end of the link.
+     * @type {boolean}
+     */
+    this.isReverse = !!isReverse;
   }
 }
 

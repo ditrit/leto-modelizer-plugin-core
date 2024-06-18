@@ -10,6 +10,7 @@ describe('Test class: ComponentLink', () => {
       expect(link.target).toBeNull();
       expect(link.name).toBeNull();
       expect(link.definition).toBeNull();
+      expect(link.isReverse).toEqual(false);
     });
 
     it('Check passing undefined variables to constructor', () => {
@@ -20,6 +21,7 @@ describe('Test class: ComponentLink', () => {
       expect(link.target).toBeNull();
       expect(link.name).toBeNull();
       expect(link.definition).toBeNull();
+      expect(link.isReverse).toEqual(false);
     });
 
     it('Check passing variable to constructor', () => {
@@ -28,6 +30,7 @@ describe('Test class: ComponentLink', () => {
         target: 'target',
         name: 'name',
         definition: {},
+        isReverse: true,
       });
 
       expect(link.__class).toEqual('Link');
@@ -35,6 +38,7 @@ describe('Test class: ComponentLink', () => {
       expect(link.target).toEqual('target');
       expect(link.name).toEqual('name');
       expect(link.definition).toBeDefined();
+      expect(link.isReverse).toEqual(true);
     });
   });
 });

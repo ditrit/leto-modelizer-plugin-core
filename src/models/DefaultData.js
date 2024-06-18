@@ -300,6 +300,7 @@ class DefaultData {
           definition,
           source: component.id,
           target: value,
+          isReverse: attribute.definition.linkType === 'Reverse',
         })));
       });
     });

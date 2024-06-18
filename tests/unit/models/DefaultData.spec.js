@@ -476,6 +476,7 @@ describe('Test class: DefaultData', () => {
           definition: pluginData.definitions.links[1],
           source: 'server2',
           target: 'server1',
+          isReverse: true,
         }),
         new ComponentLink({
           definition: pluginData.definitions.links[2],

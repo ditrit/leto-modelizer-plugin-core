@@ -56,8 +56,11 @@ class LinkRenderer {
             y: link.endY,
           };
         } else {
-          sourceAnchor = this.getClosestAnchor(link.source, link.target);
-          targetAnchor = this.getClosestAnchor(link.target, link.source);
+          const source = link.isReverse ? link.target : link.source;
+          const target = link.isReverse ? link.source : link.target;
+
+          sourceAnchor = this.getClosestAnchor(source, target);
+          targetAnchor = this.getClosestAnchor(target, source);
         }
 
         return renderString(
