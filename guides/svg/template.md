@@ -28,7 +28,17 @@ This function returns `true` if the component has an error, `false` otherwise.
 ```jsx
 {% if hasError %}
   <text>Error</text> {# only display if hasError return true #}
-{% endif % }
+{% endif %}
+```
+
+### `isReadOnly`
+
+This function returns `true` if the component is in read only display, `false` otherwise.
+
+```jsx
+{% if isReadOnly %}
+  <text>ReadOnly</text> {# only display if isReadOnly return true #}
+{% endif %}
 ```
 
 ### `getAttribute(attributeName)`
