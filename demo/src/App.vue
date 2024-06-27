@@ -22,10 +22,16 @@
         Add component
       </button>
       <button
-        id="automatic-layout-button"
-        @click="automaticLayout"
+          id="automatic-layout-button"
+          @click="automaticLayout"
       >
         Automatic layout
+      </button>
+      <button
+        id="export-svg-button"
+        @click="exportSvg"
+      >
+        Export svg
       </button>
       <label for="read-only-checkbox">
         Read-only ?
@@ -252,6 +258,24 @@ function dropComponent() {
   component.drawOption.y = position.value.y;
 
   plugin.draw();
+}
+
+function exportSvg() {
+  const content = plugin.exportSvg('view-port');
+  const blob = new Blob([content], { type: 'image/svg+xml' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+
+  a.href = url;
+  a.download = 'diagram.svg';
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  document.body.removeChild(a);
+
+  URL.revokeObjectURL(url);
 }
 
 onMounted(() => {

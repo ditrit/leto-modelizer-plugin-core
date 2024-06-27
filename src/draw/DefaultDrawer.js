@@ -335,6 +335,8 @@ class DefaultDrawer {
    */
   initScene() {
     this.scene = this.getScene();
+    this.scene.attr('version', '1.1');
+    this.scene.attr('xmlns', 'http://www.w3.org/2000/svg');
 
     this.scene.append('defs').html(
       Object.keys(this.pluginData.resources.markers)
@@ -363,7 +365,12 @@ class DefaultDrawer {
 
     if (this.readOnly) {
       const { width: vWidth, height: vHeight } = this.viewport.node().getBoundingClientRect();
-      const { width, height } = this.viewport.select('.scene .components').node().getBBox();
+      const {
+        width,
+        height,
+        x,
+        y,
+      } = this.viewport.select('.scene .components').node().getBBox();
       const ratio = vWidth / width < vHeight / height ? vWidth / width : vHeight / height;
       let zoom = 1;
 
@@ -371,12 +378,8 @@ class DefaultDrawer {
         zoom *= 0.9;
       }
 
-      const paddingX = (vWidth - width * zoom) / 2;
-      const paddingY = (vHeight - height * zoom) / 2;
-
+      this.scene.attr('viewBox', `${x - 15} ${y - 15} ${width + x + 15} ${height + y + 15}`);
       this.pluginData.scene.zoom = zoom;
-      this.viewport.selectAll('.scene > g')
-        .attr('transform', `translate(${paddingX} ${paddingY}) scale(${zoom})`);
     }
   }
 
@@ -458,6 +461,16 @@ class DefaultDrawer {
       component.drawOption.y = (event.clientY - containerY - this.pluginData.scene.y)
         / this.pluginData.scene.zoom - component.definition.defaultHeight / 2;
     }
+  }
+
+  /**
+   * Export viewport as svg.
+   * @returns {string} Svg content.
+   */
+  exportSvg() {
+    this.viewport.selectAll('.scene > g').attr('transform', '');
+
+    return document.querySelector('#view-port .scene').outerHTML;
   }
 }
 

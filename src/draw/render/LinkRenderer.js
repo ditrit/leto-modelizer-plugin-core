@@ -9,8 +9,9 @@ class LinkRenderer {
    * Default constructor.
    * @param {DefaultData} pluginData - Plugin data storage.
    * @param {object} viewport - D3 selection of the view port.
+   * @param {boolean} readOnly - Read only state.
    */
-  constructor(pluginData, viewport) {
+  constructor(pluginData, viewport, readOnly) {
     /**
      * Plugin data storage.
      * @type {DefaultData}
@@ -22,6 +23,11 @@ class LinkRenderer {
      * @type {Selection}
      */
     this.viewport = viewport || null;
+
+    /**
+     * Read only state.
+     */
+    this.readOnly = !!readOnly;
   }
 
   /**
