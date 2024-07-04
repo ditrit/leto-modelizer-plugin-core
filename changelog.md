@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Export wanted diagram as svg.
+- Add properties `categories` and `tags` in `ComponentDefinition`.
+- Add property `tags` in `ComponentAttributeDefinition`.
 
 ## [0.24.1] - 2024/06/18
 
