@@ -103,8 +103,8 @@ class DefaultDrawer {
     this.d3.select(`#${id}`).html('');
     this.viewport = this.d3.select(`#${id}`);
 
-    this.componentRenderer = new ComponentRenderer(this.pluginData, this.viewport, readOnly);
-    this.linkRenderer = new LinkRenderer(this.pluginData, this.viewport, readOnly);
+    this.componentRenderer = this.initComponentRenderer(readOnly);
+    this.linkRenderer = this.initLinkRenderer(readOnly);
     this.layout = new CustomLayout(
       this.pluginData,
       this.viewport,
@@ -120,6 +120,24 @@ class DefaultDrawer {
 
     this.initActions();
     this.initScene();
+  }
+
+  /**
+   * Initialize component renderer and return instance of it.
+   * @param {boolean} readOnly - Indicate if user can make action or modify the scene.
+   * @returns {ComponentRenderer} New instance of ComponentRenderer.
+   */
+  initComponentRenderer(readOnly) {
+    return new ComponentRenderer(this.pluginData, this.viewport, readOnly);
+  }
+
+  /**
+   * Initialize link renderer and return instance of it.
+   * @param {boolean} readOnly - Indicate if user can make action or modify the scene.
+   * @returns {LinkRenderer} New instance of LinkRenderer.
+   */
+  initLinkRenderer(readOnly) {
+    return new LinkRenderer(this.pluginData, this.viewport, readOnly);
   }
 
   /**
