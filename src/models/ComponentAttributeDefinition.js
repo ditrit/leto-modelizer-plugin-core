@@ -10,6 +10,7 @@ class ComponentAttributeDefinition {
    * valid types are String/Boolean/Number/Array/Object/Link/Reference.
    * @param {string} [props.displayName] - Attribute display name.
    * @param {string} [props.description] - Attribute explanation.
+   * @param {string[]} [props.tags] - Attribute tags.
    * @param {string} [props.url] - URL of the documentation of the attribute.
    * @param {string} [props.linkType] - Type of link, valid types are Default/Reverse.
    * @param {string[]} [props.linkRef] - Reference of accepted component for link.
@@ -29,6 +30,7 @@ class ComponentAttributeDefinition {
     type: null,
     displayName: null,
     description: null,
+    tags: [],
     url: null,
     linkType: null,
     linkRef: [],
@@ -48,6 +50,7 @@ class ComponentAttributeDefinition {
       type,
       displayName,
       description,
+      tags,
       url,
       linkType,
       linkRef,
@@ -78,6 +81,11 @@ class ComponentAttributeDefinition {
      * @type {string}
      */
     this.description = description || null;
+    /**
+     * Attribute tags.
+     * @type {string[]}
+     */
+    this.tags = tags || [];
     /**
      * URL of the documentation of the attribute.
      * @type {string}

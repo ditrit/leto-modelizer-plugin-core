@@ -10,6 +10,8 @@ class ComponentDefinition {
    * @param {string} [props.model] - Name of SVG template to render this type of component.
    * @param {string} [props.displayName] - Display name of the component.
    * @param {string} [props.description] - Explanation of the component.
+   * @param {string[]} [props.categories] - Categories of the component.
+   * @param {string[]} [props.tags] - Tags of the component.
    * @param {string} [props.url] - URL of the documentation of the component.
    * @param {string[]} [props.parentTypes] - The list of types that can be the parent.
    * @param {string[]} [props.childrenTypes] - The list of types that can be the children.
@@ -41,6 +43,8 @@ class ComponentDefinition {
     model: null,
     displayName: null,
     description: null,
+    categories: [],
+    tags: [],
     url: null,
     parentTypes: [],
     childrenTypes: [],
@@ -64,6 +68,8 @@ class ComponentDefinition {
       model,
       displayName,
       description,
+      categories,
+      tags,
       url,
       parentTypes,
       childrenTypes,
@@ -111,6 +117,18 @@ class ComponentDefinition {
      * @type {string}
      */
     this.description = description || null;
+
+    /**
+     * Categories of the component.
+     * @type {string[]}
+     */
+    this.categories = categories || [];
+
+    /**
+     * Tags of the component.
+     * @type {string[]}
+     */
+    this.tags = tags || [];
 
     /**
      * URL of the documentation of the component.

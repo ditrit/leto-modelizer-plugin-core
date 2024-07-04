@@ -11,6 +11,8 @@ describe('Test class: ComponentDefinition', () => {
       expect(componentDefinition.displayName).toBeNull();
       expect(componentDefinition.description).toBeNull();
       expect(componentDefinition.url).toBeNull();
+      expect(componentDefinition.categories).toEqual([]);
+      expect(componentDefinition.tags).toEqual([]);
       expect(componentDefinition.parentTypes).toEqual([]);
       expect(componentDefinition.childrenTypes).toEqual([]);
       expect(componentDefinition.definedAttributes).toEqual([]);
@@ -37,6 +39,8 @@ describe('Test class: ComponentDefinition', () => {
       expect(componentDefinition.displayName).toBeNull();
       expect(componentDefinition.description).toBeNull();
       expect(componentDefinition.url).toBeNull();
+      expect(componentDefinition.categories).toEqual([]);
+      expect(componentDefinition.tags).toEqual([]);
       expect(componentDefinition.parentTypes).toEqual([]);
       expect(componentDefinition.childrenTypes).toEqual([]);
       expect(componentDefinition.definedAttributes).toEqual([]);
@@ -62,6 +66,8 @@ describe('Test class: ComponentDefinition', () => {
         displayName: 'displayName',
         description: 'description',
         url: 'url',
+        tags: ['tag'],
+        categories: ['category'],
         parentTypes: ['type'],
         childrenTypes: ['childrenType'],
         definedAttributes: ['attribute'],
@@ -85,6 +91,8 @@ describe('Test class: ComponentDefinition', () => {
       expect(componentDefinition.displayName).toEqual('displayName');
       expect(componentDefinition.description).toEqual('description');
       expect(componentDefinition.url).toEqual('url');
+      expect(componentDefinition.categories).toEqual(['category']);
+      expect(componentDefinition.tags).toEqual(['tag']);
       expect(componentDefinition.parentTypes.length).toEqual(1);
       expect(componentDefinition.parentTypes[0]).toEqual('type');
       expect(componentDefinition.childrenTypes.length).toEqual(1);
