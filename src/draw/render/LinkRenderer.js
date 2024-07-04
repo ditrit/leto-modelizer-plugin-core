@@ -28,13 +28,19 @@ class LinkRenderer {
      * Read only state.
      */
     this.readOnly = !!readOnly;
+
+    /**
+     * Object that contains position x and y of the scene.
+     * @type {object}
+     */
+    this.scenePosition = null;
   }
 
   /**
    * Render nodes for each link.
    */
   render() {
-    const scenePosition = this.viewport.select('.scene').node().getBoundingClientRect();
+    this.scenePosition = this.viewport.select('.scene').node().getBoundingClientRect();
 
     this.viewport.select('.scene .links').selectAll('.link')
       .data(() => this.pluginData.getLinks())
@@ -42,50 +48,19 @@ class LinkRenderer {
       .attr('class', (link) => `${link.source}_to_${link.target} link`)
       .attr('from', (link) => link.source)
       .attr('to', (link) => link.target)
-      .html((link) => {
-        let sourceAnchor;
-        let targetAnchor;
-
-        if (link.isTemporary) {
-          sourceAnchor = this.viewport
-            .select(`.${link.source} .anchors .anchor[name="${link.anchorName}"]`)
-            .node()
-            .getBoundingClientRect();
-          sourceAnchor = {
-            name: link.anchorName,
-            x: sourceAnchor.x + sourceAnchor.width / 2,
-            y: sourceAnchor.y + sourceAnchor.height / 2,
-            width: sourceAnchor.width,
-          };
-          targetAnchor = {
-            x: link.endX,
-            y: link.endY,
-          };
-        } else {
-          const source = link.isReverse ? link.target : link.source;
-          const target = link.isReverse ? link.source : link.target;
-
-          sourceAnchor = this.getClosestAnchor(source, target);
-          targetAnchor = this.getClosestAnchor(target, source);
-        }
-
-        return renderString(
-          this.pluginData.resources.links[link.definition.model] || '',
-          {
-            d: this.getLinkPoints(scenePosition, sourceAnchor, targetAnchor),
-          },
-        );
-      });
+      .html((link) => renderString(
+        this.pluginData.resources.links[link.definition.model] || '',
+        this.getTemplateData(link),
+      ));
   }
 
   /**
    * Get path definition of a link.
-   * @param {object} scene - BoundingClientRect of the scene.
    * @param {object} sourceAnchor - BoundingClientRect of the source anchor.
    * @param {object} targetAnchor - BoundingClientRect of the target anchor.
    * @returns {string} Path definition.
    */
-  getLinkPoints(scene, sourceAnchor, targetAnchor) {
+  getLinkPoints(sourceAnchor, targetAnchor) {
     const endPosition1 = this.getReducedPointPositionOnSegment(
       sourceAnchor.x,
       sourceAnchor.y,
@@ -100,17 +75,17 @@ class LinkRenderer {
       targetAnchor.y,
       5,
     );
-    const startX = (sourceAnchor.x - scene.x - this.pluginData.scene.x)
+    const startX = (sourceAnchor.x - this.scenePosition.x - this.pluginData.scene.x)
       / this.pluginData.scene.zoom;
-    const startY = (sourceAnchor.y - scene.y - this.pluginData.scene.y)
+    const startY = (sourceAnchor.y - this.scenePosition.y - this.pluginData.scene.y)
       / this.pluginData.scene.zoom;
-    const end1X = (endPosition1.x - scene.x - this.pluginData.scene.x)
+    const end1X = (endPosition1.x - this.scenePosition.x - this.pluginData.scene.x)
       / this.pluginData.scene.zoom;
-    const end1Y = (endPosition1.y - scene.y - this.pluginData.scene.y)
+    const end1Y = (endPosition1.y - this.scenePosition.y - this.pluginData.scene.y)
       / this.pluginData.scene.zoom;
-    const end2X = (endPosition2.x - scene.x - this.pluginData.scene.x)
+    const end2X = (endPosition2.x - this.scenePosition.x - this.pluginData.scene.x)
       / this.pluginData.scene.zoom;
-    const end2Y = (endPosition2.y - scene.y - this.pluginData.scene.y)
+    const end2Y = (endPosition2.y - this.scenePosition.y - this.pluginData.scene.y)
       / this.pluginData.scene.zoom;
     const drawCurve = d3.line().curve(d3.curveBasis);
 
@@ -185,6 +160,43 @@ class LinkRenderer {
     return {
       x: xa + dx * reductionFactor,
       y: ya + dy * reductionFactor,
+    };
+  }
+
+  /**
+   * Get data for nunjucks templating.
+   * @param {ComponentLink} link - Link to render.
+   * @returns {object} Data for templating.
+   */
+  getTemplateData(link) {
+    let sourceAnchor;
+    let targetAnchor;
+
+    if (link.isTemporary) {
+      sourceAnchor = this.viewport
+        .select(`.${link.source} .anchors .anchor[name="${link.anchorName}"]`)
+        .node()
+        .getBoundingClientRect();
+      sourceAnchor = {
+        name: link.anchorName,
+        x: sourceAnchor.x + sourceAnchor.width / 2,
+        y: sourceAnchor.y + sourceAnchor.height / 2,
+        width: sourceAnchor.width,
+      };
+      targetAnchor = {
+        x: link.endX,
+        y: link.endY,
+      };
+    } else {
+      const source = link.isReverse ? link.target : link.source;
+      const target = link.isReverse ? link.source : link.target;
+
+      sourceAnchor = this.getClosestAnchor(source, target);
+      targetAnchor = this.getClosestAnchor(target, source);
+    }
+
+    return {
+      d: this.getLinkPoints(sourceAnchor, targetAnchor),
     };
   }
 }

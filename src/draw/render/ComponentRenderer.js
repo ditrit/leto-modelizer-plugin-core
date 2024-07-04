@@ -37,25 +37,7 @@ class ComponentRenderer {
   renderModel(component) {
     return renderString(
       this.pluginData.resources.models[component.definition.model],
-      {
-        ...component,
-        drawOption: {
-          ...component.drawOption,
-          x: component.drawOption.x || 0,
-          y: component.drawOption.y || 0,
-          width: component.drawOption.width || component.definition.width,
-          height: component.drawOption.height || component.definition.height,
-        },
-        isReadOnly: this.readOnly,
-        icon: this.pluginData.resources.icons[component.definition.icon],
-        hasError: component.hasError(),
-        hasX: !!component.drawOption.x,
-        hasY: !!component.drawOption.y,
-        isSelected: this.pluginData.scene.selection.includes(component.id),
-        getIcon: (name) => this.pluginData.resources.icons[name],
-        canHaveLink: this.pluginData.canHaveLink(component.definition.type),
-        getAttribute: (name) => component.attributes.find((attribute) => attribute.name === name),
-      },
+      this.getTemplateData(component),
     );
   }
 
@@ -75,6 +57,33 @@ class ComponentRenderer {
       .html(({ data }) => this.renderModel(data))
       .filter(({ data, children }) => data.definition.isContainer && !(!children))
       .each(({ data }) => this.render(data.id));
+  }
+
+  /**
+   * Get data for nunjucks templating.
+   * @param {Component} component - Component to render.
+   * @returns {object} Data for templating.
+   */
+  getTemplateData(component) {
+    return {
+      ...component,
+      drawOption: {
+        ...component.drawOption,
+        x: component.drawOption.x || 0,
+        y: component.drawOption.y || 0,
+        width: component.drawOption.width || component.definition.width,
+        height: component.drawOption.height || component.definition.height,
+      },
+      isReadOnly: this.readOnly,
+      icon: this.pluginData.resources.icons[component.definition.icon],
+      hasError: component.hasError(),
+      hasX: !!component.drawOption.x,
+      hasY: !!component.drawOption.y,
+      isSelected: this.pluginData.scene.selection.includes(component.id),
+      getIcon: (name) => this.pluginData.resources.icons[name],
+      canHaveLink: this.pluginData.canHaveLink(component.definition.type),
+      getAttribute: (name) => component.attributes.find((attribute) => attribute.name === name),
+    };
   }
 }
 
