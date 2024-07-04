@@ -10,6 +10,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.displayName).toBeNull();
       expect(definedAttribute.description).toBeNull();
       expect(definedAttribute.url).toBeNull();
+      expect(definedAttribute.tags).toEqual([]);
       expect(definedAttribute.linkType).toBeNull();
       expect(definedAttribute.linkRef).toEqual([]);
       expect(definedAttribute.linkModel).toBeNull();
@@ -30,6 +31,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.displayName).toBeNull();
       expect(definedAttribute.description).toBeNull();
       expect(definedAttribute.url).toBeNull();
+      expect(definedAttribute.tags).toEqual([]);
       expect(definedAttribute.linkType).toBeNull();
       expect(definedAttribute.linkRef).toEqual([]);
       expect(definedAttribute.linkModel).toBeNull();
@@ -50,6 +52,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.displayName).toBeNull();
       expect(definedAttribute.description).toBeNull();
       expect(definedAttribute.url).toBeNull();
+      expect(definedAttribute.tags).toEqual([]);
       expect(definedAttribute.linkType).toBeNull();
       expect(definedAttribute.linkRef).toEqual([]);
       expect(definedAttribute.linkModel).toBeNull();
@@ -69,6 +72,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
         displayName: 'displayName',
         description: 'description',
         url: 'url',
+        tags: ['tag'],
         linkType: 'Default',
         linkRef: ['linkRef'],
         linkModel: 'linkModel',
@@ -88,6 +92,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.displayName).toEqual('displayName');
       expect(definedAttribute.description).toEqual('description');
       expect(definedAttribute.url).toEqual('url');
+      expect(definedAttribute.tags).toEqual(['tag']);
       expect(definedAttribute.linkType).toEqual('Default');
       expect(definedAttribute.linkRef.length).toEqual(1);
       expect(definedAttribute.linkRef[0]).toEqual('linkRef');

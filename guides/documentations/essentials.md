@@ -121,6 +121,9 @@ As you saw in the previous image, component definitions are loaded from a metada
 Attributes of a component represent all the related properties that can/must be set inside the Component Panel (Right side of the previous image).
 Link Definitions can also be loaded from the metadata file (for colored links, dashed links...).
 
+:warning: Property `categories` of `ComponentDefinition` is used to build the tree for component inside the Component Panel.
+So for a better organization, feel free to register one or more categories.
+
 Once the component definitions are loaded, components can be instantiated from the components list (Left side of the previous image) in Leto-modelizer.
 The DefaultMetadata class provides two methods:
 
