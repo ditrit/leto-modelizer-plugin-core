@@ -58,6 +58,7 @@ export default {
     />
 
     {# Resize button #}
+    {% if not isReadOnly %}
     <g transform="translate(-15 -15)">
       <svg
         class="resize-button"
@@ -74,6 +75,7 @@ export default {
         <g transform="translate(14 1) rotate(90)">{{ getIcon('resize') | safe }}</g>
       </svg>
     </g>
+    {% endif %}
     {% endif %}
 
     {# Icon of component #}
@@ -106,12 +108,14 @@ export default {
     </g>
 
     {# Menu button of component #}
+    {% if not isReadOnly %}
     <g transform="translate(-20 2)">
       <svg class="menu-button" x="100%" y="0" width="15px" height="15px" fill="white" cursor="pointer">
         <rect rx="2" width="100%" height="100%" fill="#474262"/>
         <g transform="translate(1, 1)">{{ getIcon('menu') | safe }}</g>
       </svg>
     </g>
+    {% endif %}
 
     {# Error status of component #}
     {% if hasError %}
