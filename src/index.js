@@ -8,6 +8,8 @@ import ComponentLinkDefinition from './models/ComponentLinkDefinition';
 import FileInformation from './models/FileInformation';
 import FileInput from './models/FileInput';
 import DefaultDrawer from './draw/DefaultDrawer';
+import ComponentRenderer from './draw/render/ComponentRenderer';
+import LinkRenderer from './draw/render/LinkRenderer';
 import DefaultMetadata from './metadata/DefaultMetadata';
 import DefaultParser from './parser/DefaultParser';
 import DefaultRender from './render/DefaultRender';
@@ -26,6 +28,8 @@ export {
   ComponentAttribute,
   ComponentLink,
   ComponentLinkDefinition,
+  ComponentRenderer,
+  LinkRenderer,
   DefaultDrawer,
   DefaultMetadata,
   DefaultParser,
