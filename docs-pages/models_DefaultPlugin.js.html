@@ -304,6 +304,23 @@ class DefaultPlugin {
   }
 
   /**
+   * Export viewport as svg.
+   * @param {string} id - Viewport id.
+   * @returns {string} Svg content.
+   */
+  exportSvg(id) {
+    this.__drawer.init(id, true);
+    this.draw();
+
+    const svg = this.__drawer.exportSvg();
+
+    this.__drawer.init(id, false);
+    this.draw();
+
+    return svg;
+  }
+
+  /**
    * Get the coordinates to use for component draw options.
    * @param {string} rootId - Html id, without '#'.
    * @param {ComponentDrawOption} drawOption - The options used to draw this Component.
