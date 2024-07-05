@@ -352,6 +352,9 @@ class DefaultDrawer {
    * Initialize the scene, set all markers component and link groups.
    */
   initScene() {
+    this.viewport
+      .append('style')
+      .text(this.pluginData.resources.style);
     this.scene = this.getScene();
     this.scene.attr('version', '1.1');
     this.scene.attr('xmlns', 'http://www.w3.org/2000/svg');
