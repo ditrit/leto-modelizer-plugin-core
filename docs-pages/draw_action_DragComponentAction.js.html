@@ -109,12 +109,42 @@
  */
 class DragComponentAction extends Action {
   /**
+   * Default constructor.
+   * @param {DefaultData} pluginData - Plugin data storage.
+   * @param {object} viewport - D3 selection of the view port.
+   * @param {DefaultLayout} layout - Layout to organise components.
+   */
+  constructor(pluginData, viewport, layout) {
+    super(pluginData, viewport, layout);
+
+    /**
+     * Whether the action is initialized or not.
+     * @type {boolean}
+     */
+    this.isInit = false;
+  }
+
+  /**
    * Update position of sources element.
    * @param {object} event - The event containing the target information.
    * @returns {boolean} No need to redraw because, element is directly updated.
    */
   execute(event) {
     const sources = this.getSourcesId(event);
+
+    if (!this.isInit) {
+      this.isInit = true;
+
+      const parentTypes = this.getParentTypes(sources);
+
+      this.pluginData.components
+        .filter(({ id, definition }) => !parentTypes.includes(definition.type)
+          &amp;&amp; !sources.includes(id))
+        .forEach((component) => {
+          this.viewport.select(`.${component.id}.component .canBeHidden`)
+            .classed('hide', true);
+        });
+    }
 
     sources.forEach((id) => {
       const model = this.viewport.select(`.${id} .model`);
@@ -133,12 +163,16 @@ class DragComponentAction extends Action {
    * @returns {boolean} Need to call draw at the end.
    */
   finalize(event) {
+    this.isInit = false;
+
     const sourcesId = this.getSourcesId(event);
     const targetId = this.getTargetsId(event)[0] || null;
     const sources = sourcesId.map((id) => this.pluginData.getComponentById(id));
 
     if (targetId === null) {
-      return this.dropOnScene(event, sources);
+      this.dropOnScene(event, sources);
+
+      return true;
     }
 
     return this.dropOnTarget(event, sources, this.pluginData.getComponentById(targetId));
@@ -313,6 +347,36 @@ class DragComponentAction extends Action {
     });
 
     return true;
+  }
+
+  /**
+   * Get all parent types that the sources have in common.
+   * @param {string[]} sources - Component ids list.
+   * @returns {string[]} Parent types list.
+   */
+  getParentTypes(sources) {
+    const map = new Map();
+
+    sources.map((id) => this.pluginData.getComponentById(id))
+      .forEach(({ id, definition }) => {
+        definition.parentTypes.forEach((type) => {
+          if (!map.has(type)) {
+            map.set(type, []);
+          }
+
+          map.get(type).push(id);
+        });
+      });
+
+    const types = [];
+
+    map.forEach((ids, type) => {
+      if (ids.length === sources.length) {
+        types.push(type);
+      }
+    });
+
+    return types;
   }
 }
 

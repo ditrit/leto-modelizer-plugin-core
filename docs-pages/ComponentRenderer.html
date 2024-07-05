@@ -102,7 +102,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>ComponentRenderer<span class="signature">(pluginData, viewport)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>ComponentRenderer<span class="signature">(pluginData, viewport, readOnly)</span><span class="type-signature"></span></h2>
         
             <div class="class-description">Class to render component.</div>
         
@@ -128,7 +128,7 @@
         
         <span class="code-name">
             
-                new ComponentRenderer<span class="signature">(pluginData, viewport)</span><span class="type-signature"></span>
+                new ComponentRenderer<span class="signature">(pluginData, viewport, readOnly)</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -217,6 +217,31 @@
   
 
   <td class="description last">D3 selection of the view port.</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>readOnly</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">boolean</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Read only state.</td>
 </tr>
 
 
@@ -380,7 +405,76 @@
         <p class="tag-source">
             <a href="draw_render_ComponentRenderer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_render_ComponentRenderer.js.html">draw/render/ComponentRenderer.js</a>, <a href="draw_render_ComponentRenderer.js.html#line17">line 17</a>
+                <a href="draw_render_ComponentRenderer.js.html">draw/render/ComponentRenderer.js</a>, <a href="draw_render_ComponentRenderer.js.html#line18">line 18</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id="readOnly">
+    <a class="href-link" href="#readOnly">#</a>
+    
+    <span class="code-name">
+        readOnly
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Read only state.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="draw_render_ComponentRenderer.js.html" class="button">View Source</a>
+            <span>
+                <a href="draw_render_ComponentRenderer.js.html">draw/render/ComponentRenderer.js</a>, <a href="draw_render_ComponentRenderer.js.html#line29">line 29</a>
             </span>
         </p>
     
@@ -457,7 +551,7 @@
         <p class="tag-source">
             <a href="draw_render_ComponentRenderer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_render_ComponentRenderer.js.html">draw/render/ComponentRenderer.js</a>, <a href="draw_render_ComponentRenderer.js.html#line23">line 23</a>
+                <a href="draw_render_ComponentRenderer.js.html">draw/render/ComponentRenderer.js</a>, <a href="draw_render_ComponentRenderer.js.html#line24">line 24</a>
             </span>
         </p>
     
@@ -477,6 +571,179 @@
         <div class='vertical-section'>
             <h1>Methods</h1>
             <div class="members">
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="getTemplateData">
+        <a class="href-link" href="#getTemplateData">#</a>
+        
+        <span class="code-name">
+            
+                getTemplateData<span class="signature">(component)</span><span class="type-signature"> &rarr; {object}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Get data for nunjucks templating.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>component</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type"><a href="Component.html">Component</a></code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Component to render.</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="draw_render_ComponentRenderer.js.html" class="button">View Source</a>
+            <span>
+                <a href="draw_render_ComponentRenderer.js.html">draw/render/ComponentRenderer.js</a>, <a href="draw_render_ComponentRenderer.js.html#line67">line 67</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>Data for templating.</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">object</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
             
                 <div class="member">
 
@@ -598,7 +865,7 @@
         <p class="tag-source">
             <a href="draw_render_ComponentRenderer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_render_ComponentRenderer.js.html">draw/render/ComponentRenderer.js</a>, <a href="draw_render_ComponentRenderer.js.html#line59">line 59</a>
+                <a href="draw_render_ComponentRenderer.js.html">draw/render/ComponentRenderer.js</a>, <a href="draw_render_ComponentRenderer.js.html#line48">line 48</a>
             </span>
         </p>
     
@@ -746,7 +1013,7 @@
         <p class="tag-source">
             <a href="draw_render_ComponentRenderer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_render_ComponentRenderer.js.html">draw/render/ComponentRenderer.js</a>, <a href="draw_render_ComponentRenderer.js.html#line31">line 31</a>
+                <a href="draw_render_ComponentRenderer.js.html">draw/render/ComponentRenderer.js</a>, <a href="draw_render_ComponentRenderer.js.html#line37">line 37</a>
             </span>
         </p>
     

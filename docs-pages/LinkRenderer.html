@@ -102,7 +102,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>LinkRenderer<span class="signature">(pluginData, viewport)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>LinkRenderer<span class="signature">(pluginData, viewport, readOnly)</span><span class="type-signature"></span></h2>
         
             <div class="class-description">Class to render link.</div>
         
@@ -128,7 +128,7 @@
         
         <span class="code-name">
             
-                new LinkRenderer<span class="signature">(pluginData, viewport)</span><span class="type-signature"></span>
+                new LinkRenderer<span class="signature">(pluginData, viewport, readOnly)</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -217,6 +217,31 @@
   
 
   <td class="description last">D3 selection of the view port.</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>readOnly</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">boolean</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Read only state.</td>
 </tr>
 
 
@@ -380,7 +405,153 @@
         <p class="tag-source">
             <a href="draw_render_LinkRenderer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_render_LinkRenderer.js.html">draw/render/LinkRenderer.js</a>, <a href="draw_render_LinkRenderer.js.html#line18">line 18</a>
+                <a href="draw_render_LinkRenderer.js.html">draw/render/LinkRenderer.js</a>, <a href="draw_render_LinkRenderer.js.html#line19">line 19</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id="readOnly">
+    <a class="href-link" href="#readOnly">#</a>
+    
+    <span class="code-name">
+        readOnly
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Read only state.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="draw_render_LinkRenderer.js.html" class="button">View Source</a>
+            <span>
+                <a href="draw_render_LinkRenderer.js.html">draw/render/LinkRenderer.js</a>, <a href="draw_render_LinkRenderer.js.html#line30">line 30</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">object</code>
+
+
+    </span>
+
+<h4 class="name" id="scenePosition">
+    <a class="href-link" href="#scenePosition">#</a>
+    
+    <span class="code-name">
+        scenePosition
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Object that contains position x and y of the scene.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="draw_render_LinkRenderer.js.html" class="button">View Source</a>
+            <span>
+                <a href="draw_render_LinkRenderer.js.html">draw/render/LinkRenderer.js</a>, <a href="draw_render_LinkRenderer.js.html#line36">line 36</a>
             </span>
         </p>
     
@@ -457,7 +628,7 @@
         <p class="tag-source">
             <a href="draw_render_LinkRenderer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_render_LinkRenderer.js.html">draw/render/LinkRenderer.js</a>, <a href="draw_render_LinkRenderer.js.html#line24">line 24</a>
+                <a href="draw_render_LinkRenderer.js.html">draw/render/LinkRenderer.js</a>, <a href="draw_render_LinkRenderer.js.html#line25">line 25</a>
             </span>
         </p>
     
@@ -623,7 +794,7 @@
         <p class="tag-source">
             <a href="draw_render_LinkRenderer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_render_LinkRenderer.js.html">draw/render/LinkRenderer.js</a>, <a href="draw_render_LinkRenderer.js.html#line122">line 122</a>
+                <a href="draw_render_LinkRenderer.js.html">draw/render/LinkRenderer.js</a>, <a href="draw_render_LinkRenderer.js.html#line106">line 106</a>
             </span>
         </p>
     
@@ -685,7 +856,7 @@
         
         <span class="code-name">
             
-                getLinkPoints<span class="signature">(scene, sourceAnchor, targetAnchor)</span><span class="type-signature"> &rarr; {string}</span>
+                getLinkPoints<span class="signature">(sourceAnchor, targetAnchor)</span><span class="type-signature"> &rarr; {string}</span>
             
         </span>
     </h4>
@@ -727,31 +898,6 @@
         </thead>
 
         <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>scene</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">object</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">BoundingClientRect of the scene.</td>
-</tr>
-
-
         
 
             
@@ -846,7 +992,7 @@
         <p class="tag-source">
             <a href="draw_render_LinkRenderer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_render_LinkRenderer.js.html">draw/render/LinkRenderer.js</a>, <a href="draw_render_LinkRenderer.js.html#line79">line 79</a>
+                <a href="draw_render_LinkRenderer.js.html">draw/render/LinkRenderer.js</a>, <a href="draw_render_LinkRenderer.js.html#line63">line 63</a>
             </span>
         </p>
     
@@ -1121,7 +1267,7 @@ specified distance from the end point (xb, yb).
         <p class="tag-source">
             <a href="draw_render_LinkRenderer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_render_LinkRenderer.js.html">draw/render/LinkRenderer.js</a>, <a href="draw_render_LinkRenderer.js.html#line164">line 164</a>
+                <a href="draw_render_LinkRenderer.js.html">draw/render/LinkRenderer.js</a>, <a href="draw_render_LinkRenderer.js.html#line148">line 148</a>
             </span>
         </p>
     
@@ -1153,6 +1299,179 @@ specified distance from the end point (xb, yb).
 <div class="columns">
     
     <div class='param-desc column is-7'>An object containing the x and y coordinates of the new point on the segment.</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">object</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="getTemplateData">
+        <a class="href-link" href="#getTemplateData">#</a>
+        
+        <span class="code-name">
+            
+                getTemplateData<span class="signature">(link)</span><span class="type-signature"> &rarr; {object}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Get data for nunjucks templating.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>link</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type"><a href="ComponentLink.html">ComponentLink</a></code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Link to render.</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="draw_render_LinkRenderer.js.html" class="button">View Source</a>
+            <span>
+                <a href="draw_render_LinkRenderer.js.html">draw/render/LinkRenderer.js</a>, <a href="draw_render_LinkRenderer.js.html#line171">line 171</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>Data for templating.</div>
     
     
     <div class='column is-5 has-text-left'>
@@ -1243,7 +1562,7 @@ specified distance from the end point (xb, yb).
         <p class="tag-source">
             <a href="draw_render_LinkRenderer.js.html" class="button">View Source</a>
             <span>
-                <a href="draw_render_LinkRenderer.js.html">draw/render/LinkRenderer.js</a>, <a href="draw_render_LinkRenderer.js.html#line30">line 30</a>
+                <a href="draw_render_LinkRenderer.js.html">draw/render/LinkRenderer.js</a>, <a href="draw_render_LinkRenderer.js.html#line42">line 42</a>
             </span>
         </p>
     
