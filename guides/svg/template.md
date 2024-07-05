@@ -177,9 +177,34 @@ Like the demo you can add `style` do indicate to the user that your component is
 
 ### 3. Set up the hide option
 
+To set up the hide option you have to add two things:
+- one for hiding temporary when moving component or for link creation.
+- another for hiding permanently a component on specific user action.
+
+To hide temporary, you have to add a class `canBeHidden` on thing you want to be hidden:
+
+```jsx
+<svg class="model" (...)>
+  <g class="canBeHidden">
+    Everything that has to be hidden
+  </g>
+  <g>Other think that not to be hide</g>
+</svg>
+```
+
+And you have to add css definition in `public/style.css`:
+
+```css
+.component .canBeHidden.hide {
+    opacity: 0.4; cursor: not-allowed
+}
+```
+
+To hide permanently you can use the `hide` option.
+
 `hide` option is a boolean to indicate that component have to be hidden from others.
 
-This option would'nt mean that sub-components of a hiding container have to be hidden, `hide` option is only for the current component not for the children.
+This option wouldn't mean that sub-components of a hiding container have to be hidden, `hide` option is only for the current component not for the children.
 
 In the example we have only one model for container and component, but if you have model for none container component, you can directly set on root svg the hive style option.
 
@@ -187,12 +212,7 @@ Here is our example of hide option:
 
 ```jsx
 <svg class="model" (...)>
-  <g
-    {% if drawOption.hide %}
-    opacity="0.4"
-    cursor="not-allowed"
-    {% endif %}
-  >
+<g class="canBeHidden {% if drawOption.hide %}hide{% endif %}">
     Everything that has to be hidden
   </g>
   <g>Other think that not to be hide</g>

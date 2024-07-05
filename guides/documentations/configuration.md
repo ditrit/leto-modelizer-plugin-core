@@ -50,7 +50,7 @@ In this part, you will see how you can:
 - `defaultFileExtension`: Define a default file extension.
 - `tags`: Tag your plugin
 - `isFolderTypeDiagram`: Define the type for your plugin diagram
-- `extraResources`: Define extra icons, markers or links svg model.
+- `extraResources`: Define extra style, icons, markers or links svg model.
 - `rootContainer`: Define root container options, like gap and margin.
 - `container`: Define default container options, like gap and margin.
 - `keysBinding`: Define key binding for actions.
