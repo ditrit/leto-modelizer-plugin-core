@@ -15,7 +15,7 @@ class LinkAction extends Action {
     super(pluginData, viewport, layout);
 
     /**
-     * Is action is initialized.
+     * Whether the action is initialized or not.
      * @type {boolean}
      */
     this.isInit = false;
@@ -46,18 +46,14 @@ class LinkAction extends Action {
           definition.type,
         ))
         .forEach((component) => {
-          component.drawOption.hide = true;
+          this.viewport.select(`.${component.id}.component .canBeHidden`)
+            .classed('hide', true);
         });
 
       this.pluginData.createTemporaryLink(sourceId, anchorName);
-
-      this.pluginData.temporaryLink.endX = event.sourceEvent.clientX;
-      this.pluginData.temporaryLink.endY = event.sourceEvent.clientY;
       this.link = new ComponentLink({
         source: sourceId,
       });
-
-      return true;
     }
 
     this.pluginData.temporaryLink.endX = event.sourceEvent.clientX;
@@ -77,18 +73,15 @@ class LinkAction extends Action {
     this.viewport.style('cursor', null);
     const source = this.pluginData.getComponentById(event.subject.datum().data.id);
     const target = this.pluginData.getComponentById(this.getTargetId(event));
+    const definition = this.pluginData.definitions.links
+      .find(({ sourceRef, targetRef }) => source.definition.type === sourceRef
+        && target?.definition.type === targetRef);
 
-    this.pluginData.components.forEach((component) => {
-      component.drawOption.hide = false;
-    });
-
-    if (target) {
+    if (target && definition) {
       source.setLinkAttribute(new ComponentLink({
         source: source.id,
         target: target.id,
-        definition: this.pluginData.definitions.links
-          .find(({ sourceRef, targetRef }) => source.definition.type === sourceRef
-            && target.definition.type === targetRef),
+        definition,
       }));
 
       this.pluginData.emitEvent({

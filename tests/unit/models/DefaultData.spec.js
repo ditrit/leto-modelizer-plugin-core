@@ -27,6 +27,7 @@ describe('Test class: DefaultData', () => {
         markers: {},
         links: {},
         models: {},
+        style: '',
       });
       expect(pluginData.scene).toEqual({
         x: 0,
@@ -54,6 +55,7 @@ describe('Test class: DefaultData', () => {
         markers: {},
         links: {},
         models: {},
+        style: '',
       });
       expect(pluginData.scene).toEqual({
         x: 0,
@@ -85,6 +87,7 @@ describe('Test class: DefaultData', () => {
           markers: { b: 'b' },
           links: { c: 'c' },
           models: { d: 'd' },
+          style: 'test',
         },
         scene: {
           x: 1,
@@ -116,6 +119,7 @@ describe('Test class: DefaultData', () => {
         models: {
           d: 'd',
         },
+        style: 'test',
       });
       expect(pluginData.scene).toEqual({
         x: 1,

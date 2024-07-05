@@ -20,6 +20,7 @@ export default {
     workflowLink: `<path d="{{ d }}" fill="none" stroke="white" stroke-width="2" marker-start="url(#startWorkflowLinkMarker)" marker-end="url(#endWorkflowLinkMarker)"/>`,
     temporaryLink: `<path d="{{ d }}" fill="none" stroke="blue" stroke-width="2" marker-end="url(#endTemporaryLink)"/>`,
   },
+  style: '.component g.canBeHidden.hide { opacity: 0.4; cursor: not-allowed }',
   models: {
     DefaultModel: `
 <svg
@@ -33,12 +34,7 @@ export default {
   style="outline: 2px solid deepskyblue; outline-offset: 2px;"
   {% endif %}
 >
-  <g
-    {% if drawOption.hide %}
-    opacity="0.4"
-    cursor="not-allowed"
-    {% endif %}
-  >
+  <g class="canBeHidden {% if drawOption.hide %}hide{% endif %}">
     <rect
       class="background"
       fill="#474262"

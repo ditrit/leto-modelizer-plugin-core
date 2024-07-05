@@ -29,6 +29,7 @@ class DefaultData {
    * @param {object} [props.resources.markers] - All svg models' markers.
    * @param {object} [props.resources.links] - All svg models' links.
    * @param {object} [props.resources.models] - All svg models' components.
+   * @param {string} [props.resources.style] - All specific style.
    * @param {object} [props.scene] -All scene data, position, zoom factor, current selection and
    * selected container type.
    * @param {number} [props.scene.x] - Translation x of the scene.
@@ -141,6 +142,7 @@ class DefaultData {
       markers: { ...props.resources?.markers },
       links: { ...props.resources?.links },
       models: { ...props.resources?.models },
+      style: props.resources?.style || '',
     };
     /**
      * Current temporary link.

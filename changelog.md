@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add property `tags` in `ComponentAttributeDefinition`.
 - Add method `getTemplateData` in `ComponentRenderer` and `LinkRenderer`.
 - Add methods `initComponentRenderer` and `initLinkRenderer` in `DefaultDrawer`.
+- Hide components that cannot contain dragged components.
+- Add extra-resource to store css style.
 
 ## [0.24.1] - 2024/06/18
 
