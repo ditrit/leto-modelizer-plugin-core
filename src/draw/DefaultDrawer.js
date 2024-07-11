@@ -486,12 +486,13 @@ class DefaultDrawer {
 
   /**
    * Export viewport as svg.
+   * @param {string} id - Viewport id.
    * @returns {string} Svg content.
    */
-  exportSvg() {
+  exportSvg(id) {
     this.viewport.selectAll('.scene > g').attr('transform', '');
 
-    return document.querySelector('#view-port .scene').outerHTML;
+    return document.querySelector(`#${id} .scene`).outerHTML;
   }
 }
 
