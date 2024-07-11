@@ -208,7 +208,7 @@ class DefaultPlugin {
     this.__drawer.init(id, true);
     this.draw();
 
-    const svg = this.__drawer.exportSvg();
+    const svg = this.__drawer.exportSvg(id);
 
     this.__drawer.init(id, false);
     this.draw();
