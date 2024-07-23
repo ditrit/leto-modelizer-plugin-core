@@ -24,6 +24,7 @@ class ComponentAttributeDefinition {
    * @param {number} [props.rules.min] - Minimum value of Attribute.
    * @param {number} [props.rules.max] - Maximum value of Attribute.
    * @param {string} [props.rules.regex] - Regular expression to constrain the format of the value.
+   * @param {string} [props.rules.regexMessage] - Message so use in case of regex error.
    */
   constructor(props = {
     name: null,
@@ -43,6 +44,7 @@ class ComponentAttributeDefinition {
       min: null,
       max: null,
       regex: null,
+      regexMessage: null,
     },
   }) {
     const {
@@ -128,10 +130,11 @@ class ComponentAttributeDefinition {
      * @type {object}
      */
     this.rules = {
-      values: null,
+      values: [],
       min: null,
       max: null,
       regex: null,
+      regexMessage: null,
       ...rules,
     };
   }

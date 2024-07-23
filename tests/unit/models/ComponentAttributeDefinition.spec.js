@@ -21,6 +21,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.rules.min).toBeNull();
       expect(definedAttribute.rules.max).toBeNull();
       expect(definedAttribute.rules.regex).toBeNull();
+      expect(definedAttribute.rules.regexMessage).toBeNull();
     });
 
     it('Check passing undefined variables to constructor', () => {
@@ -42,6 +43,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.rules.min).toBeNull();
       expect(definedAttribute.rules.max).toBeNull();
       expect(definedAttribute.rules.regex).toBeNull();
+      expect(definedAttribute.rules.regexMessage).toBeNull();
     });
 
     it('Check passing empty rules to constructor', () => {
@@ -63,6 +65,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.rules.min).toBeNull();
       expect(definedAttribute.rules.max).toBeNull();
       expect(definedAttribute.rules.regex).toBeNull();
+      expect(definedAttribute.rules.regexMessage).toBeNull();
     });
 
     it('Check passing variable to constructor', () => {
@@ -84,6 +87,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
           min: 1,
           max: 2,
           regex: /regex/,
+          regexMessage: 'regexMessage',
         },
       });
 
@@ -105,6 +109,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.rules.min).toEqual(1);
       expect(definedAttribute.rules.max).toEqual(2);
       expect(definedAttribute.rules.regex).toEqual(/regex/);
+      expect(definedAttribute.rules.regexMessage).toEqual('regexMessage');
     });
   });
 });
