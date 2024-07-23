@@ -16,7 +16,6 @@ describe('Test library index', () => {
     expect(Plugin.DefaultRender).not.toBeNull();
     expect(Plugin.FileInformation).not.toBeNull();
     expect(Plugin.FileInput).not.toBeNull();
-    expect(Plugin.ParseError).not.toBeNull();
     expect(Plugin.DefaultPlugin).not.toBeNull();
     expect(Plugin.DefaultData).not.toBeNull();
     expect(Plugin.DefaultConfiguration).not.toBeNull();
@@ -24,5 +23,6 @@ describe('Test library index', () => {
     expect(Plugin.Variable).not.toBeNull();
     expect(Plugin.ComponentRenderer).not.toBeNull();
     expect(Plugin.LinkRenderer).not.toBeNull();
+    expect(Plugin.ParserLog).not.toBeNull();
   });
 });
