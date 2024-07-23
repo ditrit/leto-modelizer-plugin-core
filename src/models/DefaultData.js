@@ -23,7 +23,7 @@ class DefaultData {
    * @param {ComponentDefinition[]} [props.definitions.components] - All component definitions.
    * @param {ComponentLinkDefinition[]} [props.definitions.link] - All component link
    * definitions.
-   * @param {ParseError[]} [props.parseErrors] - Parse errors array.
+   * @param {parseLog[]} [props.parseLogs] - Parse log array.
    * @param {object} [props.resources] - All svg models.
    * @param {object} [props.resources.icons] - All svg models' icons
    * @param {object} [props.resources.markers] - All svg models' markers.
@@ -50,7 +50,7 @@ class DefaultData {
       components: [],
       links: [],
     },
-    parseErrors: [],
+    parseLogs: [],
     resources: {},
     scene: {
       x: 0,
@@ -105,10 +105,10 @@ class DefaultData {
 
     /**
      * All parser errors.
-     * @type {ParseError[]}
+     * @type {ParseLog[]}
      * @default []
      */
-    this.parseErrors = props.parseErrors || [];
+    this.parseLogs = props.parseLogs || [];
     /**
      * Index of the last event log.
      * @type {number}
