@@ -1,4 +1,6 @@
 import ComponentAttribute from 'src/models/ComponentAttribute';
+import ComponentAttributeDefinition from 'src/models/ComponentAttributeDefinition';
+import ParserLog from 'src/models/ParserLog';
 
 describe('Test class: ComponentAttribute', () => {
   describe('Test constructor', () => {
@@ -35,403 +37,588 @@ describe('Test class: ComponentAttribute', () => {
     });
   });
 
-  describe('Test getters', () => {
-    describe('Test getter: isVariable', () => {
-      it('should return false', () => {
-        expect(new ComponentAttribute().isVariable).toBeFalsy();
-      });
+  describe('Test getter: isVariable', () => {
+    it('should return false', () => {
+      expect(new ComponentAttribute().isVariable).toBeFalsy();
     });
   });
 
-  describe('Test methods', () => {
-    describe('Test method: checkByType', () => {
-      it('Check if definition is null', () => {
-        const componentAttribute = new ComponentAttribute({
-          name: 'name',
-          value: 'value',
-          type: 'String',
-          definition: null,
-        });
-
-        expect(componentAttribute.hasError()).toBeFalsy();
-      });
-
-      it('Check if value is null', () => {
-        const componentAttribute = new ComponentAttribute({
-          name: 'name',
-          value: null,
-          type: 'String',
-          definition: null,
-        });
-
-        expect(componentAttribute.hasError()).toBeTruthy();
-      });
-
-      it('Check if type is array', () => {
-        const componentAttribute = new ComponentAttribute({
-          name: 'name',
-          value: ['value'],
-          type: 'Array',
-          definition: null,
-        });
-
-        expect(componentAttribute.hasError()).toBeFalsy();
-      });
-
-      it('Check if type is not array', () => {
-        const componentAttribute = new ComponentAttribute({
-          name: 'name',
-          value: 'string',
-          type: 'Array',
-          definition: null,
-        });
-
-        expect(componentAttribute.hasError()).toBeTruthy();
-      });
-
-      it('Check if value type is not equal to type', () => {
-        const componentAttribute = new ComponentAttribute({
-          name: 'name',
-          value: 'string',
-          type: 'Number',
-          definition: null,
-        });
-
-        expect(componentAttribute.hasError()).toBeTruthy();
-      });
-    });
-
-    describe('Test type: String', () => {
-      const componentAttribute = new ComponentAttribute({
-        name: 'name',
-        value: 'string',
-        type: 'String',
-        definition: {
-          type: 'String',
-          rules: {
-            values: null,
-            min: 1,
-            max: 10,
-            regex: /^[a-z]+$/,
-          },
-        },
-      });
-
-      it('Check if respect all conditions', () => {
-        expect(componentAttribute.hasError()).toBeFalsy();
-      });
-
-      it('Check if type is not string', () => {
-        componentAttribute.value = 1;
-        expect(componentAttribute.hasError()).toBeTruthy();
-      });
-
-      it('Check if value is smaller than min', () => {
-        componentAttribute.value = '';
-        expect(componentAttribute.hasError()).toBeTruthy();
-      });
-
-      it('Check if value is bigger than max', () => {
-        componentAttribute.value = '12345678910';
-        expect(componentAttribute.hasError()).toBeTruthy();
-      });
-
-      it('Check if value is not in values', () => {
-        componentAttribute.value = 'string';
-        componentAttribute.definition.rules.values = ['value'];
-        expect(componentAttribute.hasError()).toBeTruthy();
-
-        componentAttribute.definition.rules.values = null;
-      });
-
-      it('Check if value is in values', () => {
-        componentAttribute.value = 'strong';
-        componentAttribute.definition.rules.values = ['strong'];
-        expect(componentAttribute.hasError()).toBeFalsy();
-
-        componentAttribute.definition.rules.values = null;
-      });
-
-      it('Check if value doesn\'t match with regex', () => {
-        componentAttribute.value = 'S7R1N6';
-        expect(componentAttribute.hasError()).toBeTruthy();
-      });
-    });
-
-    describe('Test type: Number', () => {
-      const componentAttribute = new ComponentAttribute({
-        name: 'name',
-        value: 5,
-        type: 'Number',
-        definition: {
-          type: 'Number',
-          rules: {
-            values: null,
-            min: 1,
-            max: 10,
-          },
-        },
-      });
-
-      it('Check if respect all conditions', () => {
-        expect(componentAttribute.hasError()).toBeFalsy();
-      });
-
-      it('Check if type is not number', () => {
-        componentAttribute.value = 'string';
-        expect(componentAttribute.hasError()).toBeTruthy();
-      });
-
-      it('Check if value is smaller than min', () => {
-        componentAttribute.value = 0;
-        expect(componentAttribute.hasError()).toBeTruthy();
-      });
-
-      it('Check if value is bigger than max', () => {
-        componentAttribute.value = 11;
-        expect(componentAttribute.hasError()).toBeTruthy();
-      });
-
-      it('Check if value is not in values', () => {
-        componentAttribute.value = 5;
-        componentAttribute.definition.rules.values = [1, 2, 3];
-        expect(componentAttribute.hasError()).toBeTruthy();
-
-        componentAttribute.definition.rules.values = null;
-      });
-
-      it('Check if value is in values', () => {
-        componentAttribute.value = 5;
-        componentAttribute.definition.rules.values = [1, 2, 3, 5];
-        expect(componentAttribute.hasError()).toBeFalsy();
-
-        componentAttribute.definition.rules.values = null;
-      });
-    });
-
-    describe('Test type: Boolean', () => {
-      const componentAttribute = new ComponentAttribute({
-        name: 'name',
-        value: true,
-        type: 'Boolean',
-        definition: {
-          type: 'Boolean',
-          rules: {
-            values: null,
-          },
-        },
-      });
-
-      it('Check if respect all conditions', () => {
-        expect(componentAttribute.hasError()).toBeFalsy();
-      });
-
-      it('Check if type is not boolean', () => {
-        componentAttribute.value = 'string';
-        expect(componentAttribute.hasError()).toBeTruthy();
-      });
-
-      it('Check if value is not in values', () => {
-        componentAttribute.value = true;
-        componentAttribute.definition.rules.values = [false];
-        expect(componentAttribute.hasError()).toBeTruthy();
-
-        componentAttribute.definition.rules.values = null;
-      });
-
-      it('Check if value is in values', () => {
-        componentAttribute.value = true;
-        componentAttribute.definition.rules.values = [true];
-        expect(componentAttribute.hasError()).toBeFalsy();
-
-        componentAttribute.definition.rules.values = null;
-      });
-    });
-
-    describe('Test type: Object', () => {
-      const componentAttribute = new ComponentAttribute({
-        name: 'name',
-        value: {},
-        type: 'Object',
-        definition: {
+  describe('Test method: getErrors', () => {
+    it('should not set error on valid sub-attribute', () => {
+      const attribute = new ComponentAttribute({
+        definition: new ComponentAttributeDefinition({
           type: 'Object',
-          rules: {
-            values: null,
-          },
-        },
+        }),
+        name: 'parent',
+        type: 'Object',
+        value: [
+          new ComponentAttribute({
+            definition: new ComponentAttributeDefinition({
+              type: 'Number',
+            }),
+            name: 'child',
+            type: 'Number',
+            value: 10,
+          }),
+        ],
       });
+      const errors = [];
 
-      it('Check if respect all conditions', () => {
-        expect(componentAttribute.hasError()).toBeFalsy();
-      });
-
-      it('Check if type is not object', () => {
-        componentAttribute.value = 'string';
-        expect(componentAttribute.hasError()).toBeTruthy();
-      });
-
-      it('Check if value is not in values', () => {
-        componentAttribute.value = {};
-        componentAttribute.definition.rules.values = [{ test: 'test' }];
-        expect(componentAttribute.hasError()).toBeTruthy();
-
-        componentAttribute.definition.rules.values = null;
-      });
-
-      it('Check if value is in values', () => {
-        const object = {};
-
-        componentAttribute.value = object;
-        componentAttribute.definition.rules.values = [object];
-        expect(componentAttribute.hasError()).toBeFalsy();
-
-        componentAttribute.definition.rules.values = null;
-      });
+      attribute.getErrors(errors, true);
+      expect(errors).toEqual([]);
     });
 
-    describe('Test type: Array', () => {
-      const componentAttribute = new ComponentAttribute({
-        name: 'name',
-        value: [1, 2, 3],
+    it('should not error without recurse and invalid sub-attribute', () => {
+      const attribute = new ComponentAttribute({
+        definition: new ComponentAttributeDefinition({
+          type: 'Object',
+        }),
+        name: 'parent',
+        type: 'Object',
+        value: [
+          new ComponentAttribute({
+            definition: new ComponentAttributeDefinition({
+              type: 'Number',
+            }),
+            name: 'child',
+            type: 'Number',
+            value: 'test',
+          }),
+        ],
+      });
+      const errors = [];
+
+      attribute.getErrors(errors, false);
+      expect(errors).toEqual([]);
+    });
+
+    it('should set error with recurse and invalid sub-attribute', () => {
+      const attribute = new ComponentAttribute({
+        definition: new ComponentAttributeDefinition({
+          type: 'Object',
+        }),
+        name: 'parent',
+        type: 'Object',
+        value: [
+          new ComponentAttribute({
+            definition: new ComponentAttributeDefinition({
+              type: 'Number',
+            }),
+            name: 'child',
+            type: 'Number',
+            value: 'test',
+          }),
+        ],
+      });
+      const errors = [];
+
+      attribute.getErrors(errors, true);
+      expect(errors).toEqual([new ParserLog({
+        severity: ParserLog.SEVERITY_ERROR,
+        message: 'parser.default.error.notNumber',
+        attribute: 'child',
+      })]);
+    });
+  });
+
+  describe('Test method: validateType', () => {
+    it('should not set error without value and definition', () => {
+      const attribute = new ComponentAttribute();
+
+      expect(attribute.validateDefinitionType()).toEqual([]);
+    });
+
+    it('should not set error on valid definition type and type', () => {
+      const attribute = new ComponentAttribute({
+        definition: new ComponentAttributeDefinition({
+          type: 'Link',
+        }),
         type: 'Array',
-        definition: {
-          type: 'Array',
+      });
+
+      expect(attribute.validateDefinitionType()).toEqual([]);
+
+      attribute.definition.type = 'Reference';
+      attribute.type = 'String';
+      expect(attribute.validateDefinitionType()).toEqual([]);
+
+      attribute.definition.type = 'Number';
+      attribute.type = 'Number';
+      expect(attribute.validateDefinitionType()).toEqual([]);
+    });
+
+    it('should set error on invalid link type', () => {
+      const attribute = new ComponentAttribute({
+        definition: new ComponentAttributeDefinition({
+          type: 'Link',
+        }),
+        name: 'test',
+        type: 'Number',
+      });
+
+      expect(attribute.validateDefinitionType()).toEqual([new ParserLog({
+        severity: ParserLog.SEVERITY_ERROR,
+        message: 'parser.default.error.invalidLinkType',
+        attribute: 'test',
+      })]);
+    });
+
+    it('should set error on invalid Reference type', () => {
+      const attribute = new ComponentAttribute({
+        definition: new ComponentAttributeDefinition({
+          type: 'Reference',
+        }),
+        name: 'test',
+        type: 'Number',
+      });
+
+      expect(attribute.validateDefinitionType()).toEqual([new ParserLog({
+        severity: ParserLog.SEVERITY_ERROR,
+        message: 'parser.default.error.invalidReferenceType',
+        attribute: 'test',
+      })]);
+    });
+
+    it('should set error on invalid type', () => {
+      const attribute = new ComponentAttribute({
+        definition: new ComponentAttributeDefinition({
+          type: 'String',
+        }),
+        name: 'test',
+        type: 'Number',
+      });
+
+      expect(attribute.validateDefinitionType()).toEqual([new ParserLog({
+        severity: ParserLog.SEVERITY_ERROR,
+        message: 'parser.default.error.invalidType',
+        attribute: 'test',
+      })]);
+    });
+  });
+
+  describe('Test method: validateType', () => {
+    it('should not set error without value', () => {
+      const attribute = new ComponentAttribute({
+        value: null,
+      });
+
+      expect(attribute.validateType()).toEqual([]);
+    });
+
+    it('should not set error on valid type', () => {
+      const attribute = new ComponentAttribute({
+        name: 'test',
+        type: 'Boolean',
+        value: true,
+      });
+
+      expect(attribute.validateType()).toEqual([]);
+
+      attribute.type = 'String';
+      attribute.value = 'text';
+      expect(attribute.validateType()).toEqual([]);
+
+      attribute.type = 'Number';
+      attribute.value = 2;
+      expect(attribute.validateType()).toEqual([]);
+
+      attribute.type = 'Object';
+      attribute.value = [];
+      expect(attribute.validateType()).toEqual([]);
+
+      attribute.type = 'Array';
+      attribute.value = [];
+      expect(attribute.validateType()).toEqual([]);
+    });
+
+    it('should set error on invalid Boolean type', () => {
+      const attribute = new ComponentAttribute({
+        type: 'Boolean',
+        name: 'test',
+        value: 'value',
+      });
+
+      expect(attribute.validateType()).toEqual([new ParserLog({
+        severity: ParserLog.SEVERITY_ERROR,
+        message: 'parser.default.error.notBoolean',
+        attribute: 'test',
+      })]);
+    });
+
+    it('should set error on invalid String type', () => {
+      const attribute = new ComponentAttribute({
+        type: 'String',
+        name: 'test',
+        value: true,
+      });
+
+      expect(attribute.validateType()).toEqual([new ParserLog({
+        severity: ParserLog.SEVERITY_ERROR,
+        message: 'parser.default.error.notString',
+        attribute: 'test',
+      })]);
+    });
+
+    it('should set error on invalid Number type', () => {
+      const attribute = new ComponentAttribute({
+        type: 'Number',
+        name: 'test',
+        value: 'value',
+      });
+
+      expect(attribute.validateType()).toEqual([new ParserLog({
+        severity: ParserLog.SEVERITY_ERROR,
+        message: 'parser.default.error.notNumber',
+        attribute: 'test',
+      })]);
+    });
+
+    it('should set error on invalid Object type', () => {
+      const attribute = new ComponentAttribute({
+        type: 'Object',
+        name: 'test',
+        value: 'value',
+      });
+
+      expect(attribute.validateType()).toEqual([new ParserLog({
+        severity: ParserLog.SEVERITY_ERROR,
+        message: 'parser.default.error.notObject',
+        attribute: 'test',
+      })]);
+    });
+
+    it('should set error on invalid Array type', () => {
+      const attribute = new ComponentAttribute({
+        type: 'Array',
+        name: 'test',
+        value: 'value',
+      });
+
+      expect(attribute.validateType()).toEqual([new ParserLog({
+        severity: ParserLog.SEVERITY_ERROR,
+        message: 'parser.default.error.notArray',
+        attribute: 'test',
+      })]);
+    });
+  });
+
+  describe('Test method: validateRequired', () => {
+    it('should not set error with not required attribute', () => {
+      const attribute = new ComponentAttribute({
+        value: null,
+      });
+
+      expect(attribute.validateRequired()).toEqual([]);
+
+      attribute.definition = new ComponentAttributeDefinition({
+        required: false,
+      });
+      expect(attribute.validateRequired()).toEqual([]);
+    });
+
+    it('should not set error with not null value', () => {
+      const attribute = new ComponentAttribute({
+        definition: new ComponentAttributeDefinition({
+          required: true,
+        }),
+        value: 'test',
+      });
+
+      expect(attribute.validateRequired()).toEqual([]);
+    });
+
+    it('should set error with null value', () => {
+      const attribute = new ComponentAttribute({
+        definition: new ComponentAttributeDefinition({
+          required: true,
+        }),
+        name: 'test',
+        value: null,
+      });
+
+      expect(attribute.validateRequired()).toEqual([new ParserLog({
+        severity: ParserLog.SEVERITY_ERROR,
+        message: 'parser.default.error.required',
+        attribute: 'test',
+      })]);
+    });
+  });
+
+  describe('Test method: validateRuleMinMax', () => {
+    it('should not set error with boolean type', () => {
+      const attribute = new ComponentAttribute({
+        type: 'Boolean',
+      });
+
+      expect(attribute.validateRuleMinMax()).toEqual([]);
+    });
+
+    it('should not set error with object type', () => {
+      const attribute = new ComponentAttribute({
+        type: 'Object',
+      });
+
+      expect(attribute.validateRuleMinMax()).toEqual([]);
+    });
+
+    it('should not set error without min/max rules', () => {
+      const attribute = new ComponentAttribute({
+        value: 1,
+      });
+
+      expect(attribute.validateRuleMinMax()).toEqual([]);
+
+      attribute.definition = new ComponentAttributeDefinition();
+      expect(attribute.validateRuleMinMax()).toEqual([]);
+    });
+
+    it('should set error on invalid number value', () => {
+      const attribute = new ComponentAttribute({
+        definition: new ComponentAttributeDefinition({
           rules: {
-            values: null,
+            min: 2,
+            max: 0,
+          },
+          type: 'Number',
+        }),
+        name: 'test',
+        value: 1,
+      });
+
+      expect(attribute.validateRuleMinMax()).toEqual([
+        new ParserLog({
+          severity: ParserLog.SEVERITY_ERROR,
+          message: 'parser.default.error.minNumber',
+          attribute: 'test',
+        }),
+        new ParserLog({
+          severity: ParserLog.SEVERITY_ERROR,
+          message: 'parser.default.error.maxNumber',
+          attribute: 'test',
+        }),
+      ]);
+    });
+
+    it('should set error on invalid array value', () => {
+      const attribute = new ComponentAttribute({
+        definition: new ComponentAttributeDefinition({
+          rules: {
+            min: 2,
+            max: 0,
+          },
+          type: 'Array',
+        }),
+        name: 'test',
+        value: ['test'],
+      });
+
+      expect(attribute.validateRuleMinMax()).toEqual([
+        new ParserLog({
+          severity: ParserLog.SEVERITY_ERROR,
+          message: 'parser.default.error.minArray',
+          attribute: 'test',
+        }),
+        new ParserLog({
+          severity: ParserLog.SEVERITY_ERROR,
+          message: 'parser.default.error.maxArray',
+          attribute: 'test',
+        }),
+      ]);
+    });
+
+    it('should set error on invalid string value', () => {
+      const attribute = new ComponentAttribute({
+        definition: new ComponentAttributeDefinition({
+          rules: {
+            min: 2,
+            max: 0,
+          },
+          type: 'String',
+        }),
+        name: 'test',
+        value: 'a',
+      });
+
+      expect(attribute.validateRuleMinMax()).toEqual([
+        new ParserLog({
+          severity: ParserLog.SEVERITY_ERROR,
+          message: 'parser.default.error.minString',
+          attribute: 'test',
+        }),
+        new ParserLog({
+          severity: ParserLog.SEVERITY_ERROR,
+          message: 'parser.default.error.maxString',
+          attribute: 'test',
+        }),
+      ]);
+    });
+
+    it('should not set error on valid value', () => {
+      const attribute = new ComponentAttribute({
+        definition: new ComponentAttributeDefinition({
+          rules: {
             min: 2,
             max: 5,
           },
-        },
+          type: 'String',
+        }),
+        name: 'test',
+        value: 'aa',
       });
 
-      it('Check if respect all conditions', () => {
-        expect(componentAttribute.hasError()).toBeFalsy();
-      });
+      expect(attribute.validateRuleMinMax()).toEqual([]);
 
-      it('Check if type is not array', () => {
-        componentAttribute.value = 'string';
-        expect(componentAttribute.hasError()).toBeTruthy();
-      });
+      attribute.value = 'aaaaa';
+      expect(attribute.validateRuleMinMax()).toEqual([]);
 
-      it('Check if value is smaller than min', () => {
-        componentAttribute.value = [1];
-        expect(componentAttribute.hasError()).toBeTruthy();
-      });
+      attribute.definition.type = 'Array';
+      attribute.value = ['a', 'a'];
+      expect(attribute.validateRuleMinMax()).toEqual([]);
 
-      it('Check if value is bigger than max', () => {
-        componentAttribute.value = [1, 2, 3, 4, 5, 6];
-        expect(componentAttribute.hasError()).toBeTruthy();
-      });
+      attribute.value = ['a', 'a', 'a', 'a', 'a'];
+      expect(attribute.validateRuleMinMax()).toEqual([]);
 
-      it('Check if value is not in values', () => {
-        componentAttribute.value = ['test'];
-        componentAttribute.definition.rules.values = [1, 2, 3];
-        expect(componentAttribute.hasError()).toBeTruthy();
+      attribute.definition.type = 'Number';
+      attribute.value = 2;
+      expect(attribute.validateRuleMinMax()).toEqual([]);
 
-        componentAttribute.definition.rules.values = null;
-      });
+      attribute.value = 5;
+      expect(attribute.validateRuleMinMax()).toEqual([]);
+    });
+  });
 
-      it('Check if value is in values', () => {
-        const array = [1, 2, 3];
+  describe('Test method: validateRuleValues', () => {
+    it('should not set error without values rules', () => {
+      const attribute = new ComponentAttribute();
 
-        componentAttribute.value = array;
-        componentAttribute.definition.rules.values = array;
-        expect(componentAttribute.hasError()).toBeFalsy();
+      expect(attribute.validateRuleValues()).toEqual([]);
 
-        componentAttribute.definition.rules.values = null;
-      });
+      attribute.definition = new ComponentAttributeDefinition();
+      expect(attribute.validateRuleValues()).toEqual([]);
     });
 
-    describe('Test type: Reference', () => {
-      const componentAttribute = new ComponentAttribute({
-        name: 'name',
-        value: 'test',
-        type: 'String',
-        definition: {
-          type: 'Reference',
+    it('should not set error when value is valid', () => {
+      const attribute = new ComponentAttribute({
+        definition: new ComponentAttributeDefinition({
           rules: {
-            values: null,
+            values: ['a', 'b'],
           },
-        },
+        }),
+        value: 'a',
       });
 
-      it('Check if respect all conditions', () => {
-        expect(componentAttribute.hasError()).toBeFalsy();
-      });
+      expect(attribute.validateRuleValues()).toEqual([]);
 
-      it('Check if type is not string', () => {
-        componentAttribute.value = 5;
-        expect(componentAttribute.hasError()).toBeTruthy();
-      });
+      attribute.value = ['a'];
+      expect(attribute.validateRuleValues()).toEqual([]);
 
-      it('Check if value is not in values', () => {
-        componentAttribute.value = 'test';
-        componentAttribute.definition.rules.values = ['test2'];
-        expect(componentAttribute.hasError()).toBeTruthy();
-
-        componentAttribute.definition.rules.values = null;
-      });
-
-      it('Check if value is in values', () => {
-        componentAttribute.value = 'test';
-        componentAttribute.definition.rules.values = ['test'];
-        expect(componentAttribute.hasError()).toBeFalsy();
-
-        componentAttribute.definition.rules.values = null;
-      });
+      attribute.value = ['b', 'a'];
+      expect(attribute.validateRuleValues()).toEqual([]);
     });
 
-    describe('Test type: Link', () => {
-      const componentAttribute = new ComponentAttribute({
-        name: 'name',
-        value: ['link'],
-        type: 'Array',
-        definition: {
-          type: 'Link',
+    it('should set error when value is invalid', () => {
+      const attribute = new ComponentAttribute({
+        definition: new ComponentAttributeDefinition({
           rules: {
-            values: null,
-            min: 1,
-            max: 5,
+            values: ['a', 'b'],
           },
-        },
+        }),
+        name: 'test',
+        value: 'c',
       });
 
-      it('Check if respect all conditions', () => {
-        expect(componentAttribute.hasError()).toBeFalsy();
+      expect(attribute.validateRuleValues()).toEqual([new ParserLog({
+        severity: ParserLog.SEVERITY_ERROR,
+        message: 'parser.default.error.invalidValue',
+        attribute: 'test',
+      })]);
+
+      attribute.value = ['c'];
+      expect(attribute.validateRuleValues()).toEqual([new ParserLog({
+        severity: ParserLog.SEVERITY_ERROR,
+        message: 'parser.default.error.invalidValue',
+        attribute: 'test',
+      })]);
+
+      attribute.value = ['b', 'a', 'c'];
+      expect(attribute.validateRuleValues()).toEqual([new ParserLog({
+        severity: ParserLog.SEVERITY_ERROR,
+        message: 'parser.default.error.invalidValue',
+        attribute: 'test',
+      })]);
+    });
+  });
+
+  describe('Test method: validateRuleRegex', () => {
+    it('should not set error without regex rules', () => {
+      const attribute = new ComponentAttribute();
+
+      expect(attribute.validateRuleRegex()).toEqual([]);
+
+      attribute.definition = new ComponentAttributeDefinition();
+      expect(attribute.validateRuleRegex()).toEqual([]);
+    });
+
+    it('should not set error when value is null', () => {
+      const attribute = new ComponentAttribute({
+        definition: new ComponentAttributeDefinition({
+          rules: {
+            regex: /[a-z]*/,
+          },
+        }),
       });
 
-      it('Check if type is not array', () => {
-        componentAttribute.value = 'string';
-        expect(componentAttribute.hasError()).toBeTruthy();
+      expect(attribute.validateRuleRegex()).toEqual([]);
+    });
+
+    it('should not set error when regex is valid', () => {
+      const attribute = new ComponentAttribute({
+        definition: new ComponentAttributeDefinition({
+          rules: {
+            regex: /^[a-z]+$/,
+          },
+        }),
+        value: 'a',
       });
 
-      it('Check if value is smaller than min', () => {
-        componentAttribute.value = [];
-        expect(componentAttribute.hasError()).toBeTruthy();
+      expect(attribute.validateRuleRegex()).toEqual([]);
+    });
+
+    it('should set error when regex is invalid', () => {
+      const attribute = new ComponentAttribute({
+        definition: new ComponentAttributeDefinition({
+          rules: {
+            regex: /^[a-z]+$/,
+          },
+        }),
+        name: 'test',
+        value: '1',
       });
 
-      it('Check if value is bigger than max', () => {
-        componentAttribute.value = ['link1', 'link2', 'link3', 'link4', 'link5', 'link6'];
-        expect(componentAttribute.hasError()).toBeTruthy();
+      expect(attribute.validateRuleRegex()).toEqual([new ParserLog({
+        attribute: 'test',
+        severity: ParserLog.SEVERITY_ERROR,
+        message: 'parser.default.error.regex',
+      })]);
+    });
+
+    it('should set error with specific message when regex is invalid', () => {
+      const attribute = new ComponentAttribute({
+        definition: new ComponentAttributeDefinition({
+          rules: {
+            regex: /^[a-z]+$/,
+            regexMessage: 'error',
+          },
+        }),
+        name: 'test',
+        value: '1',
       });
 
-      it('Check if value is not in values', () => {
-        componentAttribute.value = ['link1'];
-        componentAttribute.definition.rules.values = ['link2', 'link3'];
-        expect(componentAttribute.hasError()).toBeTruthy();
-
-        componentAttribute.definition.rules.values = null;
-      });
-
-      it('Check if value is in values', () => {
-        const links = ['link2'];
-
-        componentAttribute.value = links;
-        componentAttribute.definition.rules.values = ['link1', ...links, 'link3'];
-        expect(componentAttribute.hasError()).toBeFalsy();
-
-        componentAttribute.definition.rules.values = null;
-      });
+      expect(attribute.validateRuleRegex()).toEqual([new ParserLog({
+        attribute: 'test',
+        severity: ParserLog.SEVERITY_ERROR,
+        message: 'error',
+      })]);
     });
   });
 });
