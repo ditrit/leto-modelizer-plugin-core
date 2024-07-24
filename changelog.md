@@ -7,9 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- New class to manage parse error: `ParserLog`.
+- Add `regexMessage` to permit error message customization for regex.
+- Method `validateDefinitionType` to get definition type errors in `ComponentAttribute`.
+- Method `validateType` to get type errors in `ComponentAttribute`.
+- Method `validateRequired` to get required errors in `ComponentAttribute`.
+- Method `validateRuleMinMax` to get rules min/max errors in `ComponentAttribute`.
+- Method `validateRuleValues` to get rule values errors in `ComponentAttribute`.
+- Method `validateRuleRegex` to get rule regex errors in `ComponentAttribute`.
+
+### Changed
+
+- Method `hasError` in `Component` become `getErrors`.
+- Method `hasError` in `ComponentAttribute` become `getErrors`.
+
 ### Fixed
 
 - Fix bad id on svg export.
+- Fix default value for rule `values`.
 
 ## [0.25.0] - 2024/07/05
 
