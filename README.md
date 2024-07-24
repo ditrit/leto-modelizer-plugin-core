@@ -50,7 +50,7 @@ import {
   DefaultMetadata,
   DefaultParser,
   DefaultRender,
-  ParseError,
+  ParseLog,
   FileInformation,
   FileInput,
   DefaultData,
