@@ -17,7 +17,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.containerRef).toBeNull();
       expect(definedAttribute.definedAttributes).toEqual([]);
       expect(definedAttribute.required).toEqual(false);
-      expect(definedAttribute.rules.values).toBeNull();
+      expect(definedAttribute.rules.values).toEqual([]);
       expect(definedAttribute.rules.min).toBeNull();
       expect(definedAttribute.rules.max).toBeNull();
       expect(definedAttribute.rules.regex).toBeNull();
@@ -39,7 +39,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.containerRef).toBeNull();
       expect(definedAttribute.definedAttributes).toEqual([]);
       expect(definedAttribute.required).toEqual(false);
-      expect(definedAttribute.rules.values).toBeNull();
+      expect(definedAttribute.rules.values).toEqual([]);
       expect(definedAttribute.rules.min).toBeNull();
       expect(definedAttribute.rules.max).toBeNull();
       expect(definedAttribute.rules.regex).toBeNull();
@@ -61,7 +61,7 @@ describe('Test class: ComponentAttributeDefinition', () => {
       expect(definedAttribute.containerRef).toBeNull();
       expect(definedAttribute.definedAttributes).toEqual([]);
       expect(definedAttribute.required).toEqual(false);
-      expect(definedAttribute.rules.values).toBeNull();
+      expect(definedAttribute.rules.values).toEqual([]);
       expect(definedAttribute.rules.min).toBeNull();
       expect(definedAttribute.rules.max).toBeNull();
       expect(definedAttribute.rules.regex).toBeNull();
