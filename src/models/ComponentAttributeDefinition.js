@@ -40,7 +40,7 @@ class ComponentAttributeDefinition {
     required: false,
     definedAttributes: [],
     rules: {
-      values: null,
+      values: [],
       min: null,
       max: null,
       regex: null,
