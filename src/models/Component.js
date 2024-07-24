@@ -1,6 +1,7 @@
 import ComponentAttribute from './ComponentAttribute';
 import FileInformation from './FileInformation';
 import ComponentDrawOption from './ComponentDrawOption';
+import ParserLog from './ParserLog';
 
 /**
  * Class that represents the base of modeling tools.
@@ -371,36 +372,33 @@ class Component extends FileInformation {
   }
 
   /**
-   * Check if the component has an error.
-   * @returns {boolean} - true if the component has an error otherwise false.
+   * Set all errors of component.
+   * @param {ParserLog[]} [errors] - Errors to set, can be null.
+   * @returns {ParserLog[]} All component errors.
    */
-  hasError() {
-    return this.checkRequiredAttributes() || this.checkAttributesErrors();
+  getErrors(errors = []) {
+    this.validateDefinition(errors);
+
+    this.attributes.forEach((attribute) => attribute.getErrors(errors, true, this.id));
+
+    return errors;
   }
 
   /**
-   * Check if a required attribute is absent.
-   * @returns {boolean} - true if a required attribute is absent otherwise false.
+   * Set error if definition is null.
+   * @param {ParserLog[]} [errors] - Errors to set, can be null.
+   * @returns {ParserLog[]} All component errors.
    */
-  checkRequiredAttributes() {
-    return this.definition.definedAttributes
-      .filter((defAttribute) => defAttribute.required)
-      .some((defAttribute) => {
-        const attribute = this.getAttributeByName(defAttribute.name);
+  validateDefinition(errors = []) {
+    if (this.definition === null) {
+      errors.push(new ParserLog({
+        componentId: this.id,
+        severity: ParserLog.SEVERITY_WARNING,
+        message: 'parser.default.warning.noComponentDefinition',
+      }));
+    }
 
-        return !attribute?.value
-          || ((attribute.type === 'Array' || attribute.type === 'Object')
-            && attribute.value.length === 0)
-          || (attribute.type === 'String' && attribute.value.trim() === '');
-      });
-  }
-
-  /**
-   * Check if attributes has an error.
-   * @returns {boolean} - true if attributes has an error otherwise false.
-   */
-  checkAttributesErrors() {
-    return this.attributes.some((attribute) => (attribute.hasError()));
+    return errors;
   }
 
   /**
