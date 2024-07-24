@@ -19,19 +19,45 @@ With it, you can display all properties available in your [Component](https://di
 
 For example, you can display the component name with `{{ name }}` or the component type with `{{ definition.type }}`.
 
-You can also use these functions :
+You can also use these functions/variables :
 
-### `hasError` 
+### Variable `hasError`
 
-This function returns `true` if the component has an error, `false` otherwise.
+This variable returns `true` if the component has an error, `false` otherwise.
 
 ```jsx
 {% if hasError %}
-  <text>Error</text> {# only display if hasError return true #}
+<text>Error</text> {# only display if hasError return true #}
 {% endif %}
 ```
 
-### `isReadOnly`
+### Variable `numberOfErrors`
+
+This variable returns the number of errors that the component have.
+
+```jsx
+<text>{{ numberOfErrors }}</text>
+```
+
+### Variable `hasWarning`
+
+This variable returns `true` if the component has an warning, `false` otherwise.
+
+```jsx
+{% if hasWarning %}
+<text>Warning</text> {# only display if hasWarning return true #}
+{% endif %}
+```
+
+### Variable `numberOfWarnings`
+
+This variable returns the number of warnings that the component have.
+
+```jsx
+<text>{{ numberOfWarnings }}</text>
+```
+
+### Variable`isReadOnly`
 
 This function returns `true` if the component is in read only display, `false` otherwise.
 
