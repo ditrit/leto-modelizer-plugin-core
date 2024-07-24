@@ -1,4 +1,5 @@
 import { renderString } from 'nunjucks';
+import ParserLog from '../../models/ParserLog';
 
 /**
  * Class to render component.
@@ -65,6 +66,17 @@ class ComponentRenderer {
    * @returns {object} Data for templating.
    */
   getTemplateData(component) {
+    let numberOfErrors = 0;
+    let numberOfWarnings = 0;
+
+    component.getErrors().forEach(({ severity }) => {
+      if (severity === ParserLog.SEVERITY_WARNING) {
+        numberOfWarnings += 1;
+      } else if (severity === ParserLog.SEVERITY_ERROR) {
+        numberOfErrors += 1;
+      }
+    });
+
     return {
       ...component,
       drawOption: {
@@ -76,7 +88,10 @@ class ComponentRenderer {
       },
       isReadOnly: this.readOnly,
       icon: this.pluginData.resources.icons[component.definition.icon],
-      hasError: component.hasError(),
+      hasError: numberOfErrors > 0,
+      hasWarning: numberOfWarnings > 0,
+      numberOfErrors,
+      numberOfWarnings,
       hasX: !!component.drawOption.x,
       hasY: !!component.drawOption.y,
       isSelected: this.pluginData.scene.selection.includes(component.id),
