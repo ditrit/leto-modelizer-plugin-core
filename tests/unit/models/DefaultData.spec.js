@@ -20,7 +20,7 @@ describe('Test class: DefaultData', () => {
       expect(pluginData.version).toBeNull();
       expect(pluginData.components).toEqual([]);
       expect(pluginData.variables).toEqual([]);
-      expect(pluginData.parseErrors).toEqual([]);
+      expect(pluginData.parseLogs).toEqual([]);
       expect(pluginData.definitions).toEqual({ components: [], links: [] });
       expect(pluginData.resources).toEqual({
         icons: {},
@@ -48,7 +48,7 @@ describe('Test class: DefaultData', () => {
       expect(pluginData.version).toBeNull();
       expect(pluginData.components).toEqual([]);
       expect(pluginData.variables).toEqual([]);
-      expect(pluginData.parseErrors).toEqual([]);
+      expect(pluginData.parseLogs).toEqual([]);
       expect(pluginData.definitions).toEqual({ components: [], links: [] });
       expect(pluginData.resources).toEqual({
         icons: {},
@@ -77,7 +77,7 @@ describe('Test class: DefaultData', () => {
         version: 'version',
         components: [0],
         variables: [1],
-        parseErrors: [2],
+        parseLogs: [2],
         definitions: {
           components: [3],
           links: [4],
@@ -103,7 +103,7 @@ describe('Test class: DefaultData', () => {
       expect(pluginData.version).toEqual('version');
       expect(pluginData.components).toEqual([0]);
       expect(pluginData.variables).toEqual([1]);
-      expect(pluginData.parseErrors).toEqual([2]);
+      expect(pluginData.parseLogs).toEqual([2]);
       expect(pluginData.definitions).toEqual({ components: [3], links: [4] });
       expect(pluginData.eventManager).toEqual({});
       expect(pluginData.resources).toEqual({

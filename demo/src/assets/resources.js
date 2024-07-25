@@ -114,10 +114,19 @@ export default {
     {% endif %}
 
     {# Error status of component #}
-    {% if hasError %}
-    <g transform="translate(-38 2)">
+    {% if hasWarning %}
+    <g transform="translate(-60 2)">
       <svg x="100%" y="0" width="15px" height="15px" fill="yellow" stroke="#474262" stroke-width="2px">
         <g transform="translate(1, 1)">{{ getIcon('error') | safe }}</g>
+        <title>{{numberOfWarning}} warning(s)</title>
+      </svg>
+    </g>
+    {% endif %}
+    {% if hasError %}
+    <g transform="translate(-38 2)">
+      <svg x="100%" y="0" width="15px" height="15px" fill="red" stroke="#474262" stroke-width="2px">
+        <g transform="translate(1, 1)">{{ getIcon('error') | safe }}</g>
+        <title>{{numberOfErrors}} error(s)</title>
       </svg>
     </g>
     {% endif %}

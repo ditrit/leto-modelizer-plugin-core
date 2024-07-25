@@ -7,9 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- New class to manage parse error: `ParserLog`.
+- Add `regexMessage` to permit error message customization for regex.
+- Method `validateDefinition` to definition error in `Component`.
+- Method `validateDefinitionType` to get definition type errors in `ComponentAttribute`.
+- Method `validateType` to get type errors in `ComponentAttribute`.
+- Method `validateRequired` to get required errors in `ComponentAttribute`.
+- Method `validateRuleMinMax` to get rules min/max errors in `ComponentAttribute`.
+- Method `validateRuleValues` to get rule values errors in `ComponentAttribute`.
+- Method `validateRuleRegex` to get rule regex errors in `ComponentAttribute`.
+
+### Changed
+
+- Method `hasError` in `Component` become `getErrors`.
+- Method `hasError` in `ComponentAttribute` become `getErrors`.
+
 ### Fixed
 
 - Fix bad id on svg export.
+- Fix default value for rule `values`.
 
 ## [0.25.0] - 2024/07/05
 
@@ -50,7 +68,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Reduce complexity of DefaultDrawer.
   - Resize action is more userFriendly.
   - Replace ELK Layout by homemade layout.
-  - Link used nunjucks for rendering. 
+  - Link used nunjucks for rendering.
 
 ### Fixed
 
@@ -111,7 +129,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Rename component feature: 
+- Rename component feature:
   - Add `getReferenceValue`, `setReferenceValue`, `getLinkValue`, `addLink`, `removeLink`  and `replaceLink` inside `ComponentAttribute.js`.
   - Add `setId`, `createAttribute` and `getAttributesByType` inside `Component.js`.
   - Add `renameComponentId` inside `DefaultData.js`.
