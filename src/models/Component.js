@@ -394,7 +394,7 @@ class Component extends FileInformation {
       errors.push(new ParserLog({
         componentId: this.id,
         severity: ParserLog.SEVERITY_WARNING,
-        message: 'parser.default.warning.noComponentDefinition',
+        message: 'parser.warning.noComponentDefinition',
       }));
     }
 

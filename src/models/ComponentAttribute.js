@@ -96,7 +96,7 @@ class ComponentAttribute {
       errors.push(new ParserLog({
         componentId: id,
         severity: ParserLog.SEVERITY_ERROR,
-        message: 'parser.default.error.invalidLinkType',
+        message: 'parser.error.invalidLinkType',
         attribute: this.name,
       }));
 
@@ -107,7 +107,7 @@ class ComponentAttribute {
       errors.push(new ParserLog({
         componentId: id,
         severity: ParserLog.SEVERITY_ERROR,
-        message: 'parser.default.error.invalidReferenceType',
+        message: 'parser.error.invalidReferenceType',
         attribute: this.name,
       }));
 
@@ -120,7 +120,7 @@ class ComponentAttribute {
       errors.push(new ParserLog({
         componentId: id,
         severity: ParserLog.SEVERITY_ERROR,
-        message: 'parser.default.error.invalidType',
+        message: 'parser.error.invalidType',
         attribute: this.name,
       }));
     }
@@ -144,7 +144,7 @@ class ComponentAttribute {
         errors.push(new ParserLog({
           componentId: id,
           severity: ParserLog.SEVERITY_ERROR,
-          message: 'parser.default.error.notBoolean',
+          message: 'parser.error.notBoolean',
           attribute: this.name,
         }));
       }
@@ -157,7 +157,7 @@ class ComponentAttribute {
         errors.push(new ParserLog({
           componentId: id,
           severity: ParserLog.SEVERITY_ERROR,
-          message: 'parser.default.error.notString',
+          message: 'parser.error.notString',
           attribute: this.name,
         }));
       }
@@ -170,7 +170,7 @@ class ComponentAttribute {
         errors.push(new ParserLog({
           componentId: id,
           severity: ParserLog.SEVERITY_ERROR,
-          message: 'parser.default.error.notNumber',
+          message: 'parser.error.notNumber',
           attribute: this.name,
         }));
       }
@@ -182,7 +182,7 @@ class ComponentAttribute {
       errors.push(new ParserLog({
         componentId: id,
         severity: ParserLog.SEVERITY_ERROR,
-        message: `parser.default.error.not${this.type}`,
+        message: `parser.error.not${this.type}`,
         attribute: this.name,
       }));
     }
@@ -201,7 +201,7 @@ class ComponentAttribute {
       errors.push(new ParserLog({
         componentId: id,
         severity: ParserLog.SEVERITY_ERROR,
-        message: 'parser.default.error.required',
+        message: 'parser.error.required',
         attribute: this.name,
       }));
     }
@@ -232,7 +232,7 @@ class ComponentAttribute {
       errors.push(new ParserLog({
         componentId: id,
         severity: ParserLog.SEVERITY_ERROR,
-        message: `parser.default.error.min${this.definition.type}`,
+        message: `parser.error.min${this.definition.type}`,
         attribute: this.name,
       }));
     }
@@ -243,7 +243,7 @@ class ComponentAttribute {
       errors.push(new ParserLog({
         componentId: id,
         severity: ParserLog.SEVERITY_ERROR,
-        message: `parser.default.error.max${this.definition.type}`,
+        message: `parser.error.max${this.definition.type}`,
         attribute: this.name,
       }));
     }
@@ -269,7 +269,7 @@ class ComponentAttribute {
       errors.push(new ParserLog({
         componentId: id,
         severity: ParserLog.SEVERITY_ERROR,
-        message: 'parser.default.error.invalidValue',
+        message: 'parser.error.invalidValue',
         attribute: this.name,
       }));
     }
@@ -294,7 +294,7 @@ class ComponentAttribute {
       errors.push(new ParserLog({
         componentId: id,
         severity: ParserLog.SEVERITY_ERROR,
-        message: this.definition.rules.regexMessage || 'parser.default.error.regex',
+        message: this.definition.rules.regexMessage || 'parser.error.regex',
         attribute: this.name,
       }));
     }

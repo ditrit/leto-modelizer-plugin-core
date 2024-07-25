@@ -1117,7 +1117,7 @@ describe('Test class: Component', () => {
         componentId: 'id',
         attribute: 'test',
         severity: ParserLog.SEVERITY_ERROR,
-        message: 'parser.default.error.notNumber',
+        message: 'parser.error.notNumber',
       })]);
     });
   });
@@ -1139,7 +1139,7 @@ describe('Test class: Component', () => {
       expect(component.validateDefinition()).toEqual([new ParserLog({
         componentId: 'id',
         severity: ParserLog.SEVERITY_WARNING,
-        message: 'parser.default.warning.noComponentDefinition',
+        message: 'parser.warning.noComponentDefinition',
       })]);
     });
   });
