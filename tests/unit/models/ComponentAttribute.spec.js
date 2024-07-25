@@ -190,7 +190,7 @@ describe('Test class: ComponentAttribute', () => {
 
       expect(attribute.validateDefinitionType()).toEqual([new ParserLog({
         severity: ParserLog.SEVERITY_ERROR,
-        message: 'parser.error.invalidType',
+        message: 'parser.error.notString',
         attribute: 'test',
       })]);
     });

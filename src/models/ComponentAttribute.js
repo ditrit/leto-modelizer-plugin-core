@@ -120,7 +120,7 @@ class ComponentAttribute {
       errors.push(new ParserLog({
         componentId: id,
         severity: ParserLog.SEVERITY_ERROR,
-        message: 'parser.error.invalidType',
+        message: `parser.error.not${this.definition.type}`,
         attribute: this.name,
       }));
     }
@@ -234,6 +234,7 @@ class ComponentAttribute {
         severity: ParserLog.SEVERITY_ERROR,
         message: `parser.error.min${this.definition.type}`,
         attribute: this.name,
+        extraData: this.definition.rules.min,
       }));
     }
 
@@ -245,6 +246,7 @@ class ComponentAttribute {
         severity: ParserLog.SEVERITY_ERROR,
         message: `parser.error.max${this.definition.type}`,
         attribute: this.name,
+        extraData: this.definition.rules.max,
       }));
     }
 
@@ -271,6 +273,7 @@ class ComponentAttribute {
         severity: ParserLog.SEVERITY_ERROR,
         message: 'parser.error.invalidValue',
         attribute: this.name,
+        extraData: this.definition.rules.values.join(', '),
       }));
     }
 
