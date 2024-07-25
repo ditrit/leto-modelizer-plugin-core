@@ -36,6 +36,7 @@ class YourPluginConfiguration extends DefaultConfiguration {
         gap: 50,
       },
       keysBinding: {},
+      i18n: {},
     });
   }
 }
@@ -54,6 +55,7 @@ In this part, you will see how you can:
 - `rootContainer`: Define root container options, like gap and margin.
 - `container`: Define default container options, like gap and margin.
 - `keysBinding`: Define key binding for actions.
+- `i18n`: Define all specific translations of your plugin.
 
 ## Tag your plugin
 
@@ -162,3 +164,67 @@ Default key is `A` (a uppercase) and is used to select all object in the root co
 - Deselect all object
 
 Default key is `D` (d uppercase) and is used to clear selection.
+
+## Add specific translations
+
+The `i18n` object must include a language attribute where you can organize your translations as needed.
+Below is an example of how to set up the i18n object within the `DefaultConfiguration`:
+
+```js
+new DefaultConfiguration({
+  i18n: {
+    'en-us': {
+      // Place your translations here.
+    },
+  }
+})
+```
+
+Currently, Leto-Modelizer utilizes only the parser error translations from the i18n object.
+Here is an example of how to add a specific translation key for parser errors:
+
+```js
+new DefaultConfiguration({
+  i18n: {
+    'en-us': {
+      parser: {
+        error: {
+          test: 'test',
+        },
+      },
+    },
+  }
+});
+```
+
+To use the translation key defined in the `i18n` configuration, declare it when creating a new `ParserLog` instance.
+Here’s an example:
+
+```js
+new ParserLog({
+  message: 'YOUR_PLUGIN_NAME.parser.error.test',
+});
+```
+
+In this example, 'YOUR_PLUGIN_NAME.parser.error.test' corresponds to the translation key test defined in the `i18n` object.
+
+You can use `extraData` in your translation message to add relevant information:
+
+```js
+new DefaultConfiguration({
+  i18n: {
+    'en-us': {
+      parser: {
+        error: {
+          test: 'test: {extraData}',
+        },
+      },
+    },
+  }
+});
+
+new ParserLog({
+  message: 'YOUR_PLUGIN_NAME.parser.error.test',
+  extraData: 'Contextual information',
+});
+```
