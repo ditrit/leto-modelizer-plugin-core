@@ -390,11 +390,13 @@ describe('Test class: ComponentAttribute', () => {
           severity: ParserLog.SEVERITY_ERROR,
           message: 'parser.error.minNumber',
           attribute: 'test',
+          extraData: 2,
         }),
         new ParserLog({
           severity: ParserLog.SEVERITY_ERROR,
           message: 'parser.error.maxNumber',
           attribute: 'test',
+          extraData: 0,
         }),
       ]);
     });
@@ -417,11 +419,13 @@ describe('Test class: ComponentAttribute', () => {
           severity: ParserLog.SEVERITY_ERROR,
           message: 'parser.error.minArray',
           attribute: 'test',
+          extraData: 2,
         }),
         new ParserLog({
           severity: ParserLog.SEVERITY_ERROR,
           message: 'parser.error.maxArray',
           attribute: 'test',
+          extraData: 0,
         }),
       ]);
     });
@@ -444,11 +448,13 @@ describe('Test class: ComponentAttribute', () => {
           severity: ParserLog.SEVERITY_ERROR,
           message: 'parser.error.minString',
           attribute: 'test',
+          extraData: 2,
         }),
         new ParserLog({
           severity: ParserLog.SEVERITY_ERROR,
           message: 'parser.error.maxString',
           attribute: 'test',
+          extraData: 0,
         }),
       ]);
     });
@@ -531,6 +537,7 @@ describe('Test class: ComponentAttribute', () => {
         severity: ParserLog.SEVERITY_ERROR,
         message: 'parser.error.invalidValue',
         attribute: 'test',
+        extraData: 'a, b',
       })]);
 
       attribute.value = ['c'];
@@ -538,6 +545,7 @@ describe('Test class: ComponentAttribute', () => {
         severity: ParserLog.SEVERITY_ERROR,
         message: 'parser.error.invalidValue',
         attribute: 'test',
+        extraData: 'a, b',
       })]);
 
       attribute.value = ['b', 'a', 'c'];
@@ -545,6 +553,7 @@ describe('Test class: ComponentAttribute', () => {
         severity: ParserLog.SEVERITY_ERROR,
         message: 'parser.error.invalidValue',
         attribute: 'test',
+        extraData: 'a, b',
       })]);
     });
   });

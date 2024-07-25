@@ -15,6 +15,7 @@ describe('Test class: ParserLog', () => {
       expect(log.initialErrorMessage).toBeNull();
       expect(log.componentId).toBeNull();
       expect(log.attribute).toBeNull();
+      expect(log.extraData).toEqual('');
     });
 
     it('Check passing undefined variables to constructor', () => {
@@ -30,6 +31,7 @@ describe('Test class: ParserLog', () => {
       expect(log.initialErrorMessage).toBeNull();
       expect(log.componentId).toBeNull();
       expect(log.attribute).toBeNull();
+      expect(log.extraData).toEqual('');
     });
 
     it('Check passing all variables to constructor', () => {
@@ -44,6 +46,7 @@ describe('Test class: ParserLog', () => {
         initialErrorMessage: 'initialErrorMessage',
         componentId: 'componentId',
         attribute: 'attribute',
+        extraData: 'extraData',
       });
 
       expect(log.path).toEqual('path');
@@ -56,6 +59,7 @@ describe('Test class: ParserLog', () => {
       expect(log.initialErrorMessage).toEqual('initialErrorMessage');
       expect(log.componentId).toEqual('componentId');
       expect(log.attribute).toEqual('attribute');
+      expect(log.extraData).toEqual('extraData');
     });
   });
 });
