@@ -115,7 +115,7 @@ describe('Test class: ComponentAttribute', () => {
       attribute.getErrors(errors, true);
       expect(errors).toEqual([new ParserLog({
         severity: ParserLog.SEVERITY_ERROR,
-        message: 'parser.default.error.notNumber',
+        message: 'parser.error.notNumber',
         attribute: 'child',
       })]);
     });
@@ -158,7 +158,7 @@ describe('Test class: ComponentAttribute', () => {
 
       expect(attribute.validateDefinitionType()).toEqual([new ParserLog({
         severity: ParserLog.SEVERITY_ERROR,
-        message: 'parser.default.error.invalidLinkType',
+        message: 'parser.error.invalidLinkType',
         attribute: 'test',
       })]);
     });
@@ -174,7 +174,7 @@ describe('Test class: ComponentAttribute', () => {
 
       expect(attribute.validateDefinitionType()).toEqual([new ParserLog({
         severity: ParserLog.SEVERITY_ERROR,
-        message: 'parser.default.error.invalidReferenceType',
+        message: 'parser.error.invalidReferenceType',
         attribute: 'test',
       })]);
     });
@@ -190,7 +190,7 @@ describe('Test class: ComponentAttribute', () => {
 
       expect(attribute.validateDefinitionType()).toEqual([new ParserLog({
         severity: ParserLog.SEVERITY_ERROR,
-        message: 'parser.default.error.invalidType',
+        message: 'parser.error.notString',
         attribute: 'test',
       })]);
     });
@@ -240,7 +240,7 @@ describe('Test class: ComponentAttribute', () => {
 
       expect(attribute.validateType()).toEqual([new ParserLog({
         severity: ParserLog.SEVERITY_ERROR,
-        message: 'parser.default.error.notBoolean',
+        message: 'parser.error.notBoolean',
         attribute: 'test',
       })]);
     });
@@ -254,7 +254,7 @@ describe('Test class: ComponentAttribute', () => {
 
       expect(attribute.validateType()).toEqual([new ParserLog({
         severity: ParserLog.SEVERITY_ERROR,
-        message: 'parser.default.error.notString',
+        message: 'parser.error.notString',
         attribute: 'test',
       })]);
     });
@@ -268,7 +268,7 @@ describe('Test class: ComponentAttribute', () => {
 
       expect(attribute.validateType()).toEqual([new ParserLog({
         severity: ParserLog.SEVERITY_ERROR,
-        message: 'parser.default.error.notNumber',
+        message: 'parser.error.notNumber',
         attribute: 'test',
       })]);
     });
@@ -282,7 +282,7 @@ describe('Test class: ComponentAttribute', () => {
 
       expect(attribute.validateType()).toEqual([new ParserLog({
         severity: ParserLog.SEVERITY_ERROR,
-        message: 'parser.default.error.notObject',
+        message: 'parser.error.notObject',
         attribute: 'test',
       })]);
     });
@@ -296,7 +296,7 @@ describe('Test class: ComponentAttribute', () => {
 
       expect(attribute.validateType()).toEqual([new ParserLog({
         severity: ParserLog.SEVERITY_ERROR,
-        message: 'parser.default.error.notArray',
+        message: 'parser.error.notArray',
         attribute: 'test',
       })]);
     });
@@ -338,7 +338,7 @@ describe('Test class: ComponentAttribute', () => {
 
       expect(attribute.validateRequired()).toEqual([new ParserLog({
         severity: ParserLog.SEVERITY_ERROR,
-        message: 'parser.default.error.required',
+        message: 'parser.error.required',
         attribute: 'test',
       })]);
     });
@@ -388,13 +388,15 @@ describe('Test class: ComponentAttribute', () => {
       expect(attribute.validateRuleMinMax()).toEqual([
         new ParserLog({
           severity: ParserLog.SEVERITY_ERROR,
-          message: 'parser.default.error.minNumber',
+          message: 'parser.error.minNumber',
           attribute: 'test',
+          extraData: 2,
         }),
         new ParserLog({
           severity: ParserLog.SEVERITY_ERROR,
-          message: 'parser.default.error.maxNumber',
+          message: 'parser.error.maxNumber',
           attribute: 'test',
+          extraData: 0,
         }),
       ]);
     });
@@ -415,13 +417,15 @@ describe('Test class: ComponentAttribute', () => {
       expect(attribute.validateRuleMinMax()).toEqual([
         new ParserLog({
           severity: ParserLog.SEVERITY_ERROR,
-          message: 'parser.default.error.minArray',
+          message: 'parser.error.minArray',
           attribute: 'test',
+          extraData: 2,
         }),
         new ParserLog({
           severity: ParserLog.SEVERITY_ERROR,
-          message: 'parser.default.error.maxArray',
+          message: 'parser.error.maxArray',
           attribute: 'test',
+          extraData: 0,
         }),
       ]);
     });
@@ -442,13 +446,15 @@ describe('Test class: ComponentAttribute', () => {
       expect(attribute.validateRuleMinMax()).toEqual([
         new ParserLog({
           severity: ParserLog.SEVERITY_ERROR,
-          message: 'parser.default.error.minString',
+          message: 'parser.error.minString',
           attribute: 'test',
+          extraData: 2,
         }),
         new ParserLog({
           severity: ParserLog.SEVERITY_ERROR,
-          message: 'parser.default.error.maxString',
+          message: 'parser.error.maxString',
           attribute: 'test',
+          extraData: 0,
         }),
       ]);
     });
@@ -529,22 +535,25 @@ describe('Test class: ComponentAttribute', () => {
 
       expect(attribute.validateRuleValues()).toEqual([new ParserLog({
         severity: ParserLog.SEVERITY_ERROR,
-        message: 'parser.default.error.invalidValue',
+        message: 'parser.error.invalidValue',
         attribute: 'test',
+        extraData: 'a, b',
       })]);
 
       attribute.value = ['c'];
       expect(attribute.validateRuleValues()).toEqual([new ParserLog({
         severity: ParserLog.SEVERITY_ERROR,
-        message: 'parser.default.error.invalidValue',
+        message: 'parser.error.invalidValue',
         attribute: 'test',
+        extraData: 'a, b',
       })]);
 
       attribute.value = ['b', 'a', 'c'];
       expect(attribute.validateRuleValues()).toEqual([new ParserLog({
         severity: ParserLog.SEVERITY_ERROR,
-        message: 'parser.default.error.invalidValue',
+        message: 'parser.error.invalidValue',
         attribute: 'test',
+        extraData: 'a, b',
       })]);
     });
   });
@@ -598,7 +607,7 @@ describe('Test class: ComponentAttribute', () => {
       expect(attribute.validateRuleRegex()).toEqual([new ParserLog({
         attribute: 'test',
         severity: ParserLog.SEVERITY_ERROR,
-        message: 'parser.default.error.regex',
+        message: 'parser.error.regex',
       })]);
     });
 

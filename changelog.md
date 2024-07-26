@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Method `validateRuleMinMax` to get rules min/max errors in `ComponentAttribute`.
 - Method `validateRuleValues` to get rule values errors in `ComponentAttribute`.
 - Method `validateRuleRegex` to get rule regex errors in `ComponentAttribute`.
+- I18n translation storage for plugin in `DefaultConfiguration`.
 
 ### Changed
 

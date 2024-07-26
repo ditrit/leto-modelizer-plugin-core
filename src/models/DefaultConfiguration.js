@@ -25,6 +25,7 @@ class DefaultConfiguration {
    * @param {number} [props.container.margin] - Default margin inside container.
    * @param {number} [props.container.gap] - Default gap between component inside container.
    * @param {object} [props.keysBinding] - Set of keyboard shortcuts for actions performing.
+   * @param {object} [props.i18n] - Object that store all translations.
    */
   constructor(props = {
     editor: {
@@ -45,6 +46,7 @@ class DefaultConfiguration {
       gap: 50,
     },
     keysBinding: {},
+    i18n: {},
   }) {
     /**
      * Object that contains all properties of editor configuration.
@@ -125,6 +127,8 @@ class DefaultConfiguration {
       deselectAll: ['D'],
       ...props.keysBinding,
     };
+
+    this.i18n = props.i18n || {};
   }
 }
 

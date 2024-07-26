@@ -61,6 +61,7 @@ describe('Test class: DefaultConfiguration', () => {
         gap: 50,
       });
       expect(config.keysBinding).toEqual(defaultKeyBindings);
+      expect(config.i18n).toEqual({});
     });
 
     it('Check passing all variables to constructor', () => {
@@ -85,6 +86,7 @@ describe('Test class: DefaultConfiguration', () => {
         keysBinding: {
           moveSceneUp: ['z'],
         },
+        i18n: 'test',
       });
 
       expect(config.editor).toEqual({ syntax: true });
@@ -106,6 +108,7 @@ describe('Test class: DefaultConfiguration', () => {
         ...defaultKeyBindings,
         moveSceneUp: ['z'],
       });
+      expect(config.i18n).toEqual('test');
     });
   });
 });

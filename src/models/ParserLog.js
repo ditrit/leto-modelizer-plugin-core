@@ -40,6 +40,7 @@ class ParserLog {
    * @param {string} [props.componentId] - The component id where the error appears.
    * @param {string} [props.attribute] - The attribute name where the error appears, if null error
    * is on the component.
+   * @param {string} [props.extraData] - Extra data for adding information in translation.
    */
   constructor(props = {
     path: null,
@@ -52,6 +53,7 @@ class ParserLog {
     initialErrorMessage: null,
     componentId: null,
     attribute: null,
+    extraData: '',
   }) {
     const {
       path,
@@ -64,6 +66,7 @@ class ParserLog {
       initialErrorMessage,
       componentId,
       attribute,
+      extraData,
     } = props;
 
     /**
@@ -128,6 +131,12 @@ class ParserLog {
      * @type {string}
      */
     this.attribute = attribute ?? null;
+
+    /**
+     * Extra data for adding information in translation.
+     * @type {string}
+     */
+    this.extraData = extraData ?? '';
   }
 }
 
