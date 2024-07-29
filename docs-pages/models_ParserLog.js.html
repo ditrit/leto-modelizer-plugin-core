@@ -7,7 +7,7 @@
   tracking-code-which-will-go-to-the-HEAD
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> draw/action/DeselectionAllAction.js</title>
+  <title> models/ParserLog.js</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -93,7 +93,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Source</p>
-                    <h1>draw/action/DeselectionAllAction.js</h1>
+                    <h1>models/ParserLog.js</h1>
                 </header>
                 
 
@@ -102,31 +102,149 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import Action from './Action';
-
-/**
- * Action to clear selection.
+            <pre class="prettyprint source linenums"><code>/**
+ * Log of parser.
  */
-class DeselectionAllAction extends Action {
+class ParserLog {
   /**
-   * Clear selection.
-   * @returns {boolean} Need to call draw at the end.
+   * Hint severity value.
+   * @type {number}
    */
-  execute() {
-    this.pluginData.scene.selection = [];
+  static SEVERITY_HINT = 1;
 
-    this.pluginData.emitEvent({
-      components: [],
-      type: 'Drawer',
-      action: 'select',
-      status: 'success',
-    });
+  /**
+   * Info severity value.
+   * @type {number}
+   */
+  static SEVERITY_INFO = 2;
 
-    return true;
+  /**
+   * Warning severity value.
+   * @type {number}
+   */
+  static SEVERITY_WARNING = 4;
+
+  /**
+   * Error severity value.
+   * @type {number}
+   */
+  static SEVERITY_ERROR = 8;
+
+  /**
+   * Default constructor.
+   * @param {object} [props] - Object that contains all properties to set.
+   * @param {string} [props.path] - File path.
+   * @param {number} [props.severity] - Log severity.
+   * @param {number} [props.startLineNumber] - The starting line of the error.
+   * @param {number} [props.startColumn] - The starting column of the error.
+   * @param {number} [props.endLineNumber] - The ending line of the error.
+   * @param {number} [props.endColumn] - The ending column of the error.
+   * @param {string} [props.message] - The i18n key used in leto.
+   * @param {string} [props.initialErrorMessage] - The initial message from error.
+   * @param {string} [props.componentId] - The component id where the error appears.
+   * @param {string} [props.attribute] - The attribute name where the error appears, if null error
+   * is on the component.
+   * @param {string} [props.extraData] - Extra data for adding information in translation.
+   */
+  constructor(props = {
+    path: null,
+    severity: null,
+    startLineNumber: null,
+    startColumn: null,
+    endLineNumber: null,
+    endColumn: null,
+    message: null,
+    initialErrorMessage: null,
+    componentId: null,
+    attribute: null,
+    extraData: '',
+  }) {
+    const {
+      path,
+      severity,
+      startLineNumber,
+      startColumn,
+      endLineNumber,
+      endColumn,
+      message,
+      initialErrorMessage,
+      componentId,
+      attribute,
+      extraData,
+    } = props;
+
+    /**
+     * Path of the file.
+     * @type {string}
+     * @default null
+     */
+    this.path = path ?? null;
+
+    /**
+     * Log everity.
+     * @type {number}
+     * @default 0
+     */
+    this.severity = severity ?? ParserLog.SEVERITY_HINT;
+
+    /**
+     * The starting line of the error.
+     * @type {number}
+     */
+    this.startLineNumber = startLineNumber ?? null;
+
+    /**
+     * The starting column of the error.
+     * @type {number}
+     */
+    this.startColumn = startColumn ?? null;
+
+    /**
+     * The ending line of the error.
+     * @type {number}
+     */
+    this.endLineNumber = endLineNumber ?? null;
+
+    /**
+     * The ending column of the error.
+     * @type {number}
+     */
+    this.endColumn = endColumn ?? null;
+
+    /**
+     * The i18n key used in leto.
+     * @type {string}
+     */
+    this.message = message ?? null;
+
+    /**
+     * The initial message from error.
+     * @type {string}
+     */
+    this.initialErrorMessage = initialErrorMessage ?? null;
+
+    /**
+     * The component id where the error appears.
+     * @type {string}
+     */
+    this.componentId = componentId ?? null;
+
+    /**
+     * The attribute name where the error appears, if null error
+     * is on the component.
+     * @type {string}
+     */
+    this.attribute = attribute ?? null;
+
+    /**
+     * Extra data for adding information in translation.
+     * @type {string}
+     */
+    this.extraData = extraData ?? '';
   }
 }
 
-export default DeselectionAllAction;
+export default ParserLog;
 </code></pre>
         </article>
     </section>

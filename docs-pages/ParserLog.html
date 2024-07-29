@@ -5,7 +5,7 @@
   tracking-code-which-will-go-to-the-HEAD
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> DefaultConfiguration</title>
+  <title> ParserLog</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -91,7 +91,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Class</p>
-                    <h1>DefaultConfiguration</h1>
+                    <h1>ParserLog</h1>
                 </header>
                 
 
@@ -102,9 +102,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>DefaultConfiguration<span class="signature">(props<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>ParserLog<span class="signature">(props<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">Default plugin configuration.</div>
+            <div class="class-description">Log of parser.</div>
         
     
 </header>
@@ -123,12 +123,12 @@
 
 
     
-    <h4 class="name" id="DefaultConfiguration">
-        <a class="href-link" href="#DefaultConfiguration">#</a>
+    <h4 class="name" id="ParserLog">
+        <a class="href-link" href="#ParserLog">#</a>
         
         <span class="code-name">
             
-                new DefaultConfiguration<span class="signature">(props<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
+                new ParserLog<span class="signature">(props<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -211,74 +211,7 @@
     
 <tr class="deep-level-1">
   
-      <td class="name"><code>editor</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">object</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">Object that contains all properties of editor
-configuration.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>editor.syntax</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">object</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">Syntax configuration.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>restrictiveFolder</code></td>
+      <td class="name"><code>path</code></td>
   
 
   <td class="type">
@@ -304,280 +237,14 @@ configuration.</td>
 
   
 
-  <td class="description last">Restrictive folder for new component if provided.</td>
+  <td class="description last">File path.</td>
 </tr>
 
   
     
 <tr class="deep-level-1">
   
-      <td class="name"><code>defaultFileName</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">Default file name for new components.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>defaultFileExtension</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">Default file extension for components.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>tags</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">Array.&lt;<a href="Tag.html">Tag</a>></code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">All plugin tags.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>isFolderTypeDiagram</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">boolean</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">True if diagram type is folder, otherwise false.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>extraResources</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">Array.&lt;object></code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">List of extra resources to register. An extra
-resource is model name that can't be set in Component.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>extraResources.type</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">Type of resources can be markers, links and
-icons. You can set models, but only component can use models.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>extraResources.name</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">Name of SVG model to render the resource.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>rootContainer</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">object</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">Configuration of root container in the scene.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>rootContainer.margin</code></td>
+      <td class="name"><code>severity</code></td>
   
 
   <td class="type">
@@ -603,14 +270,14 @@ icons. You can set models, but only component can use models.</td>
 
   
 
-  <td class="description last">Margin inside the root container.</td>
+  <td class="description last">Log severity.</td>
 </tr>
 
   
     
 <tr class="deep-level-1">
   
-      <td class="name"><code>rootContainer.gap</code></td>
+      <td class="name"><code>startLineNumber</code></td>
   
 
   <td class="type">
@@ -636,47 +303,14 @@ icons. You can set models, but only component can use models.</td>
 
   
 
-  <td class="description last">Gap between component inside the root container.</td>
+  <td class="description last">The starting line of the error.</td>
 </tr>
 
   
     
 <tr class="deep-level-1">
   
-      <td class="name"><code>container</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">object</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">Default configuration of all container in the scene.</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>container.margin</code></td>
+      <td class="name"><code>startColumn</code></td>
   
 
   <td class="type">
@@ -702,14 +336,14 @@ icons. You can set models, but only component can use models.</td>
 
   
 
-  <td class="description last">Default margin inside container.</td>
+  <td class="description last">The starting column of the error.</td>
 </tr>
 
   
     
 <tr class="deep-level-1">
   
-      <td class="name"><code>container.gap</code></td>
+      <td class="name"><code>endLineNumber</code></td>
   
 
   <td class="type">
@@ -735,20 +369,20 @@ icons. You can set models, but only component can use models.</td>
 
   
 
-  <td class="description last">Default gap between component inside container.</td>
+  <td class="description last">The ending line of the error.</td>
 </tr>
 
   
     
 <tr class="deep-level-1">
   
-      <td class="name"><code>keysBinding</code></td>
+      <td class="name"><code>endColumn</code></td>
   
 
   <td class="type">
   
       
-<code class="param-type">object</code>
+<code class="param-type">number</code>
 
 
   
@@ -768,20 +402,20 @@ icons. You can set models, but only component can use models.</td>
 
   
 
-  <td class="description last">Set of keyboard shortcuts for actions performing.</td>
+  <td class="description last">The ending column of the error.</td>
 </tr>
 
   
     
 <tr class="deep-level-1">
   
-      <td class="name"><code>i18n</code></td>
+      <td class="name"><code>message</code></td>
   
 
   <td class="type">
   
       
-<code class="param-type">object</code>
+<code class="param-type">string</code>
 
 
   
@@ -801,7 +435,140 @@ icons. You can set models, but only component can use models.</td>
 
   
 
-  <td class="description last">Object that store all translations.</td>
+  <td class="description last">The i18n key used in leto.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>initialErrorMessage</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">The initial message from error.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>componentId</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">The component id where the error appears.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>attribute</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">The attribute name where the error appears, if null error
+is on the component.</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>extraData</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">Extra data for adding information in translation.</td>
 </tr>
 
   
@@ -849,9 +616,9 @@ icons. You can set models, but only component can use models.</td>
 
     
         <p class="tag-source">
-            <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
+            <a href="models_ParserLog.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line4">line 4</a>
+                <a href="models_ParserLog.js.html">models/ParserLog.js</a>, <a href="models_ParserLog.js.html#line4">line 4</a>
             </span>
         </p>
     
@@ -907,16 +674,16 @@ icons. You can set models, but only component can use models.</td>
     <span class="method-parameter is-pulled-right">
         <label>Type:</label>
         
-<code class="param-type">Object</code>
+<code class="param-type">number</code>
 
 
     </span>
 
-<h4 class="name" id="container">
-    <a class="href-link" href="#container">#</a>
+<h4 class="name" id="SEVERITY_ERROR">
+    <a class="href-link" href="#SEVERITY_ERROR">#</a>
     
     <span class="code-name">
-        container
+        SEVERITY_ERROR
     </span>
     
 </h4>
@@ -925,7 +692,7 @@ icons. You can set models, but only component can use models.</td>
 
 
 <div class="description">
-    Default configuration of all containers in the scene.
+    Error severity value.
 </div>
 
 
@@ -965,9 +732,240 @@ icons. You can set models, but only component can use models.</td>
 
     
         <p class="tag-source">
-            <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
+            <a href="models_ParserLog.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line103">line 103</a>
+                <a href="models_ParserLog.js.html">models/ParserLog.js</a>, <a href="models_ParserLog.js.html#line27">line 27</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">number</code>
+
+
+    </span>
+
+<h4 class="name" id="SEVERITY_HINT">
+    <a class="href-link" href="#SEVERITY_HINT">#</a>
+    
+    <span class="code-name">
+        SEVERITY_HINT
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Hint severity value.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_ParserLog.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_ParserLog.js.html">models/ParserLog.js</a>, <a href="models_ParserLog.js.html#line9">line 9</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">number</code>
+
+
+    </span>
+
+<h4 class="name" id="SEVERITY_INFO">
+    <a class="href-link" href="#SEVERITY_INFO">#</a>
+    
+    <span class="code-name">
+        SEVERITY_INFO
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Info severity value.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_ParserLog.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_ParserLog.js.html">models/ParserLog.js</a>, <a href="models_ParserLog.js.html#line15">line 15</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">number</code>
+
+
+    </span>
+
+<h4 class="name" id="SEVERITY_WARNING">
+    <a class="href-link" href="#SEVERITY_WARNING">#</a>
+    
+    <span class="code-name">
+        SEVERITY_WARNING
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Warning severity value.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_ParserLog.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_ParserLog.js.html">models/ParserLog.js</a>, <a href="models_ParserLog.js.html#line21">line 21</a>
             </span>
         </p>
     
@@ -989,11 +987,11 @@ icons. You can set models, but only component can use models.</td>
 
     </span>
 
-<h4 class="name" id="defaultFileExtension">
-    <a class="href-link" href="#defaultFileExtension">#</a>
+<h4 class="name" id="attribute">
+    <a class="href-link" href="#attribute">#</a>
     
     <span class="code-name">
-        defaultFileExtension
+        attribute
     </span>
     
 </h4>
@@ -1002,7 +1000,8 @@ icons. You can set models, but only component can use models.</td>
 
 
 <div class="description">
-    Default file extension for components.
+    The attribute name where the error appears, if null error
+is on the component.
 </div>
 
 
@@ -1042,9 +1041,9 @@ icons. You can set models, but only component can use models.</td>
 
     
         <p class="tag-source">
-            <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
+            <a href="models_ParserLog.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line73">line 73</a>
+                <a href="models_ParserLog.js.html">models/ParserLog.js</a>, <a href="models_ParserLog.js.html#line133">line 133</a>
             </span>
         </p>
     
@@ -1066,11 +1065,11 @@ icons. You can set models, but only component can use models.</td>
 
     </span>
 
-<h4 class="name" id="defaultFileName">
-    <a class="href-link" href="#defaultFileName">#</a>
+<h4 class="name" id="componentId">
+    <a class="href-link" href="#componentId">#</a>
     
     <span class="code-name">
-        defaultFileName
+        componentId
     </span>
     
 </h4>
@@ -1079,7 +1078,7 @@ icons. You can set models, but only component can use models.</td>
 
 
 <div class="description">
-    Default file name for new components.
+    The component id where the error appears.
 </div>
 
 
@@ -1119,9 +1118,9 @@ icons. You can set models, but only component can use models.</td>
 
     
         <p class="tag-source">
-            <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
+            <a href="models_ParserLog.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line68">line 68</a>
+                <a href="models_ParserLog.js.html">models/ParserLog.js</a>, <a href="models_ParserLog.js.html#line126">line 126</a>
             </span>
         </p>
     
@@ -1138,16 +1137,16 @@ icons. You can set models, but only component can use models.</td>
     <span class="method-parameter is-pulled-right">
         <label>Type:</label>
         
-<code class="param-type">object</code>
+<code class="param-type">number</code>
 
 
     </span>
 
-<h4 class="name" id="editor">
-    <a class="href-link" href="#editor">#</a>
+<h4 class="name" id="endColumn">
+    <a class="href-link" href="#endColumn">#</a>
     
     <span class="code-name">
-        editor
+        endColumn
     </span>
     
 </h4>
@@ -1156,7 +1155,7 @@ icons. You can set models, but only component can use models.</td>
 
 
 <div class="description">
-    Object that contains all properties of editor configuration.
+    The ending column of the error.
 </div>
 
 
@@ -1196,9 +1195,9 @@ icons. You can set models, but only component can use models.</td>
 
     
         <p class="tag-source">
-            <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
+            <a href="models_ParserLog.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line55">line 55</a>
+                <a href="models_ParserLog.js.html">models/ParserLog.js</a>, <a href="models_ParserLog.js.html#line108">line 108</a>
             </span>
         </p>
     
@@ -1215,16 +1214,16 @@ icons. You can set models, but only component can use models.</td>
     <span class="method-parameter is-pulled-right">
         <label>Type:</label>
         
-<code class="param-type">Object</code>
+<code class="param-type">number</code>
 
 
     </span>
 
-<h4 class="name" id="extraResources">
-    <a class="href-link" href="#extraResources">#</a>
+<h4 class="name" id="endLineNumber">
+    <a class="href-link" href="#endLineNumber">#</a>
     
     <span class="code-name">
-        extraResources
+        endLineNumber
     </span>
     
 </h4>
@@ -1233,8 +1232,7 @@ icons. You can set models, but only component can use models.</td>
 
 
 <div class="description">
-    List of extra resources to register. An extra resource is model name that can't be set in
-Component.
+    The ending line of the error.
 </div>
 
 
@@ -1274,163 +1272,9 @@ Component.
 
     
         <p class="tag-source">
-            <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
+            <a href="models_ParserLog.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line90">line 90</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-    <span class="method-parameter is-pulled-right">
-        <label>Type:</label>
-        
-<code class="param-type">boolean</code>
-
-
-    </span>
-
-<h4 class="name" id="isFolderTypeDiagram">
-    <a class="href-link" href="#isFolderTypeDiagram">#</a>
-    
-    <span class="code-name">
-        isFolderTypeDiagram
-    </span>
-    
-</h4>
-
-
-
-
-<div class="description">
-    True if diagram type is folder, otherwise false.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
-            <span>
-                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line84">line 84</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-    <span class="method-parameter is-pulled-right">
-        <label>Type:</label>
-        
-<code class="param-type">object</code>
-
-
-    </span>
-
-<h4 class="name" id="keysBinding">
-    <a class="href-link" href="#keysBinding">#</a>
-    
-    <span class="code-name">
-        keysBinding
-    </span>
-    
-</h4>
-
-
-
-
-<div class="description">
-    Set of keyboard shortcuts for actions performing.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
-            <span>
-                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line112">line 112</a>
+                <a href="models_ParserLog.js.html">models/ParserLog.js</a>, <a href="models_ParserLog.js.html#line102">line 102</a>
             </span>
         </p>
     
@@ -1452,11 +1296,11 @@ Component.
 
     </span>
 
-<h4 class="name" id="restrictiveFolder">
-    <a class="href-link" href="#restrictiveFolder">#</a>
+<h4 class="name" id="extraData">
+    <a class="href-link" href="#extraData">#</a>
     
     <span class="code-name">
-        restrictiveFolder
+        extraData
     </span>
     
 </h4>
@@ -1465,7 +1309,7 @@ Component.
 
 
 <div class="description">
-    Restrictive folder for new component if provided.
+    Extra data for adding information in translation.
 </div>
 
 
@@ -1505,9 +1349,9 @@ Component.
 
     
         <p class="tag-source">
-            <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
+            <a href="models_ParserLog.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line63">line 63</a>
+                <a href="models_ParserLog.js.html">models/ParserLog.js</a>, <a href="models_ParserLog.js.html#line139">line 139</a>
             </span>
         </p>
     
@@ -1524,16 +1368,16 @@ Component.
     <span class="method-parameter is-pulled-right">
         <label>Type:</label>
         
-<code class="param-type">Object</code>
+<code class="param-type">string</code>
 
 
     </span>
 
-<h4 class="name" id="rootContainer">
-    <a class="href-link" href="#rootContainer">#</a>
+<h4 class="name" id="initialErrorMessage">
+    <a class="href-link" href="#initialErrorMessage">#</a>
     
     <span class="code-name">
-        rootContainer
+        initialErrorMessage
     </span>
     
 </h4>
@@ -1542,7 +1386,7 @@ Component.
 
 
 <div class="description">
-    Configuration of root container in the scene.
+    The initial message from error.
 </div>
 
 
@@ -1582,9 +1426,9 @@ Component.
 
     
         <p class="tag-source">
-            <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
+            <a href="models_ParserLog.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line95">line 95</a>
+                <a href="models_ParserLog.js.html">models/ParserLog.js</a>, <a href="models_ParserLog.js.html#line120">line 120</a>
             </span>
         </p>
     
@@ -1601,16 +1445,16 @@ Component.
     <span class="method-parameter is-pulled-right">
         <label>Type:</label>
         
-<code class="param-type">Array.&lt;<a href="Tag.html">Tag</a>></code>
+<code class="param-type">string</code>
 
 
     </span>
 
-<h4 class="name" id="tags">
-    <a class="href-link" href="#tags">#</a>
+<h4 class="name" id="message">
+    <a class="href-link" href="#message">#</a>
     
     <span class="code-name">
-        tags
+        message
     </span>
     
 </h4>
@@ -1619,7 +1463,84 @@ Component.
 
 
 <div class="description">
-    All plugin tags.
+    The i18n key used in leto.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_ParserLog.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_ParserLog.js.html">models/ParserLog.js</a>, <a href="models_ParserLog.js.html#line114">line 114</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">string</code>
+
+
+    </span>
+
+<h4 class="name" id="path">
+    <a class="href-link" href="#path">#</a>
+    
+    <span class="code-name">
+        path
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Path of the file.
 </div>
 
 
@@ -1653,7 +1574,7 @@ Component.
     
     <dt class="tag-default">Default Value:</dt>
     <dd class="tag-default"><ul class="dummy">
-            <li>[]</li>
+            <li>null</li>
         </ul></dd>
     
     
@@ -1664,9 +1585,245 @@ Component.
 
     
         <p class="tag-source">
-            <a href="models_DefaultConfiguration.js.html" class="button">View Source</a>
+            <a href="models_ParserLog.js.html" class="button">View Source</a>
             <span>
-                <a href="models_DefaultConfiguration.js.html">models/DefaultConfiguration.js</a>, <a href="models_DefaultConfiguration.js.html#line79">line 79</a>
+                <a href="models_ParserLog.js.html">models/ParserLog.js</a>, <a href="models_ParserLog.js.html#line77">line 77</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">number</code>
+
+
+    </span>
+
+<h4 class="name" id="severity">
+    <a class="href-link" href="#severity">#</a>
+    
+    <span class="code-name">
+        severity
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Log everity.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li>0</li>
+        </ul></dd>
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_ParserLog.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_ParserLog.js.html">models/ParserLog.js</a>, <a href="models_ParserLog.js.html#line84">line 84</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">number</code>
+
+
+    </span>
+
+<h4 class="name" id="startColumn">
+    <a class="href-link" href="#startColumn">#</a>
+    
+    <span class="code-name">
+        startColumn
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    The starting column of the error.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_ParserLog.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_ParserLog.js.html">models/ParserLog.js</a>, <a href="models_ParserLog.js.html#line96">line 96</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">number</code>
+
+
+    </span>
+
+<h4 class="name" id="startLineNumber">
+    <a class="href-link" href="#startLineNumber">#</a>
+    
+    <span class="code-name">
+        startLineNumber
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    The starting line of the error.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="models_ParserLog.js.html" class="button">View Source</a>
+            <span>
+                <a href="models_ParserLog.js.html">models/ParserLog.js</a>, <a href="models_ParserLog.js.html#line90">line 90</a>
             </span>
         </p>
     
