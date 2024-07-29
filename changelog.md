@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
-## [Unreleased]
+## [0.26.0] - 2024/07/29
 
 ### Added
 
@@ -545,6 +545,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add new classes LetoObjectNode, LetoTypeNode, LetoAttribute, LetoLink.
 - Add function renderString for SVG template.
 
+[0.26.0]: https://github.com/ditrit/leto-modelizer-plugin-core/blob/0.26.0/changelog.md
 [0.25.0]: https://github.com/ditrit/leto-modelizer-plugin-core/blob/0.25.0/changelog.md
 [0.24.1]: https://github.com/ditrit/leto-modelizer-plugin-core/blob/0.24.1/changelog.md
 [0.24.0]: https://github.com/ditrit/leto-modelizer-plugin-core/blob/0.24.0/changelog.md
