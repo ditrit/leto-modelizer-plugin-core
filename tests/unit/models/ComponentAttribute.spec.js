@@ -119,6 +119,18 @@ describe('Test class: ComponentAttribute', () => {
         attribute: 'child',
       })]);
     });
+
+    it('should not set error without definition', () => {
+      const attribute = new ComponentAttribute({
+        name: 'parent',
+        type: 'String',
+        value: 'test',
+      });
+      const errors = [];
+
+      attribute.getErrors(errors, true);
+      expect(errors).toEqual([]);
+    });
   });
 
   describe('Test method: validateType', () => {
@@ -345,6 +357,23 @@ describe('Test class: ComponentAttribute', () => {
   });
 
   describe('Test method: validateRuleMinMax', () => {
+    it('should not set error without definition', () => {
+      const attribute = new ComponentAttribute({
+        type: 'String',
+      });
+
+      expect(attribute.validateRuleMinMax()).toEqual([]);
+    });
+
+    it('should not set error without rules', () => {
+      const attribute = new ComponentAttribute({
+        type: 'String',
+        definition: new ComponentAttributeDefinition(),
+      });
+
+      expect(attribute.validateRuleMinMax()).toEqual([]);
+    });
+
     it('should not set error with boolean type', () => {
       const attribute = new ComponentAttribute({
         type: 'Boolean',
