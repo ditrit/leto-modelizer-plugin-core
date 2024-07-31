@@ -74,7 +74,7 @@ class ComponentAttribute {
     this.validateRuleValues(errors, id);
     this.validateRuleRegex(errors, id);
 
-    if (recurse && this.definition.type === 'Object' && Array.isArray(this.value)) {
+    if (recurse && this.definition?.type === 'Object' && Array.isArray(this.value)) {
       this.value.forEach((attribute) => attribute.getErrors(errors, true, id));
     }
 
@@ -116,7 +116,7 @@ class ComponentAttribute {
 
     if (this.definition.type !== 'Reference'
       && this.definition.type !== 'Link'
-      && this.definition?.type !== this.type) {
+      && this.definition.type !== this.type) {
       errors.push(new ParserLog({
         componentId: id,
         severity: ParserLog.SEVERITY_ERROR,
@@ -220,14 +220,13 @@ class ComponentAttribute {
    * @returns {ParserLog[]} All attributes error.
    */
   validateRuleMinMax(errors = [], id = null) {
-    if (this.type === 'Boolean' || this.type === 'Object') {
+    if (this.type === 'Boolean' || this.type === 'Object' || !this.definition?.rules) {
       return errors;
     }
 
-    const value = typeof this.value === 'number' ? this.value : this.value.length;
+    const value = typeof this.value === 'number' ? this.value : this.value?.length || 0;
 
-    if (this.definition
-      && this.definition.rules.min !== null
+    if (this.definition.rules.min !== null
       && value < this.definition.rules.min) {
       errors.push(new ParserLog({
         componentId: id,
@@ -238,8 +237,7 @@ class ComponentAttribute {
       }));
     }
 
-    if (this.definition
-      && this.definition.rules.max !== null
+    if (this.definition.rules.max !== null
       && value > this.definition.rules.max) {
       errors.push(new ParserLog({
         componentId: id,
