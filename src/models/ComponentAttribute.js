@@ -69,10 +69,10 @@ class ComponentAttribute {
   getErrors(errors = [], recurse = false, id = null) {
     this.validateDefinitionType(errors, id);
     this.validateType(errors, id);
-    this.validateRequired(errors, id);
     this.validateRuleMinMax(errors, id);
     this.validateRuleValues(errors, id);
     this.validateRuleRegex(errors, id);
+    this.validateRequiredAttributes(errors, id);
 
     if (recurse && this.definition?.type === 'Object' && Array.isArray(this.value)) {
       this.value.forEach((attribute) => attribute.getErrors(errors, true, id));
@@ -191,25 +191,6 @@ class ComponentAttribute {
   }
 
   /**
-   * Set error if is required and value is null.
-   * @param {ParserLog[]} [errors] - Errors to set, can be null.
-   * @param {string} [id] - Component id.
-   * @returns {ParserLog[]} All attributes error.
-   */
-  validateRequired(errors = [], id = null) {
-    if (this.definition?.required && this.value === null) {
-      errors.push(new ParserLog({
-        componentId: id,
-        severity: ParserLog.SEVERITY_ERROR,
-        message: 'parser.error.required',
-        attribute: this.name,
-      }));
-    }
-
-    return errors;
-  }
-
-  /**
    * Set error if :
    * - Value is a string or array and its length is less than the specify minimum length.
    * - Value is a string or array and its length is greater than the specify maximum length.
@@ -299,6 +280,32 @@ class ComponentAttribute {
         attribute: this.name,
       }));
     }
+
+    return errors;
+  }
+
+  /**
+   * Set error if is required and value is null.
+   * @param {ParserLog[]} [errors] - Errors to set, can be null.
+   * @returns {ParserLog[]} All attributes error.
+   */
+  validateRequiredAttributes(errors = [], id = null) {
+    if (!this.definition || this.definition.type !== 'Object') {
+      return errors;
+    }
+
+    this.definition.definedAttributes.forEach((attributeDefinition) => {
+      const attribute = this.value.find(({ name }) => name === attributeDefinition.name);
+
+      if (attributeDefinition.required && (!attribute || attribute.value === null)) {
+        errors.push(new ParserLog({
+          componentId: id,
+          severity: ParserLog.SEVERITY_ERROR,
+          message: 'parser.error.required',
+          attribute: attributeDefinition.name,
+        }));
+      }
+    });
 
     return errors;
   }

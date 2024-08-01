@@ -314,41 +314,64 @@ describe('Test class: ComponentAttribute', () => {
     });
   });
 
-  describe('Test method: validateRequired', () => {
-    it('should not set error with not required attribute', () => {
+  describe('Test method: validateRequiredAttributes', () => {
+    it('should not set error without definition', () => {
       const attribute = new ComponentAttribute({
         value: null,
       });
 
-      expect(attribute.validateRequired()).toEqual([]);
-
-      attribute.definition = new ComponentAttributeDefinition({
-        required: false,
-      });
-      expect(attribute.validateRequired()).toEqual([]);
+      expect(attribute.validateRequiredAttributes()).toEqual([]);
     });
 
-    it('should not set error with not null value', () => {
+    it('should not set error with not Object attribute', () => {
       const attribute = new ComponentAttribute({
         definition: new ComponentAttributeDefinition({
-          required: true,
+          type: 'String',
         }),
+        type: 'String',
         value: 'test',
       });
 
-      expect(attribute.validateRequired()).toEqual([]);
+      expect(attribute.validateRequiredAttributes()).toEqual([]);
+    });
+
+    it('should set error with not present attribute', () => {
+      const attribute = new ComponentAttribute({
+        definition: new ComponentAttributeDefinition({
+          type: 'Object',
+          definedAttributes: [new ComponentAttributeDefinition({
+            name: 'test',
+            required: true,
+          })],
+        }),
+        type: 'Object',
+        value: [],
+      });
+
+      expect(attribute.validateRequiredAttributes()).toEqual([new ParserLog({
+        severity: ParserLog.SEVERITY_ERROR,
+        message: 'parser.error.required',
+        attribute: 'test',
+      })]);
     });
 
     it('should set error with null value', () => {
       const attribute = new ComponentAttribute({
         definition: new ComponentAttributeDefinition({
-          required: true,
+          type: 'Object',
+          definedAttributes: [new ComponentAttributeDefinition({
+            name: 'test',
+            required: true,
+          })],
         }),
-        name: 'test',
-        value: null,
+        type: 'Object',
+        value: [new ComponentAttribute({
+          name: 'test',
+          value: null,
+        })],
       });
 
-      expect(attribute.validateRequired()).toEqual([new ParserLog({
+      expect(attribute.validateRequiredAttributes()).toEqual([new ParserLog({
         severity: ParserLog.SEVERITY_ERROR,
         message: 'parser.error.required',
         attribute: 'test',
