@@ -378,8 +378,35 @@ class Component extends FileInformation {
    */
   getErrors(errors = []) {
     this.validateDefinition(errors);
+    this.validateRequiredAttributes(errors);
 
     this.attributes.forEach((attribute) => attribute.getErrors(errors, true, this.id));
+
+    return errors;
+  }
+
+  /**
+   * Set error if is required and value is null.
+   * @param {ParserLog[]} [errors] - Errors to set, can be null.
+   * @returns {ParserLog[]} All attributes error.
+   */
+  validateRequiredAttributes(errors = []) {
+    if (!this.definition) {
+      return errors;
+    }
+
+    this.definition.definedAttributes.forEach((attributeDefinition) => {
+      const attribute = this.attributes.find(({ name }) => name === attributeDefinition.name);
+
+      if (attributeDefinition.required && (!attribute || attribute.value === null)) {
+        errors.push(new ParserLog({
+          componentId: this.id,
+          severity: ParserLog.SEVERITY_ERROR,
+          message: 'parser.error.required',
+          attribute: attributeDefinition.name,
+        }));
+      }
+    });
 
     return errors;
   }

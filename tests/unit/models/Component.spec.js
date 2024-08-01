@@ -1120,6 +1120,37 @@ describe('Test class: Component', () => {
         message: 'parser.error.notNumber',
       })]);
     });
+
+    it('should set error with missing child attribute', () => {
+      const parentAttributeDefinition = new ComponentAttributeDefinition({
+        type: 'Object',
+        name: 'parent',
+        definedAttributes: [new ComponentAttributeDefinition({
+          type: 'String',
+          name: 'child',
+          required: true,
+        })],
+      });
+      const component = new Component({
+        id: 'id',
+        definition: new ComponentDefinition({
+          definedAttributes: [parentAttributeDefinition],
+        }),
+        attributes: [new ComponentAttribute({
+          definition: parentAttributeDefinition,
+          type: 'Object',
+          name: 'parent',
+          value: [],
+        })],
+      });
+
+      expect(component.getErrors()).toEqual([new ParserLog({
+        componentId: 'id',
+        attribute: 'child',
+        severity: ParserLog.SEVERITY_ERROR,
+        message: 'parser.error.required',
+      })]);
+    });
   });
 
   describe('Test method: validateDefinition', () => {
@@ -1140,6 +1171,48 @@ describe('Test class: Component', () => {
         componentId: 'id',
         severity: ParserLog.SEVERITY_WARNING,
         message: 'parser.warning.noComponentDefinition',
+      })]);
+    });
+  });
+
+  describe('Test method: validateRequiredAttributes', () => {
+    it('should not set error without definition', () => {
+      const component = new Component({});
+
+      expect(component.validateRequiredAttributes()).toEqual([]);
+    });
+
+    it('should not set errors without required attribute', () => {
+      const component = new Component({
+        definition: new ComponentDefinition({
+          definedAttributes: [new ComponentAttributeDefinition({
+            required: false,
+            type: 'String',
+            name: 'test',
+          })],
+        }),
+      });
+
+      expect(component.validateRequiredAttributes()).toEqual([]);
+    });
+
+    it('should set errors with missing required attribute', () => {
+      const component = new Component({
+        id: 'id',
+        definition: new ComponentDefinition({
+          definedAttributes: [new ComponentAttributeDefinition({
+            required: true,
+            type: 'String',
+            name: 'test',
+          })],
+        }),
+      });
+
+      expect(component.validateRequiredAttributes()).toEqual([new ParserLog({
+        componentId: 'id',
+        attribute: 'test',
+        severity: ParserLog.SEVERITY_ERROR,
+        message: 'parser.error.required',
       })]);
     });
   });
