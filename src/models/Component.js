@@ -386,7 +386,7 @@ class Component extends FileInformation {
   }
 
   /**
-   * Set error if is required and value is null.
+   * Set error if the required attribute is not present or if its value is null.
    * @param {ParserLog[]} [errors] - Errors to set, can be null.
    * @returns {ParserLog[]} All attributes error.
    */
