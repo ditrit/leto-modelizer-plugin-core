@@ -3,7 +3,7 @@ name: Publish to npm
 on:
   push:
     tags:
-      - '[0-9]+\.[0-9]+\.[0-9]+'
+      - '[0-9]+\.[0-9]+\.[0-9]+(_test_[0-9]+)?'
 
 jobs:
   publish:
@@ -16,6 +16,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.14
+          registry-url: 'https://registry.npmjs.org'
       - name: Setup npm
         run: npm install -g npm@8.19.3
       - name: Install dependencies
@@ -24,4 +25,4 @@ jobs:
       - name: Publish to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --access public
+        run: npm publish
