@@ -3,7 +3,7 @@ name: Publish to npm
 on:
   push:
     tags:
-      - '[0-9]+\.[0-9]+\.[0-9]+(_test_[0-9]+)?'
+      - '[0-9]+\.[0-9]+\.[0-9]+'
 
 jobs:
   publish:
@@ -12,17 +12,21 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 18.14
           registry-url: 'https://registry.npmjs.org'
+
       - name: Setup npm
-        run: npm install -g npm@8.19.3
+        run: npm install -g npm@8.19.
+
+      - name: Configure npm to use the token
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
       - name: Install dependencies
         run: npm install
 
       - name: Publish to npm
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish
+        run: npm publish --access public
