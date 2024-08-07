@@ -19,7 +19,7 @@ jobs:
       - name: Setup npm
         run: npm install -g npm@8.19.3
       - name: Install dependencies
-        run: npm clean install
+        run: npm install
 
       - name: Publish to npm
         env:
