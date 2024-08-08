@@ -24,8 +24,8 @@ This library is used to create your own plugin for the [Leto Modelizer](https://
 
 ### Requirements
 
-* node - [v18.4](https://nodejs.org/en/blog/release/v18.4.0)
-* npm - [v8.19.3](https://www.npmjs.com/package/npm/v/8.19.3)
+* node - [v20.16.0](https://nodejs.org/en/blog/release/v20.16.0)
+* npm - [v10.8.1](https://www.npmjs.com/package/npm/v/10.8.1)
 
 ### Install
 
@@ -169,6 +169,17 @@ Generate documentation with jsdoc.
 ### demo
 
 Start a sample integration vue dev server.
+
+:warning: If you have this error when trying to run demo:
+```bash
+npm warn reify The "linked" install strategy is EXPERIMENTAL and may contain bugs.
+npm error Cannot read properties of undefined (reading 'path')
+```
+
+You have to configure npm with:
+```bash
+npm config set install-strategy hoisted
+```
 
 ### lint
 
