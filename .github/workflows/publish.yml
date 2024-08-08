@@ -22,11 +22,10 @@ jobs:
       - name: Setup npm
         run: npm install -g npm@10.8.1
 
-      - name: Configure npm to use the token
-        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-
       - name: Install dependencies
         run: npm install
 
       - name: Publish to npm
-        run: npm publish --access public
+        run: npm login && npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
