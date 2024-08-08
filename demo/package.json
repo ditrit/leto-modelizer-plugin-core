@@ -6,9 +6,9 @@
     "demo": "vue-cli-service serve"
   },
   "dependencies": {
-    "core-js": "^3.37.1",
+    "core-js": "^3.38.0",
     "leto-modelizer-plugin-core": "file:..",
-    "vue": "^3.4.27"
+    "vue": "=3.4.36"
   },
   "devDependencies": {
     "@babel/core": "^7.24.7",

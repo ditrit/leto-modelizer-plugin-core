@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update nodejs to version `20.16.0`.
+- Update npm to version `10.8.1`.
+
 ## Fixed
 
 - Fix publish on npm workflow and add test tag.
