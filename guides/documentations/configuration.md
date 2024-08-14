@@ -57,6 +57,10 @@ In this part, you will see how you can:
 - `keysBinding`: Define key binding for actions.
 - `i18n`: Define all specific translations of your plugin.
 
+## Logo of your plugin
+
+If you want a specific icon for your plugin, you have to add `logo.svg` inside folder `public/icons`.
+
 ## Tag your plugin
 
 To help users understand the usage of your plugin, you can tag it using two types of tags:
