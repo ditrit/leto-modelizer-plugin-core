@@ -163,7 +163,11 @@ By default, the DefaultDrawer is using [D3 library](https://d3js.org/) to draw t
 
 ### Custom Layout
 
-We use the [Elk library](https://eclipse.dev/elk/) to automatically arrange all components with optimal position. Check out the ElkLayout Class to learn how Elk is used for generating a layout. We structured the code to be able to implement another way of managing the layout. Check out the DefaultLayout Class with `arrangeComponentsPosition` and `repositionComponent` methods that can be overridden to implement your own algorithm for automatic components layout.
+We use a custom algorithm to automatically arrange all components with optimal position.
+
+We structured the code to be able to implement another way of managing the layout.
+
+Check out the DefaultLayout Class with `generateComponentsLayout` and `resize` methods that can be overridden to implement your own algorithm for automatic components layout.
 
 ### Custom component template
 
