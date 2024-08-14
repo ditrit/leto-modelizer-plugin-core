@@ -43,7 +43,7 @@ Variable.js                      // Class that represents a variable in a file o
 This is the default lifecycle of plugin usage in Leto Modelizer.
 
 As you can see, plugin-core can be divided in 5 distinct parts:
-- Metadata managment
+- Metadata management
 - Generate components from source files (Parser)
 - Generate source files from components (Renderer)
 - Draw diagrams
@@ -228,10 +228,9 @@ Here you will find a diagram summarizing the key steps in the plugin-core proces
 ## Going further
 
 Components have the (internal) id and the external id.
-These two differs in their usage, the id is mostly used internally (drawing, links, etc...) and should never be changed once the component is created.
+These two differ in their usage, the id is mostly used internally (drawing, links, etc...) and should never be changed once the component is created.
 Whereas the external id (defaulted to the id's value), is used for all other purposes and this one is to be seen by the user of Leto-Modelizer.
-As the id is used for all internal matters, several components can have the same external id and it won't affect any links or anything else 
-(for an example see terrator-plugin).
+As the id is used for all internal matters, several components can have the same external id, and it won't affect any links or anything else (for an example see terrator-plugin).
 
 Here is a sum up:
 
