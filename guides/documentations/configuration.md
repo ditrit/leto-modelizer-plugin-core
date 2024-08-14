@@ -184,15 +184,20 @@ new DefaultConfiguration({
 })
 ```
 
-Currently, Leto-Modelizer utilizes only the parser error translations from the i18n object.
-Here is an example of how to add a specific translation key for parser errors:
+Currently, Leto-Modelizer uses :
+- A display name from the i18n object.
+- the parser error translations from the i18n object.
+
+Here is an example of default i18n object:
 
 ```js
 new DefaultConfiguration({
   i18n: {
     'en-us': {
+      displayName: 'Your plugin name.',
       parser: {
         error: {
+          // Add translations for parser here.
           test: 'test',
         },
       },
