@@ -27,11 +27,13 @@ ComponentAttributeDefinition.js, // Class that defines Component Attributes' dat
 ComponentDrawOption.js,          // Class that represents option for the Component drawing.
 ComponentLink.js,                // Class that links Components together.
 ComponentLinkDefinition.js,      // Class that defines of the link between Components.
+ComponentRenderer.js             // Class that render each components to draw the diagram.
+LinkRenderer.js                  // Class that render each links to draw the diagram.
 ParserLog.js,                    // Class that represents a parsing log. Used by the DefaultParser as default log.
 FileInformation.js,              // Class that represents the object to store all file information.
 FileInput.js,                    // Class that represents the object to store the file content.
 Tag.js,                          // Class that represents a tag in Leto-modelizer. Used by the DefaultConfiguration class.
-Variable.js,                     // Class that represents a variable in a file of a diagram. Used by the DefaultData class.
+Variable.js                      // Class that represents a variable in a file of a diagram. Used by the DefaultData class.
 ```
 
 | Plugin lifecycle |
