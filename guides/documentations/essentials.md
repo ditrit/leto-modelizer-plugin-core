@@ -27,11 +27,13 @@ ComponentAttributeDefinition.js, // Class that defines Component Attributes' dat
 ComponentDrawOption.js,          // Class that represents option for the Component drawing.
 ComponentLink.js,                // Class that links Components together.
 ComponentLinkDefinition.js,      // Class that defines of the link between Components.
+ComponentRenderer.js             // Class that render each components to draw the diagram.
+LinkRenderer.js                  // Class that render each links to draw the diagram.
 ParserLog.js,                    // Class that represents a parsing log. Used by the DefaultParser as default log.
 FileInformation.js,              // Class that represents the object to store all file information.
 FileInput.js,                    // Class that represents the object to store the file content.
 Tag.js,                          // Class that represents a tag in Leto-modelizer. Used by the DefaultConfiguration class.
-Variable.js,                     // Class that represents a variable in a file of a diagram. Used by the DefaultData class.
+Variable.js                      // Class that represents a variable in a file of a diagram. Used by the DefaultData class.
 ```
 
 | Plugin lifecycle |
@@ -41,7 +43,7 @@ Variable.js,                     // Class that represents a variable in a file o
 This is the default lifecycle of plugin usage in Leto Modelizer.
 
 As you can see, plugin-core can be divided in 5 distinct parts:
-- Metadata managment
+- Metadata management
 - Generate components from source files (Parser)
 - Generate source files from components (Renderer)
 - Draw diagrams
@@ -161,7 +163,11 @@ By default, the DefaultDrawer is using [D3 library](https://d3js.org/) to draw t
 
 ### Custom Layout
 
-We use the [Elk library](https://eclipse.dev/elk/) to automatically arrange all components with optimal position. Check out the ElkLayout Class to learn how Elk is used for generating a layout. We structured the code to be able to implement another way of managing the layout. Check out the DefaultLayout Class with `arrangeComponentsPosition` and `repositionComponent` methods that can be overridden to implement your own algorithm for automatic components layout.
+We use a custom algorithm to automatically arrange all components with optimal position.
+
+We structured the code to be able to implement another way of managing the layout.
+
+Check out the DefaultLayout Class with `generateComponentsLayout` and `resize` methods that can be overridden to implement your own algorithm for automatic components layout.
 
 ### Custom component template
 
@@ -222,10 +228,9 @@ Here you will find a diagram summarizing the key steps in the plugin-core proces
 ## Going further
 
 Components have the (internal) id and the external id.
-These two differs in their usage, the id is mostly used internally (drawing, links, etc...) and should never be changed once the component is created.
+These two differ in their usage, the id is mostly used internally (drawing, links, etc...) and should never be changed once the component is created.
 Whereas the external id (defaulted to the id's value), is used for all other purposes and this one is to be seen by the user of Leto-Modelizer.
-As the id is used for all internal matters, several components can have the same external id and it won't affect any links or anything else 
-(for an example see terrator-plugin).
+As the id is used for all internal matters, several components can have the same external id, and it won't affect any links or anything else (for an example see terrator-plugin).
 
 Here is a sum up:
 

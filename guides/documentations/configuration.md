@@ -57,6 +57,10 @@ In this part, you will see how you can:
 - `keysBinding`: Define key binding for actions.
 - `i18n`: Define all specific translations of your plugin.
 
+## Logo of your plugin
+
+If you want a specific icon for your plugin, you have to add `logo.svg` inside folder `public/icons`.
+
 ## Tag your plugin
 
 To help users understand the usage of your plugin, you can tag it using two types of tags:
@@ -180,15 +184,20 @@ new DefaultConfiguration({
 })
 ```
 
-Currently, Leto-Modelizer utilizes only the parser error translations from the i18n object.
-Here is an example of how to add a specific translation key for parser errors:
+Currently, Leto-Modelizer uses :
+- A display name from the i18n object.
+- the parser error translations from the i18n object.
+
+Here is an example of default i18n object:
 
 ```js
 new DefaultConfiguration({
   i18n: {
     'en-us': {
+      displayName: 'Your plugin name.',
       parser: {
         error: {
+          // Add translations for parser here.
           test: 'test',
         },
       },

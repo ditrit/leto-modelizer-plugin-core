@@ -110,6 +110,48 @@ This function will return the svg string of the specified icon name from resourc
 
 You have to add ` | safe ` in the templating, **otherwise the image won't be added to the final output**.
 
+### Add custom variable/function
+
+If you want to add custom variable or function, you can override these methods in `DefaultDrawer`:
+- `initComponentRenderer`: to customize component rendering.
+- `initLinkRenderer`: to customize link rendering.
+
+Here is an example of `DefaultDrawer` overriding:
+
+```js
+class CustomComponentRenderer extends ComponentRenderer {
+  getTemplateData(component) {
+    return {
+      ...super.getTemplateData(component),
+      // Your custom variable/function here
+      toto: 'toto',
+    };
+  }
+}
+
+class CustomLinkRenderer extends LinkRenderer {
+  getTemplateData(link) {
+    return {
+      ...super.getTemplateData(link),
+      // Your custom variable/function here
+      toto: 'toto',
+    };
+  }
+}
+
+class CustomDrawer extends DefaultDrawer {
+  initComponentRenderer(readOnly) {
+    return new CustomComponentRenderer(this.pluginData, this.viewport, readOnly);
+  }
+
+  initLinkRenderer(readOnly) {
+    return new CustomLinkRenderer(this.pluginData, this.viewport, readOnly);
+  }
+}
+```
+
+And then you can use `{{ toto }}` in your component/link template.
+
 ## Step by step
 
 ### 1. Create a valid definition for a component
