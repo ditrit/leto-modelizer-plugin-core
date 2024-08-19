@@ -6,7 +6,7 @@ on:
       - '[0-9]+\.[0-9]+\.[0-9]+'
 
 jobs:
-  publish:
+  publish_npm:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,3 +29,50 @@ jobs:
         run: npm login && npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+
+  publish_docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.16.0
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Setup npm
+        run: npm install -g npm@10.8.1
+
+      - uses: actions/cache/restore@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-build-cache-node-modules-${{ hashFiles('./package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Prepare generation of documentation
+        run: npm run prepare:docs
+
+      - name: Prepare generation of documentation
+        run: npm run build:docs
+
+      - name: Extract version from package.json
+        id: extract_version
+        run: VERSION=$(jq -r '.version' package.json) echo "PACKAGE_VERSION=${VERSION}" >> $GITHUB_ENV
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './docs/@ditrit/leto-modelizer-plugin-core/${{env.PACKAGE_VERSION}}'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
